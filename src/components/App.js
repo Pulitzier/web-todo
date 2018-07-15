@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
-import LeftPanel from './components/LeftPanel';
-import RightPanel from './components/RightPanel';
-import './App.css';
+import LeftPanel from './LeftPanel';
+import RightPanel from './RightPanel';
+import '../index.css';
 
 export default class App extends Component {
 

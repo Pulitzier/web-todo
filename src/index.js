@@ -4,29 +4,27 @@ import ReactDOM from 'react-dom';
 import { createStore, combineReducers } from 'redux';
 import { Provider, connect } from 'react-redux';
 import './index.css';
-import App from './App';
+import App from './components/App';
 import {
-  taskListsReducer,
+  todosReducer,
   activateSearchPanel,
   changeSearchInput,
   activateNewList,
-  activateNewTask,
   setNewListTitle,
   setBannerForTodoState,
-  typeNewTask
+  tasksReducer
 } from './reducers';
 import { addNewTodoList } from './actionCreators';
 import registerServiceWorker from './registerServiceWorker';
 
 const appReducers = combineReducers({
-  todos: taskListsReducer,
+  todos: todosReducer,
   activateSearch: activateSearchPanel,
   searchInput: changeSearchInput,
   activateNewList,
   newListTitle: setNewListTitle,
   bannerForTodoState: setBannerForTodoState,
-  activateNewTask,
-  typeNewTask
+  tasks: tasksReducer
 })
 
 ReactDOM.render(

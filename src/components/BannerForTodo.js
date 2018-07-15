@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'react-proptypes';
-import Button from './Button';
 import {
   activateBannerSettings,
   changeBannerBgColor,
@@ -9,7 +8,13 @@ import {
 } from '../actionCreators';
 
 export default class BannerForTodo extends Component {
-
+  constructor(props) {
+    super(props);
+    this.sortState = {
+      handleHoverSortLink: false,
+      handleHoverSortMenu: false,
+    }
+  }
   componentDidMount(){
     const { store } = this.context;
     store.subscribe(() => {
@@ -61,39 +66,122 @@ export default class BannerForTodo extends Component {
         <div className="panelBanner-text">
           {this.props.children}
         </div>
-          <button className="btn btn-primary dots-menu" style={{backgroundColor: bannerForTodoState.backgroundColor}} onClick={() => openCloseSettings(true)}>
+          <button
+            className="btn btn-primary dots-menu"
+            style={{backgroundColor: bannerForTodoState.backgroundColor}}
+            data-toggle="modal"
+            data-target="#bannerSettings"
+          >
             <span>&bull;&bull;&bull;</span>
           </button>
-        <div
-          className={"jumbotron " + (bannerForTodoState.activateBannerSettings ? "active" : "inactive")}
-        >
-          <div className='sort-settings'>
-            <img src='./assets/sort.svg' alt='Sort' />
-            <p>Sort</p>
-            <img src='./assets/play.svg' alt='Greater Than' />
-          </div>
-          <hr />
-          <p>Theme</p>
-          {defaultBannerSchemes.colorScheme.map(item =>
-            <Button
-              className={"jumbotron-button "+(bannerForTodoState.backgroundColor == item ? 'active' : null)}
-              onClick={() => {
-                changeBannerColor(item);
-              }}
-            >
-              <span className={item}></span>
-            </Button>
-          )}
-          <hr />
-          {defaultBannerSchemes.imageScheme.map((item,index) => (
-            <Button key={index} onClick={() => changeBannerImage(item)}>
-              <img className="theme-image" src={item} alt="Theme Image" />
-            </Button>
-          ))}
-          <hr />
-          <div className="show-hide_completed_todos">
-            <img src='./assets/check.svg' alt='Sort' />
-            Hide completed to-dos
+
+        <div className="modal fade" id="bannerSettings" tabIndex="-1" role="dialog" aria-labelledby="bannerSettingsLabel"
+             aria-hidden="true">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-body">
+                <div
+                  className={'sort-settings-link ' +
+                  (
+                    this.sortState.handleHoverSortMenu ?
+                    "grey" :
+                    ''
+                  )}
+                  onMouseEnter={() =>
+                    this.setState(() =>
+                      this.sortState = {
+                        ...this.sortState,
+                        handleHoverSortLink: true,
+                      }
+                    )
+                  }
+                  onMouseLeave={() =>
+                    this.setState(() => {
+                      if (!this.sortState.handleHoverSortMenu) {
+                        return this.sortState = {
+                          ...this.sortState,
+                          handleHoverSortLink: false,
+                        }
+                      }
+                    })
+                  }
+                >
+                  <img src='./assets/sort.svg' alt='Sort' />
+                  <p>Sort</p>
+                  <img src='./assets/play.svg' alt='Greater Than' />
+                </div>
+                <div
+                  className={"sort-settings-menu " + (
+                    this.sortState.handleHoverSortLink ||
+                    this.sortState.handleHoverSortMenu ?
+                      "active" : ''
+                  )}
+                  onMouseEnter={() =>
+                    this.setState(() =>
+                      this.sortState = {
+                        ...this.sortState,
+                        handleHoverSortMenu: true
+                      }
+                    )
+                  }
+                  onMouseLeave={() =>
+                    this.setState(() =>
+                      this.sortState = {
+                        ...this.sortState,
+                        handleHoverSortMenu: false
+                      }
+                    )
+                  }
+                >
+                  <div>
+                    <img src="./assets/exchange-arrows.svg" />
+                    <p>Alphabetically</p>
+                  </div>
+                  <div>
+                    <img src="./assets/calendar.svg" />
+                    <p>Due date</p>
+                  </div>
+                  <div>
+                    <img src="./assets/graphic-design.svg" />
+                    <p>Creation date</p>
+                  </div>
+                  <div>
+                    <img src="./assets/check.svg" />
+                    <p>Completed</p>
+                  </div>
+                  <div>
+                    <img src="./assets/sun.svg" />
+                    <p>Added to My Day</p>
+                  </div>
+                </div>
+                <hr />
+                <div>
+                  <p>Theme</p>
+                  {defaultBannerSchemes.colorScheme.map(item =>
+                    <button
+                      className={"jumbotron-button "+(bannerForTodoState.backgroundColor == item ? 'active' : null)}
+                      onClick={() => {
+                        changeBannerColor(item);
+                      }}
+                    >
+                      <span className={item}></span>
+                    </button>
+                  )}
+                  <br />
+                  <br />
+                  {defaultBannerSchemes.imageScheme.map((item,index) => (
+                    <button key={index} onClick={() => changeBannerImage(item)}>
+                      <img className="theme-image" src={item} alt="Theme Image" />
+                    </button>
+                  ))}
+                </div>
+                <hr />
+                <div className="show-hide_completed_todos">
+                  <img src='./assets/check.svg' alt='Sort' />
+                  Hide completed to-dos
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

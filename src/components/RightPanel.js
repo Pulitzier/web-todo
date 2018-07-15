@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'react-proptypes';
-import {filterArray} from "../helpers";
+import { getActiveTodoList } from "../helpers";
 import BannerForTodo from './BannerForTodo.js';
 import ToDoListOfTask from './ToDoListOfTask.js';
 import Panel from './Panel';
@@ -11,8 +11,6 @@ import {
 } from '../actionCreators'
 
 const RightPanel = ({ state }, { store }) => {
-
-
 
   const addNewTask = () => {
     this.setState((state, {toDoCategories}) => {
@@ -75,12 +73,16 @@ const RightPanel = ({ state }, { store }) => {
       </Panel>
       <BannerForTodo className="panelBanner" close={state.activateThemeMenu}>
         <h4>{(() => {
-          let activeTodo = filterArray(state.todos);
+          let activeTodo = getActiveTodoList(state.todos);
           return activeTodo.title;
         })()}</h4>
         {state.todos['myPersonalToDo'][0].active ?
           <div className="date-time">{(() => {
-            return (new Date()).toDateString();
+            let today = new Date();
+            let dateStringForBanner = today.toLocaleString('en-us', {  weekday: 'long' }) + ', ' +
+              today.toLocaleString('en-us', {  month: 'long' }) + ' ' +
+              today.toLocaleString('en-us', {  day: 'numeric' });
+            return dateStringForBanner;
           })()}</div> :
           null
         }

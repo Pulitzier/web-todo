@@ -3,11 +3,13 @@ const defaultTodos = {
     {
       title: 'My Day',
       active: true,
+      currentDate: 1531572460943,
       tasks: []
     },
     {
       title: 'To-Do',
       active: false,
+      currentDate: 1531572460943,
       tasks: []
     }
   ],
@@ -20,7 +22,10 @@ const defaultBannerState = {
   backgroundColor: "blue"
 };
 
-export function taskListsReducer(state = defaultTodos, action) {
+let taskId = 0;
+
+export function todosReducer(state = defaultTodos, action) {
+  let newState = {};
   switch (action.type) {
     case 'ADD_NEW_TODO_LIST':
       let { toDoCategories } = state;
@@ -54,33 +59,62 @@ export function taskListsReducer(state = defaultTodos, action) {
         [todosListName]: newTodoList
       };
     case 'ADD_NEW_TASK_TO_LIST':
-      let newState = {};
+      let myTodoKey = 'myPersonalToDo';
+      let id = taskId;
+      taskId++;
+      let setNewTodoList = (todoList) => {
+        return {
+          ...todoList,
+          tasks: [
+            ...todoList.tasks,
+            {
+              id,
+              done: false,
+              task: action.task,
+              createdAt: Date.now()
+            }
+          ]
+        }
+      };
+      if (action.list.title === state[myTodoKey][0].title) {
+        newState = {
+          ...state,
+          [myTodoKey]: [
+            setNewTodoList(state[myTodoKey][0]),
+            setNewTodoList(state[myTodoKey][1])
+          ]
+        };
+      } else {
+        for (let key in state) {
+          newState[key] = state[key].map(item => {
+            if (item == action.list) return setNewTodoList(item);
+            return item;
+          });
+        }
+      }
+      return newState;
+    case 'TOGGLE_TASK':
+      let newStateTree;
       for (let key in state) {
         newState[key] = state[key].map(item => {
-          if (item == action.list) {
+          if (item.title === action.list.title) {
+            newStateTree = item.tasks.map(i => {
+              if (i.id === action.taskId) {
+                return {
+                  ...i,
+                  done: !i.done
+                }
+              };
+              return i;
+            });
             return {
               ...item,
-              tasks: [
-                ...item.tasks,
-                action.task
-              ]
+              tasks: newStateTree
             }
           };
           return item;
         });
-      };
-      let newTasksArr = [
-        ...newState.myPersonalToDo[0].tasks,
-        ...newState.myPersonalToDo[1].tasks
-      ];
-      console.log(newTasksArr);
-      newState.myPersonalToDo = newState.myPersonalToDo.map(item => {
-        return {
-          ...item,
-          tasks: newTasksArr
-        }
-      });
-      console.log(newState);
+      }
       return newState;
     default:
       return state;
@@ -145,19 +179,18 @@ export function setBannerForTodoState(state = defaultBannerState, action) {
   }
 };
 
-export function activateNewTask(state = false, action) {
+export function tasksReducer(state = {}, action) {
   switch(action.type) {
     case 'ACTIVATE_NEW_TASK':
-      return action.activateNewTask;
-    default:
-      return state;
-  }
-};
-
-export function typeNewTask(state = false, action) {
-  switch(action.type) {
+      return {
+        ...state,
+        activateNewTask: action.activateNewTask
+      };
     case 'TYPE_NEW_TASK':
-      return action.typeNewTask;
+      return {
+        ...state,
+        typeNewTask: action.typeNewTask
+      };
     default:
       return state;
   }
