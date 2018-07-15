@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
-import PropTypes from 'react-proptypes';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, combineReducers } from 'redux';
-import { Provider, connect } from 'react-redux';
+import { Provider } from 'react-redux';
 import './index.css';
 import App from './components/App';
 import {
@@ -14,7 +13,6 @@ import {
   setBannerForTodoState,
   tasksReducer
 } from './reducers';
-import { addNewTodoList } from './actionCreators';
 import registerServiceWorker from './registerServiceWorker';
 
 const appReducers = combineReducers({

@@ -84,10 +84,10 @@ export function addNewTaskToList(task, list) {
   }
 };
 
-export function toggleTask(taskId, list) {
+export function toggleTask(task, listId) {
   return {
     type: 'TOGGLE_TASK',
-    taskId,
-    list
+    task,
+    listId
   }
 }

@@ -198,6 +198,10 @@ div.sort-settings-link p {
   margin-left: 2px;
 }
 
+.todos p.lineThrough {
+  text-decoration: line-through;
+}
+
 .todos label.toggleTodoLabel,
 .add-new-todo-wrapper label.toggleTodoLabel-template {
   width: 20px;
@@ -407,8 +411,7 @@ div.show-hide_completed_todos img {
 #bannerSettings .modal-body div.sort-settings-menu {
   position: absolute;
   opacity: 0;
-  display: none;
-  transition: opacity 1s;
+  transition: opacity 1s ease;
   background-color: #ffffff;
   left: -164px;
   top: 1px;
@@ -422,14 +425,9 @@ div.show-hide_completed_todos img {
   background-color: lightgray;
 }
 
-#bannerSettings div.sort-settings-link:hover + div.sort-settings-menu {
-  display: block;
-}
-
 #bannerSettings div.sort-settings-menu.active {
-  display: block;
   opacity: 1;
-  transition: opacity 1s;
+  transition: opacity 1s ease;
 }
 
 #bannerSettings .sort-settings-menu > div {

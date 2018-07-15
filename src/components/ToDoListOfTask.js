@@ -55,8 +55,8 @@ export default class ToDoListOfTask extends Component {
       this.newTaskInput.value = '';
     };
 
-    const toggleTodoTask = (task, list) => {
-      store.dispatch(toggleTask(task, list));
+    const toggleTodoTask = (task, listItemId) => {
+      store.dispatch(toggleTask(task, listItemId));
     }
 
     return(
@@ -72,10 +72,10 @@ export default class ToDoListOfTask extends Component {
                     }
                   >
                     <span
-                      onClick={() => toggleTodoTask(item.id, activeTodo)}
+                      onClick={() => toggleTodoTask(item, activeTodo.todoListId)}
                     ></span>
                   </label>
-                  <p>{item.task}</p>
+                  <p className={item.done ? 'lineThrough' : null}>{item.task}</p>
                 </div>
               ))
           })()}

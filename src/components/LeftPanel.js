@@ -40,14 +40,12 @@ class LeftPanel extends Component {
     });
     store.dispatch(setNewListTitle(newListTitle));
     store.dispatch(activateNewList(true));
-    console.log('addNewList state ',state);
   };
 
   const pushNewListToState = () => {
     store.dispatch(activateNewList(false));
     store.dispatch(addNewTodoList(state.newListTitle))
     store.dispatch(setNewListTitle('Untitled Task'));
-    console.log('pushNewListToState state ',state);
   };
 
   const typeNewListTitle = (e) => {
