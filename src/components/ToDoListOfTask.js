@@ -6,7 +6,8 @@ import {
   activateTask,
   addNewTaskToList,
   typeNewTaskAction,
-  toggleTask
+  toggleTask,
+  activateTaskSettings
 } from '../actionCreators';
 
 export default class ToDoListOfTask extends Component {
@@ -57,14 +58,23 @@ export default class ToDoListOfTask extends Component {
 
     const toggleTodoTask = (task, listItemId) => {
       store.dispatch(toggleTask(task, listItemId));
-    }
+    };
+
+    const activateSettings = (task, bool) => {
+      console.log(task, bool);
+      store.dispatch(activateTaskSettings(task, bool));
+    };
 
     return(
       <div className="todo-list-wrapper">
         <div className="todo-list">
           {(() => {
             return activeTodo.tasks.map((item, i) => (
-                <div key={i} className="todos">
+                <div
+                  key={i}
+                  className="todos"
+                  onClick={() => activateSettings(item, true)}
+                >
                   <label
                     className={
                       "toggleTodoLabel " +
@@ -72,7 +82,11 @@ export default class ToDoListOfTask extends Component {
                     }
                   >
                     <span
-                      onClick={() => toggleTodoTask(item, activeTodo.todoListId)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        toggleTodoTask(item, activeTodo.todoListId);
+                      }}
                     ></span>
                   </label>
                   <p className={item.done ? 'lineThrough' : null}>{item.task}</p>

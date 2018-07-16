@@ -71,9 +71,6 @@ button.dots-menu {
   filter: opacity(.5);
 }
 
-button.dots-menu span {
-}
-
 .todo-list-wrapper {
   max-height: 500px;
   height: 100%;
@@ -430,10 +427,18 @@ div.show-hide_completed_todos img {
   transition: opacity 1s ease;
 }
 
+.rightPanel,
 #bannerSettings .sort-settings-menu > div {
   display: flex;
 }
 
 .modal-backdrop.show {
   opacity: 0;
+}
+
+.task-settings {
+  height: 100%;
+  position: relative;
+  background: #fff;
+  width: 450px;
 }

@@ -69,6 +69,14 @@ export function activateTask(bool) {
   }
 };
 
+export function activateTaskSettings(task, bool) {
+  return {
+    type: "ACTIVATE_TASK_SETTINGS",
+    task,
+    activateTaskSettings: bool,
+  }
+};
+
 export function typeNewTaskAction(bool) {
   return {
     type: "TYPE_NEW_TASK",
@@ -89,5 +97,13 @@ export function toggleTask(task, listId) {
     type: 'TOGGLE_TASK',
     task,
     listId
+  }
+};
+
+export function sortTasks(sortCriteria, activeTodoId) {
+  return {
+    type: "SORT_TASKS",
+    sort: sortCriteria,
+    listId: activeTodoId
   }
 }

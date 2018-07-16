@@ -4,7 +4,9 @@ import {
   activateBannerSettings,
   changeBannerBgColor,
   changeBannerBgImage,
-  activateTask, typeNewTaskAction
+  activateTask,
+  typeNewTaskAction,
+  sortTasks
 } from '../actionCreators';
 
 export default class BannerForTodo extends Component {
@@ -56,6 +58,9 @@ export default class BannerForTodo extends Component {
     const changeBannerImage = (image) => {
       this.discardNewTask();
       store.dispatch(changeBannerBgImage(image))
+    };
+    const handleSortTasks = (sortCriteria) => {
+      store.dispatch(sortTasks(sortCriteria, this.props.activeTodoId));
     };
     return (
       <div
@@ -133,23 +138,23 @@ export default class BannerForTodo extends Component {
                     )
                   }
                 >
-                  <div>
+                  <div onClick={() => handleSortTasks('ABC')}>
                     <img src="./assets/exchange-arrows.svg" />
                     <p>Alphabetically</p>
                   </div>
-                  <div>
+                  <div onClick={() => handleSortTasks('DUE_DATE')}>
                     <img src="./assets/calendar.svg" />
                     <p>Due date</p>
                   </div>
-                  <div>
+                  <div onClick={() => handleSortTasks('CREATED_AT')}>
                     <img src="./assets/graphic-design.svg" />
                     <p>Creation date</p>
                   </div>
-                  <div>
+                  <div onClick={() => handleSortTasks('COMPLETED')}>
                     <img src="./assets/check.svg" />
                     <p>Completed</p>
                   </div>
-                  <div>
+                  <div onClick={() => handleSortTasks('ADDED_TO_MY_DAY')}>
                     <img src="./assets/sun.svg" />
                     <p>Added to My Day</p>
                   </div>

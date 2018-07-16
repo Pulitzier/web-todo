@@ -4,6 +4,7 @@ const defaultTodos = {
       title: 'My Day',
       active: true,
       todoListId: 0,
+      sortOrder: '',
       currentDate: Date.now(),
       tasks: []
     },
@@ -11,6 +12,7 @@ const defaultTodos = {
       title: 'To-Do',
       active: false,
       todoListId: 1,
+      sortOrder: '',
       currentDate: 1531572460943,
       tasks: []
     }
@@ -77,6 +79,7 @@ export function todosReducer(state = defaultTodos, action) {
               id,
               parentId,
               done: false,
+              active: false,
               task: action.task,
               createdAt: Date.now()
             }
@@ -134,8 +137,68 @@ export function todosReducer(state = defaultTodos, action) {
           });
         }
       };
-      console.log(newToggledState);
       return newToggledState;
+    case 'SORT_TASKS':
+      newState = {};
+      let sortTasks = (sortCriteria, tasks) => {
+        switch(sortCriteria){
+          case 'ABC':
+            return tasks = tasks.sort((a,b) => {
+              let textA = a.task.toUpperCase();
+              let textB = b.task.toUpperCase();
+              return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+            });
+          case 'DUE_DATE':
+            return tasks;
+          case 'CREATED_AT':
+            return tasks = tasks.sort((a, b) => {
+              return (b.createdAt - a.createdAt)
+            });
+          case 'COMPLETED':
+            return tasks = tasks.sort((a, b) => {
+              return (a.done === b.done) ? 0 : a.done ? 1 : -1
+            });
+          case 'ADDED_TO_MY_DAY':
+            return tasks = tasks.sort((a, b) => {
+              return (a.parentId === b.parentId) ? 0 : a.parentId ? 1 : -1
+            });
+          default:
+            return tasks;
+        }
+      }
+      for (let key in state) {
+        newState[key] = state[key].map(item => {
+          if (item.todoListId === action.listId) {
+            return {
+              ...item,
+              sortOrder: action.sort,
+              tasks: sortTasks(action.sort, item.tasks)
+            }
+          };
+          return item;
+        })
+      };
+      return newState;
+    case 'ACTIVATE_TASK_SETTINGS':
+      newState = {};
+      for (let key in state) {
+        newState[key] = state[key].map(item => {
+          return {
+            ...item,
+            tasks: item.tasks.map(eachTask => {
+              if (eachTask.id === action.task.id &&
+                eachTask.parentId === action.task.parentId) {
+                return {
+                  ...eachTask,
+                  active: action.activateTaskSettings
+                }
+              };
+              return eachTask;
+            })
+          }
+        });
+      };
+      return newState;
     default:
       return state;
   }
