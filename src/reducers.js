@@ -212,15 +212,21 @@ export function activateSearchPanel(state = false, action) {
       return state;
   }
 };
-
-export function changeSearchInput(state = '', action) {
-  switch(action.type) {
-    case 'CHANGE_SEARCH_INPUT':
-      return action.searchValue;
-    default:
-      return state;
-  }
-};
+//
+// export function searchTasks(state = defaultTodos, action) {
+//   let searchTasks = [];
+//   switch(action.type) {
+//     case 'CHANGE_SEARCH_INPUT':
+//       for (let key in state) {
+//           console.log(state[key])
+//       };
+//       console.log('searchTasks ', searchTasks);
+//       console.log('state ', state);
+//       return state;
+//     default:
+//       return state;
+//   }
+// };
 
 export function activateNewList(state = false, action) {
   switch(action.type) {

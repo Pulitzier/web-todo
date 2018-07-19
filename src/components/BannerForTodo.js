@@ -89,8 +89,7 @@ export default class BannerForTodo extends Component {
                   className={'sort-settings-link ' +
                   (
                     this.sortState.handleHoverSortMenu ?
-                    "grey" :
-                    ''
+                      "grey" : ''
                   )}
                   onMouseEnter={() =>
                     this.setState(() =>
@@ -115,55 +114,57 @@ export default class BannerForTodo extends Component {
                   <p>Sort</p>
                   <img src='./assets/play.svg' alt='Greater Than' />
                 </div>
-                <div
-                  className={"sort-settings-menu " + (
-                    this.sortState.handleHoverSortLink ||
-                    this.sortState.handleHoverSortMenu ?
-                      "active" : ''
-                  )}
-                  onMouseEnter={() =>
-                    this.setState(() =>
-                      this.sortState = {
-                        ...this.sortState,
-                        handleHoverSortMenu: true
-                      }
-                    )
-                  }
-                  onMouseLeave={() =>
-                    this.setState(() =>
-                      this.sortState = {
-                        ...this.sortState,
-                        handleHoverSortMenu: false
-                      }
-                    )
-                  }
-                >
-                  <div onClick={() => handleSortTasks('ABC')}>
-                    <img src="./assets/exchange-arrows.svg" />
-                    <p>Alphabetically</p>
-                  </div>
-                  <div onClick={() => handleSortTasks('DUE_DATE')}>
-                    <img src="./assets/calendar.svg" />
-                    <p>Due date</p>
-                  </div>
-                  <div onClick={() => handleSortTasks('CREATED_AT')}>
-                    <img src="./assets/graphic-design.svg" />
-                    <p>Creation date</p>
-                  </div>
-                  <div onClick={() => handleSortTasks('COMPLETED')}>
-                    <img src="./assets/check.svg" />
-                    <p>Completed</p>
-                  </div>
-                  <div onClick={() => handleSortTasks('ADDED_TO_MY_DAY')}>
-                    <img src="./assets/sun.svg" />
-                    <p>Added to My Day</p>
-                  </div>
+                  <div
+                    className={"sort-settings-menu " + (
+                      this.sortState.handleHoverSortLink ||
+                      this.sortState.handleHoverSortMenu ?
+                        "active" :
+                        ''
+                    )}
+                    onMouseEnter={() =>
+                      this.setState(() => {
+                        return this.sortState = {
+                          ...this.sortState,
+                          handleHoverSortMenu: true
+                        }
+                      })
+                    }
+                    onMouseLeave={() =>
+                      this.setState(() =>
+                        this.sortState = {
+                          ...this.sortState,
+                          handleHoverSortMenu: false
+                        }
+                      )
+                    }
+                  >
+                    <div onClick={() => handleSortTasks('ABC')}>
+                      <img src="./assets/exchange-arrows.svg" />
+                      <p>Alphabetically</p>
+                    </div>
+                    <div onClick={() => handleSortTasks('DUE_DATE')}>
+                      <img src="./assets/calendar.svg" />
+                      <p>Due date</p>
+                    </div>
+                    <div onClick={() => handleSortTasks('CREATED_AT')}>
+                      <img src="./assets/graphic-design.svg" />
+                      <p>Creation date</p>
+                    </div>
+                    <div onClick={() => handleSortTasks('COMPLETED')}>
+                      <img src="./assets/check.svg" />
+                      <p>Completed</p>
+                    </div>
+                    <div onClick={() => handleSortTasks('ADDED_TO_MY_DAY')}>
+                      <img src="./assets/sun.svg" />
+                      <p>Added to My Day</p>
+                    </div>
                 </div>
                 <hr />
                 <div>
                   <p>Theme</p>
-                  {defaultBannerSchemes.colorScheme.map(item =>
+                  {defaultBannerSchemes.colorScheme.map((item,index) =>
                     <button
+                      key={index}
                       className={"jumbotron-button "+(bannerForTodoState.backgroundColor == item ? 'active' : null)}
                       onClick={() => {
                         changeBannerColor(item);

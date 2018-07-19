@@ -7,7 +7,6 @@ import App from './components/App';
 import {
   todosReducer,
   activateSearchPanel,
-  changeSearchInput,
   activateNewList,
   setNewListTitle,
   setBannerForTodoState,
@@ -18,7 +17,6 @@ import registerServiceWorker from './registerServiceWorker';
 const appReducers = combineReducers({
   todos: todosReducer,
   activateSearch: activateSearchPanel,
-  searchInput: changeSearchInput,
   activateNewList,
   newListTitle: setNewListTitle,
   bannerForTodoState: setBannerForTodoState,

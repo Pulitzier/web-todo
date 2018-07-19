@@ -27,12 +27,12 @@ export function chooseList(element, todosListName) {
   }
 };
 
-export function onChangeSearchInput(searchValue) {
-  return {
-    type: 'CHANGE_SEARCH_INPUT',
-    searchValue
-  }
-};
+// export function onChangeSearchInput(searchValue) {
+//   return {
+//     type: 'CHANGE_SEARCH_INPUT',
+//     searchValue
+//   }
+// };
 
 export function activateNewList(bool) {
   return{

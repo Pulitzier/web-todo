@@ -7,11 +7,18 @@ import Panel from './Panel';
 import Button from './Button';
 import TaskSettings from './TaskSettings';
 import {
-  onChangeSearchInput,
   openSearchPanel,
 } from '../actionCreators'
 
 export default class RightPanel extends Component {
+  constructor(){
+    super();
+    this.searchState = {
+      searchTask: false,
+      searchedTasks: [],
+    }
+  }
+
   componentDidMount(){
     let { store } = this.context;
     this.unsubscribe = store.subscribe(() => {
@@ -23,7 +30,30 @@ export default class RightPanel extends Component {
     let { store } = this.context;
     let state = store.getState();
     let activeTodo = getActiveTodoList(state.todos);
-    let activeTask = activeTodo.tasks.find(task => task.active === true)  || '';
+
+    let getAllTasks = state => {
+      let allTasks=[];
+      for (let key in state.todos) {
+        if (key === 'myPersonalToDo') {
+          allTasks = allTasks.concat(state.todos[key][1].tasks);
+        } else {
+          state.todos[key].map(todo => allTasks = allTasks.concat(todo.tasks));
+        }
+      };
+      return allTasks;
+    };
+
+    let filterTasksBySearch = (searchWord, state) => {
+      let tasks = [];
+      searchWord ?
+        getAllTasks(state).map(taskItem => {
+          if (taskItem.task.indexOf(searchWord) !== -1) {
+            tasks.push(taskItem);
+          }
+        }) :
+        null;
+      return tasks;
+    };
 
     return (
       <Panel className="col-md-8 rightPanel">
@@ -33,18 +63,30 @@ export default class RightPanel extends Component {
               <div className="search-input-wrapper">
                 <input
                   type="text"
-                  value={state.searchInput}
+                  ref={node => this.searchTaskNode = node}
                   onChange={(e) => {
                     let value = e.target.value;
-                    store.dispatch(onChangeSearchInput(value));
+                    console.log(filterTasksBySearch(value, state));
+                    this.setState(() => {
+                      return this.searchState = {
+                        searchTask: true,
+                        searchedTasks: filterTasksBySearch(value, state)
+                      }
+                    });
                   }}
                 />
-                <Button
-                  className={"clearSearch " + (state.searchInput ? 'active' : 'inactive')}
+                <button
+                  className={"clearSearch " + (this.searchState.searchTask ? 'active' : 'inactive')}
                   onClick={() => {
-                    store.dispatch(onChangeSearchInput(''))
+                    this.searchTaskNode.value = '';
+                    this.setState(() => {
+                      return this.searchState = {
+                        searchTask: false,
+                        searchedTasks: []
+                      }
+                    })
                   }}
-                >x</Button>
+                >x</button>
               </div>
               <Button
                 className="cancel-seacrh"
@@ -53,7 +95,14 @@ export default class RightPanel extends Component {
             </div>
             <hr/>
             <div>
-              <img src="./assets/ufo.jpg" alt="Nothing to Search"/>
+              <img className={this.searchState.searchTask ? "inactive" : "active"} src="./assets/ufo.jpg" alt="Nothing to Search"/>
+              <ul className={this.searchState.searchTask ? "active" : "inactive"}>
+                {this.searchState.searchedTasks.map((taskItem, index) => {
+                  return (
+                    <li key={index}>{taskItem.task}</li>
+                  )
+                })}
+              </ul>
             </div>
           </Panel>
           <BannerForTodo className="panelBanner" close={state.activateThemeMenu} activeTodoId={activeTodo.todoListId}>
@@ -74,10 +123,9 @@ export default class RightPanel extends Component {
           <ToDoListOfTask
             todos={state.todos}
             currentTask={state.currentTask}
-
           />
         </div>
-        <TaskSettings activeTask={activeTask}/>
+        <TaskSettings />
       </Panel>
     )
   }
