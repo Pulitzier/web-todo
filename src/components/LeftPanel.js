@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
 import Panel from './Panel';
-import Button from './Button';
 import List from './List';
 import {
   addNewTodoList,
   openSearchPanel,
+  activateUserSettings,
   chooseList,
   activateNewList,
   setNewListTitle,
@@ -26,9 +26,14 @@ class LeftPanel extends Component {
     this.newListTitleInput.focus();
   };
   render(){
-  const addNewList = () => {
+    const { store } = this.context;
+    const state = store.getState();
+    const todos = state.app.todos;
+    let activateSettings = state.userSettings;
+
+    const addNewList = () => {
     let newListTitle = 'Untitled Task';
-    state.todos['toDoCategories'].map(item => {
+    todos['toDoCategories'].map(item => {
       if (item.title.indexOf('Untitled Task') != -1) {
         if (isNaN(parseInt(item.title.replace( /[^\d.]/g, '' )))) {
           newListTitle = 'Untitled Task ' + 1;
@@ -58,72 +63,99 @@ class LeftPanel extends Component {
     store.dispatch(chooseList(element, listName))
   }
 
-  const { store } = this.context;
-  const state = store.getState();
-    return (
-        <Panel className="col-md-4 leftPanel">
-          <Panel className="user-info">
+  return (
+    <Panel className="col-md-4 leftPanel">
+      <Panel className="user-info">
+        <div className="user-info-buttons">
+          <button className="user-settings-button" onClick={() => store.dispatch(activateUserSettings(!activateSettings)) }>
             <img src="./assets/user-avatar.png" alt="User Avatar"/>
             <p>Yuryi Baravy</p>
-            <Button className="search" onClick={() => {
-              store.dispatch(openSearchPanel(true));
-            }}>
-              <img src="./assets/search.png" alt="Search Field"/>
-            </Button>
-          </Panel>
-          <List className="nav flex-column my-todo-list">
-            {state.todos['myPersonalToDo'].map( (element) =>
-              (
-                <li className={"nav-item "+ (element.active ? 'active' : '')} key={element.title}>
-                  <a
-                    className={"nav-link " + (element.active ? 'active' : '')}
-                    onClick={() => chooseListItem(element, 'myPersonalToDo')}
-                  >
-                    <img src={element.title == 'My Day' ? './assets/sun.svg' : './assets/home.svg'} alt='Sun'/>
-                    <p>{element.title}</p>
-                    <span>{element.tasks.length != 0 ? element.tasks.length : ''}</span>
-                  </a>
-                </li>
-              )
-            )
-            }
-          </List>
-          <hr />
-          <List className="nav flex-column todo-list">
-            {state.todos['toDoCategories'].map( (element,i) =>
-              (
-                <li
-                  className={"nav-item "+ (element.active ? 'active' : '')}
-                  key={element.title}
-                >
-                  <a
-                    className="nav-link"
-                    onClick={() => chooseListItem(element, 'toDoCategories')}
-                  >
-                    {element.title}
-                    <span></span>
-                  </a>
-                </li>
-              ))
-            }
-          </List>
-          <div className="add-new-list" onBlur={() => pushNewListToState()}>
-            <input
-              type="text"
-              ref={node => this.newListTitleInput = node}
-              className={"add-new-list-label "+(state.activateNewList ? 'active' : 'inactive')}
-              onChange={typeNewListTitle}
-              value={state.newListTitle}
-              autoFocus={state.activateNewList}
-            />
-            <a
-              className="add-new-list-link"
-              onClick={() => addNewList()}
-            >
-              <span>+</span> New List
-            </a>
+          </button>
+          <button className="search" onClick={() => store.dispatch(openSearchPanel(true)) }>
+            <img src="./assets/search.png" alt="Search Field"/>
+          </button>
+        </div>
+        <div className="user-info-settings">
+          <div className={"user-settings " + (activateSettings ? 'active' : 'inactive')}>
+            <div>
+              <img src="./assets/toggle.svg" alt="Settings"/>
+              <p>Settings</p>
+            </div>
+            <hr />
+            <div>
+              <img src="./assets/icon.svg" alt="Sign out"/>
+              <p>Sign out</p>
+            </div>
           </div>
-        </Panel>
+        </div>
+      </Panel>
+      <List className="nav flex-column my-todo-list">
+        {todos['myPersonalToDo'].map((element) =>
+          (
+            <li className={"nav-item "+ (element.active ? 'active' : '')} key={element.title}>
+              <a
+                className={"nav-link " + (element.active ? 'active' : '')}
+                onClick={() => chooseListItem(element, 'myPersonalToDo')}
+              >
+                <img
+                  src={(() => {
+                    if(element.title === 'My Day') {
+                      return './assets/sun.svg'
+                    }
+                    if(element.title === 'Important') {
+                      return './assets/star.svg'
+                    }
+                    if(element.title === 'To-Do') {
+                      return './assets/home.svg'
+                    }
+                    return '';
+                  })()}
+                  alt='Categories Icon'
+                />
+                <p>{element.title}</p>
+                <span>{element.tasksIds.length !== 0 ? element.tasksIds.length : ''}</span>
+              </a>
+            </li>
+          )
+        )
+        }
+      </List>
+      <hr />
+      <List className="nav flex-column todo-list">
+        {todos['toDoCategories'].map( (element,i) =>
+          (
+            <li
+              className={"nav-item "+ (element.active ? 'active' : '')}
+              key={element.title}
+            >
+              <a
+                className="nav-link"
+                onClick={() => chooseListItem(element, 'toDoCategories')}
+              >
+                {element.title}
+                <span></span>
+              </a>
+            </li>
+          ))
+        }
+      </List>
+      <div className="add-new-list" onBlur={() => pushNewListToState()}>
+        <input
+          type="text"
+          ref={node => this.newListTitleInput = node}
+          className={"add-new-list-label "+(state.activateNewList ? 'active' : 'inactive')}
+          onChange={typeNewListTitle}
+          value={state.newListTitle}
+          autoFocus={state.activateNewList}
+        />
+        <a
+          className="add-new-list-link"
+          onClick={() => addNewList()}
+        >
+          <span>+</span> New List
+        </a>
+      </div>
+    </Panel>
   );
   }
 };

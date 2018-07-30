@@ -10,15 +10,15 @@ body {
   padding: 20px 0px;
 }
 
-body p {
+body p,
+#bannerSettings .sort-settings-menu > div > p {
   margin: 0;
 }
 
-.container {/*text-align: center;*/
-  /*text-align: center;*/
+.container {
   height: 650px;
   max-width: 920px;
-  background-color: white;
+  background-color: #ffffff;
   margin: auto;
   margin-right: 18%;
 }
@@ -71,14 +71,10 @@ button.dots-menu {
   filter: opacity(.5);
 }
 
-button.dots-menu span {
-}
-
 .todo-list-wrapper {
   max-height: 500px;
   height: 100%;
-  background-color: white;
-  height: 100%;
+  background-color: #ffffff;
   position: relative;
 }
 
@@ -119,7 +115,8 @@ div.todo-list div.todos {
   padding-right: 2px;
 }
 
-.leftPanel .nav-link img {
+.leftPanel .nav-link img,
+.user-settings.active img {
   width: 18px;
   margin-right: 10px;
 }
@@ -140,7 +137,7 @@ div.sort-settings-link p {
   right: 0;
   height: 100%;
   width: 100%;
-  background-color: white;
+  background-color: #ffffff;
 }
 
 .search-modal.active {
@@ -155,7 +152,9 @@ div.sort-settings-link p {
   justify-content: space-between;
 }
 
-.search-modal div.background-wrapper div.search-input-wrapper {
+.search-modal div.background-wrapper div.search-input-wrapper,
+.add-new-step-wrapper .add-new-step > div,
+.user-info-settings {
   position: relative;
   width: 100%;
 }
@@ -167,42 +166,57 @@ div.sort-settings-link p {
 .search-modal div > img,
 .search-modal input,
 .todo-list-wrapper .add-new-todo,
-.add-new-todo-wrapper .add-new-todo-input {
+.add-new-todo-wrapper .add-new-todo-input,
+.add-new-step-wrapper .add-new-step,
+.task-settings-footer p,
+.task-settings ul li p,
+.rightPanel > div {
   width: 100%;
 }
 
-.add-new-todo-wrapper .add-new-todo-input {
+.add-new-todo-wrapper .add-new-todo-input,
+.add-new-step-wrapper .add-new-step-input {
   border-color: transparent;
 }
 
-.add-new-todo-wrapper .add-new-todo-input.inactive,
-.add-new-todo-wrapper .add-new-todo-input.activated {
-  display: block;
-}
-
-.add-new-todo-wrapper .add-new-todo-input.inactive::placeholder {
+.add-new-todo-wrapper .add-new-todo-input.inactive::placeholder,
+.add-new-step-wrapper .add-new-step-input.inactive::placeholder,
+.task-settings-add-note textarea::placeholder {
   color: cornflowerblue;
+  padding-left: 10px;
 }
 
-.add-new-todo-wrapper .add-new-todo-input.activated::placeholder {
+.add-new-todo-wrapper .add-new-todo-input.activated::placeholder,
+.add-new-step-wrapper .add-new-step-input.activated::placeholder {
   color: darkslateblue;
 }
 
+.task-settings-add-note textarea {
+  border: 0px;
+  resize: none;
+}
+
 #toggleTodoCheckbox,
-#toggleTodoCheckbox-template {
+#toggleTodoCheckbox-template,
+#searchTaskCheckbox,
+#addStepCheckbox-template {
   position: absolute;
   opacity: 0;
 }
 
-.todos p {
-  margin-left: 2px;
+.todos p,
+.task-settings-title p,
+ul.searchList li p {
+  margin-left: 10px;
 }
 
-.todos p.lineThrough {
+p.lineThrough {
   text-decoration: line-through;
 }
 
 .todos label.toggleTodoLabel,
+.task-settings label.toggleTaskLabel,
+ul.searchList label.searchTaskLabel,
 .add-new-todo-wrapper label.toggleTodoLabel-template {
   width: 20px;
   height: 20px;
@@ -210,11 +224,15 @@ div.sort-settings-link p {
 }
 
 .todos label.toggleTodoLabel.done > span,
+.task-settings label.toggleTaskLabel.done > span,
+ul.searchList label.searchTaskLabel.toggled > span,
 .add-new-todo-wrapper label.toggleTodoLabel-template.toggled > span {
   background-color: limegreen;
 }
 
 .todos label.toggleTodoLabel > span,
+.task-settings label.toggleTaskLabel > span,
+ul.searchList label.searchTaskLabel > span,
 .add-new-todo-wrapper label.toggleTodoLabel-template > span {
   background-color: #ffffff;
   width: 100%;
@@ -228,6 +246,8 @@ div.sort-settings-link p {
 }
 
 .todos label.toggleTodoLabel.done > span:after,
+.task-settings label.toggleTaskLabel.done > span:after,
+ul.searchList label.searchTaskLabel.toggled > span:after,
 .add-new-todo-wrapper label.toggleTodoLabel-template.toggled > span:after {
   content: '\2713';
   position: absolute;
@@ -244,19 +264,25 @@ div.sort-settings-link p {
 }
 
 .search-modal button.cancel-seacrh,
-.todo-list-wrapper button.add-new-todo-button {
+.todo-list-wrapper button.add-new-todo-button,
+button.task-settings-arrow-right,
+button.task-settings-trash {
   background-color: transparent;
   color: cornflowerblue;
   border-color: transparent;
   font-size: 13px;
 }
 
-.todo-list-wrapper button.add-new-todo-button.active {
+.todo-list-wrapper button.add-new-todo-button.active,,
+button.task-settings-arrow-right,
+button.task-settings-trash {
   font-size: 14.5px;
   display: inline-block;
 }
 
-.active {
+.active,
+.add-new-todo-wrapper .add-new-todo-input,
+.add-new-step-wrapper .add-new-step-input {
   display: block;
 }
 
@@ -279,6 +305,13 @@ div.sort-settings-link p {
   display: inline-block;
   width: 40px;
   height: 40px;
+}
+
+.task-settings-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
 }
 
 span.orange {
@@ -305,41 +338,83 @@ span.blue {
   width: 50px;
 }
 
-.user-info {
-  padding: 0 10px;
+.user-info,
+.user-settings.active div {
   display: flex;
-  margin: 10px auto;
   align-items: center;
 }
 
-.user-info p:first-of-type {
+.user-info {
+  margin: 10px auto;
+}
+
+.user-settings.active img,
+.user-info .user-settings-button p:first-of-type {
   display: inline-block;
   margin: 0 10px;
 }
 
-button.search {
+button.search,
+button.user-settings-button {
   margin: 0 0 0 auto;
+  padding: 0 12px;
   border: 0px;
   background-color: transparent;
 }
 
-.user-info > img,
+.user-info img,
 button.search > img {
   width: 35px;
   height: 35px;
 }
 
-.add-new-list {
-  text-align: left;
-  padding: 0 30px;
+.user-settings.active {
+  position: absolute;
+  background-color: #ffffff;
+  width: 260px;
+  margin: 10px auto 0;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  border: 1px solid rgba(0,0,0,.1);
+  height: 100px;
 }
 
+.user-settings.active hr {
+  width: 100%;
+  margin: 5px 0;
+}
+
+.user-settings.active p {
+  margin: 10px;
+}
+
+.user-settings.active div:last-of-type p:last-of-type {
+  color: red;
+}
+
+.user-info-settings {
+  width: 300px;
+}
+
+.user-info,
+.user-info-buttons,
+.user-settings-button,
 .add-new-todo-wrapper,
 .add-new-todo-wrapper > div {
   position: relative;
   width: 100%;
   display: flex;
   align-items: center;
+}
+
+.user-info {
+  flex-flow: column wrap;
+}
+
+.add-new-list {
+  text-align: left;
+  padding: 0 30px;
 }
 
 .todo-list-wrapper .clearInput {
@@ -353,7 +428,8 @@ input.add-new-list-label {
 
 a.add-new-list-link,
 div.sort-settings-link,
-div.show-hide_completed_todos {
+div.show-hide_completed_todos,
+.task-settings ul li {
   display: flex;
   align-items: center;
 }
@@ -365,7 +441,8 @@ a.add-new-list-link > span {
 
 .sort-settings-menu img,
 div.sort-settings-link img,
-div.show-hide_completed_todos img {
+div.show-hide_completed_todos img,
+.task-settings img {
   width: 15px;
   height: 15px;
 }
@@ -378,6 +455,38 @@ div.sort-settings-link img:last-of-type {
 div.sort-settings-link img:first-of-type,
 div.show-hide_completed_todos img {
   margin-right: 10px
+}
+
+.task-settings-title,
+.add-new-step-wrapper,
+.task-settings-add-to-my-day,
+.task-settings-additional,
+.task-settings-add-note,
+.task-settings-footer {
+  background-color: #ffffff;
+}
+
+.task-settings-additional li p {
+  border-bottom: 1px solid lightgray;
+}
+
+.task-settings-additional li:last-of-type p{
+  border: 0;
+}
+
+.task-settings-add-to-my-day ul,
+.task-settings-additional ul,
+ul.searchList {
+  list-style-type: none;
+  padding: 0 0 0 10px;
+  margin: 0;
+  width: 100%;
+}
+
+.task-settings-add-to-my-day,
+.task-settings-additional,
+.task-settings-add-note {
+  margin: 10px;
 }
 
 #bannerSettings .modal-dialog {
@@ -394,8 +503,21 @@ div.show-hide_completed_todos img {
   padding: 0px;
 }
 
-#bannerSettings .modal-body > div {
+#bannerSettings .modal-body > div,
+.task-settings-title,
+.add-new-step-wrapper,
+.task-settings-additional li p,
+.task-settings-add-to-my-day li p,
+.task-settings-add-note textarea::placeholder,
+.task-settings-footer {
   padding: 10px
+}
+
+.task-settings-title {
+  padding-top: 30px;
+  line-height: 1;
+  font-size: 20px;
+  font-weight: bolder;
 }
 
 #bannerSettings .sort-settings-menu > div {
@@ -404,36 +526,49 @@ div.show-hide_completed_todos img {
   align-items: center;
 }
 
-#bannerSettings .sort-settings-menu > div > p {
-  margin: 0px;
-}
-
 #bannerSettings .modal-body div.sort-settings-menu {
   position: absolute;
-  opacity: 0;
-  transition: opacity 1s ease;
+  overflow: hidden;
+  height: 0px;
+  transition: height 1s ease;
   background-color: #ffffff;
   left: -164px;
   top: 1px;
   padding: 0px;
+  border: 0px;
+}
+
+
+#bannerSettings .modal-body div.sort-settings-menu.active {
+  height: 222px;
+  transition: height 1s ease;
   border: 1px solid rgba(0,0,0,.2);
 }
 
 #bannerSettings div.sort-settings-link:hover,
 #bannerSettings div.sort-settings-menu div:hover,
-#bannerSettings div.sort-settings-link.grey {
+#bannerSettings div.sort-settings-link.grey,
+.task-settings {
   background-color: lightgray;
 }
 
-#bannerSettings div.sort-settings-menu.active {
-  opacity: 1;
-  transition: opacity 1s ease;
-}
 
+.rightPanel,
+.task-settings > div,
+.add-new-step-wrapper .add-new-step,
+.add-new-step-wrapper .add-new-step > div,
+ul.searchList li,
+.show-hide_completed_todos p,
 #bannerSettings .sort-settings-menu > div {
   display: flex;
 }
 
 .modal-backdrop.show {
   opacity: 0;
+}
+
+.task-settings {
+  height: 100%;
+  position: relative;
+  width: 450px;
 }
