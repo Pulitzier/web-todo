@@ -27,13 +27,6 @@ export function chooseList(element, todosListName) {
   }
 };
 
-// export function onChangeSearchInput(searchValue) {
-//   return {
-//     type: 'CHANGE_SEARCH_INPUT',
-//     searchValue
-//   }
-// };
-
 export function activateNewList(bool) {
   return{
     type: 'ACTIVATE_NEW_LIST',
@@ -69,11 +62,18 @@ export function activateTask(bool) {
   }
 };
 
-export function activateTaskSettings(task, bool) {
+export function activateTaskSettings(taskId, activate) {
   return {
     type: "ACTIVATE_TASK_SETTINGS",
-    task,
-    activateTaskSettings: bool,
+    taskId,
+    activate
+  }
+};
+
+export function activateUserSettings(activate) {
+  return {
+    type: "ACTIVATE_USER_SETTINGS",
+    activate
   }
 };
 
@@ -92,11 +92,10 @@ export function addNewTaskToList(task, list) {
   }
 };
 
-export function toggleTask(task, listId) {
+export function toggleTask(taskId) {
   return {
     type: 'TOGGLE_TASK',
-    task,
-    listId
+    taskId
   }
 };
 

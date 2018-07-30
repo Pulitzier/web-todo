@@ -18,7 +18,7 @@ export default class App extends Component {
   }
 
   render() {
-    let state = this.context.store.getState();
+    const state = this.context.store.getState();
     return (
       <div className="container">
         <div className="row">

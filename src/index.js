@@ -5,31 +5,43 @@ import { Provider } from 'react-redux';
 import './index.css';
 import App from './components/App';
 import {
-  todosReducer,
+  appReducer,
   activateSearchPanel,
   activateNewList,
   setNewListTitle,
   setBannerForTodoState,
-  tasksReducer
+  setTaskSettings,
+  activateUserSettings
 } from './reducers';
+import { loadState, saveState } from "./helpers";
+import throttle from 'lodash/throttle';
 import registerServiceWorker from './registerServiceWorker';
 
-const appReducers = combineReducers({
-  todos: todosReducer,
+const persistedState = loadState();
+
+const globalReducer = combineReducers({
+  app: appReducer,
   activateSearch: activateSearchPanel,
   activateNewList,
   newListTitle: setNewListTitle,
   bannerForTodoState: setBannerForTodoState,
-  tasks: tasksReducer
-})
+  taskSettings: setTaskSettings,
+  userSettings: activateUserSettings
+});
+
+const store = createStore(
+  globalReducer,
+  persistedState
+);
+
+store.subscribe(throttle(() => {
+  saveState(store.getState());
+}, 1000));
+
+localStorage.clear();
 
 ReactDOM.render(
-  <Provider store={
-    createStore(
-      appReducers,
-      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-    )}
-    >
+  <Provider store={ store }>
     <App />
   </Provider>,
   document.getElementById('root')

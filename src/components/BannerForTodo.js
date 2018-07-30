@@ -47,10 +47,6 @@ export default class BannerForTodo extends Component {
       ],
     };
 
-    const openCloseSettings = () => {
-      this.discardNewTask();
-      store.dispatch(activateBannerSettings(!bannerForTodoState.activateBannerSettings));
-    };
     const changeBannerColor = (color) => {
       this.discardNewTask();
       store.dispatch(changeBannerBgColor(color))
@@ -182,9 +178,15 @@ export default class BannerForTodo extends Component {
                   ))}
                 </div>
                 <hr />
-                <div className="show-hide_completed_todos">
+                <div
+                  className="show-hide_completed_todos"
+                  onClick={() => {
+                    console.log('clicked');
+
+                  }}
+                >
                   <img src='./assets/check.svg' alt='Sort' />
-                  Hide completed to-dos
+                  <p>Hide completed to-dos</p>
                 </div>
               </div>
             </div>

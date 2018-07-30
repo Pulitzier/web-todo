@@ -6,18 +6,31 @@ const defaultTodos = {
       todoListId: 0,
       sortOrder: '',
       currentDate: Date.now(),
-      tasks: []
+      tasksIds: []
+    },
+    {
+      title: 'Important',
+      active: false,
+      todoListId: 1,
+      sortOrder: '',
+      currentDate: 1532863416253,
+      tasksIds: []
     },
     {
       title: 'To-Do',
       active: false,
-      todoListId: 1,
+      todoListId: 2,
       sortOrder: '',
       currentDate: 1531572460943,
-      tasks: []
+      tasksIds: []
     }
   ],
   toDoCategories: []
+};
+
+const defaultAppTodosState = {
+  todos: defaultTodos,
+  tasks: []
 };
 
 const defaultBannerState = {
@@ -26,11 +39,48 @@ const defaultBannerState = {
   backgroundColor: "blue"
 };
 
-let taskId = 0;
-let todoId = 2;
+let todoId = 3;
 
-export function todosReducer(state = defaultTodos, action) {
-  let myTodoKey = 'myPersonalToDo';
+export function appReducer(state = defaultAppTodosState, action) {
+  const todos = state.todos;
+  const tasks = state.tasks;
+  switch(action.type) {
+    case 'ADD_NEW_TODO_LIST':
+      return {
+        ...state,
+        todos: todosReducer(todos, action)
+      };
+    case "CHOOSE_LIST":
+      return {
+        ...state,
+        todos: todosReducer(todos, action)
+      };
+    case 'ADD_NEW_TASK_TO_LIST':
+      return {
+        ...state,
+        tasks: tasksReducer(tasks, action)
+      };
+    case 'TOGGLE_TASK':
+      return {
+        ...state,
+        tasks: tasksReducer(tasks, action)
+      };
+    case 'ACTIVATE_TASK_SETTINGS':
+      return {
+        ...state,
+        tasks: tasksReducer(tasks, action)
+      };
+    case 'SORT_TASKS':
+      return {
+        ...state,
+        tasks: tasksReducer(tasks, action)
+      };
+    default:
+      return state;
+  }
+};
+
+const todosReducer = (state = defaultTodos, action) => {
   switch (action.type) {
     case 'ADD_NEW_TODO_LIST':
       let { toDoCategories } = state;
@@ -66,86 +116,58 @@ export function todosReducer(state = defaultTodos, action) {
         ...state,
         [todosListName]: newTodoList
       };
+    default:
+      return state;
+  }
+};
+
+// UUID generates random string of 36 signs long
+// this is not the case to tasks
+let taskUniqueId = 0;
+
+const tasksReducer = (state = [], action) => {
+  switch(action.type) {
     case 'ADD_NEW_TASK_TO_LIST':
-      let id = taskId;
-      taskId++;
-      let newState = {};
-      let setNewTodoList = (todoList, parentId) => {
-        return {
-          ...todoList,
-          tasks: [
-            ...todoList.tasks,
-            {
-              id,
-              parentId,
-              done: false,
-              active: false,
-              task: action.task,
-              createdAt: Date.now()
-            }
-          ]
+      let id = taskUniqueId;
+      taskUniqueId++;
+      return [
+        ...state,
+        {
+          id,
+          parentId: action.list.todoListId,
+          done: false,
+          active: false,
+          taskText: action.task,
+          createdAt: Date.now()
         }
-      };
-      if (action.list.title === state[myTodoKey][0].title) {
-        let parentTodoId = state[myTodoKey][0].todoListId;
-        newState = {
-          ...state,
-          [myTodoKey]: [
-            setNewTodoList(state[myTodoKey][0], parentTodoId),
-            setNewTodoList(state[myTodoKey][1], parentTodoId)
-          ]
-        };
-      } else {
-        for (let key in state) {
-          newState[key] = state[key].map(item => {
-            if (item == action.list) return setNewTodoList(item, item.todoListId);
-            return item;
-          });
-        }
-      }
-      return newState;
+      ];
     case 'TOGGLE_TASK':
-      let newToggledState = {};
-      let setToggleTasks = (todoList) => {
-        return {
-          ...todoList,
-          tasks: todoList.tasks.map(task => {
-            if (task.id === action.task.id) {
-              return {
-                ...task,
-                done: !task.done
-              }
-            };
-            return task;
-          })
-        }
-      };
-      if (action.listId !== action.task.parentId ||
-          action.listId === state[myTodoKey][0].todoListId) {
-        newToggledState = {
-          ...state,
-          [myTodoKey]: [
-            setToggleTasks(state[myTodoKey][0]),
-            setToggleTasks(state[myTodoKey][1])
-          ]
-        }
-      } else {
-        for (let key in state) {
-          newToggledState[key] = state[key].map(item => {
-            if (item.todoListId === action.listId) setToggleTasks(item);
-            return item;
-          });
-        }
-      };
-      return newToggledState;
+      return state.map(task => {
+        if (action.taskId === task.id) {
+          return {
+            ...task,
+            done: !task.done
+          }
+        };
+        return task;
+      });
+    case 'ACTIVATE_TASK_SETTINGS':
+      return state.map(task => {
+        if (action.taskId === task.id) {
+          return {
+            ...task,
+            active: action.activate
+          }
+        };
+        return task;
+      });
     case 'SORT_TASKS':
-      newState = {};
-      let sortTasks = (sortCriteria, tasks) => {
+      const sortTasks = (sortCriteria, tasks) => {
         switch(sortCriteria){
           case 'ABC':
             return tasks = tasks.sort((a,b) => {
-              let textA = a.task.toUpperCase();
-              let textB = b.task.toUpperCase();
+              let textA = a.taskText.toUpperCase();
+              let textB = b.taskText.toUpperCase();
               return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
             });
           case 'DUE_DATE':
@@ -165,42 +187,10 @@ export function todosReducer(state = defaultTodos, action) {
           default:
             return tasks;
         }
-      }
-      for (let key in state) {
-        newState[key] = state[key].map(item => {
-          if (item.todoListId === action.listId) {
-            return {
-              ...item,
-              sortOrder: action.sort,
-              tasks: sortTasks(action.sort, item.tasks)
-            }
-          };
-          return item;
-        })
       };
-      return newState;
-    case 'ACTIVATE_TASK_SETTINGS':
-      newState = {};
-      for (let key in state) {
-        newState[key] = state[key].map(item => {
-          return {
-            ...item,
-            tasks: item.tasks.map(eachTask => {
-              if (eachTask.id === action.task.id &&
-                eachTask.parentId === action.task.parentId) {
-                return {
-                  ...eachTask,
-                  active: action.activateTaskSettings
-                }
-              };
-              return eachTask;
-            })
-          }
-        });
-      };
-      return newState;
+      return sortTasks(action.sort, state.filter(task => task.parentId === action.listId));
     default:
-      return state;
+      return state
   }
 };
 
@@ -212,21 +202,6 @@ export function activateSearchPanel(state = false, action) {
       return state;
   }
 };
-//
-// export function searchTasks(state = defaultTodos, action) {
-//   let searchTasks = [];
-//   switch(action.type) {
-//     case 'CHANGE_SEARCH_INPUT':
-//       for (let key in state) {
-//           console.log(state[key])
-//       };
-//       console.log('searchTasks ', searchTasks);
-//       console.log('state ', state);
-//       return state;
-//     default:
-//       return state;
-//   }
-// };
 
 export function activateNewList(state = false, action) {
   switch(action.type) {
@@ -268,7 +243,7 @@ export function setBannerForTodoState(state = defaultBannerState, action) {
   }
 };
 
-export function tasksReducer(state = {}, action) {
+export function setTaskSettings(state = {}, action) {
   switch(action.type) {
     case 'ACTIVATE_NEW_TASK':
       return {
@@ -280,6 +255,15 @@ export function tasksReducer(state = {}, action) {
         ...state,
         typeNewTask: action.typeNewTask
       };
+    default:
+      return state;
+  }
+};
+
+export function activateUserSettings(state = false, action) {
+  switch(action.type) {
+    case 'ACTIVATE_USER_SETTINGS':
+      return action.activate;
     default:
       return state;
   }

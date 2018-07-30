@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'react-proptypes';
-import Button from './Button.js';
 import { getActiveTodoList } from '../helpers.js';
 import {
   activateTask,
@@ -16,7 +15,7 @@ export default class ToDoListOfTask extends Component {
     this.todoState = {
       activateTodoTask: false,
       toggleTodoTask: false,
-    }
+    };
   };
   componentDidMount() {
     let { store } = this.context;
@@ -31,8 +30,8 @@ export default class ToDoListOfTask extends Component {
   render() {
     const { store } = this.context;
     const state = store.getState();
-    const todos = state.todos;
-    const activeTodo = getActiveTodoList(todos);
+    const tasks = state.app.tasks;
+    const { activeTodo } = this.props;
 
     const activateToDoTask = (bool) => {
       store.dispatch(activateTask(bool));
@@ -48,7 +47,7 @@ export default class ToDoListOfTask extends Component {
       !bool ? this.newTaskInput.value = '' : null;
     };
 
-    const addNewTask = () => {
+    const addNewTask = (activeTodo) => {
       let newTask = this.newTaskInput.value;
       store.dispatch(addNewTaskToList(newTask, activeTodo));
       store.dispatch(typeNewTaskAction(false));
@@ -56,42 +55,47 @@ export default class ToDoListOfTask extends Component {
       this.newTaskInput.value = '';
     };
 
-    const toggleTodoTask = (task, listItemId) => {
-      store.dispatch(toggleTask(task, listItemId));
+    const toggleTodoTask = (taskId) => {
+      store.dispatch(toggleTask(taskId));
     };
 
-    const activateSettings = (task, bool) => {
-      console.log(task, bool);
-      store.dispatch(activateTaskSettings(task, bool));
+    const activateSettings = (taskId) => {
+      store.dispatch(activateTaskSettings(taskId, true));
     };
 
     return(
       <div className="todo-list-wrapper">
         <div className="todo-list">
           {(() => {
-            return activeTodo.tasks.map((item, i) => (
-                <div
-                  key={i}
-                  className="todos"
-                  onClick={() => activateSettings(item, true)}
-                >
-                  <label
-                    className={
-                      "toggleTodoLabel " +
-                      (item.done ? "done" : '')
-                    }
-                  >
+            if (tasks.length > 0) {
+              return tasks.map((taskItem, i) => {
+                if (activeTodo.todoListId === taskItem.parentId) {
+                  return (
+                    <div
+                      key={i}
+                      className="todos"
+                      onClick={() => activateSettings(taskItem.id)}
+                    >
+                      <label
+                        className={
+                          "toggleTodoLabel " +
+                          (taskItem.done ? "done" : '')
+                        }
+                      >
                     <span
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        toggleTodoTask(item, activeTodo.todoListId);
+                        toggleTodoTask(taskItem.id);
                       }}
                     ></span>
-                  </label>
-                  <p className={item.done ? 'lineThrough' : null}>{item.task}</p>
-                </div>
-              ))
+                      </label>
+                      <p className={taskItem.done ? 'lineThrough' : null}>{taskItem.taskText}</p>
+                    </div>
+                  )
+                }
+              });
+            }
           })()}
           <div className="todos">
             <div className="add-new-todo">
@@ -101,8 +105,8 @@ export default class ToDoListOfTask extends Component {
                     htmlFor="toggleTodoCheckbox-template"
                     className={
                       "toggleTodoLabel-template " +
-                      (state.tasks.activateNewTask ? 'active ' : 'inactive ') +
-                      ((state.tasks.activateNewTask && this.todoState.toggleTodoTask) ? 'toggled' : 'untoggled')
+                      (state.taskSettings.activateNewTask ? 'active ' : 'inactive ') +
+                      ((state.taskSettings.activateNewTask && this.todoState.toggleTodoTask) ? 'toggled' : 'untoggled')
                     }
                   >
                     <input
@@ -116,15 +120,24 @@ export default class ToDoListOfTask extends Component {
                     type="text"
                     name="add new task"
                     ref={node => this.newTaskInput = node}
-                    placeholder={!state.tasks.activateNewTask ? "+ Add a to-do" : "Add a to-do"}
-                    className={"add-new-todo-input " + (state.tasks.activateNewTask ? "activated" : "inactive")}
+                    placeholder={!state.taskSettings.activateNewTask ? "+ Add a to-do" : "Add a to-do"}
+                    className={"add-new-todo-input " + (state.taskSettings.activateNewTask ? "activated" : "inactive")}
                     onFocus={() => activateToDoTask(true)}
                     onChange={() => typeNewTask(true)}
-                    value={this.props.currentTask}
                   />
-                  <Button className={"clearInput " +  (state.tasks.typeNewTask ? 'active' : 'inactive')} onClick={() => typeNewTask(false)} >x</Button>
+                  <button
+                    className={"clearInput " +  (state.taskSettings.typeNewTask ? 'active' : 'inactive')}
+                    onClick={() => typeNewTask(false)}
+                  >
+                    x
+                  </button>
                 </div>
-                <Button className={"add-new-todo-button " +  (state.tasks.typeNewTask ? 'active' : 'inactive')} onClick={() => addNewTask()} >Add</Button>
+                <button
+                  className={"add-new-todo-button " +  (state.taskSettings.typeNewTask ? 'active' : 'inactive')}
+                  onClick={() => addNewTask(activeTodo)}
+                >
+                  Add
+                </button>
               </div>
             </div>
           </div>

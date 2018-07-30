@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from "react-proptypes";
 import { getActiveTodoList } from "../helpers";
+import { activateTaskSettings } from '../actionCreators';
 
 export default class TaskSettings extends Component {
   constructor() {
@@ -31,7 +32,6 @@ export default class TaskSettings extends Component {
 
   typeNewStep = (e) => {
     let step = e.target.value;
-    console.log(step)
     this.setState(() => {
       return this.taskState = {
         ...this.taskState,
@@ -51,15 +51,15 @@ export default class TaskSettings extends Component {
     })
   };
 
-  dispatchAddingSteps = () => {
-    console.log(this.taskState.newStepText)
-  }
-
   render() {
-    let { store } = this.context;
-    let state = store.getState();
-    let activeTodo = getActiveTodoList(state.todos);
-    let activeTask = activeTodo.tasks.find(task => task.active === true)  || '';
+    const { store } = this.context;
+    const state = store.getState();
+    const tasks = state.app.tasks;
+    const activeTask = tasks.length != 0 ? (tasks.find(task => task.active === true) || '') : '';
+
+    const closeTaskSettings = (taskId) => {
+      store.dispatch(activateTaskSettings(taskId, false))
+    };
 
     return (
       <div className={"task-settings " + (activeTask ? 'active' : 'inactive')}>
@@ -77,7 +77,7 @@ export default class TaskSettings extends Component {
             }}
           ></span>
           </label>
-          <p>{activeTask.task}</p>
+          <p>{activeTask.taskText}</p>
         </div>
         <div className="add-new-step-wrapper">
           <div className="add-new-step">
@@ -99,7 +99,6 @@ export default class TaskSettings extends Component {
               <input
                 type="text"
                 name="add-new-step"
-                ref={node => this.newStepInput = node}
                 placeholder={!this.taskState.activateStepInput ? "+ Add a step" : "Add a step"}
                 className={"add-new-step-input " + (this.taskState.activateStepInput ? "activated" : "inactive")}
                 onFocus={() => this.activateStep(true)}
@@ -136,15 +135,17 @@ export default class TaskSettings extends Component {
           <textarea placeholder="Add a note" cols="34" rows="5"></textarea>
         </div>
         <div className='task-settings-footer'>
-          <button className="task-settings-arrow-right">
+          <button
+            className="task-settings-arrow-right"
+            onClick={() => closeTaskSettings(activeTask.id)}>
             <img src="./assets/right.svg" />
           </button>
           <p>{(() => {
             let today = new Date();
-            let dateStringForBanner = today.toLocaleString('en-us', {weekday: 'long'}) + ', ' +
+            let footerDate = today.toLocaleString('en-us', {weekday: 'long'}) + ', ' +
               today.toLocaleString('en-us', {month: 'long'}) + ' ' +
               today.toLocaleString('en-us', {day: 'numeric'});
-            return dateStringForBanner;
+            return footerDate;
           })()}</p>
           <button className="task-settings-trash">
             <img src="./assets/garbage.svg" />

@@ -75,7 +75,6 @@ button.dots-menu {
   max-height: 500px;
   height: 100%;
   background-color: #ffffff;
-  height: 100%;
   position: relative;
 }
 
@@ -116,7 +115,8 @@ div.todo-list div.todos {
   padding-right: 2px;
 }
 
-.leftPanel .nav-link img {
+.leftPanel .nav-link img,
+.user-settings.active img {
   width: 18px;
   margin-right: 10px;
 }
@@ -153,7 +153,8 @@ div.sort-settings-link p {
 }
 
 .search-modal div.background-wrapper div.search-input-wrapper,
-.add-new-step-wrapper .add-new-step > div {
+.add-new-step-wrapper .add-new-step > div,
+.user-info-settings {
   position: relative;
   width: 100%;
 }
@@ -182,6 +183,7 @@ div.sort-settings-link p {
 .add-new-step-wrapper .add-new-step-input.inactive::placeholder,
 .task-settings-add-note textarea::placeholder {
   color: cornflowerblue;
+  padding-left: 10px;
 }
 
 .add-new-todo-wrapper .add-new-todo-input.activated::placeholder,
@@ -196,22 +198,25 @@ div.sort-settings-link p {
 
 #toggleTodoCheckbox,
 #toggleTodoCheckbox-template,
+#searchTaskCheckbox,
 #addStepCheckbox-template {
   position: absolute;
   opacity: 0;
 }
 
 .todos p,
-.task-settings-title p {
+.task-settings-title p,
+ul.searchList li p {
   margin-left: 10px;
 }
 
-.todos p.lineThrough {
+p.lineThrough {
   text-decoration: line-through;
 }
 
 .todos label.toggleTodoLabel,
 .task-settings label.toggleTaskLabel,
+ul.searchList label.searchTaskLabel,
 .add-new-todo-wrapper label.toggleTodoLabel-template {
   width: 20px;
   height: 20px;
@@ -220,12 +225,14 @@ div.sort-settings-link p {
 
 .todos label.toggleTodoLabel.done > span,
 .task-settings label.toggleTaskLabel.done > span,
+ul.searchList label.searchTaskLabel.toggled > span,
 .add-new-todo-wrapper label.toggleTodoLabel-template.toggled > span {
   background-color: limegreen;
 }
 
 .todos label.toggleTodoLabel > span,
 .task-settings label.toggleTaskLabel > span,
+ul.searchList label.searchTaskLabel > span,
 .add-new-todo-wrapper label.toggleTodoLabel-template > span {
   background-color: #ffffff;
   width: 100%;
@@ -240,6 +247,7 @@ div.sort-settings-link p {
 
 .todos label.toggleTodoLabel.done > span:after,
 .task-settings label.toggleTaskLabel.done > span:after,
+ul.searchList label.searchTaskLabel.toggled > span:after,
 .add-new-todo-wrapper label.toggleTodoLabel-template.toggled > span:after {
   content: '\2713';
   position: absolute;
@@ -330,41 +338,83 @@ span.blue {
   width: 50px;
 }
 
-.user-info {
-  padding: 0 10px;
+.user-info,
+.user-settings.active div {
   display: flex;
-  margin: 10px auto;
   align-items: center;
 }
 
-.user-info p:first-of-type {
+.user-info {
+  margin: 10px auto;
+}
+
+.user-settings.active img,
+.user-info .user-settings-button p:first-of-type {
   display: inline-block;
   margin: 0 10px;
 }
 
-button.search {
+button.search,
+button.user-settings-button {
   margin: 0 0 0 auto;
+  padding: 0 12px;
   border: 0px;
   background-color: transparent;
 }
 
-.user-info > img,
+.user-info img,
 button.search > img {
   width: 35px;
   height: 35px;
 }
 
-.add-new-list {
-  text-align: left;
-  padding: 0 30px;
+.user-settings.active {
+  position: absolute;
+  background-color: #ffffff;
+  width: 260px;
+  margin: 10px auto 0;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  border: 1px solid rgba(0,0,0,.1);
+  height: 100px;
 }
 
+.user-settings.active hr {
+  width: 100%;
+  margin: 5px 0;
+}
+
+.user-settings.active p {
+  margin: 10px;
+}
+
+.user-settings.active div:last-of-type p:last-of-type {
+  color: red;
+}
+
+.user-info-settings {
+  width: 300px;
+}
+
+.user-info,
+.user-info-buttons,
+.user-settings-button,
 .add-new-todo-wrapper,
 .add-new-todo-wrapper > div {
   position: relative;
   width: 100%;
   display: flex;
   align-items: center;
+}
+
+.user-info {
+  flex-flow: column wrap;
+}
+
+.add-new-list {
+  text-align: left;
+  padding: 0 30px;
 }
 
 .todo-list-wrapper .clearInput {
@@ -425,7 +475,8 @@ div.show-hide_completed_todos img {
 }
 
 .task-settings-add-to-my-day ul,
-.task-settings-additional ul {
+.task-settings-additional ul,
+ul.searchList {
   list-style-type: none;
   padding: 0 0 0 10px;
   margin: 0;
@@ -506,6 +557,8 @@ div.show-hide_completed_todos img {
 .task-settings > div,
 .add-new-step-wrapper .add-new-step,
 .add-new-step-wrapper .add-new-step > div,
+ul.searchList li,
+.show-hide_completed_todos p,
 #bannerSettings .sort-settings-menu > div {
   display: flex;
 }
