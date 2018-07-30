@@ -11,7 +11,7 @@ import {
   setNewListTitle,
   setBannerForTodoState,
   setTaskSettings,
-  activateUserSettings
+  handleUserSettings
 } from './reducers';
 import { loadState, saveState } from "./helpers";
 import throttle from 'lodash/throttle';
@@ -26,7 +26,7 @@ const globalReducer = combineReducers({
   newListTitle: setNewListTitle,
   bannerForTodoState: setBannerForTodoState,
   taskSettings: setTaskSettings,
-  userSettings: activateUserSettings
+  userSettings: handleUserSettings
 });
 
 const store = createStore(

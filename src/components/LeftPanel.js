@@ -4,13 +4,12 @@ import Panel from './Panel';
 import List from './List';
 import {
   addNewTodoList,
-  openSearchPanel,
-  activateUserSettings,
   chooseList,
   activateNewList,
   setNewListTitle,
   activateTask
 } from "../actionCreators";
+import UserSettings from "./UserSettings";
 
 class LeftPanel extends Component {
   componentDidMount() {
@@ -19,17 +18,19 @@ class LeftPanel extends Component {
       this.forceUpdate();
     })
   };
+
   componentWillUnmount(){
     this.unsubscribe();
   };
+
   componentDidUpdate() {
     this.newListTitleInput.focus();
   };
+
   render(){
     const { store } = this.context;
     const state = store.getState();
     const todos = state.app.todos;
-    let activateSettings = state.userSettings;
 
     const addNewList = () => {
     let newListTitle = 'Untitled Task';
@@ -65,30 +66,7 @@ class LeftPanel extends Component {
 
   return (
     <Panel className="col-md-4 leftPanel">
-      <Panel className="user-info">
-        <div className="user-info-buttons">
-          <button className="user-settings-button" onClick={() => store.dispatch(activateUserSettings(!activateSettings)) }>
-            <img src="./assets/user-avatar.png" alt="User Avatar"/>
-            <p>Yuryi Baravy</p>
-          </button>
-          <button className="search" onClick={() => store.dispatch(openSearchPanel(true)) }>
-            <img src="./assets/search.png" alt="Search Field"/>
-          </button>
-        </div>
-        <div className="user-info-settings">
-          <div className={"user-settings " + (activateSettings ? 'active' : 'inactive')}>
-            <div>
-              <img src="./assets/toggle.svg" alt="Settings"/>
-              <p>Settings</p>
-            </div>
-            <hr />
-            <div>
-              <img src="./assets/icon.svg" alt="Sign out"/>
-              <p>Sign out</p>
-            </div>
-          </div>
-        </div>
-      </Panel>
+      <UserSettings />
       <List className="nav flex-column my-todo-list">
         {todos['myPersonalToDo'].map((element) =>
           (

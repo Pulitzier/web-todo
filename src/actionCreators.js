@@ -77,6 +77,13 @@ export function activateUserSettings(activate) {
   }
 };
 
+export function openUserSettings(bool) {
+  return {
+    type: 'OPEN_USER_SETTINGS',
+    open: bool,
+  }
+};
+
 export function typeNewTaskAction(bool) {
   return {
     type: "TYPE_NEW_TASK",

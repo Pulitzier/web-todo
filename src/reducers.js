@@ -260,10 +260,18 @@ export function setTaskSettings(state = {}, action) {
   }
 };
 
-export function activateUserSettings(state = false, action) {
+export function handleUserSettings(state = {}, action) {
   switch(action.type) {
     case 'ACTIVATE_USER_SETTINGS':
-      return action.activate;
+      return {
+        ...state,
+        activateSettings: action.activate
+      };
+    case 'OPEN_USER_SETTINGS':
+      return {
+        ...state,
+        openSettings: action.open
+      };
     default:
       return state;
   }
