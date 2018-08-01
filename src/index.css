@@ -29,6 +29,23 @@ body p,
   outline: 0;
 }
 
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 6px
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 .row {
   height: 100%;
 }
@@ -132,6 +149,10 @@ body p,
 .settings-general-info .about-section a {
   display: block;
   width: fit-content;
+}
+
+#thirdPartyNotices {
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .panelBanner {
@@ -606,8 +627,33 @@ ul.searchList {
   margin-right: 18%;
 }
 
+#thirdPartyNotices .modal-header {
+  border: 0px;
+  min-height: 50px;
+}
+
+#thirdPartyNotices .modal-header .close {
+  padding: 10px;
+  margin: -10px -10px -10px auto;
+}
+
+#thirdPartyNotices .modal-header .close:hover {
+  background-color: lightgrey;
+}
+
+#thirdPartyNotices .modal-content,
 #bannerSettings .modal-content {
   border-radius: 0px;
+}
+
+#thirdPartyNotices .modal-content {
+  max-width: 340px;
+  margin: 0 auto;
+  max-height: 410px;
+}
+
+#thirdPartyNotices .modal-body {
+  overflow-y: auto;
 }
 
 #bannerSettings .modal-body {

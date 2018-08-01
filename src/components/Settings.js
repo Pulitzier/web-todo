@@ -146,10 +146,56 @@ export default class Settings extends Component {
             <a href="https://privacy.microsoft.com/en-US/privacystatement" target="_blank">Privacy</a>
             <a href="https://todosupport.helpshift.com/a/microsoft-to-do/?p=all&s=privacy-and-compliance&f=how-can-i-export-my-lists-and-tasks-from-to-do&l=en" target="_blank">Export your content</a>
             <a href="https://support.office.com/legal?llcc=en-us&aid=MicrosoftTO-DOWINDOWSAPPS-Standalone(free)UseTerms_en-us.htm" target="_blank">Microsoft Software Licence Terms</a>
-            <a href="#" target="_blank">Third Party Notices</a>
-            <a href="#" target="_blank">Copy Session ID</a>
+            <a
+              href="#"
+              data-toggle="modal"
+              data-target="#thirdPartyNotices"
+            >Third Party Notices</a>
+            <a href="#">Copy Session ID</a>
           </section>
         </section>
+        <div
+          className="modal fade"
+          id="thirdPartyNotices"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="thirdPartyNotices-label"
+          aria-hidden="true"
+          data-backdrop="static"
+          data-keyboard="false"
+        >
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h3>Third Party Notices</h3>
+                <button type="button" className="close" data-dismiss="modal" aria-hidden="true">×</button>
+              </div>
+              <div className="modal-body">
+                <div>
+                  <p>
+                    Third-party notices are provided solely for
+                    your information and include the original
+                    copyright and license which Microsoft received
+                    with the third-party software. While Microsoft
+                    is not the original author of the third-party
+                    materials, Microsoft licenses these third-party
+                    materials to you under the terms set forth in
+                    the agreement governing the Microsoft Offering,
+                    except that components licensed under open source
+                    licenses requiring that such components remain
+                    under their original license, such as the GNU
+                    General Public License (GPL) or the GNU Lesser
+                    General Public License (LGPL), are being made
+                    available to you by Microsoft under their original
+                    licensing terms. Microsoft reserves all rights
+                    not expressly granted herein, whether by
+                    implication, estoppel or otherwise.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </Panel>
     )
   }
