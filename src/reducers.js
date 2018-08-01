@@ -104,7 +104,7 @@ const todosReducer = (state = defaultTodos, action) => {
         state[key].map(element => element.active = false)
       };
       let newTodoList = state[todosListName].map(item => {
-        if (item == element) {
+        if (item === element) {
           return {
             ...item,
             active: true
@@ -260,7 +260,15 @@ export function setTaskSettings(state = {}, action) {
   }
 };
 
-export function handleUserSettings(state = {}, action) {
+const defaultUserSettings = {
+  openSettings: false,
+  confirmDeletion: false,
+  turnOnSound: false,
+  setLightTheme: true,
+  setDarkTheme: false
+};
+
+export function handleUserSettings(state = defaultUserSettings, action) {
   switch(action.type) {
     case 'ACTIVATE_USER_SETTINGS':
       return {
@@ -271,6 +279,28 @@ export function handleUserSettings(state = {}, action) {
       return {
         ...state,
         openSettings: action.open
+      };
+    case 'CONFIRM_BEFORE_DELETE':
+      return {
+        ...state,
+        confirmDeletion: action.confirmDelete
+      };
+    case 'TURN_SOUND':
+      return {
+        ...state,
+        turnOnSound: action.turn
+      };
+    case 'SET_DARK_THEME':
+      return {
+        ...state,
+        setDarkTheme: action.setDarkTheme,
+        setLightTheme: !action.setDarkTheme
+      };
+    case 'SET_LIGHT_THEME':
+      return {
+        ...state,
+        setDarkTheme: !action.setLightTheme,
+        setLightTheme: action.setLightTheme
       };
     default:
       return state;

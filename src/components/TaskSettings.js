@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from "react-proptypes";
-import { getActiveTodoList } from "../helpers";
 import { activateTaskSettings } from '../actionCreators';
 
 export default class TaskSettings extends Component {
@@ -55,7 +54,7 @@ export default class TaskSettings extends Component {
     const { store } = this.context;
     const state = store.getState();
     const tasks = state.app.tasks;
-    const activeTask = tasks.length != 0 ? (tasks.find(task => task.active === true) || '') : '';
+    const activeTask = tasks.length !== 0 ? (tasks.find(task => task.active === true) || '') : '';
 
     const closeTaskSettings = (taskId) => {
       store.dispatch(activateTaskSettings(taskId, false))

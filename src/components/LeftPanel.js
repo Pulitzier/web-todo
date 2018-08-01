@@ -35,7 +35,7 @@ class LeftPanel extends Component {
     const addNewList = () => {
     let newListTitle = 'Untitled Task';
     todos['toDoCategories'].map(item => {
-      if (item.title.indexOf('Untitled Task') != -1) {
+      if (item.title.indexOf('Untitled Task') !== -1) {
         if (isNaN(parseInt(item.title.replace( /[^\d.]/g, '' )))) {
           newListTitle = 'Untitled Task ' + 1;
         } else {

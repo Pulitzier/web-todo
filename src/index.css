@@ -42,6 +42,98 @@ body p,
   padding: 0;
 }
 
+.user-settings-page.active {
+  position: absolute;
+  max-height: 650px;
+  max-width: 920px;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+}
+
+.settings-header,
+.settings-general-info .user-manage {
+  display: flex;
+  align-items: center;
+}
+
+.user-settings-page section > section {
+  margin: 20px 0 10px;
+}
+
+.user-settings-page section.settings-general-info {
+  overflow-y: auto;
+  max-height: 555px;
+}
+
+.user-settings-page section.settings-general-info .general-sets {
+  flex-flow: column wrap;
+  align-items: flex-start;
+}
+
+.user-settings-page section.settings-general-info > * {
+  width: 100%;
+}
+
+.user-manage > div * {
+  margin: 0 0 0 10px;
+}
+
+.user-settings-page img {
+  width: 60px;
+}
+
+.settings-header {
+  margin: 20px 30px;
+}
+
+.settings-header button {
+  padding: 6px 12px;
+}
+
+.settings-header button:active {
+  background-color: lightgrey;
+}
+
+.theme-sets p {
+  margin-bottom: 5px;
+}
+
+.settings-general-info {
+  padding: 30px 50px 10px 150px;
+}
+
+.settings-general-info section a {
+  margin-top: 5px;
+  color: cornflowerblue;
+  text-decoration: underline;
+}
+
+.settings-general-info .user-manage a {
+  margin: 0 0 0 auto;
+  padding: 6px 10px;
+  font-weight: bolder;
+  color: slategray;
+  background-color: lightgrey;
+  border: 2px solid transparent;
+  text-decoration: none;
+}
+
+.settings-general-info .user-manage a:hover {
+  border: 2px solid slategray;
+}
+
+.settings-general-info .user-manage a:active {
+  background-color: slategray;
+  color: black;
+}
+
+.settings-general-info .help-feedback a,
+.settings-general-info .about-section a {
+  display: block;
+  width: fit-content;
+}
+
 .panelBanner {
   display: flex;
   align-items: flex-end;
@@ -196,6 +288,8 @@ div.sort-settings-link p {
   resize: none;
 }
 
+#lightTheme,
+#darkTheme,
 #toggleTodoCheckbox,
 #toggleTodoCheckbox-template,
 #searchTaskCheckbox,
@@ -214,6 +308,9 @@ p.lineThrough {
   text-decoration: line-through;
 }
 
+.settings-header img,
+.theme-sets label.ligthTheme-label,
+.theme-sets label.darkTheme-label,
 .todos label.toggleTodoLabel,
 .task-settings label.toggleTaskLabel,
 ul.searchList label.searchTaskLabel,
@@ -223,6 +320,15 @@ ul.searchList label.searchTaskLabel,
   margin: 0;
 }
 
+.theme-sets label.ligthTheme-label,
+.theme-sets label.darkTheme-label {
+  position: relative;
+  float: left;
+  margin-right: 10px;
+}
+
+.theme-sets label.ligthTheme-label.checked > span,
+.theme-sets label.darkTheme-label.checked > span,
 .todos label.toggleTodoLabel.done > span,
 .task-settings label.toggleTaskLabel.done > span,
 ul.searchList label.searchTaskLabel.toggled > span,
@@ -230,6 +336,8 @@ ul.searchList label.searchTaskLabel.toggled > span,
   background-color: limegreen;
 }
 
+.theme-sets label.ligthTheme-label > span,
+.theme-sets label.darkTheme-label > span,
 .todos label.toggleTodoLabel > span,
 .task-settings label.toggleTaskLabel > span,
 ul.searchList label.searchTaskLabel > span,
@@ -245,6 +353,8 @@ ul.searchList label.searchTaskLabel > span,
   color: white;
 }
 
+.theme-sets label.ligthTheme-label.checked > span:after,
+.theme-sets label.darkTheme-label.checked > span:after,
 .todos label.toggleTodoLabel.done > span:after,
 .task-settings label.toggleTaskLabel.done > span:after,
 ul.searchList label.searchTaskLabel.toggled > span:after,
@@ -263,6 +373,7 @@ ul.searchList label.searchTaskLabel.toggled > span:after,
   border-color: transparent;
 }
 
+.settings-header button,
 .search-modal button.cancel-seacrh,
 .todo-list-wrapper button.add-new-todo-button,
 button.task-settings-arrow-right,
@@ -273,7 +384,7 @@ button.task-settings-trash {
   font-size: 13px;
 }
 
-.todo-list-wrapper button.add-new-todo-button.active,,
+.todo-list-wrapper button.add-new-todo-button.active,
 button.task-settings-arrow-right,
 button.task-settings-trash {
   font-size: 14.5px;

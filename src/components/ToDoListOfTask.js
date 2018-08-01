@@ -82,13 +82,13 @@ export default class ToDoListOfTask extends Component {
                           (taskItem.done ? "done" : '')
                         }
                       >
-                    <span
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        toggleTodoTask(taskItem.id);
-                      }}
-                    ></span>
+                        <span
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            toggleTodoTask(taskItem.id);
+                          }}
+                        ></span>
                       </label>
                       <p className={taskItem.done ? 'lineThrough' : null}>{taskItem.taskText}</p>
                     </div>

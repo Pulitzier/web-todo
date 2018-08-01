@@ -3,6 +3,7 @@ import PropTypes from 'react-proptypes';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
 import '../index.css';
+import Settings from "./Settings";
 
 export default class App extends Component {
 
@@ -18,12 +19,12 @@ export default class App extends Component {
   }
 
   render() {
-    const state = this.context.store.getState();
     return (
       <div className="container">
         <div className="row">
-          <LeftPanel state={state}/>
-          <RightPanel state={state}/>
+          <LeftPanel />
+          <RightPanel />
+          <Settings />
         </div>
       </div>
     );
