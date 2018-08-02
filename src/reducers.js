@@ -262,8 +262,8 @@ export function setTaskSettings(state = {}, action) {
 
 const defaultUserSettings = {
   openSettings: false,
-  confirmDeletion: false,
-  turnOnSound: false,
+  confirmDeletion: true,
+  turnOnSound: true,
   setLightTheme: true,
   setDarkTheme: false
 };

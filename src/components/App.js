@@ -4,6 +4,7 @@ import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
 import '../index.css';
 import Settings from "./Settings";
+import audioFile from './blip.wav';
 
 export default class App extends Component {
 
@@ -25,6 +26,9 @@ export default class App extends Component {
           <LeftPanel />
           <RightPanel />
           <Settings />
+          <audio id="soundOnComplete">
+            <source  src={audioFile} type='audio/wav' />
+          </audio>
         </div>
       </div>
     );

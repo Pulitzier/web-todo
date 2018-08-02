@@ -34,12 +34,12 @@ export default class Settings extends Component {
       store.dispatch(openUserSettings(!bool))
     };
 
-    const confirmDelete = () => {
-      store.dispatch(confirmBeforeDelete(!confirmDeletion))
+    const confirmDelete = (bool) => {
+      store.dispatch(confirmBeforeDelete(bool))
     };
 
-    const setSound = () => {
-      store.dispatch(turnCompletionSound(!turnOnSound))
+    const setSound = (bool) => {
+      store.dispatch(turnCompletionSound(bool))
     };
 
     const checkLightTheme = () => {
@@ -49,8 +49,6 @@ export default class Settings extends Component {
     const checkDarkTheme = () => {
       store.dispatch(handleSetDarkTheme())
     };
-
-    console.log(confirmDelete);
 
     return (
       <Panel className={"user-settings-page " + (openSettings ? 'active' : 'inactive')}>
@@ -82,7 +80,7 @@ export default class Settings extends Component {
               name='confirmDelete'
               value='yes'
               icons={false}
-              onChange={() => confirmDelete()}
+              onChange={() => confirmDelete(!confirmDeletion)}
             />
             <p>Turn on completion sound</p>
             <Toggle
@@ -90,7 +88,7 @@ export default class Settings extends Component {
               name='turnSound'
               value='yes'
               icons={false}
-              onChange={() => setSound()}
+              onChange={() => setSound(!turnOnSound)}
             />
           </section>
           <hr />

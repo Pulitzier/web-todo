@@ -146,7 +146,9 @@ export default class TaskSettings extends Component {
               today.toLocaleString('en-us', {day: 'numeric'});
             return footerDate;
           })()}</p>
-          <button className="task-settings-trash">
+          <button
+            className="task-settings-trash"
+          >
             <img src="./assets/garbage.svg" />
           </button>
         </div>

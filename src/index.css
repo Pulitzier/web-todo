@@ -46,6 +46,10 @@ body p,
   background: #555;
 }
 
+audio {
+  visibility: "hidden"
+}
+
 .row {
   height: 100%;
 }
