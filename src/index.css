@@ -19,9 +19,18 @@ body p,
   position: relative;
   height: 650px;
   max-width: 920px;
-  background-color: #ffffff;
   margin: auto;
   margin-right: 18%;
+}
+
+.light {
+  background-color: #ffffff;
+  color: #2e2f30;
+}
+
+.dark {
+  background-color: #2e2f30;
+  color: #ffffff;
 }
 
 .container button,
@@ -48,7 +57,7 @@ body p,
 }
 
 audio {
-  visibility: "hidden"
+  visibility: hidden;
 }
 
 .confirmDeleteModal {
@@ -76,6 +85,10 @@ audio {
   margin-right: 10px;
 }
 
+.confirmDeleteModal-child  .button-group button {
+  border-radius: 0;
+}
+
 .row {
   height: 100%;
 }
@@ -95,7 +108,16 @@ audio {
   max-width: 920px;
   width: 100%;
   height: 100%;
+}
+
+.light .user-settings-page {
   background-color: #fff;
+  color: #2e2f30;
+}
+
+.dark .user-settings-page {
+  background-color: #2e2f30;
+  color: #ffffff;
 }
 
 .settings-header,
@@ -160,10 +182,18 @@ audio {
   margin: 0 0 0 auto;
   padding: 6px 10px;
   font-weight: bolder;
+  text-decoration: none;
+  border: 2px solid transparent;
+}
+
+.light .settings-general-info .user-manage a {
   color: slategray;
   background-color: lightgrey;
-  border: 2px solid transparent;
-  text-decoration: none;
+}
+
+.dark .settings-general-info .user-manage a {
+  color: #ffffff;
+  background-color: #5c6066;
 }
 
 .settings-general-info .user-manage a:hover {
@@ -217,8 +247,15 @@ button.dots-menu {
 .todo-list-wrapper {
   max-height: 500px;
   height: 100%;
-  background-color: #ffffff;
   position: relative;
+}
+
+.light .todo-list-wrapper {
+  background-color: #ffffff;
+}
+
+.dark .todo-list-wrapper {
+  background-color: #2e2f30;
 }
 
 div.todo-list {
@@ -251,6 +288,22 @@ div.todo-list div.todos {
   background-color: lightgray;
 }
 
+.dark .leftPanel ul li.active,
+.dark #bannerSettings div.sort-settings-menu div:hover,
+.dark #bannerSettings div.sort-settings-link:hover,
+.dark #bannerSettings div.sort-settings-link.grey {
+  background-color: #5c6066;
+}
+
+.dark .task-settings {
+  border: 1px solid lightgrey;
+  background-color: #1a1b1c;
+}
+
+.dark .task-settings > * {
+  background-color: #2e2f30;
+}
+
 .leftPanel .nav-link {
   display: flex;
   align-items: center;
@@ -280,7 +333,6 @@ div.sort-settings-link p {
   right: 0;
   height: 100%;
   width: 100%;
-  background-color: #ffffff;
 }
 
 .search-modal.active {
@@ -288,7 +340,6 @@ div.sort-settings-link p {
 }
 
 .search-modal div.background-wrapper {
-  background-color: #edeeef;
   padding: 40px 0 10px 10px;
   display: flex;
   align-items: center;
@@ -302,11 +353,23 @@ div.sort-settings-link p {
   width: 100%;
 }
 
+.dark .confirmDeleteModal-child,
+.dark .add-new-step-wrapper .add-new-step-input,
+.dark .task-settings-add-note textarea,
+.dark .search-modal div.background-wrapper div.search-input-wrapper input {
+  background-color: #2e2f30;
+  color: #ffffff;
+}
+
+.dark .confirmDeleteModal-child,
+.dark .search-modal div.background-wrapper div.search-input-wrapper input {
+  border: 1px solid lightgrey;
+}
+
 .search-modal hr {
   margin-top: 0.5rem;
 }
 
-.search-modal div > img,
 .search-modal input,
 .todo-list-wrapper .add-new-todo,
 .add-new-todo-wrapper .add-new-todo-input,
@@ -315,6 +378,11 @@ div.sort-settings-link p {
 .task-settings ul li p,
 .rightPanel > div {
   width: 100%;
+}
+
+.search-modal div > img {
+  width: 50%;
+  margin: 0 auto;
 }
 
 .add-new-todo-wrapper .add-new-todo-input,
@@ -332,6 +400,11 @@ div.sort-settings-link p {
 .add-new-todo-wrapper .add-new-todo-input.activated::placeholder,
 .add-new-step-wrapper .add-new-step-input.activated::placeholder {
   color: darkslateblue;
+}
+
+.dark .add-new-todo-wrapper .add-new-todo-input {
+  background-color: #2e2f30;
+  color: #ffffff;
 }
 
 .task-settings-add-note textarea {
@@ -422,6 +495,10 @@ ul.searchList label.searchTaskLabel.toggled > span:after,
   color: cornflowerblue;
   background-color: transparent;
   border-color: transparent;
+}
+
+.dark .clearInput {
+  color: #000;
 }
 
 .settings-header button,
@@ -524,6 +601,10 @@ button.user-settings-button {
   background-color: transparent;
 }
 
+.dark button.user-settings-button {
+  color: #ffffff;
+}
+
 .user-info img,
 button.search > img {
   width: 35px;
@@ -532,19 +613,31 @@ button.search > img {
 
 .user-settings.active {
   position: absolute;
-  background-color: #ffffff;
   width: 260px;
   margin: 10px auto 0;
   display: flex;
   flex-flow: column;
   justify-content: center;
-  border: 1px solid rgba(0,0,0,.1);
   height: 100px;
+}
+
+.light .user-settings {
+  border: 1px solid rgba(0,0,0,.1);
+  background-color: #ffffff;
+}
+
+.dark .user-settings {
+  border: 1px solid rgba(255,255,255,.5);
+  background-color: #2e2f30;
 }
 
 .user-settings.active hr {
   width: 100%;
   margin: 5px 0;
+}
+
+.dark .user-settings hr {
+  border-top: 1px solid rgba(255,255,255,.5);
 }
 
 .user-settings.active p {
@@ -586,6 +679,12 @@ button.search > img {
 
 input.add-new-list-label {
   margin: 0 10px;
+}
+
+.dark .add-new-list input {
+  background-color: #1a1b1c;
+  color: #ffffff;
+  border: 1px solid #ffffff;
 }
 
 a.add-new-list-link,
@@ -698,6 +797,12 @@ ul.searchList {
 .task-settings-add-note textarea::placeholder,
 .task-settings-footer {
   padding: 10px
+}
+
+.dark .modal-content,
+.dark .search-modal,
+.dark #bannerSettings .sort-settings-menu > div {
+  background-color: #2e2f30;
 }
 
 .task-settings-title {

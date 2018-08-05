@@ -2,17 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="95309d1b-9404-40f8-a447-366032a6b072" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/AudioForCompletion.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/DeleteModal.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/actionCreators.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/actionCreators.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/ufo.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/ufo.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/BannerForTodo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BannerForTodo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/RightPanel.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/RightPanel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/TaskSettings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TaskSettings.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ToDoListOfTask.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ToDoListOfTask.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Settings.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/reducers.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -35,11 +30,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="reducers.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="reducers.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/reducers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
-              <caret line="119" column="21" lean-forward="true" selection-start-line="119" selection-start-column="21" selection-end-line="119" selection-end-column="21" />
+            <state relative-caret-position="364">
+              <caret line="291" column="21" selection-start-line="291" selection-start-column="17" selection-end-line="291" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -47,8 +42,8 @@
       <file leaf-file-name="App.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/App.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1748">
-              <caret line="76" selection-start-line="76" selection-end-line="76" />
+            <state relative-caret-position="92">
+              <caret line="87" column="8" selection-start-line="87" selection-start-column="8" selection-end-line="87" selection-end-column="8" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -59,23 +54,38 @@
       <file leaf-file-name="BannerForTodo.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/BannerForTodo.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="213" selection-start-line="213" selection-end-line="213" />
+            <state relative-caret-position="416">
+              <caret line="217" column="76" selection-start-line="217" selection-start-column="76" selection-end-line="217" selection-end-column="76" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Settings.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/Settings.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="97">
+              <caret line="100" column="47" selection-start-line="100" selection-start-column="47" selection-end-line="100" selection-end-column="47" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="368">
+              <caret line="36" column="25" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="25" />
               <folding>
-                <element signature="e#1794#1875#0" />
-                <element signature="e#1886#2167#0" />
-                <element signature="e#5500#6389#0" />
-                <element signature="e#6429#6739#0" />
+                <element signature="e#0#26#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RightPanel.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/RightPanel.js">
+      <file leaf-file-name="index.css" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/index.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="31" column="25" lean-forward="true" selection-start-line="31" selection-start-column="25" selection-end-line="31" selection-end-column="25" />
+            <state relative-caret-position="111">
+              <caret line="351" column="32" selection-start-line="351" selection-start-column="32" selection-end-line="351" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -84,18 +94,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>display: flex</find>
-      <find>width: 100%</find>
-      <find>LIGH</find>
-      <find>background-color: wh</find>
-      <find>background-color: #ff</find>
-      <find>background-color: whi</find>
-      <find>background-color: #fff</find>
-      <find>margin-to</find>
-      <find>title</find>
-      <find>border: 0px</find>
-      <find>lightgrey</find>
-      <find>ligh</find>
       <find>img</find>
       <find>display: flex;</find>
       <find>taskse</find>
@@ -110,10 +108,22 @@
       <find>trans</find>
       <find>==</find>
       <find>!=</find>
-      <find>modal</find>
       <find>bannerSettings</find>
       <find>consol</find>
       <find>activeTodoId</find>
+      <find>ina</find>
+      <find>.user-settings.active</find>
+      <find>.leftPanel ul li.active</find>
+      <find>place</find>
+      <find>input.add-new-list-label</find>
+      <find>.todo-list-wrapper</find>
+      <find>.add-new-todo-wrapper .add-new-todo-input</find>
+      <find>#2e2f30</find>
+      <find>modal</find>
+      <find>button.user-settings-button</find>
+      <find>clearInput</find>
+      <find>search-m</find>
+      <find>input</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -138,22 +148,22 @@
         <option value="$PROJECT_DIR$/src/App.css" />
         <option value="$PROJECT_DIR$/src/helpers.js" />
         <option value="$PROJECT_DIR$/src/components/SearchPanel.js" />
-        <option value="$PROJECT_DIR$/src/index.js" />
         <option value="$PROJECT_DIR$/src/components/UserSettings.js" />
         <option value="$PROJECT_DIR$/src/components/Panel.js" />
         <option value="$PROJECT_DIR$/src/components/LeftPanel.js" />
-        <option value="$PROJECT_DIR$/src/components/Settings.js" />
         <option value="$PROJECT_DIR$/public/index.html" />
         <option value="$PROJECT_DIR$/src/actionCreators.js" />
-        <option value="$PROJECT_DIR$/src/index.css" />
         <option value="$PROJECT_DIR$/src/components/DeleteModal.js" />
         <option value="$PROJECT_DIR$/src/components/ToDoListOfTask.js" />
         <option value="$PROJECT_DIR$/src/components/AudioForCompletion.js" />
         <option value="$PROJECT_DIR$/src/components/TaskSettings.js" />
         <option value="$PROJECT_DIR$/src/components/RightPanel.js" />
-        <option value="$PROJECT_DIR$/src/components/BannerForTodo.js" />
-        <option value="$PROJECT_DIR$/src/components/App.js" />
         <option value="$PROJECT_DIR$/src/reducers.js" />
+        <option value="$PROJECT_DIR$/src/components/App.js" />
+        <option value="$PROJECT_DIR$/src/index.js" />
+        <option value="$PROJECT_DIR$/src/components/Settings.js" />
+        <option value="$PROJECT_DIR$/src/components/BannerForTodo.js" />
+        <option value="$PROJECT_DIR$/src/index.css" />
       </list>
     </option>
   </component>
@@ -320,12 +330,12 @@
       <workItem from="1533305133621" duration="261000" />
       <workItem from="1533310393364" duration="598000" />
       <workItem from="1533313518869" duration="13664000" />
-      <workItem from="1533374104246" duration="9315000" />
+      <workItem from="1533374104246" duration="17366000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="331265000" />
+    <option name="totallyTimeSpent" value="339316000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -336,10 +346,10 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5014641" side_tool="true" weight="0.32899022" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49633968" visible="true" weight="0.024429968" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49633968" weight="0.024429968" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" x="-1920" y="268" width="1920" height="207" id="Terminal" order="8" sideWeight="0.49853587" weight="0.0" />
+      <window_info anchor="bottom" x="-1920" y="268" width="1920" height="207" id="Terminal" order="8" sideWeight="0.49853587" visible="true" weight="0.0" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39956802" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -494,23 +504,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-391">
-          <caret column="7" lean-forward="true" selection-start-column="7" selection-end-column="7" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1472">
-          <caret line="64" column="29" selection-start-line="64" selection-start-column="29" selection-end-line="64" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/AddTodoList.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="23">
@@ -538,13 +531,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Settings.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="74">
-          <caret line="155" column="10" lean-forward="true" selection-start-line="155" selection-start-column="10" selection-end-line="162" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/TaskSettings.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1449">
@@ -565,29 +551,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/App.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1748">
-          <caret line="76" selection-start-line="76" selection-end-line="76" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/BannerForTodo.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="213" selection-start-line="213" selection-end-line="213" />
-          <folding>
-            <element signature="e#1794#1875#0" />
-            <element signature="e#1886#2167#0" />
-            <element signature="e#5500#6389#0" />
-            <element signature="e#6429#6739#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/RightPanel.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -604,8 +567,49 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/reducers.js">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="291" column="21" selection-start-line="291" selection-start-column="17" selection-end-line="291" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.js">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="368">
-          <caret line="119" column="21" lean-forward="true" selection-start-line="119" selection-start-column="21" selection-end-line="119" selection-end-column="21" />
+          <caret line="36" column="25" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Settings.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="97">
+          <caret line="100" column="47" selection-start-line="100" selection-start-column="47" selection-end-line="100" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/App.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="87" column="8" selection-start-line="87" selection-start-column="8" selection-end-line="87" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/BannerForTodo.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="416">
+          <caret line="217" column="76" selection-start-line="217" selection-start-column="76" selection-end-line="217" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="111">
+          <caret line="351" column="32" selection-start-line="351" selection-start-column="32" selection-end-line="351" selection-end-column="32" />
         </state>
       </provider>
     </entry>

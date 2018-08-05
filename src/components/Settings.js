@@ -97,25 +97,25 @@ export default class Settings extends Component {
             <br />
             <label
               htmlFor="lightTheme"
-              className={"ligthTheme-label " + (setLightTheme ? 'checked' : '')}>
+              className={"ligthTheme-label " + (setLightTheme ? 'checked' : '')}
+              onClick={() => checkLightTheme()}
+            >
               <input
                 id="lightTheme"
                 type="checkbox"
               />
-              <span
-                onClick={() => checkLightTheme()}
-              ></span>
+              <span></span>
             </label><p>Light Theme</p>
             <label
               htmlFor="darkTheme"
-              className={"darkTheme-label " + (setDarkTheme ? 'checked' : '')}>
+              className={"darkTheme-label " + (setDarkTheme ? 'checked' : '')}
+              onClick={() => checkDarkTheme()}
+            >
               <input
                 id="darkTheme"
                 type="checkbox"
               />
-              <span
-                onClick={() => checkDarkTheme()}
-              ></span>
+              <span></span>
             </label><p>Dark Theme</p>
           </section>
           <hr />

@@ -30,7 +30,7 @@ export default class App extends Component {
 
   render() {
     const { store } = this.context;
-    const { userSettings: { confirmDeletion, turnOnSound } } = store.getState();
+    const { userSettings: { confirmDeletion, turnOnSound, setDarkTheme, setLightTheme } } = store.getState();
     const { taskToDelete, todoToDelete } = this.localAppState;
 
     const handelDeleteTodo = (element) => {
@@ -84,7 +84,11 @@ export default class App extends Component {
     };
 
     return (
-      <div className="container">
+      <div className={"container " + (
+        setLightTheme ? 'light' :
+          setDarkTheme ? 'dark' :
+            undefined
+      )}>
         <div className="row">
           <LeftPanel />
           <RightPanel

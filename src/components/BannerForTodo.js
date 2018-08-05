@@ -212,6 +212,10 @@ export default class BannerForTodo extends Component {
                     <div className="deleteList">
                       <p onClick={() => {
                         document.getElementById('bannerSettings').classList.remove('show');
+                        document.getElementById('bannerSettings').style.setProperty('display', 'none');
+                        document.getElementsByTagName('body')[0].classList.remove('modal-open');
+                        let modalBackddrop = document.getElementsByClassName('modal-backdrop')[0];
+                        modalBackddrop.parentNode.removeChild(modalBackddrop);
                         deleteList(activeTodo);
                       }}>Delete List</p>
                     </div>
