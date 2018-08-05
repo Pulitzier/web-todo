@@ -311,10 +311,15 @@ div.todo-list div.todos {
   padding-right: 2px;
 }
 
+.todos .important-icon img,
 .leftPanel .nav-link img,
 .user-settings.active img {
   width: 18px;
   margin-right: 10px;
+}
+
+.todos .important-icon img {
+  margin: 0;
 }
 
 .leftPanel .nav-link p,
@@ -595,6 +600,7 @@ span.blue {
 }
 
 button.search,
+.todos .important-icon,
 button.user-settings-button {
   margin: 0 0 0 auto;
   padding: 0 12px;
