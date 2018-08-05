@@ -64,6 +64,11 @@ export function appReducer(state = defaultAppTodosState, action) {
         ...state,
         tasks: tasksReducer(tasks, action)
       };
+    case 'ADD_TASK_TO_IMPORTANT':
+      return {
+        ...state,
+        todos: todosReducer(todos, action)
+      };
     case 'DELETE_TASK':
       return {
         ...state,
@@ -107,6 +112,28 @@ const todosReducer = (state = defaultTodos, action) => {
           }
         ]
     };
+    case 'ADD_TASK_TO_IMPORTANT':
+      let tasks = state.myPersonalToDo[1].tasksIds;
+      console.log(tasks);
+      let newst = {
+        ...state,
+        myPersonalToDo: [].concat(
+          state.myPersonalToDo[0],
+          [{
+            title: 'Important',
+            active: false,
+            todoListId: 1,
+            sortOrder: '',
+            currentDate: 1532863416253,
+            tasksIds: tasks.concat(
+              action.task.id
+            )
+          }],
+          state.myPersonalToDo[2],
+        )
+      };
+      console.log(newst);
+      return state;
     case 'DELETE_TODO_LIST':
       return {
         ...state,

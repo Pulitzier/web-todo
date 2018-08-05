@@ -5,7 +5,8 @@ import {
   addNewTaskToList,
   typeNewTaskAction,
   toggleTask,
-  activateTaskSettings
+  activateTaskSettings,
+  addTaskToImportant
 } from '../actionCreators';
 
 export default class ToDoListOfTask extends Component {
@@ -70,6 +71,16 @@ export default class ToDoListOfTask extends Component {
       store.dispatch(activateTaskSettings(taskId, true));
     };
 
+    const addToImportant = (task) => {
+      this.setState(() => {
+        return this.todoState = {
+          ...this.todoState,
+          clicked: !this.todoState.clicked
+        }
+      });
+      store.dispatch(addTaskToImportant(task))
+    };
+
     return(
       <div className="todo-list-wrapper">
         <div className="todo-list">
@@ -103,12 +114,7 @@ export default class ToDoListOfTask extends Component {
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
-                          this.setState(() => {
-                            return this.todoState = {
-                              ...this.todoState,
-                              clicked: !this.todoState.clicked
-                            }
-                          })
+                          addToImportant(taskItem);
                         }}
                       >
                         {clicked ?

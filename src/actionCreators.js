@@ -134,6 +134,13 @@ export function addNewTaskToList(task, list) {
   }
 }
 
+export function addTaskToImportant(task) {
+  return {
+    type: 'ADD_TASK_TO_IMPORTANT',
+    task
+  }
+}
+
 export function deleteTask(taskId) {
   return {
     type: 'DELETE_TASK',
