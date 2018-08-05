@@ -8,6 +8,9 @@ import TaskSettings from './TaskSettings';
 import SearchPanel from './SearchPanel';
 
 export default class RightPanel extends Component {
+  constructor(props) {
+    super(props)
+  }
 
   componentDidMount(){
     let { store } = this.context;
@@ -21,6 +24,7 @@ export default class RightPanel extends Component {
     const state = store.getState();
     const todos = state.app.todos;
     const activeTodo = getActiveTodoList(todos);
+    const { deleteTask, deleteTodo } = this.props;
 
     return (
       <Panel className="col-md-8 rightPanel">
@@ -29,7 +33,8 @@ export default class RightPanel extends Component {
           <BannerForTodo
             className="panelBanner"
             close={state.activateThemeMenu}
-            activeTodoId={activeTodo.todoListId}
+            activeTodo={activeTodo}
+            deleteList={deleteTodo}
           >
             <h4>{(() => {
               return activeTodo.title;
@@ -49,7 +54,7 @@ export default class RightPanel extends Component {
             activeTodo={activeTodo}
           />
         </div>
-        <TaskSettings />
+        <TaskSettings handleDeleteTask={deleteTask}/>
       </Panel>
     )
   }

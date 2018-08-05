@@ -5,6 +5,13 @@ export function addNewTodoList(title) {
   }
 }
 
+export function deleteTodoList(todoId) {
+  return {
+    type: 'DELETE_TODO_LIST',
+    todoId
+  }
+}
+
 export function openSearchPanel(bool) {
   return {
     type: "ACTIVATE_SEARCH_PANEL",
@@ -124,6 +131,13 @@ export function addNewTaskToList(task, list) {
     type: 'ADD_NEW_TASK_TO_LIST',
     task,
     list
+  }
+}
+
+export function deleteTask(taskId) {
+  return {
+    type: 'DELETE_TASK',
+    taskId
   }
 }
 

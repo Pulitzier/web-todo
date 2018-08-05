@@ -61,7 +61,7 @@ export default class ToDoListOfTask extends Component {
     };
 
     const toggleTodoTask = (task) => {
-      playSoundWhenDone(task.done);
+      turnOnSound ? playSoundWhenDone(task.done) : null;
       store.dispatch(toggleTask(task.id));
     };
 

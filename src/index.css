@@ -16,6 +16,7 @@ body p,
 }
 
 .container {
+  position: relative;
   height: 650px;
   max-width: 920px;
   background-color: #ffffff;
@@ -48,6 +49,31 @@ body p,
 
 audio {
   visibility: "hidden"
+}
+
+.confirmDeleteModal {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 100%;
+}
+
+.confirmDeleteModal-child {
+  position: relative;
+  background-color: #ffffff;
+  max-width: 300px;
+  top: calc(50% - (300px/2));
+  margin: 0 auto;
+  padding: 25px 20px;
+}
+
+.confirmDeleteModal-child  .button-group {
+  display: table;
+  margin: 30px 0 0 auto;
+}
+
+.confirmDeleteModal-child  .button-group button:first-of-type {
+  margin-right: 10px;
 }
 
 .row {
