@@ -13,7 +13,8 @@ export default class ToDoListOfTask extends Component {
     super(props);
     this.todoState = {
       activateTodoTask: false,
-      toggleTodoTask: false,
+      localToggleTask: false,
+      clicked: false
     };
   };
   componentDidMount() {
@@ -29,9 +30,9 @@ export default class ToDoListOfTask extends Component {
   render() {
     const { store } = this.context;
     const state = store.getState();
-    const tasks = state.app.tasks;
-    const { turnOnSound } = state.userSettings;
+    const { app: { tasks }, userSettings: { turnOnSound } } = state;
     const { activeTodo } = this.props;
+    const { localToggleTask, clicked } = this.todoState;
 
     const activateToDoTask = (bool) => {
       store.dispatch(activateTask(bool));
@@ -97,6 +98,24 @@ export default class ToDoListOfTask extends Component {
                         ></span>
                       </label>
                       <p className={taskItem.done ? 'lineThrough' : null}>{taskItem.taskText}</p>
+                      <button
+                        className="important-icon"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          this.setState(() => {
+                            return this.todoState = {
+                              ...this.todoState,
+                              clicked: !this.todoState.clicked
+                            }
+                          })
+                        }}
+                      >
+                        {clicked ?
+                          <img src="./assets/star-fill.svg"/> :
+                          <img src="./assets/star.svg"/>
+                        }
+                      </button>
                     </div>
                   )
                 }
@@ -112,7 +131,7 @@ export default class ToDoListOfTask extends Component {
                     className={
                       "toggleTodoLabel-template " +
                       (state.taskSettings.activateNewTask ? 'active ' : 'inactive ') +
-                      ((state.taskSettings.activateNewTask && this.todoState.toggleTodoTask) ? 'toggled' : 'untoggled')
+                      ((state.taskSettings.activateNewTask && localToggleTask) ? 'toggled' : 'untoggled')
                     }
                   >
                     <span></span>
