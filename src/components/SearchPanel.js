@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes  from 'react-proptypes';
 import Panel from './Panel';
-import {
-  openSearchPanel,
-  toggleTask
-} from '../actionCreators';
+import { toggleTask } from '../actionCreators';
 
 export default class SearchPanel extends Component {
   constructor(){
@@ -34,14 +31,14 @@ export default class SearchPanel extends Component {
     let searchWord = this.search.word;
     const { store } = this.context;
     const state = store.getState();
-    const tasks = state.app.tasks;
+    const { app: { tasks }, activateSearch } = state;
 
     const toggleTodoTask = (taskId) => {
       store.dispatch(toggleTask(taskId))
     };
 
     return (
-      <Panel className={"search-modal " + (state.activateSearch ? "active" : "inactive")}>
+      <Panel className={"search-modal " + (activateSearch ? "active" : "inactive")}>
         <div className="background-wrapper">
           <div className="search-input-wrapper">
             <input
@@ -63,7 +60,6 @@ export default class SearchPanel extends Component {
           </div>
           <button
             className="cancel-seacrh"
-            onClick={() => store.dispatch(openSearchPanel(false))}
           >
             CANCEL
           </button>
