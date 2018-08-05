@@ -329,6 +329,7 @@ div.sort-settings-link p {
 
 .search-modal {
   position: absolute;
+  background-color: #ffffff;
   top: 0;
   right: 0;
   height: 100%;
