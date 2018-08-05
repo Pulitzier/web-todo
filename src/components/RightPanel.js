@@ -50,9 +50,7 @@ export default class RightPanel extends Component {
               null
             }
           </BannerForTodo>
-          <ToDoListOfTask
-            activeTodo={activeTodo}
-          />
+          <ToDoListOfTask activeTodo={activeTodo}/>
         </div>
         <TaskSettings handleDeleteTask={deleteTask}/>
       </Panel>

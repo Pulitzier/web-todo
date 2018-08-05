@@ -7,7 +7,8 @@ import {
   chooseList,
   activateNewList,
   setNewListTitle,
-  activateTask
+  activateTask,
+  openSearchPanel
 } from "../actionCreators";
 import UserSettings from "./UserSettings";
 
@@ -60,6 +61,7 @@ class LeftPanel extends Component {
   };
 
   const chooseListItem = (element, listName) => {
+    store.dispatch(openSearchPanel(false));
     store.dispatch(activateTask(false));
     store.dispatch(chooseList(element, listName))
   }
