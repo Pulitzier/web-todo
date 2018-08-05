@@ -10,6 +10,7 @@
     "react-proptypes": "^1.0.0",
     "react-redux": "^5.0.7",
     "react-scripts": "1.1.4",
+    "react-toggle": "^4.0.2",
     "redux": "^4.0.0",
     "uuid": "^3.3.2"
   },

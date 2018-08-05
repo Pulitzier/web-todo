@@ -42,10 +42,14 @@ const defaultBannerState = {
 let todoId = 3;
 
 export function appReducer(state = defaultAppTodosState, action) {
-  const todos = state.todos;
-  const tasks = state.tasks;
+  const { todos, tasks } = state;
   switch(action.type) {
     case 'ADD_NEW_TODO_LIST':
+      return {
+        ...state,
+        todos: todosReducer(todos, action)
+      };
+    case 'DELETE_TODO_LIST':
       return {
         ...state,
         todos: todosReducer(todos, action)
@@ -56,6 +60,11 @@ export function appReducer(state = defaultAppTodosState, action) {
         todos: todosReducer(todos, action)
       };
     case 'ADD_NEW_TASK_TO_LIST':
+      return {
+        ...state,
+        tasks: tasksReducer(tasks, action)
+      };
+    case 'DELETE_TASK':
       return {
         ...state,
         tasks: tasksReducer(tasks, action)
@@ -81,9 +90,9 @@ export function appReducer(state = defaultAppTodosState, action) {
 };
 
 const todosReducer = (state = defaultTodos, action) => {
+  let { myPersonalToDo, toDoCategories } = state;
   switch (action.type) {
     case 'ADD_NEW_TODO_LIST':
-      let { toDoCategories } = state;
       let customTodoId = todoId;
       todoId++;
       return {
@@ -98,13 +107,27 @@ const todosReducer = (state = defaultTodos, action) => {
           }
         ]
     };
+    case 'DELETE_TODO_LIST':
+      return {
+        ...state,
+        myPersonalToDo: myPersonalToDo.map(todo => {
+          if(todo.todoListId === 2) {
+            return {
+              ...todo,
+              active: true
+            }
+          }
+          return todo
+        }),
+        toDoCategories: toDoCategories.filter(todo => todo.todoListId !== action.todoId)
+      };
     case "CHOOSE_LIST":
       let { todosListName, element } = action;
       for (let key in state) {
         state[key].map(element => element.active = false)
       };
       let newTodoList = state[todosListName].map(item => {
-        if (item == element) {
+        if (item === element) {
           return {
             ...item,
             active: true
@@ -141,6 +164,8 @@ const tasksReducer = (state = [], action) => {
           createdAt: Date.now()
         }
       ];
+    case 'DELETE_TASK':
+      return state.filter(task => task.id !== action.taskId);
     case 'TOGGLE_TASK':
       return state.map(task => {
         if (action.taskId === task.id) {
@@ -260,10 +285,48 @@ export function setTaskSettings(state = {}, action) {
   }
 };
 
-export function activateUserSettings(state = false, action) {
+const defaultUserSettings = {
+  openSettings: false,
+  confirmDeletion: true,
+  turnOnSound: true,
+  setLightTheme: true,
+  setDarkTheme: false
+};
+
+export function handleUserSettings(state = defaultUserSettings, action) {
   switch(action.type) {
     case 'ACTIVATE_USER_SETTINGS':
-      return action.activate;
+      return {
+        ...state,
+        activateSettings: action.activate
+      };
+    case 'OPEN_USER_SETTINGS':
+      return {
+        ...state,
+        openSettings: action.open
+      };
+    case 'CONFIRM_BEFORE_DELETE':
+      return {
+        ...state,
+        confirmDeletion: action.confirmDelete
+      };
+    case 'TURN_SOUND':
+      return {
+        ...state,
+        turnOnSound: action.turn
+      };
+    case 'SET_DARK_THEME':
+      return {
+        ...state,
+        setDarkTheme: action.setDarkTheme,
+        setLightTheme: !action.setDarkTheme
+      };
+    case 'SET_LIGHT_THEME':
+      return {
+        ...state,
+        setDarkTheme: !action.setLightTheme,
+        setLightTheme: action.setLightTheme
+      };
     default:
       return state;
   }

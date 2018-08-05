@@ -3,21 +3,28 @@ export function addNewTodoList(title) {
     type: "ADD_NEW_TODO_LIST",
     title
   }
-};
+}
+
+export function deleteTodoList(todoId) {
+  return {
+    type: 'DELETE_TODO_LIST',
+    todoId
+  }
+}
 
 export function openSearchPanel(bool) {
   return {
     type: "ACTIVATE_SEARCH_PANEL",
     activate: bool,
   }
-};
+}
 
 export function activateBannerSettings(bool) {
   return {
     type: "ACTIVATE_BANNER_PANEL",
     activate: bool,
   }
-};
+}
 
 export function chooseList(element, todosListName) {
   return {
@@ -25,42 +32,42 @@ export function chooseList(element, todosListName) {
     todosListName,
     element
   }
-};
+}
 
 export function activateNewList(bool) {
   return{
     type: 'ACTIVATE_NEW_LIST',
     activateNewList: bool
   }
-};
+}
 
 export function setNewListTitle(title) {
   return {
     type: 'SET_NEW_LIST_TITLE',
     title
   }
-};
+}
 
 export function changeBannerBgColor(color) {
   return {
     type: 'CHANGE_BANNER_BG_COLOR',
     color: color
   }
-};
+}
 
 export function changeBannerBgImage(image) {
   return {
     type: 'CHANGE_BANNER_BG_IMAGE',
     image
   }
-};
+}
 
 export function activateTask(bool) {
   return {
     type: "ACTIVATE_NEW_TASK",
     activateNewTask: bool,
   }
-};
+}
 
 export function activateTaskSettings(taskId, activate) {
   return {
@@ -68,21 +75,56 @@ export function activateTaskSettings(taskId, activate) {
     taskId,
     activate
   }
-};
+}
 
 export function activateUserSettings(activate) {
   return {
     type: "ACTIVATE_USER_SETTINGS",
     activate
   }
-};
+}
+
+export function openUserSettings(bool) {
+  return {
+    type: 'OPEN_USER_SETTINGS',
+    open: bool,
+  }
+}
+
+export function confirmBeforeDelete(confirmDelete) {
+  return{
+    type: 'CONFIRM_BEFORE_DELETE',
+    confirmDelete
+  }
+}
+
+export function turnCompletionSound(turn) {
+  return {
+    type: 'TURN_SOUND',
+    turn
+  }
+}
+
+export function handleSetDarkTheme() {
+  return {
+    type: 'SET_DARK_THEME',
+    setDarkTheme: true
+  }
+}
+
+export function handleSetLightTheme() {
+  return {
+    type: 'SET_LIGHT_THEME',
+    setLightTheme: true
+  }
+}
 
 export function typeNewTaskAction(bool) {
   return {
     type: "TYPE_NEW_TASK",
     typeNewTask: bool,
   }
-};
+}
 
 export function addNewTaskToList(task, list) {
   return {
@@ -90,14 +132,21 @@ export function addNewTaskToList(task, list) {
     task,
     list
   }
-};
+}
+
+export function deleteTask(taskId) {
+  return {
+    type: 'DELETE_TASK',
+    taskId
+  }
+}
 
 export function toggleTask(taskId) {
   return {
     type: 'TOGGLE_TASK',
     taskId
   }
-};
+}
 
 export function sortTasks(sortCriteria, activeTodoId) {
   return {

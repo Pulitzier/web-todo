@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from "react-proptypes";
-import { getActiveTodoList } from "../helpers";
-import { activateTaskSettings } from '../actionCreators';
+import {
+  activateTaskSettings,
+  deleteTask
+} from '../actionCreators';
 
 export default class TaskSettings extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.taskState = {
+      showConfirmMessage: false,
       activateStepInput: false,
       toggleStep: false,
       typeNewStep: false,
@@ -54,8 +57,10 @@ export default class TaskSettings extends Component {
   render() {
     const { store } = this.context;
     const state = store.getState();
-    const tasks = state.app.tasks;
-    const activeTask = tasks.length != 0 ? (tasks.find(task => task.active === true) || '') : '';
+    const { tasks } = state.app;
+    const { confirmDeletion } = state.userSettings;
+    const activeTask = tasks.length !== 0 ? (tasks.find(task => task.active === true) || '') : '';
+    const { handleDeleteTask } = this.props;
 
     const closeTaskSettings = (taskId) => {
       store.dispatch(activateTaskSettings(taskId, false))
@@ -147,9 +152,13 @@ export default class TaskSettings extends Component {
               today.toLocaleString('en-us', {day: 'numeric'});
             return footerDate;
           })()}</p>
-          <button className="task-settings-trash">
+          <button
+            className="task-settings-trash"
+            onClick={() => handleDeleteTask(activeTask)}
+          >
             <img src="./assets/garbage.svg" />
           </button>
+
         </div>
       </div>
     )

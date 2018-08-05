@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'react-proptypes';
-import { getActiveTodoList } from '../helpers.js';
 import {
   activateTask,
   addNewTaskToList,
@@ -31,6 +30,7 @@ export default class ToDoListOfTask extends Component {
     const { store } = this.context;
     const state = store.getState();
     const tasks = state.app.tasks;
+    const { turnOnSound } = state.userSettings;
     const { activeTodo } = this.props;
 
     const activateToDoTask = (bool) => {
@@ -55,8 +55,14 @@ export default class ToDoListOfTask extends Component {
       this.newTaskInput.value = '';
     };
 
-    const toggleTodoTask = (taskId) => {
-      store.dispatch(toggleTask(taskId));
+    const playSoundWhenDone = (taskDone) => {
+      let audio = document.getElementById("soundOnComplete");
+      if (turnOnSound && !taskDone) audio.play();
+    };
+
+    const toggleTodoTask = (task) => {
+      turnOnSound ? playSoundWhenDone(task.done) : null;
+      store.dispatch(toggleTask(task.id));
     };
 
     const activateSettings = (taskId) => {
@@ -82,13 +88,13 @@ export default class ToDoListOfTask extends Component {
                           (taskItem.done ? "done" : '')
                         }
                       >
-                    <span
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        toggleTodoTask(taskItem.id);
-                      }}
-                    ></span>
+                        <span
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            toggleTodoTask(taskItem);
+                          }}
+                        ></span>
                       </label>
                       <p className={taskItem.done ? 'lineThrough' : null}>{taskItem.taskText}</p>
                     </div>
@@ -109,11 +115,6 @@ export default class ToDoListOfTask extends Component {
                       ((state.taskSettings.activateNewTask && this.todoState.toggleTodoTask) ? 'toggled' : 'untoggled')
                     }
                   >
-                    <input
-                      id="toggleTodoCheckbox-template"
-                      type="checkbox"
-                      onChange={this.toggleTodoTask}
-                    />
                     <span></span>
                   </label>
                   <input

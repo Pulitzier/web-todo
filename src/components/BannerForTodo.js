@@ -32,6 +32,8 @@ export default class BannerForTodo extends Component {
     const { store } = this.context;
     const state = store.getState();
     const { bannerForTodoState } = state;
+    const { activeTodo, deleteList } = this.props;
+
     const defaultBannerSchemes = {
       imageScheme: [
         "./assets/retro.jpg",
@@ -51,13 +53,24 @@ export default class BannerForTodo extends Component {
       this.discardNewTask();
       store.dispatch(changeBannerBgColor(color))
     };
+
     const changeBannerImage = (image) => {
       this.discardNewTask();
       store.dispatch(changeBannerBgImage(image))
     };
+
     const handleSortTasks = (sortCriteria) => {
-      store.dispatch(sortTasks(sortCriteria, this.props.activeTodoId));
+      store.dispatch(sortTasks(sortCriteria, activeTodo.todoListId));
     };
+
+    const checkActiveTodoTitle = (todo) => {
+      return (
+        todo.title !== 'My Day' &&
+          todo.title !== 'Important' &&
+            todo.title !== 'To-Do'
+      )
+    };
+
     return (
       <div
         className={this.props.className}
@@ -81,6 +94,13 @@ export default class BannerForTodo extends Component {
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-body">
+                { checkActiveTodoTitle(activeTodo) ?
+                  (
+                    <div className="renameList">
+                      <p>Rename List</p>
+                    </div>
+                  ) : null
+                }
                 <div
                   className={'sort-settings-link ' +
                   (
@@ -110,7 +130,7 @@ export default class BannerForTodo extends Component {
                   <p>Sort</p>
                   <img src='./assets/play.svg' alt='Greater Than' />
                 </div>
-                  <div
+                <div
                     className={"sort-settings-menu " + (
                       this.sortState.handleHoverSortLink ||
                       this.sortState.handleHoverSortMenu ?
@@ -154,7 +174,7 @@ export default class BannerForTodo extends Component {
                       <img src="./assets/sun.svg" />
                       <p>Added to My Day</p>
                     </div>
-                </div>
+              </div>
                 <hr />
                 <div>
                   <p>Theme</p>
@@ -182,12 +202,25 @@ export default class BannerForTodo extends Component {
                   className="show-hide_completed_todos"
                   onClick={() => {
                     console.log('clicked');
-
                   }}
                 >
                   <img src='./assets/check.svg' alt='Sort' />
                   <p>Hide completed to-dos</p>
                 </div>
+                { checkActiveTodoTitle(activeTodo) ?
+                  (
+                    <div className="deleteList">
+                      <p onClick={() => {
+                        document.getElementById('bannerSettings').classList.remove('show');
+                        document.getElementById('bannerSettings').style.setProperty('display', 'none');
+                        document.getElementsByTagName('body')[0].classList.remove('modal-open');
+                        let modalBackddrop = document.getElementsByClassName('modal-backdrop')[0];
+                        modalBackddrop.parentNode.removeChild(modalBackddrop);
+                        deleteList(activeTodo);
+                      }}>Delete List</p>
+                    </div>
+                  ) : null
+                }
               </div>
             </div>
           </div>

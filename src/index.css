@@ -16,17 +16,77 @@ body p,
 }
 
 .container {
+  position: relative;
   height: 650px;
   max-width: 920px;
-  background-color: #ffffff;
   margin: auto;
   margin-right: 18%;
+}
+
+.light {
+  background-color: #ffffff;
+  color: #2e2f30;
+}
+
+.dark {
+  background-color: #2e2f30;
+  color: #ffffff;
 }
 
 .container button,
 .container input,
 .container link {
   outline: 0;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 6px
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+audio {
+  visibility: hidden;
+}
+
+.confirmDeleteModal {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 100%;
+}
+
+.confirmDeleteModal-child {
+  position: relative;
+  background-color: #ffffff;
+  max-width: 300px;
+  top: calc(50% - (300px/2));
+  margin: 0 auto;
+  padding: 25px 20px;
+}
+
+.confirmDeleteModal-child  .button-group {
+  display: table;
+  margin: 30px 0 0 auto;
+}
+
+.confirmDeleteModal-child  .button-group button:first-of-type {
+  margin-right: 10px;
+}
+
+.confirmDeleteModal-child  .button-group button {
+  border-radius: 0;
 }
 
 .row {
@@ -40,6 +100,119 @@ body p,
 .rightPanel,
 .leftPanel {
   padding: 0;
+}
+
+.user-settings-page.active {
+  position: absolute;
+  max-height: 650px;
+  max-width: 920px;
+  width: 100%;
+  height: 100%;
+}
+
+.light .user-settings-page {
+  background-color: #fff;
+  color: #2e2f30;
+}
+
+.dark .user-settings-page {
+  background-color: #2e2f30;
+  color: #ffffff;
+}
+
+.settings-header,
+.settings-general-info .user-manage {
+  display: flex;
+  align-items: center;
+}
+
+.user-settings-page section > section {
+  margin: 20px 0 10px;
+}
+
+.user-settings-page section.settings-general-info {
+  overflow-y: auto;
+  max-height: 555px;
+}
+
+.user-settings-page section.settings-general-info .general-sets {
+  flex-flow: column wrap;
+  align-items: flex-start;
+}
+
+.user-settings-page section.settings-general-info > * {
+  width: 100%;
+}
+
+.user-manage > div * {
+  margin: 0 0 0 10px;
+}
+
+.user-settings-page img {
+  width: 60px;
+}
+
+.settings-header {
+  margin: 20px 30px;
+}
+
+.settings-header button {
+  padding: 6px 12px;
+}
+
+.settings-header button:active {
+  background-color: lightgrey;
+}
+
+.theme-sets p {
+  margin-bottom: 5px;
+}
+
+.settings-general-info {
+  padding: 30px 50px 10px 150px;
+}
+
+.settings-general-info section a {
+  margin-top: 5px;
+  color: cornflowerblue;
+  text-decoration: underline;
+}
+
+.settings-general-info .user-manage a {
+  margin: 0 0 0 auto;
+  padding: 6px 10px;
+  font-weight: bolder;
+  text-decoration: none;
+  border: 2px solid transparent;
+}
+
+.light .settings-general-info .user-manage a {
+  color: slategray;
+  background-color: lightgrey;
+}
+
+.dark .settings-general-info .user-manage a {
+  color: #ffffff;
+  background-color: #5c6066;
+}
+
+.settings-general-info .user-manage a:hover {
+  border: 2px solid slategray;
+}
+
+.settings-general-info .user-manage a:active {
+  background-color: slategray;
+  color: black;
+}
+
+.settings-general-info .help-feedback a,
+.settings-general-info .about-section a {
+  display: block;
+  width: fit-content;
+}
+
+#thirdPartyNotices {
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .panelBanner {
@@ -74,8 +247,15 @@ button.dots-menu {
 .todo-list-wrapper {
   max-height: 500px;
   height: 100%;
-  background-color: #ffffff;
   position: relative;
+}
+
+.light .todo-list-wrapper {
+  background-color: #ffffff;
+}
+
+.dark .todo-list-wrapper {
+  background-color: #2e2f30;
 }
 
 div.todo-list {
@@ -108,6 +288,22 @@ div.todo-list div.todos {
   background-color: lightgray;
 }
 
+.dark .leftPanel ul li.active,
+.dark #bannerSettings div.sort-settings-menu div:hover,
+.dark #bannerSettings div.sort-settings-link:hover,
+.dark #bannerSettings div.sort-settings-link.grey {
+  background-color: #5c6066;
+}
+
+.dark .task-settings {
+  border: 1px solid lightgrey;
+  background-color: #1a1b1c;
+}
+
+.dark .task-settings > * {
+  background-color: #2e2f30;
+}
+
 .leftPanel .nav-link {
   display: flex;
   align-items: center;
@@ -137,7 +333,6 @@ div.sort-settings-link p {
   right: 0;
   height: 100%;
   width: 100%;
-  background-color: #ffffff;
 }
 
 .search-modal.active {
@@ -145,7 +340,6 @@ div.sort-settings-link p {
 }
 
 .search-modal div.background-wrapper {
-  background-color: #edeeef;
   padding: 40px 0 10px 10px;
   display: flex;
   align-items: center;
@@ -159,11 +353,23 @@ div.sort-settings-link p {
   width: 100%;
 }
 
+.dark .confirmDeleteModal-child,
+.dark .add-new-step-wrapper .add-new-step-input,
+.dark .task-settings-add-note textarea,
+.dark .search-modal div.background-wrapper div.search-input-wrapper input {
+  background-color: #2e2f30;
+  color: #ffffff;
+}
+
+.dark .confirmDeleteModal-child,
+.dark .search-modal div.background-wrapper div.search-input-wrapper input {
+  border: 1px solid lightgrey;
+}
+
 .search-modal hr {
   margin-top: 0.5rem;
 }
 
-.search-modal div > img,
 .search-modal input,
 .todo-list-wrapper .add-new-todo,
 .add-new-todo-wrapper .add-new-todo-input,
@@ -172,6 +378,11 @@ div.sort-settings-link p {
 .task-settings ul li p,
 .rightPanel > div {
   width: 100%;
+}
+
+.search-modal div > img {
+  width: 50%;
+  margin: 0 auto;
 }
 
 .add-new-todo-wrapper .add-new-todo-input,
@@ -191,11 +402,18 @@ div.sort-settings-link p {
   color: darkslateblue;
 }
 
+.dark .add-new-todo-wrapper .add-new-todo-input {
+  background-color: #2e2f30;
+  color: #ffffff;
+}
+
 .task-settings-add-note textarea {
   border: 0px;
   resize: none;
 }
 
+#lightTheme,
+#darkTheme,
 #toggleTodoCheckbox,
 #toggleTodoCheckbox-template,
 #searchTaskCheckbox,
@@ -214,6 +432,9 @@ p.lineThrough {
   text-decoration: line-through;
 }
 
+.settings-header img,
+.theme-sets label.ligthTheme-label,
+.theme-sets label.darkTheme-label,
 .todos label.toggleTodoLabel,
 .task-settings label.toggleTaskLabel,
 ul.searchList label.searchTaskLabel,
@@ -223,6 +444,15 @@ ul.searchList label.searchTaskLabel,
   margin: 0;
 }
 
+.theme-sets label.ligthTheme-label,
+.theme-sets label.darkTheme-label {
+  position: relative;
+  float: left;
+  margin-right: 10px;
+}
+
+.theme-sets label.ligthTheme-label.checked > span,
+.theme-sets label.darkTheme-label.checked > span,
 .todos label.toggleTodoLabel.done > span,
 .task-settings label.toggleTaskLabel.done > span,
 ul.searchList label.searchTaskLabel.toggled > span,
@@ -230,6 +460,8 @@ ul.searchList label.searchTaskLabel.toggled > span,
   background-color: limegreen;
 }
 
+.theme-sets label.ligthTheme-label > span,
+.theme-sets label.darkTheme-label > span,
 .todos label.toggleTodoLabel > span,
 .task-settings label.toggleTaskLabel > span,
 ul.searchList label.searchTaskLabel > span,
@@ -245,6 +477,8 @@ ul.searchList label.searchTaskLabel > span,
   color: white;
 }
 
+.theme-sets label.ligthTheme-label.checked > span:after,
+.theme-sets label.darkTheme-label.checked > span:after,
 .todos label.toggleTodoLabel.done > span:after,
 .task-settings label.toggleTaskLabel.done > span:after,
 ul.searchList label.searchTaskLabel.toggled > span:after,
@@ -263,6 +497,11 @@ ul.searchList label.searchTaskLabel.toggled > span:after,
   border-color: transparent;
 }
 
+.dark .clearInput {
+  color: #000;
+}
+
+.settings-header button,
 .search-modal button.cancel-seacrh,
 .todo-list-wrapper button.add-new-todo-button,
 button.task-settings-arrow-right,
@@ -273,7 +512,7 @@ button.task-settings-trash {
   font-size: 13px;
 }
 
-.todo-list-wrapper button.add-new-todo-button.active,,
+.todo-list-wrapper button.add-new-todo-button.active,
 button.task-settings-arrow-right,
 button.task-settings-trash {
   font-size: 14.5px;
@@ -362,6 +601,10 @@ button.user-settings-button {
   background-color: transparent;
 }
 
+.dark button.user-settings-button {
+  color: #ffffff;
+}
+
 .user-info img,
 button.search > img {
   width: 35px;
@@ -370,19 +613,31 @@ button.search > img {
 
 .user-settings.active {
   position: absolute;
-  background-color: #ffffff;
   width: 260px;
   margin: 10px auto 0;
   display: flex;
   flex-flow: column;
   justify-content: center;
-  border: 1px solid rgba(0,0,0,.1);
   height: 100px;
+}
+
+.light .user-settings {
+  border: 1px solid rgba(0,0,0,.1);
+  background-color: #ffffff;
+}
+
+.dark .user-settings {
+  border: 1px solid rgba(255,255,255,.5);
+  background-color: #2e2f30;
 }
 
 .user-settings.active hr {
   width: 100%;
   margin: 5px 0;
+}
+
+.dark .user-settings hr {
+  border-top: 1px solid rgba(255,255,255,.5);
 }
 
 .user-settings.active p {
@@ -424,6 +679,12 @@ button.search > img {
 
 input.add-new-list-label {
   margin: 0 10px;
+}
+
+.dark .add-new-list input {
+  background-color: #1a1b1c;
+  color: #ffffff;
+  border: 1px solid #ffffff;
 }
 
 a.add-new-list-link,
@@ -495,8 +756,33 @@ ul.searchList {
   margin-right: 18%;
 }
 
+#thirdPartyNotices .modal-header {
+  border: 0px;
+  min-height: 50px;
+}
+
+#thirdPartyNotices .modal-header .close {
+  padding: 10px;
+  margin: -10px -10px -10px auto;
+}
+
+#thirdPartyNotices .modal-header .close:hover {
+  background-color: lightgrey;
+}
+
+#thirdPartyNotices .modal-content,
 #bannerSettings .modal-content {
   border-radius: 0px;
+}
+
+#thirdPartyNotices .modal-content {
+  max-width: 340px;
+  margin: 0 auto;
+  max-height: 410px;
+}
+
+#thirdPartyNotices .modal-body {
+  overflow-y: auto;
 }
 
 #bannerSettings .modal-body {
@@ -511,6 +797,12 @@ ul.searchList {
 .task-settings-add-note textarea::placeholder,
 .task-settings-footer {
   padding: 10px
+}
+
+.dark .modal-content,
+.dark .search-modal,
+.dark #bannerSettings .sort-settings-menu > div {
+  background-color: #2e2f30;
 }
 
 .task-settings-title {
