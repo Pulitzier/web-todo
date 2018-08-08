@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'react-proptypes';
 import {
-  activateBannerSettings,
   changeBannerBgColor,
   changeBannerBgImage,
   activateTask,
   typeNewTaskAction,
   sortTasks
 } from '../actionCreators';
+import { getActiveTodoList } from '../helpers';
 
 export default class BannerForTodo extends Component {
   constructor(props) {
@@ -15,6 +15,7 @@ export default class BannerForTodo extends Component {
     this.sortState = {
       handleHoverSortLink: false,
       handleHoverSortMenu: false,
+      shouldRenameList: false
     }
   }
   componentDidMount(){
@@ -31,8 +32,14 @@ export default class BannerForTodo extends Component {
   render(){
     const { store } = this.context;
     const state = store.getState();
-    const { bannerForTodoState } = state;
-    const { activeTodo, deleteList } = this.props;
+    const { app: { todos }, bannerForTodoState: { currentBannerImage, backgroundColor } } = state;
+    const { deleteList } = this.props;
+    const activeTodo = getActiveTodoList(todos);
+    let {
+      handleHoverSortLink,
+      handleHoverSortMenu,
+      shouldRenameList
+    } = this.sortState;
 
     const defaultBannerSchemes = {
       imageScheme: [
@@ -71,18 +78,41 @@ export default class BannerForTodo extends Component {
       )
     };
 
+    const handleRenamingOfTodo = () => {
+      this.setState(() => {
+        return this.sortState = {
+          ...this.sortState,
+          shouldRenameList: true
+        }
+      })
+    };
+
     return (
       <div
         className={this.props.className}
-        style={{backgroundColor: bannerForTodoState.backgroundColor}}
+        style={{backgroundColor: backgroundColor}}
       >
-        <img className={this.props.className+"-wrapper"} src={bannerForTodoState.currentBannerImage} alt="Theme Image" />
+        <img className={this.props.className+"-wrapper"} src={currentBannerImage} alt="Theme Image" />
         <div className="panelBanner-text">
-          {this.props.children}
+          {
+            shouldRenameList ?
+            <input value={activeTodo.title} /> :
+            <h3>{activeTodo.title}</h3>
+          }
+          {todos['myPersonalToDo'][0].active ?
+            <div className="date-time">{(() => {
+              let today = new Date();
+              let dateStringForBanner = today.toLocaleString('en-us', {weekday: 'long'}) + ', ' +
+                today.toLocaleString('en-us', {month: 'long'}) + ' ' +
+                today.toLocaleString('en-us', {day: 'numeric'});
+              return dateStringForBanner;
+            })()}</div> :
+            null
+          }
         </div>
           <button
             className="btn btn-primary dots-menu"
-            style={{backgroundColor: bannerForTodoState.backgroundColor}}
+            style={{backgroundColor: backgroundColor}}
             data-toggle="modal"
             data-target="#bannerSettings"
           >
@@ -96,7 +126,10 @@ export default class BannerForTodo extends Component {
               <div className="modal-body">
                 { checkActiveTodoTitle(activeTodo) ?
                   (
-                    <div className="renameList">
+                    <div
+                      className="renameList"
+                      onClick={() => handleRenamingOfTodo()}
+                    >
                       <p>Rename List</p>
                     </div>
                   ) : null
@@ -132,8 +165,8 @@ export default class BannerForTodo extends Component {
                 </div>
                 <div
                     className={"sort-settings-menu " + (
-                      this.sortState.handleHoverSortLink ||
-                      this.sortState.handleHoverSortMenu ?
+                      handleHoverSortLink ||
+                      handleHoverSortMenu ?
                         "active" :
                         ''
                     )}
@@ -181,7 +214,7 @@ export default class BannerForTodo extends Component {
                   {defaultBannerSchemes.colorScheme.map((item,index) =>
                     <button
                       key={index}
-                      className={"jumbotron-button "+(bannerForTodoState.backgroundColor == item ? 'active' : null)}
+                      className={"jumbotron-button "+(backgroundColor == item ? 'active' : null)}
                       onClick={() => {
                         changeBannerColor(item);
                       }}

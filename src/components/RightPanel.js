@@ -33,23 +33,8 @@ export default class RightPanel extends Component {
           <BannerForTodo
             className="panelBanner"
             close={state.activateThemeMenu}
-            activeTodo={activeTodo}
             deleteList={deleteTodo}
-          >
-            <h4>{(() => {
-              return activeTodo.title;
-            })()}</h4>
-            {todos['myPersonalToDo'][0].active ?
-              <div className="date-time">{(() => {
-                let today = new Date();
-                let dateStringForBanner = today.toLocaleString('en-us', {weekday: 'long'}) + ', ' +
-                  today.toLocaleString('en-us', {month: 'long'}) + ' ' +
-                  today.toLocaleString('en-us', {day: 'numeric'});
-                return dateStringForBanner;
-              })()}</div> :
-              null
-            }
-          </BannerForTodo>
+          />
           <ToDoListOfTask activeTodo={activeTodo}/>
         </div>
         <TaskSettings handleDeleteTask={deleteTask}/>
