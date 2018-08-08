@@ -1,12 +1,12 @@
 export function getActiveTodoList(todos) {
   let activeArray;
   for (let key in todos) {
-    activeArray = todos[key].find(element => element.active === true);
+    activeArray = todos[key].find(element => element.active);
     if (activeArray) {
       return activeArray
-    };
-  };
-};
+    }
+  }
+}
 
 export function loadState() {
   try {
@@ -18,7 +18,7 @@ export function loadState() {
   } catch (err) {
     return new Error(err.message);
   }
-};
+}
 
 export function saveState(state) {
   try {
@@ -26,5 +26,19 @@ export function saveState(state) {
     localStorage.setItem('state', serializedState)
   } catch(err) {
     return new Error(err.message);
+  }
+}
+
+export function getTasksForTodo(tasks, todo) {
+  let { todoListId: todoId } = todo;
+  switch (todoId) {
+    case 0:
+      return tasks.filter(task => task.myDay);
+    case 1:
+      return tasks.filter(task => task.important);
+    case 2:
+      return tasks.filter(task => task.todoIsParent);
+    default:
+      return tasks.filter(task => task.parentId === todoId);
   }
 }

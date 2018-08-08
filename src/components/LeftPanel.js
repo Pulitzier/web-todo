@@ -10,6 +10,7 @@ import {
   activateTask,
   openSearchPanel
 } from "../actionCreators";
+import { getTasksForTodo } from '../helpers';
 import UserSettings from "./UserSettings";
 
 class LeftPanel extends Component {
@@ -31,7 +32,7 @@ class LeftPanel extends Component {
   render(){
     const { store } = this.context;
     const state = store.getState();
-    const todos = state.app.todos;
+    const { app: { todos, tasks } } = state;
 
     const addNewList = () => {
     let newListTitle = 'Untitled Task';
@@ -64,36 +65,36 @@ class LeftPanel extends Component {
     store.dispatch(openSearchPanel(false));
     store.dispatch(activateTask(false));
     store.dispatch(chooseList(element, listName))
-  }
+  };
 
   return (
     <Panel className="col-md-4 leftPanel">
       <UserSettings />
       <List className="nav flex-column my-todo-list">
-        {todos['myPersonalToDo'].map((element) =>
+        {todos['myPersonalToDo'].map(todo =>
           (
-            <li className={"nav-item "+ (element.active ? 'active' : '')} key={element.title}>
+            <li className={"nav-item "+ (todo.active ? 'active' : '')} key={todo.title}>
               <a
-                className={"nav-link " + (element.active ? 'active' : '')}
-                onClick={() => chooseListItem(element, 'myPersonalToDo')}
+                className={"nav-link " + (todo.active ? 'active' : '')}
+                onClick={() => chooseListItem(todo, 'myPersonalToDo')}
               >
                 <img
                   src={(() => {
-                    if(element.title === 'My Day') {
+                    if(todo.title === 'My Day') {
                       return './assets/sun.svg'
                     }
-                    if(element.title === 'Important') {
+                    if(todo.title === 'Important') {
                       return './assets/star.svg'
                     }
-                    if(element.title === 'To-Do') {
+                    if(todo.title === 'To-Do') {
                       return './assets/home.svg'
                     }
                     return '';
                   })()}
                   alt='Categories Icon'
                 />
-                <p>{element.title}</p>
-                <span>{element.tasksIds.length !== 0 ? element.tasksIds.length : ''}</span>
+                <p>{todo.title}</p>
+                <span>{(() => getTasksForTodo(tasks, todo).length ? getTasksForTodo(tasks, todo).length : '')()}</span>
               </a>
             </li>
           )

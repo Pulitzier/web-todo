@@ -134,6 +134,20 @@ export function addNewTaskToList(task, list) {
   }
 }
 
+export function handleTaskImportanance(taskId) {
+  return {
+    type: 'ADD_TASK_TO_IMPORTANT',
+    taskId
+  }
+}
+
+export function addTaskToTodo(tasks) {
+  return {
+    type: 'ADD_TASK_TO_TODO',
+    tasks
+  }
+}
+
 export function deleteTask(taskId) {
   return {
     type: 'DELETE_TASK',
