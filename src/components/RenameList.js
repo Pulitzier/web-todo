@@ -17,7 +17,7 @@ export default class RenameList extends Component {
     const { store } = this.context;
     const state = store.getState();
     const { app: { todos } } = state;
-    const { title, todoListId } = getActiveTodoList(todos);
+    const { title, todoListId, iconSource } = getActiveTodoList(todos);
     const { activateRename } = this.props;
     let { newListTitle, changeIcon } = this.renameListState;
 
@@ -46,11 +46,21 @@ export default class RenameList extends Component {
 
     return (
       <div
+        className="rename-list-wrapper"
         onBlur={() => {
           changeIconInRename(false);
         }}
       >
-        <button onClick={() => changeIconInRename(true)}>icon</button>
+        <button
+          className="change-todo-icon"
+          onClick={() => changeIconInRename(true)}
+        >
+          {
+            iconSource ?
+              <img src={iconSource} /> :
+              <img src={'./assets/list.svg'} />
+          }
+        </button>
         {
           changeIcon &&
           <IconsMenu
@@ -59,6 +69,7 @@ export default class RenameList extends Component {
           />
         }
         <input
+          className="rename-list"
           value={
             newListTitle ?
               newListTitle :
@@ -72,6 +83,7 @@ export default class RenameList extends Component {
               handleChangeListTitle(todoListId, newListTitle);
             }
           }}
+          autoFocus={true}
         />
       </div>
     )

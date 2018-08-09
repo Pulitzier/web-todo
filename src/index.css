@@ -11,6 +11,7 @@ body {
 }
 
 body p,
+.panelBanner-text h3,
 #bannerSettings .sort-settings-menu > div > p {
   margin: 0;
 }
@@ -452,6 +453,7 @@ ul.searchList label.searchTaskLabel,
 }
 
 .icons-menu-wrapper {
+  top: 100%;
   width: 203px;
   position: absolute;
   z-index: 1;
@@ -481,6 +483,25 @@ ul.searchList label.searchTaskLabel,
 
 .icons-menu img:hover {
   border-color: lightgrey;
+}
+
+.rename-list-wrapper {
+  max-width: 240px;
+  background-color: rgba(46, 47, 48, 0.4);
+}
+
+.dark .rename-list-wrapper {
+  background-color: rgba(92, 96, 102, 0.6);
+}
+
+input.rename-list {
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: inherit;
+  background-color: transparent;
+  border: 0px solid transparent;
 }
 
 .theme-sets label.ligthTheme-label,
@@ -616,10 +637,16 @@ span.blue {
   width: 50px;
 }
 
+button.change-todo-icon,
+.panelBanner-text > div:first-of-type,
 .user-info,
 .user-settings.active div {
   display: flex;
   align-items: center;
+}
+
+.panelBanner-text > div > h3 {
+  margin-left: 40px;
 }
 
 .user-info {
@@ -633,6 +660,7 @@ span.blue {
 }
 
 button.search,
+button.change-todo-icon,
 .todos .important-icon,
 button.user-settings-button {
   margin: 0 0 0 auto;

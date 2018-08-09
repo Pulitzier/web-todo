@@ -9,12 +9,10 @@ export default class IconsMenu extends Component {
   };
 
   componentDidMount() {
-    console.log('componentDidMount');
     document.addEventListener('mousedown', this.handleClick, false)
   };
 
   componentWillUnmount() {
-    console.log('componentWillUnmount');
     document.removeEventListener('mousedown', this.handleClick, false)
   };
 

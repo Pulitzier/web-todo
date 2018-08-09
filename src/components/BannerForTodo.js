@@ -118,27 +118,21 @@ export default class BannerForTodo extends Component {
               <RenameList activateRename={(bool) => activateRename(bool)}/> :
               <div>
                 {
+                  todoIconSrc &&
                   checkActiveTodoTitle(activeTodo) &&
-                  (
-                    <div>
-                      {
-                        todoIconSrc &&
-                        (<button className="change-todo-icon" onClick={() => {
-                          activateIcon(true)
-                        }}>
-                          <img src={todoIconSrc} />
-                        </button>)
-                      }
-                      {
-                        todoIconSrc &&
-                        shouldChangeIcon &&
-                        <IconsMenu
-                          activateIcon={(bool) => activateIcon(bool)}
-                          activeTodoId={activeTodo.todoListId}
-                        />
-                      }
-                    </div>
-                  )
+                    (<button className="change-todo-icon" onClick={() => {
+                      activateIcon(true)
+                    }}>
+                      <img src={todoIconSrc} />
+                    </button>)
+                }
+                {
+                  todoIconSrc &&
+                  shouldChangeIcon &&
+                  <IconsMenu
+                    activateIcon={(bool) => activateIcon(bool)}
+                    activeTodoId={activeTodo.todoListId}
+                  />
                 }
                 <h3 onClick={() => activateRename(true)}>{activeTodo.title}</h3>
               </div>
