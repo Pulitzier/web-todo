@@ -46,6 +46,16 @@ export function appReducer(state = defaultAppTodosState, action) {
         ...state,
         todos: todosReducer(todos, action)
       };
+    case 'CHANGE_TODO_TITLE':
+      return {
+        ...state,
+        todos: todosReducer(todos, action)
+      };
+    case 'SET_ICON_FOR_TODO':
+      return {
+        ...state,
+        todos: todosReducer(todos, action)
+      };
     case 'DELETE_TODO_LIST':
       return {
         ...state,
@@ -169,9 +179,36 @@ const todosReducer = (state = defaultTodos, action) => {
             title: action.title,
             active: false,
             todoListId: customTodoId,
+            iconSource: ''
           }
         ]
     };
+    case 'CHANGE_TODO_TITLE':
+      return {
+        ...state,
+        toDoCategories: toDoCategories.map(todo => {
+          if(todo.todoListId === action.todoId) {
+            return {
+              ...todo,
+              title: action.title
+            }
+          };
+          return todo
+        })
+      };
+    case 'SET_ICON_FOR_TODO':
+      return {
+        ...state,
+        toDoCategories: toDoCategories.map(todo => {
+          if(todo.todoListId === action.todoId) {
+            return {
+              ...todo,
+              iconSource: action.iconSrc
+            }
+          };
+          return todo;
+        })
+      };
     // case 'ADD_TASK_TO_IMPORTANT':
     //   let { active: importantActiveState } = myPersonalToDo[1];
     //   return {

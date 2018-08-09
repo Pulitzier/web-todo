@@ -42,3 +42,11 @@ export function getTasksForTodo(tasks, todo) {
       return tasks.filter(task => task.parentId === todoId);
   }
 }
+
+export function closeBannerSettings() {
+  document.getElementById('bannerSettings').classList.remove('show');
+  document.getElementById('bannerSettings').style.setProperty('display', 'none');
+  document.getElementsByTagName('body')[0].classList.remove('modal-open');
+  let modalBackddrop = document.getElementsByClassName('modal-backdrop')[0];
+  modalBackddrop.parentNode.removeChild(modalBackddrop);
+}

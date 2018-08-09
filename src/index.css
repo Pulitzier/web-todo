@@ -11,6 +11,7 @@ body {
 }
 
 body p,
+.panelBanner-text h3,
 #bannerSettings .sort-settings-menu > div > p {
   margin: 0;
 }
@@ -439,6 +440,7 @@ p.lineThrough {
 }
 
 .settings-header img,
+.change-todo-icon img,
 .theme-sets label.ligthTheme-label,
 .theme-sets label.darkTheme-label,
 .todos label.toggleTodoLabel,
@@ -448,6 +450,58 @@ ul.searchList label.searchTaskLabel,
   width: 20px;
   height: 20px;
   margin: 0;
+}
+
+.icons-menu-wrapper {
+  top: 100%;
+  width: 203px;
+  position: absolute;
+  z-index: 1;
+  background-color: #ffffff;
+}
+
+.dark .icons-menu-wrapper {
+  background-color: #5c6066;
+}
+
+.icons-menu {
+  border-width: 1px;
+  border-style: solid;
+  border-color: #1a1b1c;
+}
+
+.dark .icons-menu {
+  border-color: #888888;
+}
+
+.icons-menu img {
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  border: 1px solid transparent;
+}
+
+.icons-menu img:hover {
+  border-color: lightgrey;
+}
+
+.rename-list-wrapper {
+  max-width: 240px;
+  background-color: rgba(46, 47, 48, 0.4);
+}
+
+.dark .rename-list-wrapper {
+  background-color: rgba(92, 96, 102, 0.6);
+}
+
+input.rename-list {
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: inherit;
+  background-color: transparent;
+  border: 0px solid transparent;
 }
 
 .theme-sets label.ligthTheme-label,
@@ -583,10 +637,16 @@ span.blue {
   width: 50px;
 }
 
+button.change-todo-icon,
+.panelBanner-text > div:first-of-type,
 .user-info,
 .user-settings.active div {
   display: flex;
   align-items: center;
+}
+
+.panelBanner-text > div > h3 {
+  margin-left: 40px;
 }
 
 .user-info {
@@ -600,6 +660,7 @@ span.blue {
 }
 
 button.search,
+button.change-todo-icon,
 .todos .important-icon,
 button.user-settings-button {
   margin: 0 0 0 auto;

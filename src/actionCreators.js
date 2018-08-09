@@ -5,6 +5,22 @@ export function addNewTodoList(title) {
   }
 }
 
+export function changeListTitle(todoId, title) {
+  return {
+    type: 'CHANGE_TODO_TITLE',
+    todoId,
+    title
+  }
+}
+
+export function setIconForTodo(todoId, iconSrc) {
+  return {
+    type: 'SET_ICON_FOR_TODO',
+    todoId,
+    iconSrc
+  }
+}
+
 export function deleteTodoList(todoId) {
   return {
     type: 'DELETE_TODO_LIST',

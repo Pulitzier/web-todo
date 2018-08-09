@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'react-proptypes';
+import RenameList from './RenameList';
 import {
   changeBannerBgColor,
   changeBannerBgImage,
@@ -7,7 +8,8 @@ import {
   typeNewTaskAction,
   sortTasks
 } from '../actionCreators';
-import { getActiveTodoList } from '../helpers';
+import { getActiveTodoList, closeBannerSettings } from '../helpers';
+import IconsMenu from "./IconsMenu";
 
 export default class BannerForTodo extends Component {
   constructor(props) {
@@ -15,7 +17,8 @@ export default class BannerForTodo extends Component {
     this.sortState = {
       handleHoverSortLink: false,
       handleHoverSortMenu: false,
-      shouldRenameList: false
+      shouldRenameList: false,
+      shouldChangeIcon: false
     }
   }
   componentDidMount(){
@@ -35,10 +38,12 @@ export default class BannerForTodo extends Component {
     const { app: { todos }, bannerForTodoState: { currentBannerImage, backgroundColor } } = state;
     const { deleteList } = this.props;
     const activeTodo = getActiveTodoList(todos);
+    let { iconSource: todoIconSrc } = activeTodo;
     let {
       handleHoverSortLink,
       handleHoverSortMenu,
-      shouldRenameList
+      shouldRenameList,
+      shouldChangeIcon
     } = this.sortState;
 
     const defaultBannerSchemes = {
@@ -78,11 +83,20 @@ export default class BannerForTodo extends Component {
       )
     };
 
-    const handleRenamingOfTodo = () => {
+    const activateRename = (bool) => {
       this.setState(() => {
         return this.sortState = {
           ...this.sortState,
-          shouldRenameList: true
+          shouldRenameList: bool
+        }
+      })
+    };
+
+    const activateIcon = (bool) => {
+      this.setState(() => {
+        return this.sortState = {
+          ...this.sortState,
+          shouldChangeIcon: bool
         }
       })
     };
@@ -93,11 +107,35 @@ export default class BannerForTodo extends Component {
         style={{backgroundColor: backgroundColor}}
       >
         <img className={this.props.className+"-wrapper"} src={currentBannerImage} alt="Theme Image" />
-        <div className="panelBanner-text">
+        <div
+          className="panelBanner-text"
+          onBlur={() => {
+            activateRename(false);
+          }}
+        >
           {
-            shouldRenameList ?
-            <input value={activeTodo.title} /> :
-            <h3>{activeTodo.title}</h3>
+            shouldRenameList && checkActiveTodoTitle(activeTodo) ?
+              <RenameList activateRename={(bool) => activateRename(bool)}/> :
+              <div>
+                {
+                  todoIconSrc &&
+                  checkActiveTodoTitle(activeTodo) &&
+                    (<button className="change-todo-icon" onClick={() => {
+                      activateIcon(true)
+                    }}>
+                      <img src={todoIconSrc} />
+                    </button>)
+                }
+                {
+                  todoIconSrc &&
+                  shouldChangeIcon &&
+                  <IconsMenu
+                    activateIcon={(bool) => activateIcon(bool)}
+                    activeTodoId={activeTodo.todoListId}
+                  />
+                }
+                <h3 onClick={() => activateRename(true)}>{activeTodo.title}</h3>
+              </div>
           }
           {todos['myPersonalToDo'][0].active ?
             <div className="date-time">{(() => {
@@ -128,7 +166,10 @@ export default class BannerForTodo extends Component {
                   (
                     <div
                       className="renameList"
-                      onClick={() => handleRenamingOfTodo()}
+                      onClick={() => {
+                        closeBannerSettings();
+                        activateRename(true);
+                      }}
                     >
                       <p>Rename List</p>
                     </div>
@@ -244,11 +285,7 @@ export default class BannerForTodo extends Component {
                   (
                     <div className="deleteList">
                       <p onClick={() => {
-                        document.getElementById('bannerSettings').classList.remove('show');
-                        document.getElementById('bannerSettings').style.setProperty('display', 'none');
-                        document.getElementsByTagName('body')[0].classList.remove('modal-open');
-                        let modalBackddrop = document.getElementsByClassName('modal-backdrop')[0];
-                        modalBackddrop.parentNode.removeChild(modalBackddrop);
+                        closeBannerSettings();
                         deleteList(activeTodo);
                       }}>Delete List</p>
                     </div>
