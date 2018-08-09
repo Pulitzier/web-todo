@@ -5,6 +5,14 @@ export function addNewTodoList(title) {
   }
 }
 
+export function changeListTitle(todoId, title) {
+  return {
+    type: 'CHANGE_TODO_TITLE',
+    todoId,
+    title
+  }
+}
+
 export function deleteTodoList(todoId) {
   return {
     type: 'DELETE_TODO_LIST',

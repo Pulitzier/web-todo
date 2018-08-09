@@ -38,10 +38,14 @@ export default class ToDoListOfTask extends Component {
 
     const activateToDoTask = (bool) => {
       store.dispatch(activateTask(bool));
-      document.querySelector('body').addEventListener('dblclick', () => {
+      const dblClickEvent = () => {
         store.dispatch(activateTask(false));
         store.dispatch(typeNewTaskAction(false));
         this.newTaskInput.value = '';
+      };
+      document.querySelector('body').addEventListener('dblclick', () => {
+        dblClickEvent();
+        document.querySelector('body').removeEventListener('dblclick', dblClickEvent());
       })
     };
 
