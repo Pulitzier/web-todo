@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
 import { getActiveTodoList } from "../helpers";
 import { changeListTitle } from '../actionCreators';
+import IconsMenu from "./IconsMenu";
 
 export default class RenameList extends Component {
   constructor(props) {
     super(props);
     this.renameListState = {
-      newListTitle: ''
+      newListTitle: '',
+      changeIcon: false,
     }
   };
 
@@ -17,7 +19,7 @@ export default class RenameList extends Component {
     const { app: { todos } } = state;
     const { title, todoListId } = getActiveTodoList(todos);
     const { activateRename } = this.props;
-    let { newListTitle } = this.renameListState;
+    let { newListTitle, changeIcon } = this.renameListState;
 
     const handleChangeInput = (event) => {
       let { target: { value } } = event;
@@ -33,9 +35,29 @@ export default class RenameList extends Component {
       store.dispatch(changeListTitle(todoId, title));
     };
 
+    const changeIconInRename = (bool) => {
+      this.setState(() => {
+        return this.renameListState = {
+          ...this.renameListState,
+          changeIcon: bool
+        }
+      })
+    };
+
     return (
-      <div>
-        <button>icon</button>
+      <div
+        onBlur={() => {
+          changeIconInRename(false);
+        }}
+      >
+        <button onClick={() => changeIconInRename(true)}>icon</button>
+        {
+          changeIcon &&
+          <IconsMenu
+            activateIcon={(bool) => changeIconInRename(bool)}
+            activeTodoId={todoListId}
+          />
+        }
         <input
           value={
             newListTitle ?

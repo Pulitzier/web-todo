@@ -9,6 +9,7 @@ import {
   sortTasks
 } from '../actionCreators';
 import { getActiveTodoList, closeBannerSettings } from '../helpers';
+import IconsMenu from "./IconsMenu";
 
 export default class BannerForTodo extends Component {
   constructor(props) {
@@ -37,10 +38,12 @@ export default class BannerForTodo extends Component {
     const { app: { todos }, bannerForTodoState: { currentBannerImage, backgroundColor } } = state;
     const { deleteList } = this.props;
     const activeTodo = getActiveTodoList(todos);
+    let { iconSource: todoIconSrc } = activeTodo;
     let {
       handleHoverSortLink,
       handleHoverSortMenu,
-      shouldRenameList
+      shouldRenameList,
+      shouldChangeIcon
     } = this.sortState;
 
     const defaultBannerSchemes = {
@@ -80,19 +83,7 @@ export default class BannerForTodo extends Component {
       )
     };
 
-    const handleRenamingOfTodo = (bool) => {
-      // const addClickEventBody = () => {
-      //   this.setState(() => {
-      //     return this.sortState = {
-      //       ...this.sortState,
-      //       shouldRenameList: false
-      //     }
-      //   })
-      // };
-      // document.querySelector('body').addEventListener('click', () => {
-      //   addClickEventBody();
-      //   document.querySelector('body').removeEventListener('click', addClickEventBody);
-      // });
+    const activateRename = (bool) => {
       this.setState(() => {
         return this.sortState = {
           ...this.sortState,
@@ -101,8 +92,7 @@ export default class BannerForTodo extends Component {
       })
     };
 
-    const handleChangingIcon = (bool) => {
-      console.log(this.sortState);
+    const activateIcon = (bool) => {
       this.setState(() => {
         return this.sortState = {
           ...this.sortState,
@@ -120,17 +110,37 @@ export default class BannerForTodo extends Component {
         <div
           className="panelBanner-text"
           onBlur={() => {
-            handleRenamingOfTodo(false)
+            activateRename(false);
           }}
         >
           {
             shouldRenameList && checkActiveTodoTitle(activeTodo) ?
-              <RenameList activateRename={(bool) => handleRenamingOfTodo(bool)}/> :
+              <RenameList activateRename={(bool) => activateRename(bool)}/> :
               <div>
                 {
-                  checkActiveTodoTitle(activeTodo) && <button onClick={() => handleChangingIcon}>icon</button>
+                  checkActiveTodoTitle(activeTodo) &&
+                  (
+                    <div>
+                      {
+                        todoIconSrc &&
+                        (<button className="change-todo-icon" onClick={() => {
+                          activateIcon(true)
+                        }}>
+                          <img src={todoIconSrc} />
+                        </button>)
+                      }
+                      {
+                        todoIconSrc &&
+                        shouldChangeIcon &&
+                        <IconsMenu
+                          activateIcon={(bool) => activateIcon(bool)}
+                          activeTodoId={activeTodo.todoListId}
+                        />
+                      }
+                    </div>
+                  )
                 }
-                <h3 onClick={() => handleRenamingOfTodo(true)}>{activeTodo.title}</h3>
+                <h3 onClick={() => activateRename(true)}>{activeTodo.title}</h3>
               </div>
           }
           {todos['myPersonalToDo'][0].active ?
@@ -164,7 +174,7 @@ export default class BannerForTodo extends Component {
                       className="renameList"
                       onClick={() => {
                         closeBannerSettings();
-                        handleRenamingOfTodo(true);
+                        activateRename(true);
                       }}
                     >
                       <p>Rename List</p>
