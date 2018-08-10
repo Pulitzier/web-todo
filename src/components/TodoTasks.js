@@ -35,39 +35,82 @@ export default class TodoTasks extends Component {
       store.dispatch(activateTaskSettings(taskId, true));
     };
 
+    const setTaskLabel = (task) => {
+      switch (activeTodo.todoListId){
+        case 0:
+          if(task.todoIsParent) {
+            return (
+              <p className="todo-label-for-task">To-Do</p>
+            );
+          }
+          return (
+              <p className="todo-label-for-task"></p>
+            );
+        case 1:
+          let todoLabelForTask = task.todoIsParent ?
+            task.myDay ? (<p className="todo-label-for-task">
+                <img src="./assets/sun.svg" />My Day &#8226; To-Do</p>) :
+              (<p className="todo-label-for-task">To-Do</p>) :
+            (<p className="todo-label-for-task"></p>);
+          return todoLabelForTask;
+        case 2:
+          if(task.myDay) {
+            return (
+              <p className="todo-label-for-task">
+                <img src="./assets/sun.svg" />
+                My Day
+              </p>
+            );
+          }
+          return (
+            <p className="todo-label-for-task"></p>
+          );
+        default:
+          return (
+            <p className="todo-label-for-task"></p>
+          );
+      }
+    };
+
     return getTasksForTodo(tasks, activeTodo)
       .map((task, i) => {
+        let { id, done, taskText, important } = task;
         return (
           <div
             key={i}
             className="todos"
-            onClick={() => activateSettings(task.id)}
+            onClick={() => activateSettings(id)}
           >
             <label
               className={
                 "toggleTodoLabel " +
-                (task.done ? "done" : '')
+                (done ? "done" : '')
               }
             >
-          <span
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              toggleTodoTask(task);
-            }}
-          ></span>
+            <span
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleTodoTask(task);
+              }}
+            ></span>
             </label>
-            <p className={task.done ? 'lineThrough' : null}>{task.taskText}</p>
+            <div className="task-title-wrapper">
+              <p className={done ? 'lineThrough' : null}>{taskText}</p>
+              {
+                setTaskLabel(task)
+              }
+            </div>
             <button
               className="important-icon"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                handleImportance(task.id);
+                handleImportance(id);
               }}
             >
               {
-                task.important ?
+                important ?
                   (<img src="./assets/star-fill.svg"/>) :
                   (<img src="./assets/star.svg"/>)
               }
