@@ -458,21 +458,30 @@ ul.searchList label.searchTaskLabel,
   position: absolute;
   z-index: 1;
   background-color: #ffffff;
-}
-
-.dark .icons-menu-wrapper {
-  background-color: #5c6066;
-}
-
-.icons-menu {
   border-width: 1px;
   border-style: solid;
   border-color: #1a1b1c;
 }
 
-.dark .icons-menu {
+.dark .icons-menu-wrapper {
+  background-color: #5c6066;
   border-color: #888888;
 }
+
+.icons-menu-wrapper .clear-icon {
+  color: #2e2f30;
+  font-size: 13px;
+  text-align: center;
+}
+
+.icons-menu-wrapper .clear-icon p {
+  padding: 2px 0;
+}
+
+.icons-menu-wrapper .clear-icon p:hover {
+  background-color: lightgrey;
+}
+
 
 .icons-menu img {
   width: 40px;
@@ -661,6 +670,11 @@ button.change-todo-icon,
 .panelBanner-text > div > h3,
 .panelBanner-text .date-time {
   margin-left: 40px;
+}
+
+.panelBanner-text > div > button + h3,
+.panelBanner-text > div > .icons-menu-wrapper + h3 {
+  margin-left: 3px;
 }
 
 .user-info {
