@@ -7,7 +7,7 @@ body {
 #root {
   height: 100vh;
   background-color: grey;
-  padding: 20px 0px;
+  padding: 20px 0;
 }
 
 body p,
@@ -266,7 +266,7 @@ div.todo-list {
 
 div.todo-list div.todos {
   border-bottom: 1px solid darkgray;
-  padding: 10px 15px;
+  padding: 8px 15px;
   height: 50px;
   display: flex;
   align-items: center;
@@ -325,7 +325,7 @@ div.todo-list div.todos {
 
 .leftPanel .nav-link p,
 div.sort-settings-link p {
-  margin: 0px;
+  margin: 0;
 }
 
 .leftPanel .nav-link span {
@@ -415,7 +415,7 @@ div.sort-settings-link p {
 }
 
 .task-settings-add-note textarea {
-  border: 0px;
+  border: 0;
   resize: none;
 }
 
@@ -501,7 +501,7 @@ input.rename-list {
   line-height: 1.2;
   color: inherit;
   background-color: transparent;
-  border: 0px solid transparent;
+  border: 0 solid transparent;
 }
 
 .theme-sets label.ligthTheme-label,
@@ -585,6 +585,19 @@ button.task-settings-trash {
   display: block;
 }
 
+.todo-label-for-task {
+  font-size: 12px;
+  max-height: 20px;
+  display: flex;
+  align-items: center;
+  justify-self: left;
+}
+
+.todo-label-for-task img {
+  max-width: 10px;
+  margin-right: 3px;
+}
+
 .inactive {
   display: none;
 }
@@ -645,7 +658,8 @@ button.change-todo-icon,
   align-items: center;
 }
 
-.panelBanner-text > div > h3 {
+.panelBanner-text > div > h3,
+.panelBanner-text .date-time {
   margin-left: 40px;
 }
 
@@ -665,7 +679,7 @@ button.change-todo-icon,
 button.user-settings-button {
   margin: 0 0 0 auto;
   padding: 0 12px;
-  border: 0px;
+  border: 0;
   background-color: transparent;
 }
 
@@ -825,7 +839,7 @@ ul.searchList {
 }
 
 #thirdPartyNotices .modal-header {
-  border: 0px;
+  border: 0;
   min-height: 50px;
 }
 
@@ -840,7 +854,7 @@ ul.searchList {
 
 #thirdPartyNotices .modal-content,
 #bannerSettings .modal-content {
-  border-radius: 0px;
+  border-radius: 0;
 }
 
 #thirdPartyNotices .modal-content {
@@ -854,7 +868,7 @@ ul.searchList {
 }
 
 #bannerSettings .modal-body {
-  padding: 0px;
+  padding: 0;
 }
 
 #bannerSettings .modal-body > div,
@@ -889,13 +903,13 @@ ul.searchList {
 #bannerSettings .modal-body div.sort-settings-menu {
   position: absolute;
   overflow: hidden;
-  height: 0px;
+  height: 0;
   transition: height 1s ease;
   background-color: #ffffff;
   left: -164px;
   top: 1px;
-  padding: 0px;
-  border: 0px;
+  padding: 0;
+  border: 0;
 }
 
 
