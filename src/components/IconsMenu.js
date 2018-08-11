@@ -21,8 +21,12 @@ export default class IconsMenu extends Component {
     let { activateIcon, activeTodoId } = this.props;
     let { target } = event;
     if(this.iconMenu && this.iconMenu.contains(target)){
-      let { src: iconSrc } = target;
-      store.dispatch(setIconForTodo(activeTodoId, ("." + iconSrc.slice(21))));
+      if (target.localName === 'img') {
+        let { src: iconSrc } = target;
+        store.dispatch(setIconForTodo(activeTodoId, ("." + iconSrc.slice(21))));
+        return activateIcon(false);
+      }
+      store.dispatch(setIconForTodo(activeTodoId, ''));
       return activateIcon(false);
     }
     return activateIcon(false);
@@ -46,6 +50,9 @@ export default class IconsMenu extends Component {
           <img src='./assets/star-fill.svg' alt='Sort' />
           <img src="./assets/calendar.svg" alt='Graphics' />
           <img src="./assets/exchange-arrows.svg" alt='Exchange' />
+        </div>
+        <div className="clear-icon">
+          <p>Clear</p>
         </div>
       </div>
     )
