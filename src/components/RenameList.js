@@ -46,9 +46,12 @@ export default class RenameList extends Component {
     ) {
       if (target.localName === 'img') {
         let { src: iconSrc } = target;
-        store.dispatch(setIconForTodo(todoListId, ("." + iconSrc.slice(21))));
+        iconSrc.slice(-8,-4) !== 'list' ?
+          store.dispatch(setIconForTodo(todoListId, ("." + iconSrc.slice(21)))) :
+          null;
         return this.changeIconInRename(!this.renameListState.changeIcon);
       }
+      store.dispatch(setIconForTodo(todoListId, ""));
       this.changeIconInRename(false);
       return activateRename(false);
     }
@@ -88,8 +91,8 @@ export default class RenameList extends Component {
         >
           {
             iconSource ?
-              <img src={iconSource} /> :
-              <img src={'./assets/list.svg'} />
+              <img className="change-todo-icon-image" src={iconSource} /> :
+              <img className="default-change-icon-image" src={'./assets/list.svg'} />
           }
         </button>
         {
