@@ -22,14 +22,16 @@ export default class RightPanel extends Component {
   render() {
     const { store } = this.context;
     const state = store.getState();
-    const todos = state.app.todos;
+    const { app: { todos }, search: { activateSearch } } = state;
     const activeTodo = getActiveTodoList(todos);
     const { deleteTask, deleteTodo } = this.props;
 
     return (
       <Panel className="col-md-8 rightPanel">
         <div>
-          <SearchPanel />
+          {
+            activateSearch && <SearchPanel />
+          }
           <BannerForTodo
             className="panelBanner"
             close={state.activateThemeMenu}

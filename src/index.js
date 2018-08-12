@@ -6,7 +6,7 @@ import './index.css';
 import App from './components/App';
 import {
   appReducer,
-  activateSearchPanel,
+  setSearchState,
   activateNewList,
   setNewListTitle,
   setBannerForTodoState,
@@ -21,7 +21,7 @@ const persistedState = loadState();
 
 const globalReducer = combineReducers({
   app: appReducer,
-  activateSearch: activateSearchPanel,
+  search: setSearchState,
   activateNewList,
   newListTitle: setNewListTitle,
   bannerForTodoState: setBannerForTodoState,

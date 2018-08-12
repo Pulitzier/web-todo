@@ -389,10 +389,23 @@ const tasksReducer = (state = [], action) => {
   }
 };
 
-export function activateSearchPanel(state = false, action) {
+const defaultSearch = {
+  activateSearch: false,
+  showCompleted: true
+};
+
+export function setSearchState(state = defaultSearch, action) {
   switch(action.type) {
     case 'ACTIVATE_SEARCH_PANEL':
-      return action.activate;
+      return {
+        ...state,
+        activateSearch: action.activate
+      };
+    case 'SET_SHOW_COMPLETED':
+      return {
+        ...state,
+        showCompleted: action.show
+      };
     default:
       return state;
   }
