@@ -50,3 +50,7 @@ export function closeBannerSettings() {
   let modalBackddrop = document.getElementsByClassName('modal-backdrop')[0];
   modalBackddrop.parentNode.removeChild(modalBackddrop);
 }
+
+export function getStringDate(date, options = {weekday: 'short', hour: 'numeric'}) {
+  return (new Date(date)).toLocaleString('en-us', options);
+}

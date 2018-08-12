@@ -1,19 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from "react-proptypes";
+import ButtonToImportance from './ButtonToImportance';
+import ChildTaskSettings from './ChildTaskSettings';
 import {
   activateTaskSettings,
-  deleteTask
+  deleteTask,
+  toggleTask,
+  addTaskToMyDay,
+  addNoteToTask
 } from '../actionCreators';
 
 export default class TaskSettings extends Component {
   constructor(props) {
     super(props);
+    const { activeTask } = props;
     this.taskState = {
       showConfirmMessage: false,
       activateStepInput: false,
       toggleStep: false,
       typeNewStep: false,
-      newStepText: ''
+      newStepText: '',
+      newNoteText: activeTask.note,
+      showNoteControls: false
     }
   };
 
@@ -23,6 +31,10 @@ export default class TaskSettings extends Component {
       this.forceUpdate();
     })
   };
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
 
   activateStep = (bool) => {
     this.setState(() => {
@@ -54,35 +66,84 @@ export default class TaskSettings extends Component {
     })
   };
 
+  typeNewNote(event) {
+    let { activeTask: { note }} = this.props;
+    if(event) {
+      let { target: { value }} = event;
+      this.newNote.value = value || note;
+      this.setState(() => {
+        return this.taskState = {
+          ...this.taskState,
+          newNoteText: value,
+          showNoteControls: true
+        }
+      });
+      return;
+    }
+    this.newNote.value = note;
+    this.newNote.blur();
+    this.setState(() => {
+      return this.taskState = {
+        ...this.taskState,
+        newNoteText: note,
+        showNoteControls: false
+      }
+    });
+  };
+
+  saveNoteForTask(taskId) {
+    const { store } = this.context;
+    let { newNoteText } = this.taskState;
+    store.dispatch(addNoteToTask(taskId, newNoteText));
+    // this.newNote.value = '';
+    this.newNote.blur();
+    this.setState(() => {
+      return this.taskState = {
+        ...this.taskState,
+        newNoteText: '',
+        showNoteControls: false
+      }
+    });
+  };
+
   render() {
     const { store } = this.context;
-    const state = store.getState();
-    const { tasks } = state.app;
-    const { confirmDeletion } = state.userSettings;
-    const activeTask = tasks.length !== 0 ? (tasks.find(task => task.active === true) || '') : '';
-    const { handleDeleteTask } = this.props;
+    const { activateStepInput, toggleStep, showNoteControls } = this.taskState;
+    const { handleDeleteTask, activeTask } = this.props;
+    let { id, done, taskText, myDay } = activeTask;
 
     const closeTaskSettings = (taskId) => {
+      this.newNote.blur();
       store.dispatch(activateTaskSettings(taskId, false))
     };
 
+    const setToggledTask = (taskId) => {
+      store.dispatch(toggleTask(taskId))
+    };
+
+    const addCustomToMyDay = (taskId, bool) => {
+      store.dispatch(addTaskToMyDay(taskId, bool))
+    };
+
     return (
-      <div className={"task-settings " + (activeTask ? 'active' : 'inactive')}>
+      <div className="task-settings">
         <div className="task-settings-title">
           <label
             className={
               "toggleTaskLabel " +
-              (activeTask.done ? "done" : '')
+              (done ? "done" : '')
             }
           >
           <span
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
+              setToggledTask(id);
             }}
           ></span>
           </label>
-          <p>{activeTask.taskText}</p>
+          <p>{taskText}</p>
+          <ButtonToImportance task={activeTask}/>
         </div>
         <div className="add-new-step-wrapper">
           <div className="add-new-step">
@@ -91,8 +152,8 @@ export default class TaskSettings extends Component {
                 htmlFor="addStepCheckbox-template"
                 className={
                   "addStepLabel-template " +
-                  (this.taskState.activateStepInput ? 'active ' : 'inactive ') +
-                  ((this.taskState.activateStepInput && this.taskState.toggleStep) ? 'toggled' : 'untoggled')
+                  (activateStepInput ? 'active ' : 'inactive ') +
+                  ((activateStepInput && toggleStep) ? 'toggled' : 'untoggled')
                 }
               >
                 <input
@@ -104,8 +165,8 @@ export default class TaskSettings extends Component {
               <input
                 type="text"
                 name="add-new-step"
-                placeholder={!this.taskState.activateStepInput ? "+ Add a step" : "Add a step"}
-                className={"add-new-step-input " + (this.taskState.activateStepInput ? "activated" : "inactive")}
+                placeholder={!activateStepInput ? "+ Add a step" : "Add a step"}
+                className={"add-new-step-input " + (activateStepInput ? "activated" : "inactive")}
                 onFocus={() => this.activateStep(true)}
                 onChange={(e) => this.typeNewStep(e)}
               />
@@ -114,43 +175,67 @@ export default class TaskSettings extends Component {
         </div>
         <div className="task-settings-add-to-my-day">
           <ul>
-            <li>
+            <li
+              className={"add-to-my-day " + (myDay && "active")}
+              onClick={() => {
+                addCustomToMyDay(id, true)
+              }}>
               <img src="./assets/sun.svg" />
-              <p>Add to My to-do</p>
+              {
+                !myDay && (<p className="need-to-add">Add to My to-do</p>)
+              }
+              {
+                myDay && (<p className="added">Added to My to-do</p>)
+              }
+              {
+                myDay && (
+                  <button
+                    className="clear-from-my-day"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      addCustomToMyDay(id, false)
+                    }}
+                  >
+                    <p>x</p>
+                  </button>
+                )
+              }
             </li>
           </ul>
         </div>
-        <div className="task-settings-additional">
-          <ul>
-            <li>
-              <img src="./assets/clock.svg" />
-              <p>Remind me</p>
-            </li>
-            <li>
-              <img src="./assets/calendar.svg" />
-              <p>Add due date</p>
-            </li>
-            <li>
-              <img src="./assets/repeat.svg" />
-              <p>Repeat</p>
-            </li>
-          </ul>
-        </div>
+        <ChildTaskSettings activeTask={activeTask}/>
         <div className="task-settings-add-note">
-          <textarea placeholder="Add a note" cols="34" rows="5"></textarea>
+          <textarea
+            rows="5"
+            cols="30"
+            ref={node => this.newNote = node}
+            placeholder="Add a note"
+            // value={note}
+            onChange={(e) => this.typeNewNote(e)}
+          ></textarea>
+          {
+            showNoteControls &&
+            (<div className="btn-group">
+              <button
+                className="btn-default"
+                onClick={() => this.typeNewNote(false)}
+              >Cancel</button>
+              <button
+                className="btn-primary"
+                onClick={() => this.saveNoteForTask(id)}
+              >Save</button>
+            </div>)
+          }
         </div>
         <div className='task-settings-footer'>
           <button
             className="task-settings-arrow-right"
-            onClick={() => closeTaskSettings(activeTask.id)}>
+            onClick={() => closeTaskSettings(id)}>
             <img src="./assets/right.svg" />
           </button>
           <p>{(() => {
-            let today = new Date();
-            let footerDate = today.toLocaleString('en-us', {weekday: 'long'}) + ', ' +
-              today.toLocaleString('en-us', {month: 'long'}) + ' ' +
-              today.toLocaleString('en-us', {day: 'numeric'});
-            return footerDate;
+            return (new Date()).toLocaleString('en-us', {weekday: 'long', month: 'long', day: 'numeric'});
           })()}</p>
           <button
             className="task-settings-trash"

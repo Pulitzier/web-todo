@@ -131,6 +131,16 @@ export function appReducer(state = defaultAppTodosState, action) {
         ...state,
         tasks: tasksReducer(tasks, action)
       };
+    case 'ADD_TASK_TO_MY_DAY':
+      return {
+        ...state,
+        tasks: tasksReducer(tasks, action)
+      };
+    case 'ADD_NOTE_TO_TASK':
+      return {
+        ...state,
+        tasks: tasksReducer(tasks, action)
+      };
     //   console.log('add to important case');
     //   return {
     //     ...state,
@@ -161,10 +171,16 @@ export function appReducer(state = defaultAppTodosState, action) {
         ...state,
         tasks: tasksReducer(tasks, action)
       };
+    case 'SET_REMIND_ME_DATE':
+      return {
+        ...state,
+        tasks: tasksReducer(tasks, action)
+      };
     default:
       return state;
   }
 }
+
 const todosReducer = (state = defaultTodos, action) => {
   let { myPersonalToDo, toDoCategories } = state;
   switch (action.type) {
@@ -321,7 +337,11 @@ const tasksReducer = (state = [], action) => {
           important: todoListId === 1,
           todoIsParent: todoListId === 0 || todoListId === 1 || todoListId === 2,
           taskText: action.task,
-          createdAt: Date.now()
+          createdAt: Date.now(),
+          note: '',
+          dueDate: '',
+          remindDate: '',
+          repeatDate: '',
         }
       ];
     case 'ADD_TASK_TO_IMPORTANT':
@@ -330,6 +350,26 @@ const tasksReducer = (state = [], action) => {
           return {
             ...task,
             important: !task.important
+          }
+        }
+        return task;
+      });
+    case 'ADD_TASK_TO_MY_DAY':
+      return state.map(task => {
+        if (task.id === action.taskId) {
+          return {
+            ...task,
+            myDay: action.addToMyDay
+          }
+        }
+        return task;
+      });
+    case 'ADD_NOTE_TO_TASK':
+      return state.map(task => {
+        if(task.id === action.taskId) {
+          return {
+            ...task,
+            note: action.note
           }
         }
         return task;
@@ -347,6 +387,12 @@ const tasksReducer = (state = [], action) => {
         return task;
       });
     case 'ACTIVATE_TASK_SETTINGS':
+      state = state.map(task => {
+        return {
+          ...task,
+          active: false
+        }
+      });
       return state.map(task => {
         if (action.taskId === task.id) {
           return {
@@ -384,6 +430,16 @@ const tasksReducer = (state = [], action) => {
         }
       };
       return sortTasks(action.sort, state.filter(task => task.parentId === action.listId));
+    case 'SET_REMIND_ME_DATE':
+      return state.map(task => {
+        if(task.id === action.taskId) {
+          return {
+            ...task,
+            remindDate: action.date
+          }
+        }
+        return task;
+      });
     default:
       return state
   }

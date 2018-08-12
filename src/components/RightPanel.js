@@ -22,9 +22,10 @@ export default class RightPanel extends Component {
   render() {
     const { store } = this.context;
     const state = store.getState();
-    const { app: { todos }, search: { activateSearch } } = state;
+    const { app: { todos, tasks }, search: { activateSearch } } = state;
     const activeTodo = getActiveTodoList(todos);
     const { deleteTask, deleteTodo } = this.props;
+    const activeTask = tasks.length !== 0 ? (tasks.find(task => task.active === true) || '') : '';
 
     return (
       <Panel className="col-md-8 rightPanel">
@@ -39,7 +40,9 @@ export default class RightPanel extends Component {
           />
           <ToDoListOfTask activeTodo={activeTodo}/>
         </div>
-        <TaskSettings handleDeleteTask={deleteTask}/>
+        {
+          activeTask && <TaskSettings handleDeleteTask={deleteTask} activeTask={activeTask}/>
+        }
       </Panel>
     )
   }

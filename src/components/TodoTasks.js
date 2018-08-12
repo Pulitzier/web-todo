@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
+import ButtonToImportance from './ButtonToImportance';
 import {
   getTasksForTodo,
-  getActiveTodoList
+  getActiveTodoList, getStringDate
 } from '../helpers';
 import {
   toggleTask,
@@ -25,10 +26,6 @@ export default class TodoTasks extends Component {
     const toggleTodoTask = (task) => {
       turnOnSound ? playSoundWhenDone(task.done) : null;
       store.dispatch(toggleTask(task.id));
-    };
-
-    const handleImportance = (taskId) => {
-      store.dispatch(handleTaskImportanance(taskId))
     };
 
     const activateSettings = (taskId) => {
@@ -66,6 +63,13 @@ export default class TodoTasks extends Component {
             <p className="todo-label-for-task"></p>
           );
         default:
+          if(task.myDay) {
+            return (
+              <p className="todo-label-for-task">
+                <img src="./assets/sun.svg"/>My Day &#8226; {activeTodo.title}
+              </p>
+            );
+          }
           return (
             <p className="todo-label-for-task"></p>
           );
@@ -74,7 +78,7 @@ export default class TodoTasks extends Component {
 
     return getTasksForTodo(tasks, activeTodo)
       .map((task, i) => {
-        let { id, done, taskText, important } = task;
+        let { id, done, taskText, note, remindDate } = task;
         return (
           <div
             key={i}
@@ -97,24 +101,24 @@ export default class TodoTasks extends Component {
             </label>
             <div className="task-title-wrapper">
               <p className={done ? 'lineThrough' : null}>{taskText}</p>
-              {
-                setTaskLabel(task)
-              }
+              <div className="label-wrapper-for-task">
+                <div>
+                  {
+                    setTaskLabel(task)
+                  }
+                  {
+                    note && (<p className="task-notes"><img src='./assets/writing.svg' />Notes</p>)
+                  }
+                  {
+                    remindDate &&
+                    (<p className="remind-date-label"><img src='./assets/clock.svg' />
+                      {getStringDate(remindDate)}
+                    </p>)
+                  }
+                </div>
+              </div>
             </div>
-            <button
-              className="important-icon"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handleImportance(id);
-              }}
-            >
-              {
-                important ?
-                  (<img src="./assets/star-fill.svg"/>) :
-                  (<img src="./assets/star.svg"/>)
-              }
-            </button>
+            <ButtonToImportance task={task}/>
           </div>
         )
       })
