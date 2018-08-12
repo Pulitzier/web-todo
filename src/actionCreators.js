@@ -35,6 +35,13 @@ export function openSearchPanel(bool) {
   }
 }
 
+export function setShowFilter(bool) {
+  return {
+    type: "SET_SHOW_COMPLETED",
+    show: bool,
+  }
+}
+
 export function activateBannerSettings(bool) {
   return {
     type: "ACTIVATE_BANNER_PANEL",
