@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
+import { getStringDate } from '../helpers';
 import { setRepeat } from '../actionCreators';
 
 export default class RepeatDatePicker extends Component {
@@ -8,7 +9,7 @@ export default class RepeatDatePicker extends Component {
     this.datePickerState = {
       numberOfRepeat: 1,
       typeOfRange: 'weeks',
-      daysPicked: []
+      daysPicked: [getStringDate((new Date()), {weekday: 'short'}).slice(0,2)]
     }
   };
   handlePickValue(event) {
@@ -52,9 +53,10 @@ export default class RepeatDatePicker extends Component {
   };
   handleFormSubmit() {
     let { store } = this.context;
-    let { taskId, showCustomRepeat } = this.props;
+    let { taskId, showCustomRepeat, updateDueDate } = this.props;
     let serializedRepeat = JSON.stringify(this.datePickerState);
     store.dispatch(setRepeat(taskId, serializedRepeat));
+    updateDueDate();
     showCustomRepeat(false);
   };
   handleFormReset() {

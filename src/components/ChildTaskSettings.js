@@ -168,7 +168,7 @@ export default class ChildTaskSettings extends Component {
     return (
       <div className="task-settings-additional">
         <ul>
-          <li className={"remind-me " + (remindDate && 'reminded')}>
+          <li className={"remind-me" + (remindDate && ' activeOption')}>
             <div onClick={() => this.openReminder(true)}>
               <img src="./assets/clock.svg" />
               <p>
@@ -237,7 +237,7 @@ export default class ChildTaskSettings extends Component {
               />
             }
           </li>
-          <li className="due-date">
+          <li className={"due-date" + (dueDate && ' activeOption')}>
             <div onClick={() => this.openDueDate(true)}>
               <img src="./assets/calendar.svg" />
               <p>{(() => {
@@ -306,12 +306,23 @@ export default class ChildTaskSettings extends Component {
               />
             }
           </li>
-          <li className="repeat">
+          <li className={"repeat" + (repeat && ' activeOption')}>
             <div onClick={() => this.openRepeatWindow(true)}>
               <img src="./assets/repeat.svg" />
               <p>{(() => {
-
-                return 'Repeat'
+                console.log(repeat);
+                switch (repeat){
+                  case 'daily':
+                    return 'Daily';
+                  case 'weekdays':
+                    return (<span>Weekly<span className="date-label">Weekdays</span></span>);
+                  case 'weekly':
+                    return (<span>Weekly<span className="date-label">Mon</span></span>);
+                  case 'monthly':
+                    return 'Monthly';
+                  default:
+                    return 'Repeat'
+                }
               })()}</p>
               {
                 repeat &&
@@ -353,7 +364,10 @@ export default class ChildTaskSettings extends Component {
             }
             {
               showRepeat &&
-              <RepeatDatePicker taskId={id} showCustomRepeat={(bool) => this.showCustomRepeat(bool)}/>
+              <RepeatDatePicker
+                taskId={id}
+                updateDueDate={setDueTomorrow}
+                showCustomRepeat={(bool) => this.showCustomRepeat(bool)}/>
             }
           </li>
         </ul>

@@ -645,7 +645,8 @@ button.task-settings-trash {
 .todo-label-for-task img,
 .task-notes img,
 .remind-date-label img,
-.due-date-label img {
+.due-date-label img,
+.repeat-date-label img {
   max-width: 10px;
   margin-right: 3px;
 }
@@ -910,28 +911,46 @@ div.show-hide_completed_todos img {
   width: 100%;
 }
 
-.task-settings-additional .remind-me.reminded > div p {
-  padding-top: 3px;
-  padding-bottom: 3px;
+.task-settings-additional .activeOption {
+  color: cornflowerblue;
 }
 
-.task-settings-additional .remind-me span.date-label {
+.task-settings-additional .remind-me.activeOption > div > p,
+.task-settings-additional .repeat.activeOption > div > p {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.task-settings-additional .remind-me.activeOption > div > span,
+.task-settings-additional .due-date.activeOption > div > span,
+.task-settings-additional .repeat.activeOption > div > span {
+  color: #000000;
+}
+
+.task-settings-additional span.date-label {
   display: block;
   font-size: 13px;
   line-height: 15px;
 }
 
 .task-settings-additional span.clear-remind-date,
-.task-settings-additional span.clear-due-date {
+.task-settings-additional span.clear-due-date,
+.task-settings-additional span.clear-repeat {
   padding: 0 15px;
-  line-height: 46px;
+  line-height: 44px;
   border-bottom: 1px solid lightgray;
 }
 
+.task-settings-additional span.clear-repeat {
+  border-bottom: 0;
+}
+
+.task-settings-additional span.clear-repeat,
 .task-settings-additional span.clear-due-date {
   line-height: 45px;
 }
 
+.task-settings-additional span.clear-repeat:hover,
 .task-settings-additional span.clear-remind-date:hover,
 .task-settings-additional span.clear-due-date:hover {
   background-color: rgb(221, 221, 221);

@@ -107,10 +107,6 @@ export default class TodoTasks extends Component {
                     setTaskLabel(task)
                   }
                   {
-                    note && (<p className="task-notes">
-                      &#8226;&nbsp;&nbsp;<img src='./assets/writing.svg' />Notes</p>)
-                  }
-                  {
                     dueDate &&
                     (<p className="due-date-label">
                       &#8226;&nbsp;&nbsp;
@@ -124,6 +120,21 @@ export default class TodoTasks extends Component {
                       &#8226;&nbsp;&nbsp;
                       <img src='./assets/clock.svg' />
                       {getStringDate(remindDate)}
+                    </p>)
+                  }
+                  {
+                    repeat &&
+                    (<p className="repeat-date-label">
+                      &#8226;&nbsp;&nbsp;
+                      <img src='./assets/repeat.svg' />
+                    </p>)
+                  }
+                  {
+                    note &&
+                    (<p className="task-notes">
+                      &#8226;&nbsp;&nbsp;
+                      <img src='./assets/writing.svg' />
+                      Notes
                     </p>)
                   }
                 </div>
