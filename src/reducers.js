@@ -176,6 +176,16 @@ export function appReducer(state = defaultAppTodosState, action) {
         ...state,
         tasks: tasksReducer(tasks, action)
       };
+    case 'SET_DUE_DATE':
+      return {
+        ...state,
+        tasks: tasksReducer(tasks, action)
+      };
+    case 'SET_REPEAT':
+      return {
+        ...state,
+        tasks: tasksReducer(tasks, action)
+      };
     default:
       return state;
   }
@@ -341,7 +351,7 @@ const tasksReducer = (state = [], action) => {
           note: '',
           dueDate: '',
           remindDate: '',
-          repeatDate: '',
+          repeat: '',
         }
       ];
     case 'ADD_TASK_TO_IMPORTANT':
@@ -436,6 +446,26 @@ const tasksReducer = (state = [], action) => {
           return {
             ...task,
             remindDate: action.date
+          }
+        }
+        return task;
+      });
+    case 'SET_DUE_DATE':
+      return state.map(task => {
+        if(task.id === action.taskId) {
+          return {
+            ...task,
+            dueDate: action.date
+          }
+        }
+        return task;
+      });
+    case 'SET_REPEAT':
+      return state.map(task => {
+        if(task.id === action.taskId) {
+          return {
+            ...task,
+            repeat: action.repeatType
           }
         }
         return task;

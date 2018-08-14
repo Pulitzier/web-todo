@@ -644,7 +644,8 @@ button.task-settings-trash {
 
 .todo-label-for-task img,
 .task-notes img,
-.remind-date-label img {
+.remind-date-label img,
+.due-date-label img {
   max-width: 10px;
   margin-right: 3px;
 }
@@ -902,7 +903,9 @@ div.show-hide_completed_todos img {
   border: 0;
 }
 
-.task-settings-additional .remind-me > div {
+.task-settings-additional .remind-me > div,
+.task-settings-additional .repeat > div,
+.task-settings-additional .due-date > div {
   display: contents;
   width: 100%;
 }
@@ -918,28 +921,37 @@ div.show-hide_completed_todos img {
   line-height: 15px;
 }
 
-.task-settings-additional .remind-me span.clear-remind-date {
+.task-settings-additional span.clear-remind-date,
+.task-settings-additional span.clear-due-date {
   padding: 0 15px;
   line-height: 46px;
   border-bottom: 1px solid lightgray;
 }
 
-.task-settings-additional .remind-me span.clear-remind-date:hover {
+.task-settings-additional span.clear-due-date {
+  line-height: 45px;
+}
+
+.task-settings-additional span.clear-remind-date:hover,
+.task-settings-additional span.clear-due-date:hover {
   background-color: rgb(221, 221, 221);
 }
 
-.task-settings-additional .remind-me .pick-date-calendar .rc-calendar-panel {
+.task-settings-additional .pick-date-calendar .rc-calendar-panel,
+.task-settings-additional .due-date-calendar .rc-calendar-panel {
   position: absolute;
   border: 1px solid #888888;
   background-color: #ffffff;
   text-align: center;
 }
 
-.dark .task-settings-additional .remind-me .pick-date-calendar .rc-calendar-panel {
+.dark .task-settings-additional .pick-date-calendar .rc-calendar-panel,
+.dark .task-settings-additional .due-date-calendar .rc-calendar-panel {
   background-color: #5c6066;
 }
 
-.task-settings-additional .reminder-window ul {
+.task-settings-additional .reminder-window ul,
+.task-settings-additional .repeat-window ul {
   position: absolute;
   right: 5px;
   max-width: 250px;
@@ -948,11 +960,13 @@ div.show-hide_completed_todos img {
   padding: 0;
 }
 
-.dark .task-settings-additional .reminder-window ul {
+.dark .task-settings-additional .reminder-window ul,
+.dark .task-settings-additional .repeat-date-picker {
   background-color: #5c6066;
 }
 
-.task-settings-additional .reminder-window ul li {
+.task-settings-additional .reminder-window ul li,
+.task-settings-additional .repeat-window ul li {
   border: 0;
   padding-left: 10px;
 }
@@ -968,6 +982,67 @@ div.show-hide_completed_todos img {
 
 .task-settings-additional .reminder-window ul li:last-of-type {
   border-top: 1px solid lightgray;
+}
+
+.task-settings-additional .repeat-date-picker {
+  position: absolute;
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 10px;
+  width: 250px;
+  height: fit-content;
+  background-color: #ffffff;
+  border: 1px solid #888888;
+}
+
+.task-settings-additional .repeat-date-picker p {
+  padding: 0 0 10px 0;
+}
+
+.task-settings-additional .repeat-date-picker .days-picker {
+  margin: 7px 0;
+}
+
+.task-settings-additional span.repeat-day-label {
+  margin: 4px;
+  line-height: 1.1;
+  display: inline-block;
+  background-color: lightgrey;
+  padding: 7px;
+}
+
+.task-settings-additional span.repeat-day-label.selected {
+  background-color: cornflowerblue;
+  color: #ffffff;
+}
+
+.task-settings-additional .repeat-date-picker .picker-value {
+  max-width: 80px;
+}
+
+.task-settings-additional .repeat-date-picker .picker-type {
+  height: 30px;
+  width: 100%;
+  max-width: 142px;
+  display: inline-block;
+  float: right;
+}
+
+.task-settings-additional .repeat-date-picker .btn-group {
+  display: flex;
+}
+
+.task-settings-additional .repeat-date-picker button {
+  border: 0;
+  width: 50%;
+}
+
+.task-settings-additional .repeat-date-picker button:first-of-type {
+  margin-right: 2px;
+}
+
+.task-settings-additional .repeat-date-picker button:last-of-type {
+  margin-left: 2px;
 }
 
 .task-settings-add-to-my-day ul,

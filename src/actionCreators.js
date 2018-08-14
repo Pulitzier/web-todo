@@ -209,3 +209,19 @@ export function setRemindMeDate(taskId, date) {
     date
   }
 }
+
+export function setDueDate(taskId, date) {
+  return {
+    type: 'SET_DUE_DATE',
+    taskId,
+    date
+  }
+}
+
+export function setRepeat(taskId, repeatType) {
+  return {
+    type: 'SET_REPEAT',
+    taskId,
+    repeatType
+  }
+}

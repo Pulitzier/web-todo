@@ -78,7 +78,7 @@ export default class TodoTasks extends Component {
 
     return getTasksForTodo(tasks, activeTodo)
       .map((task, i) => {
-        let { id, done, taskText, note, remindDate } = task;
+        let { id, done, taskText, note, remindDate, dueDate, repeat } = task;
         return (
           <div
             key={i}
@@ -107,11 +107,22 @@ export default class TodoTasks extends Component {
                     setTaskLabel(task)
                   }
                   {
-                    note && (<p className="task-notes"><img src='./assets/writing.svg' />Notes</p>)
+                    note && (<p className="task-notes">
+                      &#8226;&nbsp;&nbsp;<img src='./assets/writing.svg' />Notes</p>)
+                  }
+                  {
+                    dueDate &&
+                    (<p className="due-date-label">
+                      &#8226;&nbsp;&nbsp;
+                      <img src='./assets/calendar.svg' />
+                      {getStringDate(dueDate)}
+                    </p>)
                   }
                   {
                     remindDate &&
-                    (<p className="remind-date-label"><img src='./assets/clock.svg' />
+                    (<p className="remind-date-label">
+                      &#8226;&nbsp;&nbsp;
+                      <img src='./assets/clock.svg' />
                       {getStringDate(remindDate)}
                     </p>)
                   }

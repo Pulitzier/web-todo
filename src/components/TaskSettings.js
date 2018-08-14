@@ -110,7 +110,7 @@ export default class TaskSettings extends Component {
     const { store } = this.context;
     const { activateStepInput, toggleStep, showNoteControls } = this.taskState;
     const { handleDeleteTask, activeTask } = this.props;
-    let { id, done, taskText, myDay } = activeTask;
+    let { id, done, taskText, createdAt, myDay } = activeTask;
 
     const closeTaskSettings = (taskId) => {
       this.newNote.blur();
@@ -235,7 +235,7 @@ export default class TaskSettings extends Component {
             <img src="./assets/right.svg" />
           </button>
           <p>{(() => {
-            return (new Date()).toLocaleString('en-us', {weekday: 'long', month: 'long', day: 'numeric'});
+            return `Created on ${(new Date(createdAt)).toLocaleString('en-us', {weekday: 'short', month: 'short', day: 'numeric'})}`;
           })()}</p>
           <button
             className="task-settings-trash"
