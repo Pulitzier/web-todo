@@ -56,6 +56,12 @@ export default class RepeatDatePicker extends Component {
     let serializedRepeat = JSON.stringify(this.datePickerState);
     store.dispatch(setRepeat(taskId, serializedRepeat));
     showCustomRepeat(false);
+  };
+  handleFormReset() {
+    let { store } = this.context;
+    let { taskId, showCustomRepeat } = this.props;
+    store.dispatch(setRepeat(taskId, ''));
+    showCustomRepeat(false);
   }
   render() {
     let { numberOfRepeat, typeOfRange, daysPicked } = this.datePickerState;
@@ -63,11 +69,18 @@ export default class RepeatDatePicker extends Component {
       <div className="repeat-date-picker-wrapper">
         <div className="repeat-date-picker">
           <p>Repeat every ...</p>
-          <form onSubmit={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            this.handleFormSubmit();
-          }}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              this.handleFormSubmit();
+            }}
+            onReset={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              this.handleFormReset();
+            }}
+          >
             <input
               className="picker-value"
               name='picValue'
@@ -110,7 +123,7 @@ export default class RepeatDatePicker extends Component {
               }
             </div>
             <div className="btn-group">
-              <button className="btn-default">Cancel</button>
+              <button className="btn-default" type="reset">Cancel</button>
               <button className="btn-primary" type="submit">Save</button>
             </div>
           </form>
