@@ -280,8 +280,8 @@ div.todo-list div.todos {
 .label-wrapper-for-task {
   display: flex;
   position: relative;
-  height: 20px;
   overflow: hidden;
+  height: 20px;
 }
 
 .label-wrapper-for-task > div {
@@ -440,6 +440,10 @@ div.sort-settings-link p {
 .task-settings ul li p,
 .rightPanel > div {
   width: 100%;
+}
+
+.task-settings-footer p {
+  font-size: 13px;
 }
 
 .search-modal div > img {
@@ -744,6 +748,7 @@ span.blue {
 button.change-todo-icon,
 .panelBanner-text > div:first-of-type,
 .user-info,
+.task-settings-footer,
 .user-settings.active div,
 .task-settings .add-new-step-wrapper .add-new-step {
   display: flex;

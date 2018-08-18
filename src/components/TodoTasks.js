@@ -11,7 +11,6 @@ import {
 } from '../actionCreators';
 
 export default class TodoTasks extends Component {
-
   render() {
     const { store } = this.context;
     const state = store.getState();
@@ -110,7 +109,7 @@ export default class TodoTasks extends Component {
             <div className="task-title-wrapper">
               <p className={done ? 'lineThrough' : null}>{taskText}</p>
               <div className="label-wrapper-for-task">
-                <div>
+                <div className="list-of-labels">
                   {
                     countStepsForTask(id)
                   }
