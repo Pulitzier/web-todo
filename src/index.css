@@ -239,11 +239,17 @@ audio {
   position: relative;
 }
 
+button.open-greeting,
 button.dots-menu {
   border-radius: 0;
   margin: 15px;
   position: relative;
   filter: opacity(.5);
+}
+
+button.open-greeting {
+  padding: 6px 12px;
+  border: 0;
 }
 
 .todo-list-wrapper {
@@ -336,11 +342,116 @@ div.todo-list div.todos {
 }
 
 .todos .important-icon img,
+.open-greeting img,
 .leftPanel .nav-link img,
 .user-settings.active img,
 .task-settings img {
   width: 18px;
   margin-right: 10px;
+}
+
+.open-greeting img {
+  margin-right: 0;
+  filter: invert(1);
+}
+
+.greetings-panel {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #3771ce;
+  padding: 50px 20px;
+  color: #ffffff;
+  z-index: 1;
+}
+
+.greeting-header-section .done-greetings {
+  color: #ffffff;
+}
+
+.greeting-header-section,
+.greeting-suggestion-section header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.greeting-header-section {
+  margin: 15px 0;
+}
+
+.greeting-suggestion-section header {
+  padding: 10px;
+  border-bottom: 1px solid #555555;
+}
+
+.greeting-suggestion-section section {
+  padding: 10px;
+}
+
+.greeting-suggestion-section section p:last-of-type {
+  font-size: 12px;
+}
+
+.greeting-suggestion-section header h5 {
+  margin-bottom: 2px;
+}
+
+.greeting-suggestion-section header p {
+  display: flex;
+}
+
+.greeting-suggestion-section header p,
+.greeting-suggestion-section section p:last-of-type {
+  color: #5c6066;
+  font-weight: 700;
+}
+
+.greeting-suggestion-section header button {
+  background-color: transparent;
+  border: 0;
+  margin: 0 10px;
+}
+
+.greeting-header-section button {
+  background-color: blue;
+  border: 0;
+  padding: 10px 15px;
+}
+
+.greeting-suggestion-section {
+  background-color: #ffffff;
+  color: #2e2f30;
+  flex-flow: column;
+}
+
+.greeting-suggestion-section header p img:last-of-type {
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+}
+
+.greeting-suggestion-section img:last-of-type {
+  width: 12px;
+  margin-right: 7px;
+}
+.greeting-suggestion-section button.collapse-suggestions {
+  padding: 2px 5px;
+}
+
+.greeting-suggestion-section button.collapse-suggestions:hover {
+  background-color: rgb(221, 221, 221);
+}
+
+.greeting-suggestion-section button.collapse-suggestions.down img {
+  transform: rotate(90deg);
+  margin: 5px;
+}
+
+.greeting-suggestion-section button.collapse-suggestions.up img {
+  transform: rotate(-90deg);
+  margin: 5px;
 }
 
 .todos .important-icon img {
