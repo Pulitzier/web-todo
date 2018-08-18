@@ -80,7 +80,7 @@ export default class ToDoListOfTask extends Component {
                   </label>
                   <input
                     type="text"
-                    name="add new task"
+                    name="add-new-task"
                     ref={node => this.newTaskInput = node}
                     placeholder={!activateNewTask ? "+ Add a to-do" : "Add a to-do"}
                     className={"add-new-todo-input " + (activateNewTask ? "activated" : "inactive")}

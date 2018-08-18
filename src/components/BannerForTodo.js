@@ -148,15 +148,14 @@ export default class BannerForTodo extends Component {
             null
           }
         </div>
-          <button
-            className="btn btn-primary dots-menu"
-            style={{backgroundColor: backgroundColor}}
-            data-toggle="modal"
-            data-target="#bannerSettings"
-          >
-            <span>&bull;&bull;&bull;</span>
-          </button>
-
+        <button
+          className="btn btn-primary dots-menu"
+          style={{backgroundColor: backgroundColor}}
+          data-toggle="modal"
+          data-target="#bannerSettings"
+        >
+          <span>&bull;&bull;&bull;</span>
+        </button>
         <div className="modal fade" id="bannerSettings" tabIndex="-1" role="dialog" aria-labelledby="bannerSettingsLabel"
              aria-hidden="true">
           <div className="modal-dialog" role="document">

@@ -27,7 +27,8 @@ const defaultTodos = {
 
 const defaultAppTodosState = {
   todos: defaultTodos,
-  tasks: []
+  tasks: [],
+  steps: []
 };
 
 const defaultBannerState = {
@@ -39,7 +40,7 @@ const defaultBannerState = {
 let todoId = 3;
 
 export function appReducer(state = defaultAppTodosState, action) {
-  const { todos, tasks } = state;
+  const { todos, tasks, steps } = state;
   switch(action.type) {
     case 'ADD_NEW_TODO_LIST':
       return {
@@ -185,6 +186,11 @@ export function appReducer(state = defaultAppTodosState, action) {
       return {
         ...state,
         tasks: tasksReducer(tasks, action)
+      };
+    case 'ADD_STEP_TO_TASK':
+      return {
+        ...state,
+        steps: stepsReducer(steps, action)
       };
     default:
       return state;
@@ -470,6 +476,22 @@ const tasksReducer = (state = [], action) => {
         }
         return task;
       });
+    default:
+      return state
+  }
+};
+
+const stepsReducer = ( state = [], action) => {
+  switch(action.type) {
+    case 'ADD_STEP_TO_TASK':
+      const { taskId, stepText } = action;
+      return [
+        ...state,
+        {
+          taskId,
+          stepText
+        }
+      ];
     default:
       return state
   }

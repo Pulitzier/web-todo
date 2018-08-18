@@ -310,7 +310,6 @@ export default class ChildTaskSettings extends Component {
             <div onClick={() => this.openRepeatWindow(true)}>
               <img src="./assets/repeat.svg" />
               <p>{(() => {
-                console.log(repeat);
                 switch (repeat){
                   case 'daily':
                     return 'Daily';

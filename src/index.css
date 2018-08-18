@@ -375,7 +375,7 @@ div.sort-settings-link p {
 }
 
 .search-modal div.background-wrapper div.search-input-wrapper,
-.add-new-step-wrapper .add-new-step > div,
+.add-new-step-wrapper .add-new-step,
 .user-info-settings {
   position: relative;
   width: 100%;
@@ -418,6 +418,7 @@ div.sort-settings-link p {
   border-color: transparent;
 }
 
+.task-settings .activateStepInput,
 .add-new-todo-wrapper .add-new-todo-input.inactive::placeholder,
 .add-new-step-wrapper .add-new-step-input.inactive::placeholder {
   color: cornflowerblue;
@@ -469,6 +470,7 @@ p.lineThrough {
 .theme-sets label.ligthTheme-label,
 .theme-sets label.darkTheme-label,
 .todos label.toggleTodoLabel,
+.task-settings label.toggleStepLabel,
 .task-settings label.toggleTaskLabel,
 ul.searchList label.searchTaskLabel,
 .add-new-todo-wrapper label.toggleTodoLabel-template {
@@ -549,6 +551,7 @@ input.rename-list {
 .theme-sets label.darkTheme-label.checked > span,
 .todos label.toggleTodoLabel.done > span,
 .task-settings label.toggleTaskLabel.done > span,
+.task-settings label.toggleStepLabel.toggled > span,
 ul.searchList label.searchTaskLabel.toggled > span,
 .add-new-todo-wrapper label.toggleTodoLabel-template.toggled > span {
   background-color: limegreen;
@@ -557,6 +560,7 @@ ul.searchList label.searchTaskLabel.toggled > span,
 .theme-sets label.ligthTheme-label > span,
 .theme-sets label.darkTheme-label > span,
 .todos label.toggleTodoLabel > span,
+.task-settings label.toggleStepLabel > span,
 .task-settings label.toggleTaskLabel > span,
 ul.searchList label.searchTaskLabel > span,
 .add-new-todo-wrapper label.toggleTodoLabel-template > span {
@@ -574,6 +578,7 @@ ul.searchList label.searchTaskLabel > span,
 .theme-sets label.ligthTheme-label.checked > span:after,
 .theme-sets label.darkTheme-label.checked > span:after,
 .todos label.toggleTodoLabel.done > span:after,
+.task-settings label.toggleStepLabel.toggled > span:after,
 .task-settings label.toggleTaskLabel.done > span:after,
 ul.searchList label.searchTaskLabel.toggled > span:after,
 .add-new-todo-wrapper label.toggleTodoLabel-template.toggled > span:after {
@@ -706,7 +711,8 @@ span.blue {
 button.change-todo-icon,
 .panelBanner-text > div:first-of-type,
 .user-info,
-.user-settings.active div {
+.user-settings.active div,
+.task-settings .add-new-step-wrapper .add-new-step {
   display: flex;
   align-items: center;
 }
@@ -892,7 +898,8 @@ div.show-hide_completed_todos img {
 .task-settings-add-to-my-day,
 .task-settings-additional,
 .task-settings-add-note,
-.task-settings-footer {
+.task-settings-footer,
+.activateStepInput {
   background-color: #ffffff;
 }
 
@@ -1121,6 +1128,7 @@ ul.searchList {
 #bannerSettings .modal-body > div,
 .task-settings-title,
 .add-new-step-wrapper,
+.activateStepInput,
 .task-settings-additional li p,
 .task-settings-add-to-my-day li p,
 .task-settings-footer {
@@ -1190,8 +1198,6 @@ ul.searchList {
 
 .rightPanel,
 .task-settings > div,
-.add-new-step-wrapper .add-new-step,
-.add-new-step-wrapper .add-new-step > div,
 ul.searchList li,
 .show-hide_completed_todos p,
 #bannerSettings .sort-settings-menu > div {

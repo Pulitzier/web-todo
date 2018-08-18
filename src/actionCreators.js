@@ -225,3 +225,11 @@ export function setRepeat(taskId, repeatType) {
     repeatType
   }
 }
+
+export function addStep(taskId, stepText) {
+  return {
+    type: 'ADD_STEP_TO_TASK',
+    taskId,
+    stepText
+  }
+}

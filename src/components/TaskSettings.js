@@ -4,11 +4,11 @@ import ButtonToImportance from './ButtonToImportance';
 import ChildTaskSettings from './ChildTaskSettings';
 import {
   activateTaskSettings,
-  deleteTask,
   toggleTask,
   addTaskToMyDay,
   addNoteToTask
 } from '../actionCreators';
+import StepInput from "./StepInput";
 
 export default class TaskSettings extends Component {
   constructor(props) {
@@ -18,7 +18,6 @@ export default class TaskSettings extends Component {
       showConfirmMessage: false,
       activateStepInput: false,
       toggleStep: false,
-      typeNewStep: false,
       newStepText: '',
       newNoteText: activeTask.note,
       showNoteControls: false
@@ -36,34 +35,13 @@ export default class TaskSettings extends Component {
     this.unsubscribe();
   }
 
-  activateStep = (bool) => {
+  activateStep = () => {
     this.setState(() => {
       return this.taskState = {
         ...this.taskState,
-        activateStepInput: bool
+        activateStepInput: !this.taskState.activateStepInput
       }
-    })
-  };
-
-  typeNewStep = (e) => {
-    let step = e.target.value;
-    this.setState(() => {
-      return this.taskState = {
-        ...this.taskState,
-        typeNewStep: true,
-        newStepText: step
-      }
-    })
-  };
-
-  clearStepInput = () => {
-    this.setState(() => {
-      return this.taskState = {
-        ...this.taskState,
-        typeNewStep: false,
-        newStepText: ''
-      }
-    })
+    });
   };
 
   typeNewNote(event) {
@@ -108,7 +86,7 @@ export default class TaskSettings extends Component {
 
   render() {
     const { store } = this.context;
-    const { activateStepInput, toggleStep, showNoteControls } = this.taskState;
+    const { activateStepInput, showNoteControls } = this.taskState;
     const { handleDeleteTask, activeTask } = this.props;
     let { id, done, taskText, createdAt, myDay } = activeTask;
 
@@ -145,34 +123,19 @@ export default class TaskSettings extends Component {
           <p>{taskText}</p>
           <ButtonToImportance task={activeTask}/>
         </div>
-        <div className="add-new-step-wrapper">
-          <div className="add-new-step">
-            <div>
-              <label
-                htmlFor="addStepCheckbox-template"
-                className={
-                  "addStepLabel-template " +
-                  (activateStepInput ? 'active ' : 'inactive ') +
-                  ((activateStepInput && toggleStep) ? 'toggled' : 'untoggled')
-                }
-              >
-                <input
-                  id="addStepCheckbox-template"
-                  type="checkbox"
-                />
-                <span></span>
-              </label>
-              <input
-                type="text"
-                name="add-new-step"
-                placeholder={!activateStepInput ? "+ Add a step" : "Add a step"}
-                className={"add-new-step-input " + (activateStepInput ? "activated" : "inactive")}
-                onFocus={() => this.activateStep(true)}
-                onChange={(e) => this.typeNewStep(e)}
-              />
-            </div>
-          </div>
-        </div>
+        {
+          activateStepInput ?
+            <StepInput
+              activateStep={this.activateStep}
+              taskId={id}
+            /> :
+            (<p
+              className="activateStepInput"
+              onClick={() => this.activateStep()}
+            >
+              + Add Step
+            </p>)
+        }
         <div className="task-settings-add-to-my-day">
           <ul>
             <li
@@ -243,7 +206,6 @@ export default class TaskSettings extends Component {
           >
             <img src="./assets/garbage.svg" />
           </button>
-
         </div>
       </div>
     )
