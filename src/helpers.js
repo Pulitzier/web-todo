@@ -47,6 +47,10 @@ export function closeBannerSettings() {
   document.getElementById('bannerSettings').classList.remove('show');
   document.getElementById('bannerSettings').style.setProperty('display', 'none');
   document.getElementsByTagName('body')[0].classList.remove('modal-open');
-  let modalBackddrop = document.getElementsByClassName('modal-backdrop')[0];
-  modalBackddrop.parentNode.removeChild(modalBackddrop);
+  let modalBackDrop = document.getElementsByClassName('modal-backdrop')[0];
+  modalBackDrop.parentNode.removeChild(modalBackDrop);
+}
+
+export function getStringDate(date, options = {weekday: 'short', hour: 'numeric'}) {
+  return (new Date(date)).toLocaleString('en-us', options);
 }

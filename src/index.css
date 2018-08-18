@@ -42,6 +42,7 @@ body p,
 
 ::-webkit-scrollbar {
   width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -272,6 +273,28 @@ div.todo-list div.todos {
   align-items: center;
 }
 
+.task-title-wrapper {
+  width: 100%;
+}
+
+.label-wrapper-for-task {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  height: 20px;
+}
+
+.label-wrapper-for-task > div {
+  position: absolute;
+  flex-flow: row;
+  width: 570px;
+  display: flex;
+}
+
+.label-wrapper-for-task p {
+  font-size: 12px;
+}
+
 .leftPanel ul {
   padding: 10px 0;
   max-width: 100%;
@@ -314,7 +337,8 @@ div.todo-list div.todos {
 
 .todos .important-icon img,
 .leftPanel .nav-link img,
-.user-settings.active img {
+.user-settings.active img,
+.task-settings img {
   width: 18px;
   margin-right: 10px;
 }
@@ -351,10 +375,44 @@ div.sort-settings-link p {
 }
 
 .search-modal div.background-wrapper div.search-input-wrapper,
-.add-new-step-wrapper .add-new-step > div,
+.add-new-step-wrapper .add-new-step,
 .user-info-settings {
   position: relative;
   width: 100%;
+}
+
+.task-settings .step-title {
+  background-color: #ffffff;
+  padding: 5px 10px;
+}
+
+.dark .task-settings .step-title {
+  background-color: #888888;
+}
+
+.task-settings .step-title label.toggleStepLabel {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+
+.task-settings .step-title label.toggleStepLabel > span {
+  width: 16px;
+}
+
+.task-settings .step-title label.toggleStepLabel + p {
+  font-size: 14px;
+  padding-left: 10px;
+}
+
+.task-settings .step-title .steps-trash {
+  display: none;
+}
+.task-settings .step-title:hover .steps-trash {
+  display: inline-flex;
+  margin-left: auto;
+  background-color: transparent;
+  border: 0;
 }
 
 .dark .confirmDeleteModal-child,
@@ -384,6 +442,10 @@ div.sort-settings-link p {
   width: 100%;
 }
 
+.task-settings-footer p {
+  font-size: 13px;
+}
+
 .search-modal div > img {
   width: 50%;
   margin: 0 auto;
@@ -394,15 +456,18 @@ div.sort-settings-link p {
   border-color: transparent;
 }
 
-.add-new-todo-wrapper .add-new-todo-input.inactive::placeholder,
-.add-new-step-wrapper .add-new-step-input.inactive::placeholder,
-.task-settings-add-note textarea::placeholder {
+.task-settings .activateStepInput,
+.add-new-todo-wrapper .add-new-todo-input.inactive::placeholder {
   color: cornflowerblue;
   padding-left: 10px;
 }
 
-.add-new-todo-wrapper .add-new-todo-input.activated::placeholder,
-.add-new-step-wrapper .add-new-step-input.activated::placeholder {
+.task-settings-add-note textarea::placeholder {
+  color: cornflowerblue;
+}
+
+.add-new-step-wrapper .add-new-step-input::placeholder,
+.add-new-todo-wrapper .add-new-todo-input.activated::placeholder {
   color: darkslateblue;
 }
 
@@ -412,6 +477,7 @@ div.sort-settings-link p {
 }
 
 .task-settings-add-note textarea {
+  outline: 0;
   border: 0;
   resize: none;
 }
@@ -441,6 +507,7 @@ p.lineThrough {
 .theme-sets label.ligthTheme-label,
 .theme-sets label.darkTheme-label,
 .todos label.toggleTodoLabel,
+.add-new-step-wrapper label.toggleStepLabel,
 .task-settings label.toggleTaskLabel,
 ul.searchList label.searchTaskLabel,
 .add-new-todo-wrapper label.toggleTodoLabel-template {
@@ -521,6 +588,7 @@ input.rename-list {
 .theme-sets label.darkTheme-label.checked > span,
 .todos label.toggleTodoLabel.done > span,
 .task-settings label.toggleTaskLabel.done > span,
+.task-settings label.toggleStepLabel.done > span,
 ul.searchList label.searchTaskLabel.toggled > span,
 .add-new-todo-wrapper label.toggleTodoLabel-template.toggled > span {
   background-color: limegreen;
@@ -529,11 +597,12 @@ ul.searchList label.searchTaskLabel.toggled > span,
 .theme-sets label.ligthTheme-label > span,
 .theme-sets label.darkTheme-label > span,
 .todos label.toggleTodoLabel > span,
+.task-settings label.toggleStepLabel > span,
 .task-settings label.toggleTaskLabel > span,
 ul.searchList label.searchTaskLabel > span,
 .add-new-todo-wrapper label.toggleTodoLabel-template > span {
   background-color: #ffffff;
-  width: 100%;
+  width: 20px;
   height: 100%;
   display: flex;
   align-items: center;
@@ -546,6 +615,7 @@ ul.searchList label.searchTaskLabel > span,
 .theme-sets label.ligthTheme-label.checked > span:after,
 .theme-sets label.darkTheme-label.checked > span:after,
 .todos label.toggleTodoLabel.done > span:after,
+.task-settings label.toggleStepLabel.done > span:after,
 .task-settings label.toggleTaskLabel.done > span:after,
 ul.searchList label.searchTaskLabel.toggled > span:after,
 .add-new-todo-wrapper label.toggleTodoLabel-template.toggled > span:after {
@@ -605,7 +675,8 @@ button.task-settings-trash {
   display: block;
 }
 
-.todo-label-for-task {
+.todo-label-for-task,
+.task-notes {
   font-size: 12px;
   max-height: 20px;
   display: flex;
@@ -613,7 +684,11 @@ button.task-settings-trash {
   justify-self: left;
 }
 
-.todo-label-for-task img {
+.todo-label-for-task img,
+.task-notes img,
+.remind-date-label img,
+.due-date-label img,
+.repeat-date-label img {
   max-width: 10px;
   margin-right: 3px;
 }
@@ -673,7 +748,9 @@ span.blue {
 button.change-todo-icon,
 .panelBanner-text > div:first-of-type,
 .user-info,
-.user-settings.active div {
+.task-settings-footer,
+.user-settings.active div,
+.task-settings .add-new-step-wrapper .add-new-step {
   display: flex;
   align-items: center;
 }
@@ -794,12 +871,43 @@ input.add-new-list-label {
   border: 1px solid #ffffff;
 }
 
+.task-settings .step-title,
 a.add-new-list-link,
 div.sort-settings-link,
 div.show-hide_completed_todos,
 .task-settings ul li {
   display: flex;
   align-items: center;
+}
+
+.task-settings ul li p.added {
+  color: cornflowerblue;
+}
+
+.task-settings ul li button.clear-from-my-day {
+  width: 44px;
+  height: 44px;
+  border: 0px;
+  background-color: inherit;
+}
+
+.task-settings ul li button.clear-from-my-day:hover {
+  background-color: rgb(221, 221, 221);
+}
+
+.task-settings ul li button.clear-from-my-day p {
+  padding: 2px 4px;
+}
+
+.task-settings .important-icon {
+  margin: 0 0 0 auto;
+  display: flex;
+  border: 0;
+  background-color: transparent;
+}
+
+.task-settings .important-icon img {
+  margin-right: 0;
 }
 
 a.add-new-list-link > span {
@@ -809,8 +917,7 @@ a.add-new-list-link > span {
 
 .sort-settings-menu img,
 div.sort-settings-link img,
-div.show-hide_completed_todos img,
-.task-settings img {
+div.show-hide_completed_todos img {
   width: 15px;
   height: 15px;
 }
@@ -830,7 +937,8 @@ div.show-hide_completed_todos img {
 .task-settings-add-to-my-day,
 .task-settings-additional,
 .task-settings-add-note,
-.task-settings-footer {
+.task-settings-footer,
+.activateStepInput {
   background-color: #ffffff;
 }
 
@@ -840,6 +948,166 @@ div.show-hide_completed_todos img {
 
 .task-settings-additional li:last-of-type p{
   border: 0;
+}
+
+.task-settings-additional .remind-me > div,
+.task-settings-additional .repeat > div,
+.task-settings-additional .due-date > div {
+  display: contents;
+  width: 100%;
+}
+
+.task-settings-additional .activeOption {
+  color: cornflowerblue;
+}
+
+.task-settings-additional .remind-me.activeOption > div > p,
+.task-settings-additional .repeat.activeOption > div > p {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.task-settings-additional .remind-me.activeOption > div > span,
+.task-settings-additional .due-date.activeOption > div > span,
+.task-settings-additional .repeat.activeOption > div > span {
+  color: #000000;
+}
+
+.task-settings-additional span.date-label {
+  display: block;
+  font-size: 13px;
+  line-height: 15px;
+}
+
+.task-settings-additional span.clear-remind-date,
+.task-settings-additional span.clear-due-date,
+.task-settings-additional span.clear-repeat {
+  padding: 0 15px;
+  line-height: 44px;
+  border-bottom: 1px solid lightgray;
+}
+
+.task-settings-additional span.clear-repeat {
+  border-bottom: 0;
+}
+
+.task-settings-additional span.clear-repeat,
+.task-settings-additional span.clear-due-date {
+  line-height: 45px;
+}
+
+.task-settings-additional span.clear-repeat:hover,
+.task-settings-additional span.clear-remind-date:hover,
+.task-settings-additional span.clear-due-date:hover {
+  background-color: rgb(221, 221, 221);
+}
+
+.task-settings-additional .pick-date-calendar .rc-calendar-panel,
+.task-settings-additional .due-date-calendar .rc-calendar-panel {
+  position: absolute;
+  border: 1px solid #888888;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+.dark .task-settings-additional .pick-date-calendar .rc-calendar-panel,
+.dark .task-settings-additional .due-date-calendar .rc-calendar-panel {
+  background-color: #5c6066;
+}
+
+.task-settings-additional .reminder-window ul,
+.task-settings-additional .repeat-window ul {
+  position: absolute;
+  right: 5px;
+  max-width: 250px;
+  border: 1px solid #888888;
+  background-color: #ffffff;
+  padding: 0;
+}
+
+.dark .task-settings-additional .reminder-window ul,
+.dark .task-settings-additional .repeat-date-picker {
+  background-color: #5c6066;
+}
+
+.task-settings-additional .reminder-window ul li,
+.task-settings-additional .repeat-window ul li {
+  border: 0;
+  padding-left: 10px;
+}
+
+.task-settings-additional .reminder-window ul li p {
+  border: 0;
+  width: auto;
+}
+
+.task-settings-additional .reminder-window ul li span {
+  margin: 0 5px 0 auto;
+}
+
+.task-settings-additional .reminder-window ul li:last-of-type {
+  border-top: 1px solid lightgray;
+}
+
+.task-settings-additional .repeat-date-picker {
+  position: absolute;
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 10px;
+  width: 250px;
+  height: fit-content;
+  background-color: #ffffff;
+  border: 1px solid #888888;
+}
+
+.task-settings-additional .repeat-date-picker p {
+  padding: 0 0 10px 0;
+}
+
+.task-settings-additional .repeat-date-picker .days-picker {
+  margin: 7px 0;
+}
+
+.task-settings-additional span.repeat-day-label {
+  margin: 4px;
+  line-height: 1.1;
+  display: inline-block;
+  background-color: lightgrey;
+  padding: 7px;
+}
+
+.task-settings-additional span.repeat-day-label.selected {
+  background-color: cornflowerblue;
+  color: #ffffff;
+}
+
+.task-settings-additional .repeat-date-picker .picker-value {
+  max-width: 80px;
+}
+
+.task-settings-additional .repeat-date-picker .picker-type {
+  height: 30px;
+  width: 100%;
+  max-width: 142px;
+  display: inline-block;
+  float: right;
+}
+
+.task-settings-additional .repeat-date-picker .btn-group {
+  display: flex;
+}
+
+.task-settings-additional .repeat-date-picker button {
+  border: 0;
+  width: 50%;
+}
+
+.task-settings-additional .repeat-date-picker button:first-of-type {
+  margin-right: 2px;
+}
+
+.task-settings-additional .repeat-date-picker button:last-of-type {
+  margin-left: 2px;
 }
 
 .task-settings-add-to-my-day ul,
@@ -899,11 +1167,26 @@ ul.searchList {
 #bannerSettings .modal-body > div,
 .task-settings-title,
 .add-new-step-wrapper,
+.activateStepInput,
 .task-settings-additional li p,
 .task-settings-add-to-my-day li p,
-.task-settings-add-note textarea::placeholder,
 .task-settings-footer {
   padding: 10px
+}
+
+.task-settings-add-note {
+  padding: 10px;
+  flex-flow: column;
+}
+
+.task-settings-add-note .btn-group {
+  margin-left: auto;
+}
+
+.task-settings-add-note button {
+  margin-left: 10px;
+  border: 0;
+  padding: 5px 10px;
 }
 
 .dark .modal-content,
@@ -914,6 +1197,7 @@ ul.searchList {
 
 .task-settings-title {
   padding-top: 30px;
+  padding-bottom: 20px;
   line-height: 1;
   font-size: 20px;
   font-weight: bolder;
@@ -954,8 +1238,6 @@ ul.searchList {
 
 .rightPanel,
 .task-settings > div,
-.add-new-step-wrapper .add-new-step,
-.add-new-step-wrapper .add-new-step > div,
 ul.searchList li,
 .show-hide_completed_todos p,
 #bannerSettings .sort-settings-menu > div {

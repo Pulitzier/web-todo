@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
+import ButtonToImportance from './ButtonToImportance';
 import {
   getTasksForTodo,
-  getActiveTodoList
+  getActiveTodoList, getStringDate
 } from '../helpers';
 import {
   toggleTask,
   activateTaskSettings,
-  handleTaskImportanance,
 } from '../actionCreators';
 
 export default class TodoTasks extends Component {
   render() {
     const { store } = this.context;
     const state = store.getState();
-    const { app: { tasks, todos }, userSettings: { turnOnSound } } = state;
+    const { app: { tasks, todos, steps }, userSettings: { turnOnSound } } = state;
     const activeTodo = getActiveTodoList(todos);
 
     const playSoundWhenDone = (taskDone) => {
@@ -25,10 +25,6 @@ export default class TodoTasks extends Component {
     const toggleTodoTask = (task) => {
       turnOnSound ? playSoundWhenDone(task.done) : null;
       store.dispatch(toggleTask(task.id));
-    };
-
-    const handleImportance = (taskId) => {
-      store.dispatch(handleTaskImportanance(taskId))
     };
 
     const activateSettings = (taskId) => {
@@ -66,15 +62,30 @@ export default class TodoTasks extends Component {
             <p className="todo-label-for-task"></p>
           );
         default:
-          return (
-            <p className="todo-label-for-task"></p>
-          );
+          if(task.myDay) {
+            return (
+              <p className="todo-label-for-task">
+                <img src="./assets/sun.svg"/>My Day &#8226; {activeTodo.title}
+              </p>
+            );
+          }
+          return ;
+      }
+    };
+
+    const countStepsForTask = taskId => {
+      let allTaskSteps = steps.filter(step => step.taskId === taskId);
+      let doneSteps = allTaskSteps.filter(step => step.done);
+      if(allTaskSteps.length !== 0) {
+        return (
+          <p>{doneSteps.length} of {allTaskSteps.length}</p>
+        );
       }
     };
 
     return getTasksForTodo(tasks, activeTodo)
       .map((task, i) => {
-        let { id, done, taskText, important } = task;
+        let { id, done, taskText, note, remindDate, dueDate, repeat } = task;
         return (
           <div
             key={i}
@@ -97,24 +108,49 @@ export default class TodoTasks extends Component {
             </label>
             <div className="task-title-wrapper">
               <p className={done ? 'lineThrough' : null}>{taskText}</p>
-              {
-                setTaskLabel(task)
-              }
+              <div className="label-wrapper-for-task">
+                <div className="list-of-labels">
+                  {
+                    countStepsForTask(id)
+                  }
+                  {
+                    setTaskLabel(task)
+                  }
+                  {
+                    dueDate &&
+                    (<p className="due-date-label">
+                      &#8226;&nbsp;&nbsp;
+                      <img src='./assets/calendar.svg' />
+                      {getStringDate(dueDate)}
+                    </p>)
+                  }
+                  {
+                    remindDate &&
+                    (<p className="remind-date-label">
+                      &#8226;&nbsp;&nbsp;
+                      <img src='./assets/clock.svg' />
+                      {getStringDate(remindDate)}
+                    </p>)
+                  }
+                  {
+                    repeat &&
+                    (<p className="repeat-date-label">
+                      &#8226;&nbsp;&nbsp;
+                      <img src='./assets/repeat.svg' />
+                    </p>)
+                  }
+                  {
+                    note &&
+                    (<p className="task-notes">
+                      &#8226;&nbsp;&nbsp;
+                      <img src='./assets/writing.svg' />
+                      Notes
+                    </p>)
+                  }
+                </div>
+              </div>
             </div>
-            <button
-              className="important-icon"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handleImportance(id);
-              }}
-            >
-              {
-                important ?
-                  (<img src="./assets/star-fill.svg"/>) :
-                  (<img src="./assets/star.svg"/>)
-              }
-            </button>
+            <ButtonToImportance task={task}/>
           </div>
         )
       })

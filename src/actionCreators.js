@@ -164,10 +164,19 @@ export function handleTaskImportanance(taskId) {
   }
 }
 
-export function addTaskToTodo(tasks) {
+export function addTaskToMyDay(taskId, bool) {
   return {
-    type: 'ADD_TASK_TO_TODO',
-    tasks
+    type: 'ADD_TASK_TO_MY_DAY',
+    taskId,
+    addToMyDay: bool
+  }
+}
+
+export function addNoteToTask(taskId, note) {
+  return {
+    type: 'ADD_NOTE_TO_TASK',
+    taskId,
+    note
   }
 }
 
@@ -190,5 +199,51 @@ export function sortTasks(sortCriteria, activeTodoId) {
     type: "SORT_TASKS",
     sort: sortCriteria,
     listId: activeTodoId
+  }
+}
+
+export function setRemindMeDate(taskId, date) {
+  return {
+    type: 'SET_REMIND_ME_DATE',
+    taskId,
+    date
+  }
+}
+
+export function setDueDate(taskId, date) {
+  return {
+    type: 'SET_DUE_DATE',
+    taskId,
+    date
+  }
+}
+
+export function setRepeat(taskId, repeatType) {
+  return {
+    type: 'SET_REPEAT',
+    taskId,
+    repeatType
+  }
+}
+
+export function addStep(taskId, stepText) {
+  return {
+    type: 'ADD_STEP_TO_TASK',
+    taskId,
+    stepText
+  }
+}
+
+export function toggleStep(stepId) {
+  return {
+    type: 'TOGGLE_STEP',
+    stepId
+  }
+}
+
+export function deleteStep(stepId) {
+  return {
+    type: 'DELETE_STEP',
+    stepId
   }
 }

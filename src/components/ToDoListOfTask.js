@@ -58,17 +58,6 @@ export default class ToDoListOfTask extends Component {
       this.newTaskInput.value = '';
     };
 
-    //
-    // const handleAddToTodo = (taskId) => {
-    //   if (todosIds.find(id => id === taskId)) {
-    //     todosIds = todosIds.filter(id => id !== taskId);
-    //     store.dispatch(addTaskToImportant(todosIds))
-    //   } else {
-    //     todosIds.push(taskId);
-    //     store.dispatch(addTaskToImportant(todosIds));
-    //   }
-    // };
-
     return(
       <div className="todo-list-wrapper">
         <div className="todo-list">
@@ -91,7 +80,7 @@ export default class ToDoListOfTask extends Component {
                   </label>
                   <input
                     type="text"
-                    name="add new task"
+                    name="add-new-task"
                     ref={node => this.newTaskInput = node}
                     placeholder={!activateNewTask ? "+ Add a to-do" : "Add a to-do"}
                     className={"add-new-todo-input " + (activateNewTask ? "activated" : "inactive")}

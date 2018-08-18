@@ -6,14 +6,19 @@ import Settings from "./Settings";
 import DeleteModal from "./DeleteModal";
 import AudioForCompletion from "./AudioForCompletion";
 import '../index.css';
-import { deleteTask, deleteTodoList } from "../actionCreators";
+import {
+  deleteTask,
+  deleteTodoList,
+  deleteStep
+} from "../actionCreators";
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.localAppState = {
       taskToDelete: '',
-      todoToDelete: ''
+      todoToDelete: '',
+      taskStepToDelete: ''
     }
   }
 
@@ -31,7 +36,7 @@ export default class App extends Component {
   render() {
     const { store } = this.context;
     const { userSettings: { confirmDeletion, turnOnSound, setDarkTheme, setLightTheme } } = store.getState();
-    const { taskToDelete, todoToDelete } = this.localAppState;
+    const { taskToDelete, todoToDelete, taskStepToDelete } = this.localAppState;
 
     const handelDeleteTodo = (element) => {
       if (confirmDeletion) {
@@ -59,12 +64,26 @@ export default class App extends Component {
       }
     };
 
+    const handleDeleteStep = (element) => {
+      if (confirmDeletion) {
+        this.setState(() => {
+          return this.localAppState = {
+            ...this.localAppState,
+            taskStepToDelete: element,
+          }
+        });
+      } else {
+        store.dispatch(deleteStep(element.stepId));
+      }
+    };
+
     const clearLocalAppState = () => {
       this.setState(() => {
         return this.localAppState = {
           ...this.localAppState,
           taskToDelete: '',
           todoToDelete: '',
+          taskStepToDelete: ''
         }
       })
     };
@@ -75,6 +94,9 @@ export default class App extends Component {
         clearLocalAppState();
       } else if (todoToDelete) {
         store.dispatch(deleteTodoList(element.todoListId));
+        clearLocalAppState();
+      } else if (taskStepToDelete) {
+        store.dispatch(deleteStep(element.stepId));
         clearLocalAppState();
       }
     };
@@ -94,6 +116,7 @@ export default class App extends Component {
           <RightPanel
             deleteTask={handelDeleteTask}
             deleteTodo={handelDeleteTodo}
+            deleteStep={handleDeleteStep}
           />
           <Settings />
           {
@@ -113,6 +136,15 @@ export default class App extends Component {
               nameOfItem="todo"
               messageOfItem={todoToDelete.title}
               onDelete={() => handleConfirm(todoToDelete)}
+              onCancel={() => handleDecline()}
+            />
+          ) : null
+          }
+          { (confirmDeletion && taskStepToDelete) ? (
+            <DeleteModal
+              nameOfItem="step"
+              messageOfItem={taskStepToDelete.stepText}
+              onDelete={() => handleConfirm(taskStepToDelete)}
               onCancel={() => handleDecline()}
             />
           ) : null
