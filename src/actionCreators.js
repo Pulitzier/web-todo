@@ -233,3 +233,17 @@ export function addStep(taskId, stepText) {
     stepText
   }
 }
+
+export function toggleStep(stepId) {
+  return {
+    type: 'TOGGLE_STEP',
+    stepId
+  }
+}
+
+export function deleteStep(stepId) {
+  return {
+    type: 'DELETE_STEP',
+    stepId
+  }
+}

@@ -192,6 +192,16 @@ export function appReducer(state = defaultAppTodosState, action) {
         ...state,
         steps: stepsReducer(steps, action)
       };
+    case 'TOGGLE_STEP':
+      return {
+        ...state,
+        steps: stepsReducer(steps, action)
+      };
+    case 'DELETE_STEP':
+      return {
+        ...state,
+        steps: stepsReducer(steps, action)
+      };
     default:
       return state;
   }
@@ -481,17 +491,34 @@ const tasksReducer = (state = [], action) => {
   }
 };
 
+let stepUniqueId = 0;
 const stepsReducer = ( state = [], action) => {
   switch(action.type) {
     case 'ADD_STEP_TO_TASK':
       const { taskId, stepText } = action;
+      const stepId = stepUniqueId;
+      stepUniqueId++;
       return [
         ...state,
         {
+          stepId,
           taskId,
+          done: false,
           stepText
         }
       ];
+    case 'TOGGLE_STEP':
+      return state.map(step => {
+        if(step.stepId === action.stepId) {
+          return {
+            ...step,
+            done: !step.done
+          }
+        }
+        return step;
+      });
+    case 'DELETE_STEP':
+      return state.filter(step => step.stepId !== action.stepId);
     default:
       return state
   }

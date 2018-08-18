@@ -5,6 +5,7 @@ import ChildTaskSettings from './ChildTaskSettings';
 import {
   activateTaskSettings,
   toggleTask,
+  toggleStep,
   addTaskToMyDay,
   addNoteToTask
 } from '../actionCreators';
@@ -86,9 +87,10 @@ export default class TaskSettings extends Component {
 
   render() {
     const { store } = this.context;
+    const { app: { steps }} = store.getState();
     const { activateStepInput, showNoteControls } = this.taskState;
-    const { handleDeleteTask, activeTask } = this.props;
-    let { id, done, taskText, createdAt, myDay } = activeTask;
+    const { handleDeleteTask, activeTask, handleDeleteStep } = this.props;
+    let { id: activeTaskId, done, taskText, createdAt, myDay } = activeTask;
 
     const closeTaskSettings = (taskId) => {
       this.newNote.blur();
@@ -99,8 +101,18 @@ export default class TaskSettings extends Component {
       store.dispatch(toggleTask(taskId))
     };
 
+    const setToggledStep = (stepId) => {
+      store.dispatch(toggleStep(stepId))
+    };
+
     const addCustomToMyDay = (taskId, bool) => {
       store.dispatch(addTaskToMyDay(taskId, bool))
+    };
+
+    const getStepsForTask = () => {
+      return steps.filter(step => {
+        return step.taskId = activeTaskId
+      });
     };
 
     return (
@@ -116,7 +128,7 @@ export default class TaskSettings extends Component {
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              setToggledTask(id);
+              setToggledTask(activeTaskId);
             }}
           ></span>
           </label>
@@ -124,10 +136,37 @@ export default class TaskSettings extends Component {
           <ButtonToImportance task={activeTask}/>
         </div>
         {
+          getStepsForTask().map((step, i) => (
+            <div key={i} className="step-title">
+              <label
+                className={
+                  "toggleStepLabel " +
+                  (step.done ? "done" : '')
+                }
+              >
+              <span
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setToggledStep(step.stepId);
+                }}
+              ></span>
+              </label>
+              <p>{step.stepText}</p>
+              <button
+                className="steps-trash"
+                onClick={() => handleDeleteStep(step)}
+              >
+                <img src="./assets/garbage.svg" />
+              </button>
+            </div>
+          ))
+        }
+        {
           activateStepInput ?
             <StepInput
               activateStep={this.activateStep}
-              taskId={id}
+              taskId={activeTaskId}
             /> :
             (<p
               className="activateStepInput"
@@ -141,7 +180,7 @@ export default class TaskSettings extends Component {
             <li
               className={"add-to-my-day " + (myDay && "active")}
               onClick={() => {
-                addCustomToMyDay(id, true)
+                addCustomToMyDay(activeTaskId, true)
               }}>
               <img src="./assets/sun.svg" />
               {
@@ -157,7 +196,7 @@ export default class TaskSettings extends Component {
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      addCustomToMyDay(id, false)
+                      addCustomToMyDay(activeTaskId, false)
                     }}
                   >
                     <p>x</p>
@@ -186,7 +225,7 @@ export default class TaskSettings extends Component {
               >Cancel</button>
               <button
                 className="btn-primary"
-                onClick={() => this.saveNoteForTask(id)}
+                onClick={() => this.saveNoteForTask(activeTaskId)}
               >Save</button>
             </div>)
           }
@@ -194,7 +233,7 @@ export default class TaskSettings extends Component {
         <div className='task-settings-footer'>
           <button
             className="task-settings-arrow-right"
-            onClick={() => closeTaskSettings(id)}>
+            onClick={() => closeTaskSettings(activeTaskId)}>
             <img src="./assets/right.svg" />
           </button>
           <p>{(() => {

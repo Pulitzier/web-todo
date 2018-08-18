@@ -24,7 +24,7 @@ export default class RightPanel extends Component {
     const state = store.getState();
     const { app: { todos, tasks }, search: { activateSearch } } = state;
     const activeTodo = getActiveTodoList(todos);
-    const { deleteTask, deleteTodo } = this.props;
+    const { deleteTask, deleteTodo, deleteStep } = this.props;
     const activeTask = tasks.length !== 0 ? (tasks.find(task => task.active === true) || '') : '';
 
     return (
@@ -41,7 +41,12 @@ export default class RightPanel extends Component {
           <ToDoListOfTask activeTodo={activeTodo}/>
         </div>
         {
-          activeTask && <TaskSettings handleDeleteTask={deleteTask} activeTask={activeTask}/>
+          activeTask &&
+          <TaskSettings
+            handleDeleteTask={deleteTask}
+            handleDeleteStep={deleteStep}
+            activeTask={activeTask}
+          />
         }
       </Panel>
     )

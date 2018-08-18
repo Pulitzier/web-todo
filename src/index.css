@@ -381,6 +381,40 @@ div.sort-settings-link p {
   width: 100%;
 }
 
+.task-settings .step-title {
+  background-color: #ffffff;
+  padding: 5px 10px;
+}
+
+.dark .task-settings .step-title {
+  background-color: #888888;
+}
+
+.task-settings .step-title label.toggleStepLabel {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+
+.task-settings .step-title label.toggleStepLabel > span {
+  width: 16px;
+}
+
+.task-settings .step-title label.toggleStepLabel + p {
+  font-size: 14px;
+  padding-left: 10px;
+}
+
+.task-settings .step-title .steps-trash {
+  display: none;
+}
+.task-settings .step-title:hover .steps-trash {
+  display: inline-flex;
+  margin-left: auto;
+  background-color: transparent;
+  border: 0;
+}
+
 .dark .confirmDeleteModal-child,
 .dark .add-new-step-wrapper .add-new-step-input,
 .dark .task-settings-add-note textarea,
@@ -419,8 +453,7 @@ div.sort-settings-link p {
 }
 
 .task-settings .activateStepInput,
-.add-new-todo-wrapper .add-new-todo-input.inactive::placeholder,
-.add-new-step-wrapper .add-new-step-input.inactive::placeholder {
+.add-new-todo-wrapper .add-new-todo-input.inactive::placeholder {
   color: cornflowerblue;
   padding-left: 10px;
 }
@@ -429,8 +462,8 @@ div.sort-settings-link p {
   color: cornflowerblue;
 }
 
-.add-new-todo-wrapper .add-new-todo-input.activated::placeholder,
-.add-new-step-wrapper .add-new-step-input.activated::placeholder {
+.add-new-step-wrapper .add-new-step-input::placeholder,
+.add-new-todo-wrapper .add-new-todo-input.activated::placeholder {
   color: darkslateblue;
 }
 
@@ -470,7 +503,7 @@ p.lineThrough {
 .theme-sets label.ligthTheme-label,
 .theme-sets label.darkTheme-label,
 .todos label.toggleTodoLabel,
-.task-settings label.toggleStepLabel,
+.add-new-step-wrapper label.toggleStepLabel,
 .task-settings label.toggleTaskLabel,
 ul.searchList label.searchTaskLabel,
 .add-new-todo-wrapper label.toggleTodoLabel-template {
@@ -551,7 +584,7 @@ input.rename-list {
 .theme-sets label.darkTheme-label.checked > span,
 .todos label.toggleTodoLabel.done > span,
 .task-settings label.toggleTaskLabel.done > span,
-.task-settings label.toggleStepLabel.toggled > span,
+.task-settings label.toggleStepLabel.done > span,
 ul.searchList label.searchTaskLabel.toggled > span,
 .add-new-todo-wrapper label.toggleTodoLabel-template.toggled > span {
   background-color: limegreen;
@@ -578,7 +611,7 @@ ul.searchList label.searchTaskLabel > span,
 .theme-sets label.ligthTheme-label.checked > span:after,
 .theme-sets label.darkTheme-label.checked > span:after,
 .todos label.toggleTodoLabel.done > span:after,
-.task-settings label.toggleStepLabel.toggled > span:after,
+.task-settings label.toggleStepLabel.done > span:after,
 .task-settings label.toggleTaskLabel.done > span:after,
 ul.searchList label.searchTaskLabel.toggled > span:after,
 .add-new-todo-wrapper label.toggleTodoLabel-template.toggled > span:after {
@@ -833,6 +866,7 @@ input.add-new-list-label {
   border: 1px solid #ffffff;
 }
 
+.task-settings .step-title,
 a.add-new-list-link,
 div.sort-settings-link,
 div.show-hide_completed_todos,
@@ -1158,6 +1192,7 @@ ul.searchList {
 
 .task-settings-title {
   padding-top: 30px;
+  padding-bottom: 20px;
   line-height: 1;
   font-size: 20px;
   font-weight: bolder;

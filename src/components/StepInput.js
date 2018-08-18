@@ -54,7 +54,7 @@ export default class StepInput extends Component {
     const { activateStep, taskId } = this.props;
     const addNewStepToTask = (event) => {
       let { key } = event;
-      if (key === 'Enter') {
+      if (key === 'Enter' && stepText) {
         store.dispatch(addStep(taskId, stepText));
         activateStep();
       }
@@ -69,7 +69,7 @@ export default class StepInput extends Component {
           <label
             htmlFor="toggleStepCheckbox"
             className={
-              "toggleStepLabel active " +
+              "toggleStepLabel " +
               (toggleStep ? 'toggled' : 'untoggled')
             }
           >
@@ -80,7 +80,7 @@ export default class StepInput extends Component {
             name="add-new-step"
             id="toggleStepCheckbox"
             placeholder="Add a step"
-            className="add-new-step-input activated"
+            className="add-new-step-input"
             onKeyPress={(e) => addNewStepToTask(e)}
             onChange={(e) => this.handleTypingStep(e)}
           />
@@ -90,6 +90,6 @@ export default class StepInput extends Component {
   }
 };
 
-StepInput.contexTypes = {
+StepInput.contextTypes = {
   store: PropTypes.object
 };
