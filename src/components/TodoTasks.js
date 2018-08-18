@@ -8,14 +8,14 @@ import {
 import {
   toggleTask,
   activateTaskSettings,
-  handleTaskImportanance,
 } from '../actionCreators';
 
 export default class TodoTasks extends Component {
+
   render() {
     const { store } = this.context;
     const state = store.getState();
-    const { app: { tasks, todos }, userSettings: { turnOnSound } } = state;
+    const { app: { tasks, todos, steps }, userSettings: { turnOnSound } } = state;
     const activeTodo = getActiveTodoList(todos);
 
     const playSoundWhenDone = (taskDone) => {
@@ -70,9 +70,17 @@ export default class TodoTasks extends Component {
               </p>
             );
           }
-          return (
-            <p className="todo-label-for-task"></p>
-          );
+          return ;
+      }
+    };
+
+    const countStepsForTask = taskId => {
+      let allTaskSteps = steps.filter(step => step.taskId === taskId);
+      let doneSteps = allTaskSteps.filter(step => step.done);
+      if(allTaskSteps.length !== 0) {
+        return (
+          <p>{doneSteps.length} of {allTaskSteps.length}</p>
+        );
       }
     };
 
@@ -103,6 +111,9 @@ export default class TodoTasks extends Component {
               <p className={done ? 'lineThrough' : null}>{taskText}</p>
               <div className="label-wrapper-for-task">
                 <div>
+                  {
+                    countStepsForTask(id)
+                  }
                   {
                     setTaskLabel(task)
                   }
