@@ -13,7 +13,7 @@ export default class RightPanel extends Component {
     super(props);
     this.activateGreetingPanel = this.activateGreetingPanel.bind(this);
     this.rightPanelState = {
-      activateGreetingsPanel: false
+      activateGreetingsPanel: false,
     }
   };
 
@@ -27,10 +27,11 @@ export default class RightPanel extends Component {
   activateGreetingPanel() {
     this.setState(() => {
       return this.rightPanelState = {
+        ...this.rightPanelState,
         activateGreetingsPanel: !this.rightPanelState.activateGreetingsPanel
       }
     })
-  }
+  };
 
   render() {
     const { store } = this.context;
@@ -45,8 +46,7 @@ export default class RightPanel extends Component {
       <Panel className="col-md-8 rightPanel">
         <div>
           {
-            activateSearch &&
-            <SearchPanel />
+            activateSearch && <SearchPanel />
           }
           {
             activateGreetingsPanel &&
@@ -56,7 +56,6 @@ export default class RightPanel extends Component {
           }
           <BannerForTodo
             className="panelBanner"
-            close={state.activateThemeMenu}
             deleteList={deleteTodo}
             activateGreetings={this.activateGreetingPanel}
           />

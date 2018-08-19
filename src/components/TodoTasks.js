@@ -15,7 +15,12 @@ export default class TodoTasks extends Component {
   render() {
     const { store } = this.context;
     const state = store.getState();
-    const { app: { tasks, todos, steps }, userSettings: { turnOnSound } } = state;
+    const {
+      app: { tasks, todos, steps },
+      userSettings: { turnOnSound },
+      bannerForTodoState: { showCompleted }
+    } = state;
+
     const activeTodo = getActiveTodoList(todos);
 
     const playSoundWhenDone = (taskDone) => {
@@ -77,7 +82,12 @@ export default class TodoTasks extends Component {
               </p>
             );
           }
-          return;
+          return (
+            <p className="todo-label-for-task">
+              <img src={activeTodo.iconSource}/>
+              {activeTodo.title}
+            </p>
+          );
       }
     };
 
@@ -94,6 +104,9 @@ export default class TodoTasks extends Component {
     return getTasksForTodo(tasks, activeTodo)
       .map((task, i) => {
         let { id, done, taskText, note, remindDate, dueDate, repeat } = task;
+        if ( !showCompleted && done ) {
+          return;
+        }
         return (
           <div
             key={i}

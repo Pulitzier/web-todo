@@ -219,9 +219,12 @@ audio {
 
 .panelBanner {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  min-height: 150px;
+  flex-flow: column;
+  min-height: 200px;
+}
+
+.panelBanner.with-sort {
+  min-height: 250px;
 }
 
 .panelBanner-wrapper{
@@ -239,8 +242,54 @@ audio {
   position: relative;
 }
 
+.panelBanner .banner-main-section {
+  margin-top: auto;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.panelBanner .banner-sort {
+  position: relative;
+  min-height: 20px;
+  padding: 10px 10px 10px 50px;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.panelBanner .banner-sort button {
+  background-color: transparent;
+  border: 0;
+  color: #ffffff;
+  position: relative;
+  padding: 5px 15px;
+}
+
+.panelBanner .banner-sort button.clear-banner-sort {
+  margin-left: auto;
+}
+
+.panelBanner .banner-sort button.change-sort-order {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 0 10px;
+}
+
+.panelBanner .banner-sort button:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.panelBanner .banner-sort .change-sort-order img {
+  width: 12px;
+  height: 12px;
+}
+
 button.open-greeting,
 button.dots-menu {
+  border: 0;
   border-radius: 0;
   margin: 15px;
   position: relative;
@@ -316,6 +365,15 @@ div.todo-list div.todos {
 .leftPanel ul li.active {
   border-left: 5px solid blue;
   background-color: lightgray;
+}
+
+#bannerSettings {
+  position: absolute;
+  top: 187px;
+  right: 0;
+  background-color: #ffffff;
+  z-index: 1;
+  border: 1px solid #5c6066;
 }
 
 .dark .leftPanel ul li.active,
@@ -463,17 +521,22 @@ div.todo-list div.todos {
   padding: 2px 5px;
 }
 
-greeting-suggestion-yesterday button.collapse-suggestions:hover,
+.task-settings ul li button.clear-from-my-day:hover,
+.task-settings-additional span.clear-repeat:hover,
+.task-settings-additional span.clear-remind-date:hover,
+.task-settings-additional span.clear-due-date:hover,
+.greeting-suggestion-yesterday button.collapse-suggestions:hover,
 .greeting-suggestion-section button.collapse-suggestions:hover {
   background-color: rgb(221, 221, 221);
 }
 
+.panelBanner .banner-sort .change-sort-order.down img,
 .greeting-suggestion-yesterday button.collapse-suggestions.down img,
 .greeting-suggestion-section button.collapse-suggestions.down img {
   transform: rotate(90deg);
   margin: 5px;
 }
-
+.panelBanner .banner-sort .change-sort-order.up img,
 .greeting-suggestion-yesterday button.collapse-suggestions.up img,
 .greeting-suggestion-section button.collapse-suggestions.up img {
   transform: rotate(-90deg);
@@ -926,6 +989,7 @@ button.change-todo-icon,
   margin-left: 3px;
 }
 
+#bannerSettings hr,
 .user-info {
   margin: 10px auto;
 }
@@ -1052,10 +1116,6 @@ div.show-hide_completed_todos,
   background-color: inherit;
 }
 
-.task-settings ul li button.clear-from-my-day:hover {
-  background-color: rgb(221, 221, 221);
-}
-
 .task-settings ul li button.clear-from-my-day p {
   padding: 2px 4px;
 }
@@ -1155,12 +1215,6 @@ div.show-hide_completed_todos img {
 .task-settings-additional span.clear-repeat,
 .task-settings-additional span.clear-due-date {
   line-height: 45px;
-}
-
-.task-settings-additional span.clear-repeat:hover,
-.task-settings-additional span.clear-remind-date:hover,
-.task-settings-additional span.clear-due-date:hover {
-  background-color: rgb(221, 221, 221);
 }
 
 .DayPicker.pick-date-calendar .DayPicker-wrapper,
@@ -1288,12 +1342,6 @@ ul.searchList {
   margin: 10px;
 }
 
-#bannerSettings .modal-dialog {
-  float: right;
-  margin-top: 160px;
-  margin-right: 18%;
-}
-
 #thirdPartyNotices .modal-header {
   border: 0;
   min-height: 50px;
@@ -1308,8 +1356,7 @@ ul.searchList {
   background-color: lightgrey;
 }
 
-#thirdPartyNotices .modal-content,
-#bannerSettings .modal-content {
+#thirdPartyNotices .modal-content {
   border-radius: 0;
 }
 
@@ -1323,11 +1370,6 @@ ul.searchList {
   overflow-y: auto;
 }
 
-#bannerSettings .modal-body {
-  padding: 0;
-}
-
-#bannerSettings .modal-body > div,
 .task-settings-title,
 .add-new-step-wrapper,
 .activateStepInput,
@@ -1372,10 +1414,11 @@ ul.searchList {
   align-items: center;
 }
 
-#bannerSettings .modal-body div.sort-settings-menu {
+#bannerSettings div.sort-settings-menu {
   position: absolute;
   overflow: hidden;
   height: 0;
+  min-width: 164px;
   transition: height 1s ease;
   background-color: #ffffff;
   left: -164px;
@@ -1385,8 +1428,8 @@ ul.searchList {
 }
 
 
-#bannerSettings .modal-body div.sort-settings-menu.active {
-  height: 222px;
+#bannerSettings div.sort-settings-menu.active {
+  height: 264px;
   transition: height 1s ease;
   border: 1px solid rgba(0,0,0,.2);
 }
@@ -1405,6 +1448,10 @@ ul.searchList li,
 .show-hide_completed_todos p,
 #bannerSettings .sort-settings-menu > div {
   display: flex;
+}
+
+#bannerSettings > div {
+  padding: 10px;
 }
 
 .modal-backdrop.show {

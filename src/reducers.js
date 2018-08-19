@@ -31,12 +31,6 @@ const defaultAppTodosState = {
   steps: []
 };
 
-const defaultBannerState = {
-  activateBannerSettings: false,
-  currentBannerImage: "./assets/retro.jpg",
-  backgroundColor: "blue"
-};
-
 let todoId = 3;
 
 export function appReducer(state = defaultAppTodosState, action) {
@@ -168,6 +162,11 @@ export function appReducer(state = defaultAppTodosState, action) {
         tasks: tasksReducer(tasks, action)
       };
     case 'SORT_TASKS':
+      return {
+        ...state,
+        tasks: tasksReducer(tasks, action)
+      };
+    case 'REVERT_TASKS':
       return {
         ...state,
         tasks: tasksReducer(tasks, action)
@@ -442,7 +441,9 @@ const tasksReducer = (state = [], action) => {
               return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
             });
           case 'DUE_DATE':
-            return tasks;
+            return tasks = tasks.sort((a, b) => {
+              return (b.dueDate - a.dueDate)
+            });;
           case 'CREATED_AT':
             return tasks = tasks.sort((a, b) => {
               return (b.createdAt - a.createdAt)
@@ -455,11 +456,17 @@ const tasksReducer = (state = [], action) => {
             return tasks = tasks.sort((a, b) => {
               return (a.parentId === b.parentId) ? 0 : a.parentId ? 1 : -1
             });
+          case 'IMPORTANT':
+            return tasks = tasks.sort((a, b) => {
+              return (a.important === b.important) ? 0 : a.important ? -1 : 1
+            });
           default:
             return tasks;
         }
       };
       return sortTasks(action.sort, state.filter(task => task.parentId === action.listId));
+    case 'REVERT_TASKS':
+      return state = state.reverse();
     case 'SET_REMIND_ME_DATE':
       return state.map(task => {
         if(task.id === action.taskId) {
@@ -575,6 +582,14 @@ export function setNewListTitle(state = 'Untitled Task', action) {
       return state;
   }
 }
+
+const defaultBannerState = {
+  activateBannerSettings: false,
+  currentBannerImage: "./assets/retro.jpg",
+  backgroundColor: "blue",
+  showCompleted: true
+};
+
 export function setBannerForTodoState(state = defaultBannerState, action) {
   switch(action.type){
     case 'ACTIVATE_BANNER_PANEL':
@@ -592,10 +607,16 @@ export function setBannerForTodoState(state = defaultBannerState, action) {
         ...state,
         currentBannerImage: action.image
       };
+    case 'SHOW_COMPLETED_FROM_BANNER':
+      return {
+        ...state,
+        showCompleted: action.show
+      };
     default:
       return state
   }
 }
+
 export function setTaskSettings(state = {}, action) {
   switch(action.type) {
     case 'ACTIVATE_NEW_TASK':
@@ -612,6 +633,7 @@ export function setTaskSettings(state = {}, action) {
       return state;
   }
 }
+
 const defaultUserSettings = {
   openSettings: false,
   confirmDeletion: true,
