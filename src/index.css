@@ -370,6 +370,7 @@ div.todo-list div.todos {
 }
 
 .greeting-header-section,
+.greeting-suggestion-yesterday header,
 .greeting-suggestion-section header {
   width: 100%;
   display: flex;
@@ -381,33 +382,41 @@ div.todo-list div.todos {
   margin: 15px 0;
 }
 
+.greeting-suggestion-yesterday header,
 .greeting-suggestion-section header {
   padding: 10px;
   border-bottom: 1px solid #555555;
 }
 
+.greeting-suggestion-yesterday section,
 .greeting-suggestion-section section {
   padding: 10px;
 }
 
+.greeting-suggestion-yesterday section p:last-of-type,
 .greeting-suggestion-section section p:last-of-type {
   font-size: 12px;
 }
 
+.greeting-suggestion-yesterday header h5,
 .greeting-suggestion-section header h5 {
   margin-bottom: 2px;
 }
 
+.greeting-suggestion-yesterday header p,
 .greeting-suggestion-section header p {
   display: flex;
 }
 
+.greeting-suggestion-yesterday header p,
 .greeting-suggestion-section header p,
 .greeting-suggestion-section section p:last-of-type {
   color: #5c6066;
   font-weight: 700;
+  font-size: 14px;
 }
 
+.greeting-suggestion-yesterday header button,
 .greeting-suggestion-section header button {
   background-color: transparent;
   border: 0;
@@ -420,35 +429,52 @@ div.todo-list div.todos {
   padding: 10px 15px;
 }
 
+.greeting-suggestion-yesterday,
 .greeting-suggestion-section {
   background-color: #ffffff;
   color: #2e2f30;
   flex-flow: column;
 }
 
+.greeting-suggestion-yesterday .done-tasks-indicator {
+  width: 100%;
+  height: 2px
+}
+
+.greeting-suggestion-yesterday {
+  margin-bottom: 10px;
+}
+
+.greeting-suggestion-yesterday header p img:last-of-type,
 .greeting-suggestion-section header p img:last-of-type {
   width: 18px;
   height: 18px;
   margin-right: 10px;
 }
 
+.greeting-suggestion-yesterday img:last-of-type,
 .greeting-suggestion-section img:last-of-type {
   width: 12px;
   margin-right: 7px;
 }
+
+.greeting-suggestion-yesterday button.collapse-suggestions,
 .greeting-suggestion-section button.collapse-suggestions {
   padding: 2px 5px;
 }
 
+greeting-suggestion-yesterday button.collapse-suggestions:hover,
 .greeting-suggestion-section button.collapse-suggestions:hover {
   background-color: rgb(221, 221, 221);
 }
 
+.greeting-suggestion-yesterday button.collapse-suggestions.down img,
 .greeting-suggestion-section button.collapse-suggestions.down img {
   transform: rotate(90deg);
   margin: 5px;
 }
 
+.greeting-suggestion-yesterday button.collapse-suggestions.up img,
 .greeting-suggestion-section button.collapse-suggestions.up img {
   transform: rotate(-90deg);
   margin: 5px;

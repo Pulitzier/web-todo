@@ -11,6 +11,7 @@ export default class GreetingsPanel extends Component {
     super(props);
     this.greetingState = {
       collapsedSuggestions: true,
+      collapsedYesterday: true
     }
   };
 
@@ -19,7 +20,7 @@ export default class GreetingsPanel extends Component {
     return today.getHours() < 11 ?
       "Good Morning" :
       today.getHours() < 18 ?
-        "Good Afternoon" :
+        "Hi" :
         today.getHours() < 23 ?
           "Good Evening" :
           "Hello"
@@ -29,24 +30,55 @@ export default class GreetingsPanel extends Component {
     return tasks.filter(task => task.suggestForMyDay === true)
   };
 
+  getYesterdayTasks(tasks) {
+    let suggest = [];
+    let today = new Date();
+    tasks.map(task => {
+      if((today.getDate() - (new Date(task.createdAt)).getDate()) >= 1){
+        suggest.push(task);
+      }
+    });
+    return suggest;
+  }
+
   collapseSuggestion() {
     this.setState(() => {
       return this.greetingState = {
+        ...this.greetingState,
         collapsedSuggestions: !this.greetingState.collapsedSuggestions
       }
     })
   }
 
+  collapseYesterday() {
+    this.setState(() => {
+      return this.greetingState = {
+        ...this.greetingState,
+        collapsedYesterday: !this.greetingState.collapsedYesterday
+      }
+    })
+  };
+
   render(){
     const { store } = this.context;
     const { app: { todos, tasks }} = store.getState();
     const { activateGreetings } = this.props;
-    let { collapsedSuggestions } = this.greetingState;
+    let { collapsedSuggestions, collapsedYesterday } = this.greetingState;
     const suggestedTasks = this.getTaskForSuggest(tasks);
+    const yesterdayTasks = this.getYesterdayTasks(tasks);
+    let yesterdayWidth = (() => {
+      if(yesterdayTasks.length !== 0) {
+        return (100*yesterdayTasks.map(task => task.done === true).length) /
+          (yesterdayTasks.map(task => task.done === true).length);
+      }
+      return 0;
+    })();
 
     const getTaskParent = (task) => {
       return todos["toDoCategories"].find(todo => todo.todoListId === task.parentId) || '';
     };
+
+    this.getYesterdayTasks(tasks);
 
     const getUniqueParentsTasks = (tasks) => {
       let parents = [];
@@ -82,6 +114,47 @@ export default class GreetingsPanel extends Component {
             className="done-greetings"
             onClick={() => activateGreetings()}
           >Done</button>
+        </section>
+        <section className="greeting-suggestion-yesterday">
+          {
+            (yesterdayTasks.length !== 0) &&
+            <header onClick={() => this.collapseYesterday()}>
+              <div>
+                <h5>Yesterday</h5>
+                {
+                  <p>{yesterdayTasks.map(task => task.done === true).length} of {yesterdayTasks.length}</p>
+                }
+                <div className="done-tasks-indicator" style={{width: yesterdayWidth}}></div>
+              </div>
+              <button
+                className={"collapse-suggestions " +
+                (collapsedYesterday ? "down" : "up")}
+              >
+                <img src="./assets/right.svg"/>
+              </button>
+            </header>
+          }
+          {
+            collapsedYesterday &&
+            yesterdayTasks.map((task, i) => {
+              let taskParent = getTaskParent(task);
+              return (
+                <section key={i} className="suggested-tasks">
+                  <button
+                    onClick={() => addSuggestedTaskToMyDay(task.id)}
+                  >+</button>
+                  <div>
+                    <p>{task.taskText}</p>
+                    <p><img src={taskParent.iconSource} />{taskParent.title}</p>
+                  </div>
+                  <button
+                    className="suggested-tasks-settings"
+                    onClick={() => expandTaskSettings(task.id)}
+                  ><span>&bull;&bull;&bull;</span></button>
+                </section>
+              )
+            })
+          }
         </section>
         <section className="greeting-suggestion-section">
           {
