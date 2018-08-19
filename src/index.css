@@ -1147,6 +1147,10 @@ div.sort-settings-link img:last-of-type {
   margin: 0 10px 0 auto
 }
 
+div.sort-settings-link img.important {
+  margin-left: 10px;
+}
+
 .sort-settings-menu img,
 div.sort-settings-link img:first-of-type,
 div.show-hide_completed_todos img {

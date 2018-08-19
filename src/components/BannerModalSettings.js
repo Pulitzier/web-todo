@@ -142,7 +142,11 @@ export default class BannerModalSettings extends Component {
         >
           <img src='./assets/sort.svg' alt='Sort' />
           <p>Sort</p>
-          <img src='./assets/play.svg' alt='Greater Than' />
+          <img
+            className={ activeTodo.todoListId === 1 ? 'important' : ''}
+            src='./assets/play.svg'
+            alt='Greater Than'
+          />
         </div>
         <div
           className={"sort-settings-menu " + (
@@ -204,44 +208,50 @@ export default class BannerModalSettings extends Component {
             <p>Creation date</p>
           </div>
         </div>
-        <hr />
-        <div className="banner-theme-settings">
-          <p>Theme</p>
-          {colorScheme.map((item,index) =>
-            <button
-              key={index}
-              className={"jumbotron-button "+(backgroundColor === item ? 'active' : null)}
-              onClick={() => {
-                changeBannerColor(item);
-              }}
-            >
-              <span className={item}></span>
-            </button>
-          )}
-          <br />
-          <br />
-          {imageScheme.map((item,index) => (
-            <button key={index} onClick={() => changeBannerImage(item)}>
-              <img className="theme-image" src={item} alt="Theme Image" />
-            </button>
-          ))}
-        </div>
-        <hr />
-        <div
-          className="show-hide_completed_todos"
-          onClick={() => {
-            if(showCompleted) {
-              showCompletedTasks(false);
-            } else {
-              showCompletedTasks(true);
-            }
-            showModal();
-          }}
-        >
-          <img src='./assets/check.svg' alt='Sort' />
-          <p>{showCompleted ? "Hide" : 'Show'} completed to-dos</p>
-        </div>
-        { checkActiveTodoTitle(activeTodo) ?
+        { activeTodo.todoListId !== 1 && <hr /> }
+        {
+          activeTodo.todoListId !== 1 &&
+          <div className="banner-theme-settings">
+            <p>Theme</p>
+            {colorScheme.map((item,index) =>
+              <button
+                key={index}
+                className={"jumbotron-button "+(backgroundColor === item ? 'active' : null)}
+                onClick={() => {
+                  changeBannerColor(item);
+                }}
+              >
+                <span className={item}></span>
+              </button>
+            )}
+            <br />
+            <br />
+            {imageScheme.map((item,index) => (
+              <button key={index} onClick={() => changeBannerImage(item)}>
+                <img className="theme-image" src={item} alt="Theme Image" />
+              </button>
+            ))}
+          </div>
+        }
+        { activeTodo.todoListId !== 1 && <hr /> }
+        {
+          activeTodo.todoListId !== 1 &&
+          <div
+            className="show-hide_completed_todos"
+            onClick={() => {
+              if(showCompleted) {
+                showCompletedTasks(false);
+              } else {
+                showCompletedTasks(true);
+              }
+              showModal();
+            }}
+          >
+            <img src='./assets/check.svg' alt='Sort' />
+            <p>{showCompleted ? "Hide" : 'Show'} completed to-dos</p>
+          </div>
+        }
+        { checkActiveTodoTitle(activeTodo) &&
           (
             <div className="deleteList">
               <p onClick={() => {
@@ -249,7 +259,7 @@ export default class BannerModalSettings extends Component {
                 deleteList(activeTodo);
               }}>Delete List</p>
             </div>
-          ) : null
+          )
         }
       </section>
     )
