@@ -187,6 +187,11 @@ export function appReducer(state = defaultAppTodosState, action) {
         ...state,
         tasks: tasksReducer(tasks, action)
       };
+    case 'DO_NOT_SUGGEST_TASK':
+      return {
+        ...state,
+        tasks: tasksReducer(tasks, action)
+      };
     case 'ADD_STEP_TO_TASK':
       return {
         ...state,
@@ -361,7 +366,8 @@ const tasksReducer = (state = [], action) => {
           active: false,
           myDay: todoListId === 0,
           important: todoListId === 1,
-          todoIsParent: todoListId === 0 || todoListId === 1 || todoListId === 2,
+          todoIsParent: (todoListId < 3),
+          suggestForMyDay: (todoListId >= 3),
           taskText: action.task,
           createdAt: Date.now(),
           note: '',
@@ -385,7 +391,8 @@ const tasksReducer = (state = [], action) => {
         if (task.id === action.taskId) {
           return {
             ...task,
-            myDay: action.addToMyDay
+            myDay: action.addToMyDay,
+            suggestForMyDay: false,
           }
         }
         return task;
@@ -413,12 +420,6 @@ const tasksReducer = (state = [], action) => {
         return task;
       });
     case 'ACTIVATE_TASK_SETTINGS':
-      state = state.map(task => {
-        return {
-          ...task,
-          active: false
-        }
-      });
       return state.map(task => {
         if (action.taskId === task.id) {
           return {
@@ -426,7 +427,10 @@ const tasksReducer = (state = [], action) => {
             active: action.activate
           }
         }
-        return task;
+        return {
+          ...task,
+          active: false
+        };
       });
     case 'SORT_TASKS':
       const sortTasks = (sortCriteria, tasks) => {
@@ -482,6 +486,16 @@ const tasksReducer = (state = [], action) => {
           return {
             ...task,
             repeat: action.repeatType
+          }
+        }
+        return task;
+      });
+    case 'DO_NOT_SUGGEST_TASK':
+      return state.map(task => {
+        if(task.id === action.taskId) {
+          return {
+            ...task,
+            suggestForMyDay: action.suggestion
           }
         }
         return task;

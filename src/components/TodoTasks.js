@@ -3,7 +3,8 @@ import PropTypes from 'react-proptypes';
 import ButtonToImportance from './ButtonToImportance';
 import {
   getTasksForTodo,
-  getActiveTodoList, getStringDate
+  getActiveTodoList,
+  getStringDate
 } from '../helpers';
 import {
   toggleTask,
@@ -38,10 +39,16 @@ export default class TodoTasks extends Component {
             return (
               <p className="todo-label-for-task">To-Do</p>
             );
+          } else if (task.parentId >= 3) {
+            let taskParent = todos["toDoCategories"].find(todo => todo.todoListId === task.parentId);
+            return (
+              <p className="todo-label-for-task">
+                <img src={taskParent.iconSource}/>
+                {taskParent.title}
+              </p>
+            )
           }
-          return (
-              <p className="todo-label-for-task"></p>
-            );
+          return;
         case 1:
           let todoLabelForTask = task.todoIsParent ?
             task.myDay ? (<p className="todo-label-for-task">
@@ -65,11 +72,12 @@ export default class TodoTasks extends Component {
           if(task.myDay) {
             return (
               <p className="todo-label-for-task">
-                <img src="./assets/sun.svg"/>My Day &#8226; {activeTodo.title}
+                <img src="./assets/sun.svg"/>
+                My Day
               </p>
             );
           }
-          return ;
+          return;
       }
     };
 

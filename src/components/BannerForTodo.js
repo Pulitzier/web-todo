@@ -36,9 +36,9 @@ export default class BannerForTodo extends Component {
     const { store } = this.context;
     const state = store.getState();
     const { app: { todos }, bannerForTodoState: { currentBannerImage, backgroundColor } } = state;
-    const { deleteList } = this.props;
+    const { deleteList, activateGreetings } = this.props;
     const activeTodo = getActiveTodoList(todos);
-    let { iconSource: todoIconSrc } = activeTodo;
+    let { todoListId: todoId, iconSource: todoIconSrc } = activeTodo;
     let {
       handleHoverSortLink,
       handleHoverSortMenu,
@@ -148,14 +148,26 @@ export default class BannerForTodo extends Component {
             null
           }
         </div>
-        <button
-          className="btn btn-primary dots-menu"
-          style={{backgroundColor: backgroundColor}}
-          data-toggle="modal"
-          data-target="#bannerSettings"
-        >
-          <span>&bull;&bull;&bull;</span>
-        </button>
+        <div>
+          {
+            (todoId === 0) &&
+            <button
+              className="open-greeting"
+              style={{backgroundColor: backgroundColor}}
+              onClick={() => activateGreetings()}
+            >
+              <img src='./assets/bulb.svg'/>
+            </button>
+          }
+          <button
+            className="btn btn-primary dots-menu"
+            style={{backgroundColor: backgroundColor}}
+            data-toggle="modal"
+            data-target="#bannerSettings"
+          >
+            <span>&bull;&bull;&bull;</span>
+          </button>
+        </div>
         <div className="modal fade" id="bannerSettings" tabIndex="-1" role="dialog" aria-labelledby="bannerSettingsLabel"
              aria-hidden="true">
           <div className="modal-dialog" role="document">

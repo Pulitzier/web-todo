@@ -247,3 +247,10 @@ export function deleteStep(stepId) {
     stepId
   }
 }
+
+export function clearSuggestedField(taskId) {
+  return {
+    type: 'DO_NOT_SUGGEST_TASK',
+    suggestion: false
+  }
+}
