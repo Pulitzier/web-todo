@@ -28,8 +28,8 @@ export default class StepInput extends Component {
     const { activateStep } = this.props;
     let { target } = event;
     if (
-      this.stepNode &&
-      this.stepNode.contains(target)
+      this.bannerModal &&
+      this.bannerModal.contains(target)
     ) {
       return;
     }

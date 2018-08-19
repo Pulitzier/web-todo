@@ -1,35 +1,37 @@
 import React, {Component} from 'react';
 import PropTypes from 'react-proptypes';
 import RenameList from './RenameList';
-import {
-  changeBannerBgColor,
-  changeBannerBgImage,
-  activateTask,
-  typeNewTaskAction,
-  sortTasks
-} from '../actionCreators';
-import { getActiveTodoList, closeBannerSettings } from '../helpers';
+import { getActiveTodoList } from '../helpers';
 import IconsMenu from "./IconsMenu";
+import SortPopUp from "./SortPopUp";
+import BannerModalSettings from "./BannerModalSettings";
 
 export default class BannerForTodo extends Component {
   constructor(props) {
     super(props);
-    this.sortState = {
-      handleHoverSortLink: false,
-      handleHoverSortMenu: false,
+    this.activateModalSettings = this.activateModalSettings.bind(this);
+    this.bannerState = {
+      sortCriteria: '',
       shouldRenameList: false,
-      shouldChangeIcon: false
+      shouldChangeIcon: false,
+      showModal: false
     }
-  }
+  };
+
   componentDidMount(){
     const { store } = this.context;
     store.subscribe(() => {
       this.forceUpdate();
     });
-    this.discardNewTask = () => {
-      store.dispatch(activateTask(false));
-      store.dispatch(typeNewTaskAction(false));
-    }
+  };
+
+  activateModalSettings() {
+    this.setState(() => {
+      return this.bannerState = {
+        ...this.bannerState,
+        showModal: !this.bannerState.showModal
+      }
+    })
   }
 
   render(){
@@ -40,53 +42,16 @@ export default class BannerForTodo extends Component {
     const activeTodo = getActiveTodoList(todos);
     let { todoListId: todoId, iconSource: todoIconSrc } = activeTodo;
     let {
-      handleHoverSortLink,
-      handleHoverSortMenu,
+      sortCriteria,
       shouldRenameList,
-      shouldChangeIcon
-    } = this.sortState;
-
-    const defaultBannerSchemes = {
-      imageScheme: [
-        "./assets/retro.jpg",
-        "./assets/museum.jpg",
-        "./assets/wi.jpg",
-      ],
-      colorScheme: [
-        "orange",
-        "green",
-        "red",
-        "blue",
-        "blueviolet"
-      ],
-    };
-
-    const changeBannerColor = (color) => {
-      this.discardNewTask();
-      store.dispatch(changeBannerBgColor(color))
-    };
-
-    const changeBannerImage = (image) => {
-      this.discardNewTask();
-      store.dispatch(changeBannerBgImage(image))
-    };
-
-    const handleSortTasks = (sortCriteria) => {
-      store.dispatch(sortTasks(sortCriteria, activeTodo.todoListId));
-    };
-
-    const checkActiveTodoTitle = (todo) => {
-      return (
-        todo.title !== 'My Day' &&
-          todo.title !== 'Important' &&
-            todo.title !== 'To-Do'
-      )
-    };
+      shouldChangeIcon,
+      showModal
+    } = this.bannerState;
 
     const activateRename = (bool) => {
       this.setState(() => {
-        return this.sortState = {
-          ...this.sortState,
+        return this.bannerState = {
+          ...this.bannerState,
           shouldRenameList: bool
         }
       })
@@ -94,218 +59,118 @@ export default class BannerForTodo extends Component {
 
     const activateIcon = (bool) => {
       this.setState(() => {
-        return this.sortState = {
-          ...this.sortState,
+        return this.bannerState = {
+          ...this.bannerState,
           shouldChangeIcon: bool
         }
       })
     };
 
+    const checkActiveTodoTitle = (todo) => {
+      return (
+        todo.title !== 'My Day' &&
+        todo.title !== 'Important' &&
+        todo.title !== 'To-Do'
+      )
+    };
+
+    const setBannerSortCriteria = (sortCriteria) => {
+      this.setState(() => {
+        return this.bannerState = {
+          ...this.bannerState,
+          sortCriteria
+        }
+      });
+    };
+
+    const setMyDayTime = () => {
+      let today = new Date();
+      return (today.toLocaleString('en-us', {weekday: 'long'}) + ', ' +
+        today.toLocaleString('en-us', {month: 'long'}) + ' ' +
+        today.toLocaleString('en-us', {day: 'numeric'}))
+    };
+
     return (
       <div
-        className={this.props.className}
+        className={this.props.className + ' ' + (!!sortCriteria && 'with-sort')}
         style={{backgroundColor: backgroundColor}}
       >
         <img className={this.props.className+"-wrapper"} src={currentBannerImage} alt="Theme Image" />
-        <div
-          className="panelBanner-text"
-          onBlur={() => {
-            activateRename(false);
-          }}
-        >
-          {
-            shouldRenameList && checkActiveTodoTitle(activeTodo) ?
-              <RenameList activateRename={(bool) => activateRename(bool)}/> :
-              <div>
-                {
-                  todoIconSrc &&
-                  checkActiveTodoTitle(activeTodo) &&
+        <section className="banner-main-section">
+          <div
+            className="panelBanner-text"
+            onBlur={() => {
+              activateRename(false);
+            }}
+          >
+            {
+              shouldRenameList && checkActiveTodoTitle(activeTodo) ?
+                <RenameList activateRename={(bool) => activateRename(bool)}/> :
+                <div>
+                  {
+                    todoIconSrc &&
+                    checkActiveTodoTitle(activeTodo) &&
                     (<button className="change-todo-icon" onClick={() => {
                       activateIcon(true)
                     }}>
                       <img src={todoIconSrc} />
                     </button>)
-                }
-                {
-                  todoIconSrc &&
-                  shouldChangeIcon &&
-                  <IconsMenu
-                    activateIcon={(bool) => activateIcon(bool)}
-                    activeTodoId={activeTodo.todoListId}
-                  />
-                }
-                <h3 onClick={() => activateRename(true)}>{activeTodo.title}</h3>
-              </div>
-          }
-          {todos['myPersonalToDo'][0].active ?
-            <div className="date-time">{(() => {
-              let today = new Date();
-              let dateStringForBanner = today.toLocaleString('en-us', {weekday: 'long'}) + ', ' +
-                today.toLocaleString('en-us', {month: 'long'}) + ' ' +
-                today.toLocaleString('en-us', {day: 'numeric'});
-              return dateStringForBanner;
-            })()}</div> :
-            null
-          }
-        </div>
-        <div>
-          {
-            (todoId === 0) &&
-            <button
-              className="open-greeting"
-              style={{backgroundColor: backgroundColor}}
-              onClick={() => activateGreetings()}
-            >
-              <img src='./assets/bulb.svg'/>
-            </button>
-          }
-          <button
-            className="btn btn-primary dots-menu"
-            style={{backgroundColor: backgroundColor}}
-            data-toggle="modal"
-            data-target="#bannerSettings"
-          >
-            <span>&bull;&bull;&bull;</span>
-          </button>
-        </div>
-        <div className="modal fade" id="bannerSettings" tabIndex="-1" role="dialog" aria-labelledby="bannerSettingsLabel"
-             aria-hidden="true">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-body">
-                { checkActiveTodoTitle(activeTodo) ?
-                  (
-                    <div
-                      className="renameList"
-                      onClick={() => {
-                        closeBannerSettings();
-                        activateRename(true);
-                      }}
-                    >
-                      <p>Rename List</p>
-                    </div>
-                  ) : null
-                }
-                <div
-                  className={'sort-settings-link ' +
-                  (
-                    this.sortState.handleHoverSortMenu ?
-                      "grey" : ''
-                  )}
-                  onMouseEnter={() =>
-                    this.setState(() =>
-                      this.sortState = {
-                        ...this.sortState,
-                        handleHoverSortLink: true,
-                      }
-                    )
                   }
-                  onMouseLeave={() =>
-                    this.setState(() => {
-                      if (!this.sortState.handleHoverSortMenu) {
-                        return this.sortState = {
-                          ...this.sortState,
-                          handleHoverSortLink: false,
-                        }
-                      }
-                    })
+                  {
+                    todoIconSrc &&
+                    shouldChangeIcon &&
+                    <IconsMenu
+                      activateIcon={(bool) => activateIcon(bool)}
+                      activeTodoId={activeTodo.todoListId}
+                    />
                   }
-                >
-                  <img src='./assets/sort.svg' alt='Sort' />
-                  <p>Sort</p>
-                  <img src='./assets/play.svg' alt='Greater Than' />
+                  <h3 onClick={() => activateRename(true)}>{activeTodo.title}</h3>
                 </div>
-                <div
-                    className={"sort-settings-menu " + (
-                      handleHoverSortLink ||
-                      handleHoverSortMenu ?
-                        "active" :
-                        ''
-                    )}
-                    onMouseEnter={() =>
-                      this.setState(() => {
-                        return this.sortState = {
-                          ...this.sortState,
-                          handleHoverSortMenu: true
-                        }
-                      })
-                    }
-                    onMouseLeave={() =>
-                      this.setState(() =>
-                        this.sortState = {
-                          ...this.sortState,
-                          handleHoverSortMenu: false
-                        }
-                      )
-                    }
-                  >
-                    <div onClick={() => handleSortTasks('ABC')}>
-                      <img src="./assets/exchange-arrows.svg" />
-                      <p>Alphabetically</p>
-                    </div>
-                    <div onClick={() => handleSortTasks('DUE_DATE')}>
-                      <img src="./assets/calendar.svg" />
-                      <p>Due date</p>
-                    </div>
-                    <div onClick={() => handleSortTasks('CREATED_AT')}>
-                      <img src="./assets/graphic-design.svg" />
-                      <p>Creation date</p>
-                    </div>
-                    <div onClick={() => handleSortTasks('COMPLETED')}>
-                      <img src="./assets/check.svg" />
-                      <p>Completed</p>
-                    </div>
-                    <div onClick={() => handleSortTasks('ADDED_TO_MY_DAY')}>
-                      <img src="./assets/sun.svg" />
-                      <p>Added to My Day</p>
-                    </div>
+            }
+            {
+              (todoId === 0) &&
+              <div className="date-time">
+                { setMyDayTime() }
               </div>
-                <hr />
-                <div>
-                  <p>Theme</p>
-                  {defaultBannerSchemes.colorScheme.map((item,index) =>
-                    <button
-                      key={index}
-                      className={"jumbotron-button "+(backgroundColor == item ? 'active' : null)}
-                      onClick={() => {
-                        changeBannerColor(item);
-                      }}
-                    >
-                      <span className={item}></span>
-                    </button>
-                  )}
-                  <br />
-                  <br />
-                  {defaultBannerSchemes.imageScheme.map((item,index) => (
-                    <button key={index} onClick={() => changeBannerImage(item)}>
-                      <img className="theme-image" src={item} alt="Theme Image" />
-                    </button>
-                  ))}
-                </div>
-                <hr />
-                <div
-                  className="show-hide_completed_todos"
-                  onClick={() => {
-                    console.log('clicked');
-                  }}
-                >
-                  <img src='./assets/check.svg' alt='Sort' />
-                  <p>Hide completed to-dos</p>
-                </div>
-                { checkActiveTodoTitle(activeTodo) ?
-                  (
-                    <div className="deleteList">
-                      <p onClick={() => {
-                        closeBannerSettings();
-                        deleteList(activeTodo);
-                      }}>Delete List</p>
-                    </div>
-                  ) : null
-                }
-              </div>
-            </div>
+            }
           </div>
-        </div>
+          <div>
+            {
+              (todoId === 0) &&
+              <button
+                className="open-greeting"
+                style={{backgroundColor: backgroundColor}}
+                onClick={() => activateGreetings()}
+              >
+                <img src='./assets/bulb.svg'/>
+              </button>
+            }
+            <button
+              className="btn btn-primary dots-menu"
+              style={{backgroundColor: backgroundColor}}
+              onClick={() => this.activateModalSettings()}
+            >
+              <span>&bull;&bull;&bull;</span>
+            </button>
+            {
+              showModal &&
+              <BannerModalSettings
+                activeTodo={activeTodo}
+                deleteList={deleteList}
+                activateRename={(bool) => activateRename(bool)}
+                showModal={this.activateModalSettings}
+                setSortCriteria={(criteria) => setBannerSortCriteria(criteria)}
+              />
+            }
+          </div>
+        </section>
+        {
+          sortCriteria &&
+          <SortPopUp
+            sortBy={sortCriteria}
+            setSortCriteria={(criteria) => setBannerSortCriteria(criteria)}
+          />
+        }
       </div>
     )
   }

@@ -42,10 +42,10 @@ export function setShowFilter(bool) {
   }
 }
 
-export function activateBannerSettings(bool) {
+export function filterCompletedTasks(bool) {
   return {
-    type: "ACTIVATE_BANNER_PANEL",
-    activate: bool,
+    type: "SHOW_COMPLETED_FROM_BANNER",
+    show: bool,
   }
 }
 
@@ -202,6 +202,12 @@ export function sortTasks(sortCriteria, activeTodoId) {
   }
 }
 
+export function revertTasks() {
+  return {
+    type: 'REVERT_TASKS',
+  }
+}
+
 export function setRemindMeDate(taskId, date) {
   return {
     type: 'SET_REMIND_ME_DATE',
@@ -248,7 +254,7 @@ export function deleteStep(stepId) {
   }
 }
 
-export function clearSuggestedField(taskId) {
+export function clearSuggestedField() {
   return {
     type: 'DO_NOT_SUGGEST_TASK',
     suggestion: false
