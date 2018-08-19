@@ -356,7 +356,7 @@ div.todo-list div.todos {
 }
 
 .greetings-panel {
-  position: absolute;
+  position: relative;
   width: 100%;
   height: 100%;
   background-color: #3771ce;
@@ -452,6 +452,30 @@ div.todo-list div.todos {
 .greeting-suggestion-section button.collapse-suggestions.up img {
   transform: rotate(-90deg);
   margin: 5px;
+}
+
+.greeting-suggestion-section section.suggested-tasks {
+  display: flex;
+}
+
+.greeting-suggestion-section section.suggested-tasks button {
+  margin-right: 10px;
+  border: 0;
+  background-color: transparent;
+  color: cornflowerblue;
+}
+
+.greeting-suggestion-section section.suggested-tasks button:first-of-type {
+  font-size: 26px;
+}
+
+.greeting-suggestion-section section.suggested-tasks .suggested-tasks-settings {
+  margin-left: auto;
+}
+
+.greeting-suggestion-section .suggested-task-parent {
+  display: inline-block;
+  margin-right: 10px;
 }
 
 .todos .important-icon img {

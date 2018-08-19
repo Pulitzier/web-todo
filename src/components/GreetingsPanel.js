@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
+import {
+  addTaskToMyDay,
+  activateTaskSettings,
+  clearSuggestedField
+} from '../actionCreators';
 
 export default class GreetingsPanel extends Component {
   constructor(props) {
@@ -20,8 +25,8 @@ export default class GreetingsPanel extends Component {
           "Hello"
   };
 
-  getFirstTaskFromCustomTodo(tasks) {
-    return tasks.find(task => task.parentId === 3)
+  getTaskForSuggest(tasks) {
+    return tasks.filter(task => task.suggestForMyDay === true)
   };
 
   collapseSuggestion() {
@@ -37,15 +42,39 @@ export default class GreetingsPanel extends Component {
     const { app: { todos, tasks }} = store.getState();
     const { activateGreetings } = this.props;
     let { collapsedSuggestions } = this.greetingState;
-    const suggestedTask = this.getFirstTaskFromCustomTodo(tasks) || {};
-    const suggestedTaskParent = todos["toDoCategories"].find(todo => todo.todoListId === suggestedTask.parentId) || '';
+    const suggestedTasks = this.getTaskForSuggest(tasks);
+
+    const getTaskParent = (task) => {
+      return todos["toDoCategories"].find(todo => todo.todoListId === task.parentId) || '';
+    };
+
+    const getUniqueParentsTasks = (tasks) => {
+      let parents = [];
+      tasks.map(task => {
+        if(parents.indexOf(task.parentId) === -1) {
+          parents.push(task.parentId)
+        }
+      });
+      return parents.map(parent => {
+        return todos["toDoCategories"].find(todo => todo.todoListId === parent)
+      })
+    };
+
+    const addSuggestedTaskToMyDay = (taskId) => {
+      store.dispatch(clearSuggestedField(taskId));
+      store.dispatch(addTaskToMyDay(taskId, true));
+    };
+
+    const expandTaskSettings = (taskId) => {
+      store.dispatch(activateTaskSettings(taskId, true))
+    };
 
     return (
       <div className="greetings-panel">
         <h3>{this.getDayPeriod()}, Yuryi Baravy</h3>
         <section className="greeting-header-section">
           {
-            suggestedTaskParent ?
+            (suggestedTasks.length !== 0) ?
               <p>Nice job! Here are some suggestions around what to focus on today</p> :
               <p>To-dos you may not have had a chance to finish show up here</p>
           }
@@ -56,15 +85,20 @@ export default class GreetingsPanel extends Component {
         </section>
         <section className="greeting-suggestion-section">
           {
-            suggestedTaskParent &&
+            (suggestedTasks.length !== 0) &&
             <header onClick={() => this.collapseSuggestion()}>
               <div>
                 <h5>Suggested for you</h5>
-                <p>
-                  {
-                    suggestedTaskParent.iconSource && <img src={suggestedTaskParent.iconSource} />
-                  }
-                  {suggestedTaskParent.title}</p>
+                {
+                  getUniqueParentsTasks(suggestedTasks).map((parent, i) => {
+                    return (
+                      <p key={i} className="suggested-task-parent">
+                        {parent.iconSource && <img src={parent.iconSource} />}
+                        {parent.title}
+                      </p>
+                    )
+                  })
+                }
               </div>
               <button
                 className={"collapse-suggestions " +
@@ -75,14 +109,25 @@ export default class GreetingsPanel extends Component {
             </header>
           }
           {
-            suggestedTaskParent &&
             collapsedSuggestions &&
-            <section>
-              <button>+</button>
-              <p>{suggestedTask.taskText}</p>
-              <p><img src={suggestedTaskParent.iconSource} />{suggestedTaskParent.title}</p>
-              <button><span>&bull;&bull;&bull;</span></button>
-            </section>
+            suggestedTasks.map((task, i) => {
+              let taskParent = getTaskParent(task);
+              return (
+                <section key={i} className="suggested-tasks">
+                  <button
+                    onClick={() => addSuggestedTaskToMyDay(task.id)}
+                  >+</button>
+                  <div>
+                    <p>{task.taskText}</p>
+                    <p><img src={taskParent.iconSource} />{taskParent.title}</p>
+                  </div>
+                  <button
+                    className="suggested-tasks-settings"
+                    onClick={() => expandTaskSettings(task.id)}
+                  ><span>&bull;&bull;&bull;</span></button>
+                </section>
+              )
+            })
           }
         </section>
       </div>
