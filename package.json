@@ -5,9 +5,8 @@
   "dependencies": {
     "lodash": "^4.17.10",
     "node-uuid": "^1.4.8",
-    "rc-calendar": "^9.7.0",
-    "rc-time-picker": "^3.3.1",
     "react": "^16.3.2",
+    "react-day-picker": "^7.1.10",
     "react-dom": "^16.3.2",
     "react-proptypes": "^1.0.0",
     "react-redux": "^5.0.7",

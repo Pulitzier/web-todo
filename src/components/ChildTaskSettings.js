@@ -6,10 +6,8 @@ import {
   setRepeat
 } from '../actionCreators';
 import { getStringDate } from '../helpers';
-import Calendar from 'rc-calendar';
-import TimePicker from 'rc-time-picker';
-import 'rc-calendar/assets/index.css';
-import 'rc-time-picker/assets/index.css';
+import DayPicker from 'react-day-picker';
+import 'react-day-picker/lib/style.css';
 import RepeatDatePicker from "./RepeatDatePicker";
 
 export default class ChildTaskSettings extends Component {
@@ -127,7 +125,7 @@ export default class ChildTaskSettings extends Component {
       this.openReminder(false);
     };
     const selectCustomDate = (date) => {
-      store.dispatch(setRemindMeDate(id, Date.parse(date.format())));
+      store.dispatch(setRemindMeDate(id, date.getTime()));
       this.showCustomCalendar(false);
     };
     const clearReminderDate = () => {
@@ -148,7 +146,7 @@ export default class ChildTaskSettings extends Component {
       this.openDueDate(false);
     };
     const selectCustomDueDate = (date) => {
-      store.dispatch(setDueDate(id, Date.parse(date.format())));
+      store.dispatch(setDueDate(id, date.getTime()));
       this.showDueDateCalendar(false);
     };
     const clearDueDate = () => {
@@ -228,12 +226,9 @@ export default class ChildTaskSettings extends Component {
             }
             {
               showCalendar &&
-              <Calendar
+              <DayPicker
                 className="pick-date-calendar"
-                showDateInput={false}
-                showOk={true}
-                timePicker={<TimePicker />}
-                onSelect={selectCustomDate}
+                onDayClick={selectCustomDate}
               />
             }
           </li>
@@ -296,13 +291,9 @@ export default class ChildTaskSettings extends Component {
             }
             {
               showDueCalendar &&
-              <Calendar
-                className="due-date-calendar"
-                showDateInput={false}
-                showOk={true}
-                timePicker={<TimePicker />}
-                onSelect={selectCustomDueDate}
-                onPanelChange={() => console.log('changed')}
+              <DayPicker
+                className="pick-date-calendar"
+                onDayClick={selectCustomDueDate}
               />
             }
           </li>
