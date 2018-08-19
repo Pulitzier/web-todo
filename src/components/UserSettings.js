@@ -7,7 +7,7 @@ import {
 } from "../actionCreators";
 import Panel from './Panel';
 
-class UserSettings extends Component {
+export default class UserSettings extends Component {
 
   componentDidMount() {
     let { store } = this.context;
@@ -61,5 +61,3 @@ class UserSettings extends Component {
 UserSettings.contextTypes = {
   store: PropTypes.object,
 };
-
-export default UserSettings;

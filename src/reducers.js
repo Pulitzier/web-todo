@@ -62,65 +62,10 @@ export function appReducer(state = defaultAppTodosState, action) {
         todos: todosReducer(todos, action)
       };
     case 'ADD_NEW_TASK_TO_LIST':
-      // let { myPersonalToDo } = todos;
-      let newTasks = tasksReducer(tasks, action);
-      // let lastAddedTaskId = newTasks[newTasks.length-1].id;
-      //
-      // const getTaskIdsFromTodo = (todo) => {
-      //   return todo.tasksIds;
-      // };
-      //
-      // let todoIds = [].concat(getTaskIdsFromTodo(myPersonalToDo[2]),[lastAddedTaskId]);
-      //
-      // switch(action.list.todoListId) {
-      //   case myPersonalToDo[0].todoListId:
-      //     let myTodosIds = [].concat(action.list.tasksIds, [lastAddedTaskId]);
-      //     let newTodos = todosReducer(todos, {
-      //       type: 'ADD_TASK_TO_MY_TODO',
-      //       tasks: myTodosIds
-      //     });
-      //     newTodos = todosReducer(newTodos, {
-      //       type: 'ADD_TASK_TO_TODO',
-      //       tasks: todoIds
-      //     });
-      //     return {
-      //       ...state,
-      //       todos: newTodos,
-      //       tasks: newTasks,
-      //     };
-      //   case myPersonalToDo[1].todoListId:
-      //     let newImportantTodoIds = [].concat(getTaskIdsFromTodo(myPersonalToDo[1]), [lastAddedTaskId]);
-      //     let newImportantTodos = todosReducer(todos, {
-      //       type: 'ADD_TASK_TO_IMPORTANT',
-      //       tasks: newImportantTodoIds
-      //     });
-      //     newImportantTodos = todosReducer(newTodos, {
-      //       type: 'ADD_TASK_TO_TODO',
-      //       tasks: todoIds
-      //     });
-      //     return {
-      //       ...state,
-      //       todos: newImportantTodos,
-      //       tasks: newTasks
-      //     };
-      //   case myPersonalToDo[2].todoListId:
-      //     let newTodoIds = [].concat(getTaskIdsFromTodo(myPersonalToDo[2]), [lastAddedTaskId]);
-      //     return {
-      //       ...state,
-      //       todos: todosReducer(todos, {
-      //         type: 'ADD_TASK_TO_TODO',
-      //         tasks: newTodoIds
-      //       }),
-      //       tasks: newTasks
-      //     };
-      //   default:
-          return {
-            ...state,
-            tasks: newTasks
-          };
-      // };
-      // console.log('add new task case');
-      // break;
+      return {
+        ...state,
+        tasks: tasksReducer(tasks, action)
+      };
     case 'ADD_TASK_TO_IMPORTANT':
       return {
         ...state,
@@ -136,17 +81,7 @@ export function appReducer(state = defaultAppTodosState, action) {
         ...state,
         tasks: tasksReducer(tasks, action)
       };
-    //   console.log('add to important case');
-    //   return {
-    //     ...state,
-    //     todos: todosReducer(todos, action)
-    //   };
-    // case 'ADD_TASK_TO_TODO':
-    //   return {
-    //     ...state,
-    //     todos: todosReducer(todos, action)
-    //   };
-    case 'DELETE_TASK':
+      case 'DELETE_TASK':
       return {
         ...state,
         tasks: tasksReducer(tasks, action)
@@ -255,60 +190,6 @@ const todosReducer = (state = defaultTodos, action) => {
           return todo;
         })
       };
-    // case 'ADD_TASK_TO_IMPORTANT':
-    //   let { active: importantActiveState } = myPersonalToDo[1];
-    //   return {
-    //     ...state,
-    //     myPersonalToDo: [].concat(
-    //       state.myPersonalToDo[0],
-    //       [{
-    //         title: 'Important',
-    //         active: importantActiveState,
-    //         todoListId: 1,
-    //         sortOrder: '',
-    //         currentDate: 1532863416253,
-    //         tasksIds: action.tasks
-    //       }],
-    //       state.myPersonalToDo[2],
-    //     )
-    //   };
-    // case 'ADD_TASK_TO_TODO':
-    //   let { active: todoActiveState } = myPersonalToDo[2];
-    //   return {
-    //     ...state,
-    //     myPersonalToDo: [].concat(
-    //       state.myPersonalToDo[0],
-    //       state.myPersonalToDo[1],
-    //       [{
-    //         title: 'To-Do',
-    //         active: todoActiveState,
-    //         todoListId: 2,
-    //         sortOrder: '',
-    //         currentDate: 1531572460943,
-    //         tasksIds: action.tasks
-    //       }]
-    //     )
-    //   };
-    // case 'ADD_TASK_TO_MY_TODO':
-    //   let {
-    //     currentDate: myTodosTimestamp,
-    //     active: myTodoActiveState
-    //   } = myPersonalToDo[0];
-    //   return {
-    //     ...state,
-    //     myPersonalToDo: [].concat(
-    //       [{
-    //         title: 'My Day',
-    //         active: myTodoActiveState,
-    //         todoListId: 0,
-    //         sortOrder: '',
-    //         currentDate: myTodosTimestamp,
-    //         tasksIds: action.tasks
-    //       }],
-    //       state.myPersonalToDo[1],
-    //       state.myPersonalToDo[2],
-    //     )
-    //   };
     case 'DELETE_TODO_LIST':
       return {
         ...state,
