@@ -178,4 +178,4 @@ export default class BannerForTodo extends Component {
 
 BannerForTodo.contextTypes = {
   store: PropTypes.object
-}
+};
