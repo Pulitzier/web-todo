@@ -1163,6 +1163,7 @@ div.show-hide_completed_todos img {
   background-color: rgb(221, 221, 221);
 }
 
+.DayPicker.pick-date-calendar .DayPicker-wrapper,
 .task-settings-additional .pick-date-calendar .rc-calendar-panel,
 .task-settings-additional .due-date-calendar .rc-calendar-panel {
   position: absolute;
@@ -1171,6 +1172,7 @@ div.show-hide_completed_todos img {
   text-align: center;
 }
 
+.dark .DayPicker.pick-date-calendar .DayPicker-wrapper,
 .dark .task-settings-additional .pick-date-calendar .rc-calendar-panel,
 .dark .task-settings-additional .due-date-calendar .rc-calendar-panel {
   background-color: #5c6066;
