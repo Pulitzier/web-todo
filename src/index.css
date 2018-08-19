@@ -1429,7 +1429,6 @@ ul.searchList {
 
 
 #bannerSettings div.sort-settings-menu.active {
-  height: 264px;
   transition: height 1s ease;
   border: 1px solid rgba(0,0,0,.2);
 }
