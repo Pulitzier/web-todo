@@ -38,7 +38,7 @@ export default class BannerForTodo extends Component {
     const { store } = this.context;
     const state = store.getState();
     const { app: { todos }, bannerForTodoState: { currentBannerImage, backgroundColor } } = state;
-    const { deleteList, activateGreetings } = this.props;
+    const { activeTask, deleteList, activateGreetings } = this.props;
     const activeTodo = getActiveTodoList(todos);
     let { todoListId: todoId, iconSource: todoIconSrc } = activeTodo;
     let {
@@ -92,10 +92,10 @@ export default class BannerForTodo extends Component {
 
     return (
       <div
-        className={this.props.className + ' ' + (!!sortCriteria && 'with-sort')}
+        className={"panelBanner " + (activeTask ? 'responsive ' : '') + (!!sortCriteria ? 'with-sort' : '')}
         style={{backgroundColor: backgroundColor}}
       >
-        <img className={this.props.className+"-wrapper"} src={currentBannerImage} alt="Theme Image" />
+        <img className="panelBanner-wrapper" src={currentBannerImage} alt="Theme Image" />
         <section className="banner-main-section">
           <div
             className="panelBanner-text"

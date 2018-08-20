@@ -88,9 +88,9 @@ export default class TaskSettings extends Component {
   render() {
     const { store } = this.context;
     const { app: { steps }} = store.getState();
-    const { activateStepInput, showNoteControls } = this.taskState;
+    const { activateStepInput, showNoteControls, newNoteText } = this.taskState;
     const { handleDeleteTask, activeTask, handleDeleteStep } = this.props;
-    let { id: activeTaskId, done, taskText, createdAt, myDay } = activeTask;
+    let { id: activeTaskId, done, taskText, createdAt, myDay, note: taskNote } = activeTask;
 
     const closeTaskSettings = (taskId) => {
       this.newNote.blur();
@@ -213,7 +213,7 @@ export default class TaskSettings extends Component {
             cols="30"
             ref={node => this.newNote = node}
             placeholder="Add a note"
-            // value={note}
+            value={newNoteText || taskNote}
             onChange={(e) => this.typeNewNote(e)}
           ></textarea>
           {

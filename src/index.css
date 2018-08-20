@@ -376,6 +376,10 @@ div.todo-list div.todos {
   border: 1px solid #5c6066;
 }
 
+.panelBanner.responsive #bannerSettings {
+  right: 200px;
+}
+
 .dark .leftPanel ul li.active,
 .dark #bannerSettings div.sort-settings-menu div:hover,
 .dark #bannerSettings div.sort-settings-link:hover,
@@ -614,21 +618,6 @@ div.sort-settings-link p {
   background-color: #888888;
 }
 
-.task-settings .step-title label.toggleStepLabel {
-  width: 16px;
-  height: 16px;
-  margin: 0;
-}
-
-.task-settings .step-title label.toggleStepLabel > span {
-  width: 16px;
-}
-
-.task-settings .step-title label.toggleStepLabel + p {
-  font-size: 14px;
-  padding-left: 10px;
-}
-
 .task-settings .step-title .steps-trash {
   display: none;
 }
@@ -731,7 +720,6 @@ p.lineThrough {
 .theme-sets label.ligthTheme-label,
 .theme-sets label.darkTheme-label,
 .todos label.toggleTodoLabel,
-.add-new-step-wrapper label.toggleStepLabel,
 .task-settings label.toggleTaskLabel,
 ul.searchList label.searchTaskLabel,
 .add-new-todo-wrapper label.toggleTodoLabel-template {
@@ -845,6 +833,28 @@ ul.searchList label.searchTaskLabel.toggled > span:after,
 .add-new-todo-wrapper label.toggleTodoLabel-template.toggled > span:after {
   content: '\2713';
   position: absolute;
+}
+
+.task-settings label.toggleStepLabel,
+.task-settings label.toggleStepLabel > span {
+  width: 16px;
+  height: 16px;
+}
+
+.task-settings label.toggleStepLabel {
+  margin: 0;
+}
+
+.task-settings label.toggleStepLabel + p,
+.task-settings .activateStepInput,
+.task-settings .add-new-step input,
+.add-new-step-wrapper input::placeholder {
+  font-size: 14px;
+  padding-left: 10px;
+}
+
+.add-new-step-wrapper input::placeholder {
+  padding-left: 0;
 }
 
 .search-modal .clearSearch,
@@ -1386,6 +1396,7 @@ ul.searchList {
 .task-settings-add-note {
   padding: 10px;
   flex-flow: column;
+  min-height: 178px;
 }
 
 .task-settings-add-note .btn-group {
