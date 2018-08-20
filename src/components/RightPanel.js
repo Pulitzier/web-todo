@@ -55,7 +55,7 @@ export default class RightPanel extends Component {
             />
           }
           <BannerForTodo
-            className="panelBanner"
+            activeTask={activeTask}
             deleteList={deleteTodo}
             activateGreetings={this.activateGreetingPanel}
           />

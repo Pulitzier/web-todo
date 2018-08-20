@@ -376,6 +376,10 @@ div.todo-list div.todos {
   border: 1px solid #5c6066;
 }
 
+.panelBanner.responsive #bannerSettings {
+  right: 200px;
+}
+
 .dark .leftPanel ul li.active,
 .dark #bannerSettings div.sort-settings-menu div:hover,
 .dark #bannerSettings div.sort-settings-link:hover,
