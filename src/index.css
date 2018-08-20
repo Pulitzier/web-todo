@@ -1386,6 +1386,7 @@ ul.searchList {
 .task-settings-add-note {
   padding: 10px;
   flex-flow: column;
+  min-height: 178px;
 }
 
 .task-settings-add-note .btn-group {
