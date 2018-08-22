@@ -302,7 +302,7 @@ button.open-greeting {
 }
 
 .todo-list-wrapper {
-  max-height: 500px;
+  max-height: 450px;
   height: 100%;
   position: relative;
 }
@@ -607,6 +607,12 @@ div.sort-settings-link p {
 .user-info-settings {
   position: relative;
   width: 100%;
+}
+
+.task-middle-settings-wrapper {
+  flex-flow: column;
+  max-height: 520px;
+  overflow-y: auto;
 }
 
 .task-settings .step-title {
@@ -1397,6 +1403,7 @@ ul.searchList {
   padding: 10px;
   flex-flow: column;
   min-height: 178px;
+  display: flex;
 }
 
 .task-settings-add-note .btn-group {
