@@ -74,7 +74,6 @@ export default class TaskSettings extends Component {
     const { store } = this.context;
     let { newNoteText } = this.taskState;
     store.dispatch(addNoteToTask(taskId, newNoteText));
-    // this.newNote.value = '';
     this.newNote.blur();
     this.setState(() => {
       return this.taskState = {
@@ -135,79 +134,81 @@ export default class TaskSettings extends Component {
           <p>{taskText}</p>
           <ButtonToImportance task={activeTask}/>
         </div>
-        {
-          getStepsForTask().map((step, i) => (
-            <div key={i} className="step-title">
-              <label
-                className={
-                  "toggleStepLabel " +
-                  (step.done ? "done" : '')
-                }
-              >
-              <span
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setToggledStep(step.stepId);
-                }}
-              ></span>
-              </label>
-              <p>{step.stepText}</p>
-              <button
-                className="steps-trash"
-                onClick={() => handleDeleteStep(step)}
-              >
-                <img src="./assets/garbage.svg" />
-              </button>
-            </div>
-          ))
-        }
-        {
-          activateStepInput ?
-            <StepInput
-              activateStep={this.activateStep}
-              taskId={activeTaskId}
-            /> :
-            (<p
-              className="activateStepInput"
-              onClick={() => this.activateStep()}
-            >
-              + Add Step
-            </p>)
-        }
-        <div className="task-settings-add-to-my-day">
-          <ul>
-            <li
-              className={"add-to-my-day " + (myDay && "active")}
-              onClick={() => {
-                addCustomToMyDay(activeTaskId, true)
-              }}>
-              <img src="./assets/sun.svg" />
-              {
-                !myDay && (<p className="need-to-add">Add to My to-do</p>)
-              }
-              {
-                myDay && (<p className="added">Added to My to-do</p>)
-              }
-              {
-                myDay && (
-                  <button
-                    className="clear-from-my-day"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      addCustomToMyDay(activeTaskId, false)
-                    }}
+        <div className="task-middle-settings-wrapper">
+          <div>
+            {
+              getStepsForTask().map((step, i) => (
+                <div key={i} className="step-title">
+                  <label
+                    className={
+                      "toggleStepLabel " +
+                      (step.done ? "done" : '')
+                    }
                   >
-                    <p>x</p>
+                <span
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setToggledStep(step.stepId);
+                  }}
+                ></span>
+                  </label>
+                  <p>{step.stepText}</p>
+                  <button
+                    className="steps-trash"
+                    onClick={() => handleDeleteStep(step)}
+                  >
+                    <img src="./assets/garbage.svg" />
                   </button>
-                )
-              }
-            </li>
-          </ul>
-        </div>
-        <ChildTaskSettings activeTask={activeTask}/>
-        <div className="task-settings-add-note">
+                </div>
+              ))
+            }
+            {
+              activateStepInput ?
+                <StepInput
+                  activateStep={this.activateStep}
+                  taskId={activeTaskId}
+                /> :
+                (<p
+                  className="activateStepInput"
+                  onClick={() => this.activateStep()}
+                >
+                  + Add Step
+                </p>)
+            }
+            <div className="task-settings-add-to-my-day">
+              <ul>
+                <li
+                  className={"add-to-my-day " + (myDay && "active")}
+                  onClick={() => {
+                    addCustomToMyDay(activeTaskId, true)
+                  }}>
+                  <img src="./assets/sun.svg" />
+                  {
+                    !myDay && (<p className="need-to-add">Add to My to-do</p>)
+                  }
+                  {
+                    myDay && (<p className="added">Added to My to-do</p>)
+                  }
+                  {
+                    myDay && (
+                      <button
+                        className="clear-from-my-day"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          addCustomToMyDay(activeTaskId, false)
+                        }}
+                      >
+                        <p>x</p>
+                      </button>
+                    )
+                  }
+                </li>
+              </ul>
+            </div>
+            <ChildTaskSettings activeTask={activeTask}/>
+            <div className="task-settings-add-note">
           <textarea
             rows="5"
             cols="30"
@@ -216,19 +217,21 @@ export default class TaskSettings extends Component {
             value={newNoteText || taskNote}
             onChange={(e) => this.typeNewNote(e)}
           ></textarea>
-          {
-            showNoteControls &&
-            (<div className="btn-group">
-              <button
-                className="btn-default"
-                onClick={() => this.typeNewNote(false)}
-              >Cancel</button>
-              <button
-                className="btn-primary"
-                onClick={() => this.saveNoteForTask(activeTaskId)}
-              >Save</button>
-            </div>)
-          }
+              {
+                showNoteControls &&
+                (<div className="btn-group">
+                  <button
+                    className="btn-default"
+                    onClick={() => this.typeNewNote(false)}
+                  >Cancel</button>
+                  <button
+                    className="btn-primary"
+                    onClick={() => this.saveNoteForTask(activeTaskId)}
+                  >Save</button>
+                </div>)
+              }
+            </div>
+          </div>
         </div>
         <div className='task-settings-footer'>
           <button
