@@ -109,9 +109,7 @@ export default class TaskSettings extends Component {
     };
 
     const getStepsForTask = () => {
-      return steps.filter(step => {
-        return step.taskId = activeTaskId
-      });
+      return steps.filter(step => step.taskId === activeTaskId);
     };
 
     return (
