@@ -6,6 +6,8 @@ const defaultTodos = {
       todoListId: 0,
       sortOrder: '',
       currentDate: Date.now(),
+      bgImage: "./assets/retro.jpg",
+      bgColor: 'blue'
     },
     {
       title: 'Important',
@@ -13,6 +15,8 @@ const defaultTodos = {
       todoListId: 1,
       sortOrder: '',
       currentDate: 1532863416253,
+      bgImage: "./assets/retro.jpg",
+      bgColor: 'blue'
     },
     {
       title: 'To-Do',
@@ -20,6 +24,8 @@ const defaultTodos = {
       todoListId: 2,
       sortOrder: '',
       currentDate: 1531572460943,
+      bgImage: "./assets/retro.jpg",
+      bgColor: 'blue'
     }
   ],
   toDoCategories: []
@@ -58,6 +64,16 @@ export function appReducer(state = defaultAppTodosState, action) {
         tasks: tasksReducer(tasks, action)
       };
     case "CHOOSE_LIST":
+      return {
+        ...state,
+        todos: todosReducer(todos, action)
+      };
+    case 'CHANGE_BANNER_BG_IMAGE':
+      return {
+        ...state,
+        todos: todosReducer(todos, action)
+      };
+    case 'CHANGE_BANNER_BG_COLOR':
       return {
         ...state,
         todos: todosReducer(todos, action)
@@ -150,6 +166,7 @@ export function appReducer(state = defaultAppTodosState, action) {
 
 const todosReducer = (state = defaultTodos, action) => {
   let { myPersonalToDo, toDoCategories } = state;
+  let newTodos = {};
   switch (action.type) {
     case 'ADD_NEW_TODO_LIST':
       let customTodoId = todoId;
@@ -162,7 +179,9 @@ const todosReducer = (state = defaultTodos, action) => {
             title: action.title,
             active: false,
             todoListId: customTodoId,
-            iconSource: ''
+            iconSource: '',
+            bgImage: "./assets/retro.jpg",
+            bgColor: 'blue'
           }
         ]
     };
@@ -224,6 +243,40 @@ const todosReducer = (state = defaultTodos, action) => {
         ...state,
         [todosListName]: newTodoList
       };
+    case 'CHANGE_BANNER_BG_COLOR':
+      for (let key in state) {
+        if(state[key].length) {
+          newTodos[key] = state[key].map(todo => {
+            if(todo.todoListId === action.todoId){
+              return {
+                ...todo,
+                bgColor: action.color
+              }
+            }
+            return todo;
+          })
+        } else {
+          newTodos[key] = state[key]
+        }
+      }
+      return newTodos;
+    case 'CHANGE_BANNER_BG_IMAGE':
+      for (let key in state) {
+        if(state[key].length) {
+          newTodos[key] = state[key].map(todo => {
+            if(todo.todoListId === action.todoId){
+              return {
+                ...todo,
+                bgImage: action.image
+              }
+            }
+            return todo;
+          })
+        } else {
+          newTodos[key] = state[key]
+        }
+      }
+      return newTodos;
     default:
       return state;
   }
@@ -479,21 +532,6 @@ const defaultBannerState = {
 
 export function setBannerForTodoState(state = defaultBannerState, action) {
   switch(action.type){
-    case 'ACTIVATE_BANNER_PANEL':
-      return {
-        ...state,
-        activateBannerSettings: action.activate
-      };
-    case 'CHANGE_BANNER_BG_COLOR':
-      return {
-        ...state,
-        backgroundColor: action.color
-      };
-    case 'CHANGE_BANNER_BG_IMAGE':
-      return {
-        ...state,
-        currentBannerImage: action.image
-      };
     case 'SHOW_COMPLETED_FROM_BANNER':
       return {
         ...state,
