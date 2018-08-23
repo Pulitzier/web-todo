@@ -52,12 +52,10 @@ export function appReducer(state = defaultAppTodosState, action) {
         todos: todosReducer(todos, action)
       };
     case 'DELETE_TODO_LIST':
-      let newTasks = tasksReducer(tasks, action);
-      let newTodos = todosReducer(todos, action);
       return {
         ...state,
-        todos: newTodos,
-        tasks: newTasks
+        todos: todosReducer(todos, action),
+        tasks: tasksReducer(tasks, action)
       };
     case "CHOOSE_LIST":
       return {
@@ -84,10 +82,11 @@ export function appReducer(state = defaultAppTodosState, action) {
         ...state,
         tasks: tasksReducer(tasks, action)
       };
-      case 'DELETE_TASK':
+    case 'DELETE_TASK':
       return {
         ...state,
-        tasks: tasksReducer(tasks, action)
+        tasks: tasksReducer(tasks, action),
+        steps: stepsReducer(steps, action)
       };
     case 'TOGGLE_TASK':
       return {
@@ -426,6 +425,8 @@ const stepsReducer = ( state = [], action) => {
       });
     case 'DELETE_STEP':
       return state.filter(step => step.stepId !== action.stepId);
+    case 'DELETE_TASK':
+      return state.filter(step => step.taskId !== action.taskId);
     default:
       return state
   }
