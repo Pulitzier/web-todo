@@ -37,10 +37,10 @@ export default class BannerForTodo extends Component {
   render(){
     const { store } = this.context;
     const state = store.getState();
-    const { app: { todos }, bannerForTodoState: { currentBannerImage, backgroundColor } } = state;
+    const { app: { todos }} = state;
     const { activeTask, deleteList, activateGreetings } = this.props;
     const activeTodo = getActiveTodoList(todos);
-    let { todoListId: todoId, iconSource: todoIconSrc } = activeTodo;
+    let { todoListId: todoId, iconSource: todoIconSrc, bgImage, bgColor } = activeTodo;
     let {
       sortCriteria,
       shouldRenameList,
@@ -93,9 +93,9 @@ export default class BannerForTodo extends Component {
     return (
       <div
         className={"panelBanner " + (activeTask ? 'responsive ' : '') + (!!sortCriteria ? 'with-sort' : '')}
-        style={{backgroundColor: backgroundColor}}
+        style={{backgroundColor: bgColor}}
       >
-        <img className="panelBanner-wrapper" src={currentBannerImage} alt="Theme Image" />
+        <img className="panelBanner-wrapper" src={bgImage} alt="Theme Image" />
         <section className="banner-main-section">
           <div
             className="panelBanner-text"
@@ -139,7 +139,7 @@ export default class BannerForTodo extends Component {
               (todoId === 0) &&
               <button
                 className="open-greeting"
-                style={{backgroundColor: backgroundColor}}
+                style={{backgroundColor: bgColor}}
                 onClick={() => activateGreetings()}
               >
                 <img src='./assets/bulb.svg'/>
@@ -147,7 +147,7 @@ export default class BannerForTodo extends Component {
             }
             <button
               className="btn btn-primary dots-menu"
-              style={{backgroundColor: backgroundColor}}
+              style={{backgroundColor: bgColor}}
               onClick={() => this.activateModalSettings()}
             >
               <span>&bull;&bull;&bull;</span>

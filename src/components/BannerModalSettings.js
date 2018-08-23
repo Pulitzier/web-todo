@@ -43,7 +43,7 @@ export default class BannerModalSettings extends Component {
   render(){
     const { store } = this.context;
     const state = store.getState();
-    const { bannerForTodoState: { backgroundColor, showCompleted } } = state;
+    const { bannerForTodoState: { showCompleted } } = state;
     const {
       activeTodo,
       deleteList,
@@ -51,13 +51,14 @@ export default class BannerModalSettings extends Component {
       showModal,
       setSortCriteria,
     } = this.props;
+    let { todoListId, bgColor, title: todoTitle } = activeTodo;
     const imageScheme = [ "./assets/retro.jpg", "./assets/museum.jpg", "./assets/wi.jpg" ];
     const colorScheme = [ "orange", "green", "red", "blue", "blueviolet" ];
     let { handleHoverSortLink, handleHoverSortMenu } = this.modalState;
 
     const setHeight = () => {
       if(handleHoverSortLink || handleHoverSortMenu) {
-        if(activeTodo.todoListId > 1 ) {
+        if(todoListId > 1 ) {
           return 264;
         }
         return 220;
@@ -69,28 +70,28 @@ export default class BannerModalSettings extends Component {
       store.dispatch(typeNewTaskAction(false));
     };
 
-    const checkActiveTodoTitle = (todo) => {
+    const checkActiveTodoTitle = (todoTitle) => {
       return (
-        todo.title !== 'My Day' &&
-        todo.title !== 'Important' &&
-        todo.title !== 'To-Do'
+        todoTitle !== 'My Day' &&
+        todoTitle !== 'Important' &&
+        todoTitle !== 'To-Do'
       )
     };
 
     const handleSortTasks = (sortCriteria) => {
       setSortCriteria(sortCriteria);
-      store.dispatch(sortTasks(sortCriteria, activeTodo.todoListId));
+      store.dispatch(sortTasks(sortCriteria, todoListId));
       showModal();
     };
 
     const changeBannerColor = (color) => {
       discardNewTask();
-      store.dispatch(changeBannerBgColor(color))
+      store.dispatch(changeBannerBgColor(color, todoListId))
     };
 
     const changeBannerImage = (image) => {
       discardNewTask();
-      store.dispatch(changeBannerBgImage(image))
+      store.dispatch(changeBannerBgImage(image, todoListId))
     };
 
     const showCompletedTasks = (bool) => {
@@ -104,7 +105,7 @@ export default class BannerModalSettings extends Component {
         ref={node => this.bannerModal = node}
       >
         {
-          checkActiveTodoTitle(activeTodo) &&
+          checkActiveTodoTitle(todoTitle) &&
           <div
             className="renameList"
             onClick={() => {
@@ -143,7 +144,7 @@ export default class BannerModalSettings extends Component {
           <img src='./assets/sort.svg' alt='Sort' />
           <p>Sort</p>
           <img
-            className={ activeTodo.todoListId === 1 ? 'important' : ''}
+            className={ todoListId === 1 ? 'important' : ''}
             src='./assets/play.svg'
             alt='Greater Than'
           />
@@ -176,7 +177,7 @@ export default class BannerModalSettings extends Component {
           }
         >
           {
-            (activeTodo.todoListId !== 1) && (
+            (todoListId !== 1) && (
               <div onClick={() => handleSortTasks('IMPORTANT')}>
                 <img src="./assets/star.svg" />
                 <p>Importance</p>
@@ -188,7 +189,7 @@ export default class BannerModalSettings extends Component {
             <p>Due date</p>
           </div>
           {
-            !!activeTodo.todoListId && (
+            !!todoListId && (
               <div onClick={() => handleSortTasks('ADDED_TO_MY_DAY')}>
                 <img src="./assets/sun.svg" />
                 <p>Added to My Day</p>
@@ -208,15 +209,15 @@ export default class BannerModalSettings extends Component {
             <p>Creation date</p>
           </div>
         </div>
-        { activeTodo.todoListId !== 1 && <hr /> }
+        { todoListId !== 1 && <hr /> }
         {
-          activeTodo.todoListId !== 1 &&
+          todoListId !== 1 &&
           <div className="banner-theme-settings">
             <p>Theme</p>
             {colorScheme.map((item,index) =>
               <button
                 key={index}
-                className={"jumbotron-button "+(backgroundColor === item ? 'active' : null)}
+                className={"jumbotron-button "+(bgColor === item ? 'active' : null)}
                 onClick={() => {
                   changeBannerColor(item);
                 }}
@@ -233,9 +234,9 @@ export default class BannerModalSettings extends Component {
             ))}
           </div>
         }
-        { activeTodo.todoListId !== 1 && <hr /> }
+        { todoListId !== 1 && <hr /> }
         {
-          activeTodo.todoListId !== 1 &&
+          todoListId !== 1 &&
           <div
             className="show-hide_completed_todos"
             onClick={() => {
@@ -251,7 +252,7 @@ export default class BannerModalSettings extends Component {
             <p>{showCompleted ? "Hide" : 'Show'} completed to-dos</p>
           </div>
         }
-        { checkActiveTodoTitle(activeTodo) &&
+        { checkActiveTodoTitle(todoTitle) &&
           (
             <div className="deleteList">
               <p onClick={() => {

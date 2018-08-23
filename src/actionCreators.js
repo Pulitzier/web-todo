@@ -71,17 +71,19 @@ export function setNewListTitle(title) {
   }
 }
 
-export function changeBannerBgColor(color) {
+export function changeBannerBgColor(color, todoId) {
   return {
     type: 'CHANGE_BANNER_BG_COLOR',
-    color: color
+    color,
+    todoId
   }
 }
 
-export function changeBannerBgImage(image) {
+export function changeBannerBgImage(image, todoId) {
   return {
     type: 'CHANGE_BANNER_BG_IMAGE',
-    image
+    image,
+    todoId
   }
 }
 
