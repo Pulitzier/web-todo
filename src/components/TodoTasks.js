@@ -45,7 +45,7 @@ export default class TodoTasks extends Component {
               <p className="todo-label-for-task">To-Do</p>
             );
           } else if (task.parentId >= 3) {
-            let taskParent = todos["toDoCategories"].find(todo => todo.todoListId === task.parentId);
+            let taskParent = todos.find(todo => todo.todoListId === task.parentId);
             return (
               <p className="todo-label-for-task">
                 <img src={taskParent.iconSource}/>

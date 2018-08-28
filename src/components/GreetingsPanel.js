@@ -75,7 +75,7 @@ export default class GreetingsPanel extends Component {
     })();
 
     const getTaskParent = (task) => {
-      return todos["toDoCategories"].find(todo => todo.todoListId === task.parentId) || '';
+      return todos.find(todo => todo.todoListId === task.parentId) || '';
     };
 
     this.getYesterdayTasks(tasks);
@@ -88,7 +88,7 @@ export default class GreetingsPanel extends Component {
         }
       });
       return parents.map(parent => {
-        return todos["toDoCategories"].find(todo => todo.todoListId === parent)
+        return todos.find(todo => todo.todoListId === parent)
       })
     };
 
