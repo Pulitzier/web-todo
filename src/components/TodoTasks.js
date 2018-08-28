@@ -18,7 +18,7 @@ export default class TodoTasks extends Component {
     const {
       app: { tasks, todos, steps },
       userSettings: { turnOnSound },
-      bannerForTodoState: { showCompleted }
+      taskSettings: { showCompleted }
     } = state;
 
     const activeTodo = getActiveTodoList(todos);

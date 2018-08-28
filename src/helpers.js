@@ -1,11 +1,6 @@
 export function getActiveTodoList(todos) {
-  let activeArray;
-  for (let key in todos) {
-    activeArray = todos[key].find(element => element.active);
-    if (activeArray) {
-      return activeArray
-    }
-  }
+  let activeArray = todos.find(element => element.active);
+  if (activeArray) return activeArray;
 }
 
 export function loadState() {

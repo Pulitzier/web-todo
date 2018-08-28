@@ -43,7 +43,7 @@ export default class BannerModalSettings extends Component {
   render(){
     const { store } = this.context;
     const state = store.getState();
-    const { bannerForTodoState: { showCompleted } } = state;
+    const { taskSettings: { showCompleted } } = state;
     const {
       activeTodo,
       deleteList,

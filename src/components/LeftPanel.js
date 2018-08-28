@@ -13,7 +13,7 @@ import {
 import { getTasksForTodo } from '../helpers';
 import UserSettings from "./UserSettings";
 
-class LeftPanel extends Component {
+export default class LeftPanel extends Component {
   componentDidMount() {
     const { store } = this.context;
     this.unsubscribe = store.subscribe(() => {
@@ -36,7 +36,7 @@ class LeftPanel extends Component {
 
     const addNewList = () => {
     let newListTitle = 'Untitled Task';
-    todos['toDoCategories'].map(item => {
+    todos.map(item => {
       if (item.title.indexOf('Untitled Task') !== -1) {
         if (isNaN(parseInt(item.title.replace( /[^\d.]/g, '' )))) {
           newListTitle = 'Untitled Task ' + 1;
@@ -61,64 +61,67 @@ class LeftPanel extends Component {
     store.dispatch(setNewListTitle(newListTitle));
   };
 
-  const chooseListItem = (element, listName) => {
+  const chooseListItem = (todoId) => {
     store.dispatch(openSearchPanel(false));
     store.dispatch(activateTask(false));
-    store.dispatch(chooseList(element, listName))
+    store.dispatch(chooseList(todoId))
   };
 
   return (
     <Panel className="col-md-4 leftPanel">
       <UserSettings />
       <List className="nav flex-column my-todo-list">
-        {todos['myPersonalToDo'].map(todo =>
-          (
-            <li className={"nav-item "+ (todo.active ? 'active' : '')} key={todo.title}>
-              <a
-                className={"nav-link " + (todo.active ? 'active' : '')}
-                onClick={() => chooseListItem(todo, 'myPersonalToDo')}
-              >
-                <img
-                  src={(() => {
-                    if(todo.title === 'My Day') {
-                      return './assets/sun.svg'
-                    }
-                    if(todo.title === 'Important') {
-                      return './assets/star.svg'
-                    }
-                    if(todo.title === 'To-Do') {
-                      return './assets/home.svg'
-                    }
-                    return '';
-                  })()}
-                  alt='Categories Icon'
-                />
-                <p>{todo.title}</p>
-                <span>{(() => getTasksForTodo(tasks, todo).length ? getTasksForTodo(tasks, todo).length : '')()}</span>
-              </a>
-            </li>
-          )
-        )
-        }
+        {todos.map(todo => {
+          if (todo.todoListId < 3) {
+            return (
+              <li className={"nav-item "+ (todo.active ? 'active' : '')} key={todo.todoListId}>
+                <a
+                  className={"nav-link " + (todo.active ? 'active' : '')}
+                  onClick={() => chooseListItem(todo.todoListId)}
+                >
+                  <img
+                    src={(() => {
+                      if(todo.title === 'My Day') {
+                        return './assets/sun.svg'
+                      }
+                      if(todo.title === 'Important') {
+                        return './assets/star.svg'
+                      }
+                      if(todo.title === 'To-Do') {
+                        return './assets/home.svg'
+                      }
+                      return '';
+                    })()}
+                    alt='Categories Icon'
+                  />
+                  <p>{todo.title}</p>
+                  <span>{(() => getTasksForTodo(tasks, todo).length ? getTasksForTodo(tasks, todo).length : '')()}</span>
+                </a>
+              </li>
+            )
+          }
+        })}
       </List>
       <hr />
       <List className="nav flex-column todo-list">
-        {todos['toDoCategories'].map( (element,i) =>
-          (
-            <li
-              className={"nav-item "+ (element.active ? 'active' : '')}
-              key={element.title}
-            >
-              <a
-                className="nav-link"
-                onClick={() => chooseListItem(element, 'toDoCategories')}
+        {todos.map(todo => {
+          if (todo.todoListId >= 3) {
+            return (
+              <li
+                className={"nav-item "+ (todo.active ? 'active' : '')}
+                key={todo.todoListId}
               >
-                {element.title}
-                <span></span>
-              </a>
-            </li>
-          ))
-        }
+                <a
+                  className="nav-link"
+                  onClick={() => chooseListItem(todo.todoListId)}
+                >
+                  {todo.title}
+                  <span></span>
+                </a>
+              </li>
+            )
+          }
+        })}
       </List>
       <div className="add-new-list" onBlur={() => pushNewListToState()}>
         <input
@@ -144,5 +147,3 @@ class LeftPanel extends Component {
 LeftPanel.contextTypes = {
   store: PropTypes.object,
 };
-
-export default LeftPanel;

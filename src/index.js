@@ -9,7 +9,6 @@ import {
   setSearchState,
   activateNewList,
   setNewListTitle,
-  setBannerForTodoState,
   setTaskSettings,
   handleUserSettings
 } from './reducers';
@@ -24,7 +23,6 @@ const globalReducer = combineReducers({
   search: setSearchState,
   activateNewList,
   newListTitle: setNewListTitle,
-  bannerForTodoState: setBannerForTodoState,
   taskSettings: setTaskSettings,
   userSettings: handleUserSettings
 });

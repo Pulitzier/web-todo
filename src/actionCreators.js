@@ -49,11 +49,10 @@ export function filterCompletedTasks(bool) {
   }
 }
 
-export function chooseList(element, todosListName) {
+export function chooseList(todoId) {
   return {
     type: "CHOOSE_LIST",
-    todosListName,
-    element
+    todoId
   }
 }
 
