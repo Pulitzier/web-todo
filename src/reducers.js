@@ -223,7 +223,7 @@ function tasksReducer(state = [], action) {
           case 'DUE_DATE':
             return tasks = tasks.sort((a, b) => {
               return (b.dueDate - a.dueDate)
-            });;
+            });
           case 'CREATED_AT':
             return tasks = tasks.sort((a, b) => {
               return (b.createdAt - a.createdAt)
