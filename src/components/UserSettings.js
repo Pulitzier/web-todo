@@ -22,6 +22,7 @@ export default class UserSettings extends Component {
     let activateSettings = state.userSettings.activateSettings;
 
     const openSettings = (bool) => {
+      store.dispatch(openSearchPanel(false));
       store.dispatch(activateUserSettings(false));
       store.dispatch(openUserSettings(bool))
     };
