@@ -5,7 +5,7 @@ import RightPanel from './RightPanel';
 import Settings from "./Settings";
 import DeleteModal from "./DeleteModal";
 import AudioForCompletion from "./AudioForCompletion";
-import '../index.scss';
+import '../index.css';
 import {
   deleteTask,
   deleteTodoList,
