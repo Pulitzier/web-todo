@@ -6,6 +6,7 @@ import {
   typeNewTaskAction
 } from '../actionCreators';
 import TodoTasks from "./TodoTasks";
+import { getTasksForTodo } from "../helpers";
 
 
 export default class ToDoListOfTask extends Component {
@@ -61,9 +62,7 @@ export default class ToDoListOfTask extends Component {
     return(
       <div className="todo-list-wrapper">
         <div className="todo-list">
-          {
-            !!tasks.length && <TodoTasks />
-          }
+          <TodoTasks tasks={getTasksForTodo(tasks, activeTodo)}/>
           <div className="todos">
             <div className="add-new-todo">
               <div className="add-new-todo-wrapper">
