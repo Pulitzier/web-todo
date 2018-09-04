@@ -25,17 +25,6 @@ export default class TaskSettings extends Component {
     }
   };
 
-  componentDidMount(){
-    let { store } = this.context;
-    this.unsubscribe = store.subscribe(() => {
-      this.forceUpdate();
-    })
-  };
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
   activateStep = () => {
     this.setState(() => {
       return this.taskState = {
@@ -178,15 +167,13 @@ export default class TaskSettings extends Component {
               <ul>
                 <li
                   className={"add-to-my-day " + (myDay && "active")}
-                  onClick={() => {
-                    addCustomToMyDay(activeTaskId, true)
-                  }}>
+                  onClick={() => addCustomToMyDay(activeTaskId, true)}
+                >
                   <img src="./assets/sun.svg" />
                   {
-                    !myDay && (<p className="need-to-add">Add to My to-do</p>)
-                  }
-                  {
-                    myDay && (<p className="added">Added to My to-do</p>)
+                    myDay ?
+                      (<p className="added">Added to My to-do</p>) :
+                      (<p className="need-to-add">Add to My to-do</p>)
                   }
                   {
                     myDay && (
@@ -207,14 +194,14 @@ export default class TaskSettings extends Component {
             </div>
             <ChildTaskSettings activeTask={activeTask}/>
             <div className="task-settings-add-note">
-          <textarea
-            rows="5"
-            cols="30"
-            ref={node => this.newNote = node}
-            placeholder="Add a note"
-            value={newNoteText || taskNote}
-            onChange={(e) => this.typeNewNote(e)}
-          ></textarea>
+            <textarea
+              rows="5"
+              cols="30"
+              ref={node => this.newNote = node}
+              placeholder="Add a note"
+              value={newNoteText || taskNote}
+              onChange={(e) => this.typeNewNote(e)}
+            ></textarea>
               {
                 showNoteControls &&
                 (<div className="btn-group">
