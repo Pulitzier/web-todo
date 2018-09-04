@@ -9,90 +9,88 @@ import {
 
 export default class TodoTasks extends Component {
 
-  setLabelFromTodo(task) {
+  renderLabel(task) {
     const { store } = this.context;
     const state = store.getState();
-    const { app: { todos }} = state;
-    switch (task.parentId){
-      case 0:
-        if(task.todoIsParent) {
-          return {
-            text: 'To-Do',
-            imgSrc: ''
-          };
-        } else if (task.parentId >= 3) {
-          let taskParent = todos.find(todo => todo.todoListId === task.parentId);
-          return {
-            text: taskParent.title,
-            imgSrc: taskParent.iconSource
-          }
-        }
-        return;
-      case 1:
-        if(task.todoIsParent){
-          if(task.myDay) {
-            return {
-              text: 'My Day • To-Do',
-              imgSrc: './assets/sun.svg'
-            }
-          } else {
+    const { app: { todos, steps }} = state;
+    let { id: taskId, note, remindDate, dueDate, repeat } = task;
+
+    const setLabelFromTodo = task => {
+      switch (task.parentId){
+        case 0:
+          if(task.todoIsParent) {
             return {
               text: 'To-Do',
               imgSrc: ''
+            };
+          } else if (task.parentId >= 3) {
+            let taskParent = todos.find(todo => todo.todoListId === task.parentId);
+            return {
+              text: taskParent.title,
+              imgSrc: taskParent.iconSource
             }
           }
-        }
-        return;
-      case 2:
-        if(task.myDay) {
-          return {
-            text: 'My Day',
-            imgSrc: './assets/sun.svg'
-          };
-        }
-        return;
-      default:
-        if(task.myDay) {
-          return {
-            text: 'My Day',
-            imgSrc: './assets/sun.svg'
-          };
-        }
-        return;
-    }
-  };
+          return;
+        case 1:
+          if(task.todoIsParent){
+            if(task.myDay) {
+              return {
+                text: 'My Day • To-Do',
+                imgSrc: './assets/sun.svg'
+              }
+            } else {
+              return {
+                text: 'To-Do',
+                imgSrc: ''
+              }
+            }
+          }
+          return;
+        case 2:
+          if(task.myDay) {
+            return {
+              text: 'My Day',
+              imgSrc: './assets/sun.svg'
+            };
+          }
+          return;
+        default:
+          if(task.myDay) {
+            return {
+              text: 'My Day',
+              imgSrc: './assets/sun.svg'
+            };
+          }
+          return;
+      }
+    };
 
-  countStepsForTask(taskId) {
-    const { store } = this.context;
-    const state = store.getState();
-    const { app: { steps }} = state;
-    let allTaskSteps = steps.filter(step => step.taskId === taskId);
-    let doneSteps = allTaskSteps.filter(step => step.done);
-    if(allTaskSteps.length !== 0) {
-      return (
-        <p>{doneSteps.length} of {allTaskSteps.length}</p>
-      );
-    }
-  };
+    const countStepsForTask = taskId => {
+      let allTaskSteps = steps.filter(step => step.taskId === taskId);
+      let doneSteps = allTaskSteps.filter(step => step.done);
+      if(allTaskSteps.length !== 0) {
+        return (
+          <p>{doneSteps.length} of {allTaskSteps.length}</p>
+        );
+      }
+    };
 
-  renderLabel(task) {
-    let { id: taskId, note, remindDate, dueDate, repeat } = task;
     if(
       (note || remindDate || dueDate || repeat) ||
-      this.countStepsForTask(taskId) ||
-      this.setLabelFromTodo(task)
+      countStepsForTask(taskId) ||
+      setLabelFromTodo(task)
     ) {
       return (
         <div className="label-wrapper-for-task">
           <div className="list-of-labels">
             {
-              this.countStepsForTask(taskId)
+              countStepsForTask(taskId)
             }
             {
-              this.setLabelFromTodo(task) &&
+              setLabelFromTodo(task) &&
               <p className="todo-label-for-task">
-                <img src={this.setLabelFromTodo(task).imgSrc}/>
-                {this.setLabelFromTodo(task).text}
+                <img src={setLabelFromTodo(task).imgSrc}/>
+                {setLabelFromTodo(task).text}
               </p>
             }
             {
