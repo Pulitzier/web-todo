@@ -5,7 +5,7 @@ import {
   addNewTaskToList,
   typeNewTaskAction
 } from '../actionCreators';
-import TodoTasks from "./TodoTasks";
+import Task from "./Task";
 import { getTasksForTodo } from "../helpers";
 
 
@@ -32,7 +32,7 @@ export default class ToDoListOfTask extends Component {
     const state = store.getState();
     const {
       app: { tasks },
-      taskSettings: { activateNewTask, typeNewTask }
+      taskSettings: { activateNewTask, typeNewTask, showCompleted }
     } = state;
     const { activeTodo } = this.props;
     const { localToggleTask } = this.todoState;
@@ -62,7 +62,14 @@ export default class ToDoListOfTask extends Component {
     return(
       <div className="todo-list-wrapper">
         <div className="todo-list">
-          <TodoTasks tasks={getTasksForTodo(tasks, activeTodo)}/>
+          {
+            getTasksForTodo(tasks, activeTodo).map((task, index) => {
+              if ( !showCompleted && task.done ) {
+                return;
+              }
+              return <Task key={index} task={task} />
+            })
+          }
           <div className="todos">
             <div className="add-new-todo">
               <div className="add-new-todo-wrapper">

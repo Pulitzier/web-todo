@@ -1,22 +1,26 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
 import ButtonToImportance from './ButtonToImportance';
-import { getStringDate } from '../helpers';
+import {
+  getStringDate,
+  getActiveTodoList
+} from '../helpers';
 import {
   toggleTask,
   activateTaskSettings,
 } from '../actionCreators';
 
-export default class TodoTasks extends Component {
+export default class Task extends Component {
 
   renderLabel(task) {
     const { store } = this.context;
     const state = store.getState();
     const { app: { todos, steps }} = state;
+    let { todoListId: activeTodoId } = getActiveTodoList(todos);
     let { id: taskId, note, remindDate, dueDate, repeat } = task;
 
     const setLabelFromTodo = task => {
-      switch (task.parentId){
+      switch (activeTodoId){
         case 0:
           if(task.todoIsParent) {
             return {
@@ -44,14 +48,6 @@ export default class TodoTasks extends Component {
                 imgSrc: ''
               }
             }
-          }
-          return;
-        case 2:
-          if(task.myDay) {
-            return {
-              text: 'My Day',
-              imgSrc: './assets/sun.svg'
-            };
           }
           return;
         default:
@@ -134,11 +130,9 @@ export default class TodoTasks extends Component {
   render() {
     const { store } = this.context;
     const state = store.getState();
-    const {
-      userSettings: { turnOnSound },
-      taskSettings: { showCompleted }
-    } = state;
-    let { tasks } = this.props;
+    const { userSettings: { turnOnSound }} = state;
+    let { task } = this.props;
+    let { id, done, taskText } = task;
 
     const playSoundWhenDone = (taskDone) => {
       let audio = document.getElementById("soundOnComplete");
@@ -154,43 +148,35 @@ export default class TodoTasks extends Component {
       store.dispatch(activateTaskSettings(taskId, true));
     };
 
-
-    return tasks.map((task, i) => {
-        let { id, done, taskText } = task;
-        if ( !showCompleted && done ) {
-          return;
-        }
-        return (
-          <div
-            key={i}
-            className="todos"
-            onClick={() => activateSettings(id)}
-          >
-            <label
-              className={
-                "toggleTodoLabel " +
-                (done ? "done" : '')
-              }
-            >
-            <span
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                toggleTodoTask(task);
-              }}
-            ></span>
-            </label>
-            <div className="task-title-wrapper">
-              <p className={done ? 'lineThrough' : null}>{taskText}</p>
-              {this.renderLabel(task)}
-            </div>
-            <ButtonToImportance task={task}/>
-          </div>
-        )
-      })
+    return (
+      <div
+        className="todos"
+        onClick={() => activateSettings(id)}
+      >
+        <label
+          className={
+            "toggleTodoLabel " +
+            (done ? "done" : '')
+          }
+        >
+          <span
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleTodoTask(task);
+            }}
+          ></span>
+        </label>
+        <div className="task-title-wrapper">
+          <p className={done ? 'lineThrough' : null}>{taskText}</p>
+          {this.renderLabel(task)}
+        </div>
+        <ButtonToImportance task={task}/>
+      </div>
+    )
   }
 };
 
-TodoTasks.contextTypes = {
+Task.contextTypes = {
   store: PropTypes.object
 };
