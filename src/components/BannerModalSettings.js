@@ -21,14 +21,14 @@ export default class BannerModalSettings extends Component {
 
   componentDidMount(){
     let { store } = this.context;
-    document.getElementsByTagName('body')[0].addEventListener('click', this.handleClick, false);
+    document.addEventListener('click', this.handleClick, false);
     this.unsubscribe = store.subscribe(() => {
       this.forceUpdate();
     })
   };
 
   componentWillUnmount() {
-    document.getElementsByTagName('body')[0].removeEventListener('click', this.handleClick, false);
+    document.removeEventListener('click', this.handleClick, false);
     this.unsubscribe();
   };
 

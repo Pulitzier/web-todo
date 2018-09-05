@@ -540,73 +540,6 @@ div.todo-list {
   }
 }
 
-.task-settings-additional {
-  background-color: #ffffff;
-  margin: 10px;
-
-  li p {
-    border-bottom: 1px solid lightgray;
-    &:last-of-type p { border: 0; }
-  }
-
-  .activeOption { color: cornflowerblue; }
-
-  .remind-me {
-    & > div {
-      display: contents;
-      width: 100%;
-    }
-    &.activeOption {
-      & > div {
-        & > p {
-          padding-top: 2px;
-          padding-bottom: 2px;
-        }
-        & > span { color: #000000; }
-      }
-    }
-  }
-
-  .due-date, .repeat { @extend .remind-me }
-
-  .repeat {
-    div {
-      p:last-of-type {
-        border-bottom: 0;
-      }
-    }
-  }
-
-  span {
-    &.clear-repeat {
-      line-height: 45px;
-      padding: 0 15px;
-      border-bottom: 1px solid lightgray;
-      &:hover { background-color: rgb(221, 221, 221); }
-    }
-
-    &.clear-due-date, &.clear-remind-date { @extend .clear-repeat }
-
-    &.date-label {
-      display: block;
-      font-size: 13px;
-      line-height: 15px;
-    }
-  }
-
-  .reminder-window {
-    ul {
-      position: absolute;
-      right: 5px;
-      max-width: 250px;
-      border: 1px solid #888888;
-      background-color: #ffffff;
-      padding: 0;
-    }
-  }
-  .repeat-window { @extend .reminder-window }
-}
-
 .task-settings ul li button.clear-from-my-day:hover,
 .greeting-suggestion-yesterday button.collapse-suggestions:hover,
 .greeting-suggestion-section button.collapse-suggestions:hover {
@@ -1226,6 +1159,14 @@ div.show-hide_completed_todos img {
 }
 
 .task-settings-additional {
+  background-color: #ffffff;
+  margin: 10px;
+
+  li p {
+    border-bottom: 1px solid lightgray;
+    &:last-of-type p { border: 0; }
+  }
+
   .reminder-window {
     ul {
       li {
@@ -1296,6 +1237,65 @@ div.show-hide_completed_todos img {
       color: #ffffff;
     }
   }
+
+  .activeOption { color: cornflowerblue; }
+
+  .remind-me {
+    & > div,
+    & .pick-date-calendar {
+      display: contents;
+      width: 100%;
+    }
+
+    &.activeOption {
+      & > div {
+        & > p {
+          padding-top: 2px;
+          padding-bottom: 2px;
+        }
+        & > span { color: #000000; }
+      }
+    }
+  }
+
+  .due-date, .repeat { @extend .remind-me }
+
+  .repeat {
+    div {
+      p:last-of-type {
+        border-bottom: 0;
+      }
+    }
+  }
+
+  span {
+    &.clear-repeat {
+      line-height: 45px;
+      padding: 0 15px;
+      border-bottom: 1px solid lightgray;
+      &:hover { background-color: rgb(221, 221, 221); }
+    }
+
+    &.clear-due-date, &.clear-remind-date { @extend .clear-repeat }
+
+    &.date-label {
+      display: block;
+      font-size: 13px;
+      line-height: 15px;
+    }
+  }
+
+  .reminder-window {
+    ul {
+      position: absolute;
+      right: 5px;
+      max-width: 250px;
+      border: 1px solid #888888;
+      background-color: #ffffff;
+      padding: 0;
+    }
+  }
+  .repeat-window { @extend .reminder-window }
 }
 
 .task-settings-add-to-my-day ul,
