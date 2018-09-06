@@ -38,7 +38,6 @@ export default class TaskSettings extends Component {
     let { activeTask: { note }} = this.props;
     if(event) {
       let { target: { value }} = event;
-      this.newNote.value = value || note;
       this.setState(() => {
         return this.taskState = {
           ...this.taskState,
@@ -48,7 +47,6 @@ export default class TaskSettings extends Component {
       });
       return;
     }
-    this.newNote.value = note;
     this.newNote.blur();
     this.setState(() => {
       return this.taskState = {
@@ -199,7 +197,7 @@ export default class TaskSettings extends Component {
               cols="30"
               ref={node => this.newNote = node}
               placeholder="Add a note"
-              value={newNoteText || taskNote}
+              value={showNoteControls ? newNoteText : taskNote}
               onChange={(e) => this.typeNewNote(e)}
             ></textarea>
               {
