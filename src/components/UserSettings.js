@@ -9,13 +9,6 @@ import Panel from './Panel';
 
 export default class UserSettings extends Component {
 
-  componentDidMount() {
-    let { store } = this.context;
-    store.subscribe(() => {
-      this.forceUpdate();
-    })
-  };
-
   render() {
     let { store } = this.context;
     let state = store.getState();

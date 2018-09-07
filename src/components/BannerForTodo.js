@@ -18,13 +18,6 @@ export default class BannerForTodo extends Component {
     }
   };
 
-  componentDidMount(){
-    const { store } = this.context;
-    store.subscribe(() => {
-      this.forceUpdate();
-    });
-  };
-
   activateModalSettings() {
     this.setState(() => {
       return this.bannerState = {

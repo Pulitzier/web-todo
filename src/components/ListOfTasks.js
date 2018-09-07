@@ -17,15 +17,6 @@ export default class ListOfTasks extends Component {
       localToggleTask: false,
     };
   };
-  componentDidMount() {
-    let { store } = this.context;
-    this.unsubscribe = store.subscribe(() => {
-      this.forceUpdate();
-    });
-  };
-  componentWillUnmount() {
-    this.unsubscribe();
-  };
 
   render() {
     const { store } = this.context;

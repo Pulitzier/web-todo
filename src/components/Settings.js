@@ -12,12 +12,6 @@ import {
 } from '../actionCreators';
 
 export default class Settings extends Component {
-  componentDidMount() {
-    let { store } = this.context;
-    store.subscribe(() => {
-      this.forceUpdate();
-    })
-  };
 
   render() {
     let { store } = this.context;

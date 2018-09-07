@@ -14,16 +14,6 @@ import { getTasksForTodo } from '../helpers';
 import UserSettings from "./UserSettings";
 
 export default class LeftPanel extends Component {
-  componentDidMount() {
-    const { store } = this.context;
-    this.unsubscribe = store.subscribe(() => {
-      this.forceUpdate();
-    })
-  };
-
-  componentWillUnmount(){
-    this.unsubscribe();
-  };
 
   componentDidUpdate() {
     this.newListTitleInput.focus();

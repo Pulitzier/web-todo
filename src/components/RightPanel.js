@@ -17,13 +17,6 @@ export default class RightPanel extends Component {
     }
   };
 
-  componentDidMount(){
-    let { store } = this.context;
-    store.subscribe(() => {
-      this.forceUpdate();
-    })
-  };
-
   activateGreetingPanel() {
     this.setState(() => {
       return this.rightPanelState = {

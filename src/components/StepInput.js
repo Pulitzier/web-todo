@@ -14,12 +14,12 @@ export default class StepInput extends Component {
   };
 
   componentDidMount() {
-    document.getElementsByTagName('body')[0].addEventListener('click', this.handleStepClick, false);
+    document.addEventListener('click', this.handleStepClick, false);
     document.getElementById('toggleStepCheckbox').focus();
   };
 
   componentWillUnmount() {
-    document.getElementsByTagName('body')[0].removeEventListener('click', this.handleStepClick, false)
+    document.removeEventListener('click', this.handleStepClick, false)
   };
 
   handleStepClick(event) {
