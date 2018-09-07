@@ -47,6 +47,13 @@ export default class BannerForTodo extends Component {
       shouldChangeIcon,
       showModal
     } = this.bannerState;
+    const colorScheme = {
+      "orange": "rgba(249, 148, 7, 0.45)",
+      "green": "rgba(0, 158, 34, 0.45)",
+      "red": "rgba(255, 0, 0, 0.45)",
+      "blue": "rgba(0, 0, 255, 0.45)",
+      "blueviolet": "rgba(204, 7, 249, 0.45)"
+    }
 
     const activateRename = (bool) => {
       this.setState(() => {
@@ -93,10 +100,12 @@ export default class BannerForTodo extends Component {
     return (
       <div
         className={"panelBanner " + (activeTask ? 'responsive ' : '') + (!!sortCriteria ? 'with-sort' : '')}
-        style={{backgroundColor: bgColor}}
+        style={{ backgroundImage: `url(${bgImage})`}}
       >
-        <img className="panelBanner-wrapper" src={bgImage} alt="Theme Image" />
-        <section className="banner-main-section">
+        <section
+          className="banner-main-section"
+          style={{backgroundColor: colorScheme[bgColor]}}
+        >
           <div
             className="panelBanner-text"
             onBlur={() => {

@@ -9,7 +9,7 @@ import Task from "./Task";
 import { getTasksForTodo } from "../helpers";
 
 
-export default class ToDoListOfTask extends Component {
+export default class ListOfTasks extends Component {
   constructor(props) {
     super(props);
     this.todoState = {
@@ -88,7 +88,7 @@ export default class ToDoListOfTask extends Component {
                     type="text"
                     name="add-new-task"
                     ref={node => this.newTaskInput = node}
-                    placeholder={!activateNewTask ? "+ Add a to-do" : "Add a to-do"}
+                    placeholder="Add a to-do"
                     className={"add-new-todo-input " + (activateNewTask ? "activated" : "inactive")}
                     onFocus={() => activateToDoTask(true)}
                     onChange={() => handleTypeNewTask(true)}
@@ -125,6 +125,6 @@ export default class ToDoListOfTask extends Component {
   }
 };
 
-ToDoListOfTask.contextTypes = {
+ListOfTasks.contextTypes = {
   store: PropTypes.object
 };

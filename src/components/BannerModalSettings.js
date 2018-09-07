@@ -51,7 +51,7 @@ export default class BannerModalSettings extends Component {
       showModal,
       setSortCriteria,
     } = this.props;
-    let { todoListId, bgColor, title: todoTitle } = activeTodo;
+    let { todoListId, bgColor, bgImage, title: todoTitle } = activeTodo;
     const imageScheme = [ "./assets/retro.jpg", "./assets/museum.jpg", "./assets/wi.jpg" ];
     const colorScheme = [ "orange", "green", "red", "blue", "blueviolet" ];
     let { handleHoverSortLink, handleHoverSortMenu } = this.modalState;
@@ -101,7 +101,6 @@ export default class BannerModalSettings extends Component {
     return (
       <section
         id="bannerSettings"
-        className="banner-modal-settings"
         ref={node => this.bannerModal = node}
       >
         {
@@ -228,8 +227,13 @@ export default class BannerModalSettings extends Component {
             <br />
             <br />
             {imageScheme.map((item,index) => (
-              <button key={index} onClick={() => changeBannerImage(item)}>
-                <img className="theme-image" src={item} alt="Theme Image" />
+              <button
+                key={index}
+                className={"jumbotron-button "+(bgImage === item ? 'active' : null)}
+                onClick={() => changeBannerImage(item)}>
+                <span className="bgImage-wrapper">
+                  <img className="theme-image" src={item} alt="Theme Image" />
+                </span>
               </button>
             ))}
           </div>
