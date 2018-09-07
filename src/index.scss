@@ -43,6 +43,24 @@ body {
   color: #ffffff;
 
   .user-settings-page { @extend .dark }
+
+  .modal-content,
+  .search-modal,
+  #bannerSettings {
+    background-color: #2e2f30;
+    .sort-settings-menu > div { background-color: #2e2f30; }
+  }
+
+  .task-settings-title { background-color: #2e2f30 !important; }
+
+  .task-settings-add-to-my-day,
+  .task-settings-additional,
+  .task-settings-add-note,
+  .activateStepInput {
+    @extend .dark;
+    border: 1px solid #fff;
+  }
+
 }
 
 ::-webkit-scrollbar {
@@ -257,8 +275,9 @@ audio { visibility: hidden; }
   &.with-sort {
     min-height: 250px;
   }
-  &.responsive #bannerSettings {
-    right: 200px;
+  &.responsive {
+    background-size: auto 100%;
+    #bannerSettings { right: 200px; }
   }
 
   .banner-main-section {
@@ -384,7 +403,9 @@ button.open-greeting {
     color: cornflowerblue;
     border-color: transparent;
     font-size: 13px;
+
     &.active {
+      padding-top: 4px;
       font-size: 14.5px;
       display: inline-block;
     }
@@ -1322,10 +1343,12 @@ div.show-hide_completed_todos img {
 
     &.clear-due-date, &.clear-remind-date { @extend .clear-repeat }
 
+    &.clear-remind-date { line-height: 53px }
+
     &.date-label {
       display: block;
       font-size: 13px;
-      line-height: 15px;
+      line-height: 10px;
     }
   }
 
@@ -1377,12 +1400,6 @@ ul.searchList {
     border: 0;
     padding: 5px 10px;
   }
-}
-
-.dark .modal-content,
-.dark .search-modal,
-.dark #bannerSettings .sort-settings-menu > div {
-  background-color: #2e2f30;
 }
 
 #bannerSettings {
