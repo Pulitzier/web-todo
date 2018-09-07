@@ -1,4 +1,4 @@
-@mixin flexContainer {
+@mixin flex {
   display: flex;
   align-items: center;
 }
@@ -33,9 +33,7 @@ body {
   background-color: #ffffff;
   color: #2e2f30;
 
-  .user-settings-page {
-    @extend .light
-  }
+  .user-settings-page { @extend .light }
 }
 
 .dark {
@@ -128,8 +126,7 @@ audio { visibility: hidden; }
   }
 
   .nav-link {
-    display: flex;
-    align-items: center;
+    @include flex;
     padding-left: 2px;
     padding-right: 2px;
 
@@ -167,7 +164,7 @@ audio { visibility: hidden; }
   img { width: 60px; };
 
   .settings-header {
-    @include flexContainer;
+    @include flex;
     margin: 20px 30px;
 
     button {
@@ -201,8 +198,7 @@ audio { visibility: hidden; }
     .about-section { @extend .help-feedback }
 
     .user-manage {
-      @include flexContainer;
-
+      @include flex;
       & > div * { margin: 0 0 0 10px; }
 
       a {
@@ -226,8 +222,14 @@ audio { visibility: hidden; }
   }
 }
 
-.theme-sets p {
-  margin-bottom: 5px;
+.theme-sets {
+  p { margin-bottom: 5px; }
+  label.ligthTheme-label,
+  label.darkTheme-label {
+    position: relative;
+    float: left;
+    margin-right: 10px;
+  }
 }
 
 .light .settings-general-info .user-manage a {
@@ -272,18 +274,16 @@ audio { visibility: hidden; }
   background-position: 50% 50%;
   background-size: 100%;
 
-  &.with-sort {
-    min-height: 250px;
-  }
+  &.with-sort { min-height: 250px; }
   &.responsive {
     background-size: auto 100%;
     #bannerSettings { right: 200px; }
   }
 
   .banner-main-section {
-    height: 200px;
     display: flex;
     align-items: flex-end;
+    height: 200px;
     justify-content: space-between;
 
     .panelBanner-text {
@@ -292,36 +292,22 @@ audio { visibility: hidden; }
       color: #fff;
       font-weight: 900;
       position: relative;
-      h3 {
-        margin: 0;
-      }
-      .date-time {
-        margin-left: 40px;
-      }
+      h3 { margin: 0; }
+      .date-time { margin-left: 40px; }
       & > div {
-        & > h3 {
-          @extend .date-time
-        }
-        & > button + h3 {
-          margin-left: 3px;
-        }
-        & > .icons-menu-wrapper + h3 {
-          margin-left: 3px;
-        }
-        &:first-of-type {
-          display: flex;
-          align-items: center;
-        }
+        & > h3 { @extend .date-time }
+        & > button + h3 { margin-left: 3px; }
+        & > .icons-menu-wrapper + h3 { margin-left: 3px; }
+        &:first-of-type { @include flex; }
       }
     }
   }
 
   .banner-sort {
+    @include flex;
     position: relative;
     min-height: 20px;
     padding: 10px 10px 10px 50px;
-    display: flex;
-    align-items: center;
     color: #ffffff;
     background-color: rgba(0, 0, 0, 0.2);
 
@@ -331,12 +317,8 @@ audio { visibility: hidden; }
         height: 12px;
         margin: 5px;
       }
-      &.down img {
-        transform: rotate(90deg);
-      }
-      &.up img {
-        transform: rotate(-90deg);
-      }
+      &.down img { transform: rotate(90deg); }
+      &.up img { transform: rotate(-90deg); }
     }
 
     button {
@@ -346,17 +328,13 @@ audio { visibility: hidden; }
       position: relative;
       padding: 5px 15px;
 
-      &.clear-banner-sort {
-        margin-left: auto;
-      }
+      &.clear-banner-sort { margin-left: auto; }
       &.change-sort-order {
         padding-left: 10px;
         padding-right: 10px;
         margin: 0 10px;
       }
-      &:hover {
-        background-color: rgba(0, 0, 0, 0.4);
-      }
+      &:hover { background-color: rgba(0, 0, 0, 0.4); }
     }
   }
 }
@@ -420,11 +398,11 @@ div.todo-list {
   text-align: left;
   width: 100%;
   div.todos {
+    @include flex;
     border-bottom: 1px solid darkgray;
     padding: 8px 15px;
     height: 50px;
-    display: flex;
-    align-items: center;
+    .important-icon img { margin: 0; }
   }
 }
 
@@ -456,10 +434,7 @@ div.todo-list {
 .dark .task-settings {
   border: 1px solid lightgrey;
   background-color: #1a1b1c;
-}
-
-.dark .task-settings > * {
-  background-color: #2e2f30;
+  & > * { background-color: #2e2f30; }
 }
 
 .todos .important-icon img,
@@ -479,9 +454,8 @@ div.todo-list {
   z-index: 1;
 
   .greeting-header-section {
+    @include flex;
     width: 100%;
-    display: flex;
-    align-items: center;
     justify-content: space-between;
     margin: 15px 0;
 
@@ -539,7 +513,18 @@ div.todo-list {
       margin-right: 7px;
     }
 
-    button.collapse-suggestions { padding: 2px 5px; }
+    button.collapse-suggestions {
+      padding: 2px 5px;
+      &:hover { background-color: rgb(221, 221, 221); }
+      &.down img {
+        transform: rotate(90deg);
+        margin: 5px;
+      }
+      &.up img {
+        transform: rotate(-90deg);
+        margin: 5px;
+      }
+    }
   }
 
   .greeting-suggestion-section {
@@ -562,33 +547,12 @@ div.todo-list {
         .suggested-tasks-settings { margin-left: auto; }
       }
     }
+    .suggested-task-parent {
+      display: inline-block;
+      margin-right: 10px;
+    }
   }
 }
-
-.task-settings ul li button.clear-from-my-day:hover,
-.greeting-suggestion-yesterday button.collapse-suggestions:hover,
-.greeting-suggestion-section button.collapse-suggestions:hover {
-  background-color: rgb(221, 221, 221);
-}
-
-.greeting-suggestion-yesterday button.collapse-suggestions.down img,
-.greeting-suggestion-section button.collapse-suggestions.down img {
-  transform: rotate(90deg);
-  margin: 5px;
-}
-
-.greeting-suggestion-yesterday button.collapse-suggestions.up img,
-.greeting-suggestion-section button.collapse-suggestions.up img {
-  transform: rotate(-90deg);
-  margin: 5px;
-}
-
-.greeting-suggestion-section .suggested-task-parent {
-  display: inline-block;
-  margin-right: 10px;
-}
-
-.todos .important-icon img { margin: 0; }
 
 div.sort-settings-link p { margin: 0; }
 
@@ -610,9 +574,8 @@ div.sort-settings-link p { margin: 0; }
   }
 
   div.background-wrapper {
+    @include flex;
     padding: 40px 0 10px 10px;
-    display: flex;
-    align-items: center;
     justify-content: space-between;
 
     div.search-input-wrapper {
@@ -679,10 +642,9 @@ div.sort-settings-link p { margin: 0; }
 .add-new-todo-wrapper {
   &,
   & > div {
+    @include flex;
     position: relative;
     width: 100%;
-    display: flex;
-    align-items: center;
   }
 
   label.toggleTodoLabel-template {
@@ -691,8 +653,7 @@ div.sort-settings-link p { margin: 0; }
     margin: 0;
 
     &.inactive {
-      display: flex;
-      align-items: center;
+      @include flex;
       justify-content: center;
       & > span {
         border: 0;
@@ -713,11 +674,10 @@ div.sort-settings-link p { margin: 0; }
     }
 
     &.active > span {
+      @include flex;
       background-color: #ffffff;
       width: 20px;
       height: 100%;
-      display: flex;
-      align-items: center;
       justify-content: center;
       border: 1px solid darkgray;
       border-radius: 50%;
@@ -751,11 +711,6 @@ div.sort-settings-link p { margin: 0; }
 
 .add-new-step-wrapper .add-new-step-input {
   border-color: transparent;
-}
-
-.task-settings .activateStepInput {
-  color: cornflowerblue;
-  padding-left: 10px;
 }
 
 .task-settings-add-note textarea::placeholder {
@@ -863,13 +818,6 @@ input.rename-list {
   border: 0 solid transparent;
 }
 
-.theme-sets label.ligthTheme-label,
-.theme-sets label.darkTheme-label {
-  position: relative;
-  float: left;
-  margin-right: 10px;
-}
-
 .theme-sets label.ligthTheme-label.checked > span,
 .theme-sets label.darkTheme-label.checked > span,
 .todos label.toggleTodoLabel.done > span,
@@ -885,11 +833,10 @@ ul.searchList label.searchTaskLabel.toggled > span {
 .task-settings label.toggleStepLabel > span,
 .task-settings label.toggleTaskLabel > span,
 ul.searchList label.searchTaskLabel > span {
+  @include flex;
   background-color: #ffffff;
   width: 20px;
   height: 100%;
-  display: flex;
-  align-items: center;
   justify-content: center;
   border: 1px solid darkgray;
   border-radius: 50%;
@@ -906,31 +853,12 @@ ul.searchList label.searchTaskLabel.toggled > span:after {
   position: absolute;
 }
 
-.task-settings label.toggleStepLabel {
-  width: 16px;
-  height: 16px;
-  margin: 0;
-
-  & > span {
-    width: 16px;
-    height: 16px;
-  }
-}
-.task-settings label.toggleStepLabel + p,
-.task-settings .activateStepInput,
-.task-settings .add-new-step input,
 .add-new-step-wrapper input::placeholder {
   font-size: 14px;
-  padding-left: 10px;
-}
-
-.add-new-step-wrapper input::placeholder {
   padding-left: 0;
 }
 
-.dark .clearInput {
-  color: #000;
-}
+.dark .clearInput { color: #000; }
 
 .settings-header button,
 button.task-settings-arrow-right,
@@ -954,10 +882,9 @@ button.task-settings-trash {
 
 .todo-label-for-task,
 .task-notes {
+  @include flex;
   font-size: 12px;
   max-height: 20px;
-  display: flex;
-  align-items: center;
   justify-self: left;
 }
 
@@ -1000,10 +927,9 @@ button.change-todo-icon,
 .user-info,
 .task-settings-footer,
 .user-settings.active div,
-.task-settings .add-new-step-wrapper .add-new-step {
-  display: flex;
-  align-items: center;
-}
+div.sort-settings-link,
+div.show-hide_completed_todos,
+.task-settings .add-new-step-wrapper .add-new-step { @include flex; }
 
 #bannerSettings hr,
 .user-info {
@@ -1077,10 +1003,9 @@ button.search > img {
 .user-info,
 .user-info-buttons,
 .user-settings-button {
+  @include flex;
   position: relative;
   width: 100%;
-  display: flex;
-  align-items: center;
 }
 
 .user-info {
@@ -1097,8 +1022,7 @@ button.search > img {
   }
 
   a.add-new-list-link {
-    display: flex;
-    align-items: center;
+    @include flex;
 
     & > span {
       font-size: 30px;
@@ -1113,12 +1037,6 @@ button.search > img {
   border: 1px solid #ffffff;
 }
 
-div.sort-settings-link,
-div.show-hide_completed_todos {
-  display: flex;
-  align-items: center;
-}
-
 .task-settings {
   background-color: lightgray;
   height: 100%;
@@ -1127,11 +1045,9 @@ div.show-hide_completed_todos {
   & > div { display: flex; }
 
   .step-title {
+    @include flex;
     background-color: #ffffff;
     padding: 5px 10px;
-    display: flex;
-    align-items: center;
-
     .steps-trash { display: none; }
 
     &:hover .steps-trash {
@@ -1144,8 +1060,7 @@ div.show-hide_completed_todos {
 
   ul {
     li {
-      display: flex;
-      align-items: center;
+      @include flex;
       p.added { color: cornflowerblue; }
       button.clear-from-my-day {
         width: 44px;
@@ -1153,9 +1068,28 @@ div.show-hide_completed_todos {
         border: 0px;
         background-color: inherit;
         p { padding: 2px 4px; }
+        &:hover { background-color: rgb(221, 221, 221); }
       }
     }
   }
+
+  .activateStepInput {
+    padding-left: 10px;
+    font-size: 14px;
+  }
+  .add-new-step input { @extend .activateStepInput; }
+  label.toggleStepLabel {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+
+    & > span {
+      width: 16px;
+      height: 16px;
+    }
+    & + p { @extend .activateStepInput; }
+  }
+  .activateStepInput { color: cornflowerblue; }
 
   .important-icon {
     margin: 0 0 0 auto;
@@ -1410,9 +1344,7 @@ ul.searchList {
   z-index: 1;
   border: 1px solid #5c6066;
 
-  & > div {
-    padding: 10px;
-  }
+  & > div { padding: 10px; }
 
   div.sort-settings-menu {
     position: absolute;
@@ -1430,25 +1362,17 @@ ul.searchList {
       transition: height 1s ease;
       border: 1px solid rgba(0, 0, 0, .2);
     }
-    &:hover {
-      background-color: lightgray;
-    }
+    &:hover { background-color: lightgray; }
 
     & > div {
-      display: flex;
+      @include flex;
       padding: 10px;
-      display: flex;
-      align-items: center;
-      & > p {
-        margin: 0;
-      }
+      & > p { margin: 0; }
     }
   }
 
   div.sort-settings-link {
-    &:hover, &.grey {
-      background-color: lightgray;
-    }
+    &:hover, &.grey { background-color: lightgray; }
   }
 
   span {
