@@ -612,7 +612,6 @@ div.sort-settings-link p { margin: 0; }
   }
 }
 
-.add-new-step-wrapper .add-new-step,
 .user-info-settings {
   position: relative;
   width: 100%;
@@ -699,7 +698,6 @@ div.sort-settings-link p { margin: 0; }
   }
 }
 
-.add-new-step-wrapper .add-new-step,
 .task-settings-footer p,
 .task-settings ul li p {
   width: 100%;
@@ -709,16 +707,8 @@ div.sort-settings-link p { margin: 0; }
   font-size: 13px;
 }
 
-.add-new-step-wrapper .add-new-step-input {
-  border-color: transparent;
-}
-
 .task-settings-add-note textarea::placeholder {
   color: cornflowerblue;
-}
-
-.add-new-step-wrapper .add-new-step-input::placeholder {
-  color: darkslateblue;
 }
 
 .dark .add-new-todo-wrapper .add-new-todo-input {
@@ -773,6 +763,14 @@ ul.searchList label.searchTaskLabel {
   border-style: solid;
   border-color: #1a1b1c;
 
+  .icons-menu img {
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    border: 1px solid transparent;
+    &:hover { border-color: lightgrey; }
+  }
+
   & .clear-icon {
     color: #2e2f30;
     font-size: 13px;
@@ -788,15 +786,6 @@ ul.searchList label.searchTaskLabel {
 .dark .icons-menu-wrapper {
   background-color: #5c6066;
   border-color: #888888;
-}
-
-.icons-menu img {
-  width: 40px;
-  height: 40px;
-  padding: 8px;
-  border: 1px solid transparent;
-
-  &:hover { border-color: lightgrey; }
 }
 
 .rename-list-wrapper {
@@ -853,11 +842,6 @@ ul.searchList label.searchTaskLabel.toggled > span:after {
   position: absolute;
 }
 
-.add-new-step-wrapper input::placeholder {
-  font-size: 14px;
-  padding-left: 0;
-}
-
 .dark .clearInput { color: #000; }
 
 .settings-header button,
@@ -875,10 +859,7 @@ button.task-settings-trash {
   display: inline-block;
 }
 
-.active,
-.add-new-step-wrapper .add-new-step-input {
-  display: block;
-}
+.active { display: block; }
 
 .todo-label-for-task,
 .task-notes {
@@ -903,6 +884,7 @@ button.task-settings-trash {
   height: 50px;
   border-radius: 0;
   padding: 3px;
+  margin: 2px;
 
   &.active {
     display: inline-block;
@@ -917,35 +899,80 @@ button.task-settings-trash {
 }
 
 .task-settings-footer {
+  @include flex;
   position: absolute;
   bottom: 0;
   width: 100%;
   text-align: center;
+  background-color: #ffffff;
 }
 
 button.change-todo-icon,
-.user-info,
-.task-settings-footer,
-.user-settings.active div,
-div.sort-settings-link,
-div.show-hide_completed_todos,
-.task-settings .add-new-step-wrapper .add-new-step { @include flex; }
+div.show-hide_completed_todos { @include flex; }
 
-#bannerSettings hr,
 .user-info {
-  margin: 10px auto;
-}
+  @include flex;
+  position: relative;
+  width: 100%;
 
-.user-settings.active img,
-.user-info .user-settings-button p:first-of-type {
-  display: inline-block;
-  margin: 0 10px;
+  & img,
+  button.search > img {
+    width: 35px;
+    height: 35px;
+  }
+  .user-info-buttons {
+    @include flex;
+    width: 100%;
+  }
+  .user-settings-button {
+    padding: 0 12px;
+    border: 0;
+    background-color: transparent;
+    p:first-of-type {
+      display: inline-block;
+      margin: 0 10px;
+    }
+  }
+  .user-info-settings {
+    width: 300px;
+    .user-settings {
+      &.active {
+        position: absolute;
+        width: 260px;
+        margin: 10px auto 0;
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        height: 100px;
+        div {
+          @include flex;
+        }
+        hr {
+          width: 100%;
+          margin: 5px 0;
+        }
+        p {
+          margin: 10px;
+        }
+        div:last-of-type p:last-of-type {
+          color: red;
+        }
+        img {
+          display: inline-block;
+          margin: 0 10px;
+        }
+      }
+    }
+  }
+}
+.user-info{
+  flex-flow: column wrap;
+  margin: 10px auto;
 }
 
 button.search,
 button.change-todo-icon,
-.todos .important-icon,
-button.user-settings-button {
+.todos .important-icon {
   margin: 0 0 0 auto;
   padding: 0 12px;
   border: 0;
@@ -954,32 +981,6 @@ button.user-settings-button {
 
 .dark button.user-settings-button {
   color: #ffffff;
-}
-
-.user-info img,
-button.search > img {
-  width: 35px;
-  height: 35px;
-}
-
-.user-settings {
-  &.active {
-    position: absolute;
-    width: 260px;
-    margin: 10px auto 0;
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    height: 100px;
-
-    hr {
-      width: 100%;
-      margin: 5px 0;
-    }
-
-    p { margin: 10px; }
-    div:last-of-type p:last-of-type { color: red; }
-  }
 }
 
 .light .user-settings {
@@ -994,22 +995,6 @@ button.search > img {
 
 .dark .user-settings hr {
   border-top: 1px solid rgba(255,255,255,.5);
-}
-
-.user-info-settings {
-  width: 300px;
-}
-
-.user-info,
-.user-info-buttons,
-.user-settings-button {
-  @include flex;
-  position: relative;
-  width: 100%;
-}
-
-.user-info {
-  flex-flow: column wrap;
 }
 
 .add-new-list {
@@ -1049,6 +1034,7 @@ button.search > img {
     background-color: #ffffff;
     padding: 5px 10px;
     .steps-trash { display: none; }
+    p { padding: 5px; }
 
     &:hover .steps-trash {
       display: inline-flex;
@@ -1077,17 +1063,36 @@ button.search > img {
     padding-left: 10px;
     font-size: 14px;
   }
-  .add-new-step input { @extend .activateStepInput; }
-  label.toggleStepLabel {
-    width: 16px;
-    height: 16px;
-    margin: 0;
 
-    & > span {
+  .add-new-step-wrapper {
+    padding: 10px;
+    background-color: #ffffff;
+    .add-new-step {
+      @include flex;
+      position: relative;
+      width: 100%;
+      .add-new-step-input {
+        display: block;
+        border-color: transparent;
+        &::placeholder {
+          font-size: 14px;
+          padding-left: 0;
+          color: darkslateblue;
+        }
+      }
+    }
+
+    label.toggleStepLabel {
       width: 16px;
       height: 16px;
+      margin: 0;
+
+      & > span {
+        width: 16px;
+        height: 16px;
+      }
+      & + p { padding: 0 0 0 10px;}
     }
-    & + p { @extend .activateStepInput; }
   }
   .activateStepInput { color: cornflowerblue; }
 
@@ -1130,10 +1135,8 @@ div.show-hide_completed_todos img {
   margin-right: 10px
 }
 
-.add-new-step-wrapper,
 .task-settings-add-to-my-day,
 .task-settings-add-note,
-.task-settings-footer,
 .activateStepInput {
   background-color: #ffffff;
 }
@@ -1312,7 +1315,6 @@ ul.searchList {
   margin: 10px;
 }
 
-.add-new-step-wrapper,
 .activateStepInput,
 .task-settings-additional li p,
 .task-settings-add-to-my-day li p,
@@ -1343,6 +1345,7 @@ ul.searchList {
   background-color: #ffffff;
   z-index: 1;
   border: 1px solid #5c6066;
+  hr { margin: 10px auto; }
 
   & > div { padding: 10px; }
 
@@ -1362,17 +1365,19 @@ ul.searchList {
       transition: height 1s ease;
       border: 1px solid rgba(0, 0, 0, .2);
     }
-    &:hover { background-color: lightgray; }
 
     & > div {
       @include flex;
       padding: 10px;
+      &:hover { background-color: lightgray; }
       & > p { margin: 0; }
     }
   }
 
   div.sort-settings-link {
-    &:hover, &.grey { background-color: lightgray; }
+    @include flex;
+    &:hover,
+    &.grey { background-color: lightgray; }
   }
 
   span {
