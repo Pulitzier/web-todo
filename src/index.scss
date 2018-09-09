@@ -127,8 +127,7 @@ audio { visibility: hidden; }
 
   .nav-link {
     @include flex;
-    padding-left: 2px;
-    padding-right: 2px;
+    padding: 6px 2px;
 
     img {
       width: 18px;
@@ -1002,7 +1001,7 @@ button.change-todo-icon,
   padding: 0 15px;
 
   input.add-new-list-label {
-    padding: 8px 5px;
+    padding: 10px 5px;
     border: 0;
   }
 

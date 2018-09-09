@@ -8,6 +8,26 @@ import {
 import Panel from './Panel';
 
 export default class UserSettings extends Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  };
+
+  componentDidMount(){
+    document.addEventListener('click', this.handleClick, false);
+  };
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClick, false);
+  };
+
+  handleClick(event) {
+    let { store } = this.context;
+    let { target } = event;
+    if (!this.userSettings.contains(target)) {
+      return store.dispatch(activateUserSettings(false));
+    }
+  };
 
   render() {
     let { store } = this.context;
@@ -22,7 +42,10 @@ export default class UserSettings extends Component {
 
     return (
       <Panel className="user-info">
-        <div className="user-info-buttons">
+        <div
+          className="user-info-buttons"
+          ref={node => this.userSettings = node}
+        >
           <button
             className="user-settings-button"
             onClick={() => store.dispatch(activateUserSettings(!activateSettings))}
