@@ -26,6 +26,17 @@ export default class RightPanel extends Component {
     })
   };
 
+  componentDidMount() {
+    let { store } = this.context;
+    this.unsubscribe = store.subscribe(() => {
+      this.forceUpdate()
+    });
+  };
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
   render() {
     const { store } = this.context;
     const state = store.getState();

@@ -155,10 +155,10 @@ export default class TaskSettings extends Component {
                   taskId={activeTaskId}
                 /> :
                 (<p
-                  className="activateStepInput"
-                  onClick={() => this.activateStep()}
-                >
-                  + Add Step
+                    className="activateStepInput"
+                    onClick={() => this.activateStep()}
+                  >
+                    <span>+</span> Add Step
                 </p>)
             }
             <div className="task-settings-add-to-my-day">

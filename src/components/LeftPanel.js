@@ -19,6 +19,17 @@ export default class LeftPanel extends Component {
     this.newListTitleInput.focus();
   };
 
+  componentDidMount() {
+    let { store } = this.context;
+    this.unsubscribe = store.subscribe(() => {
+      this.forceUpdate()
+    });
+  };
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
   render(){
     const { store } = this.context;
     const state = store.getState();

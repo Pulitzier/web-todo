@@ -61,10 +61,7 @@ export default class StepInput extends Component {
     };
 
     return (
-      <div
-        className="add-new-step-wrapper"
-        ref={node => this.stepNode = node}
-      >
+      <div className="add-new-step-wrapper">
         <div className="add-new-step">
           <label
             htmlFor="toggleStepCheckbox"
@@ -79,7 +76,7 @@ export default class StepInput extends Component {
             type="text"
             name="add-new-step"
             id="toggleStepCheckbox"
-            placeholder="Add a step"
+            placeholder="Add Step"
             className="add-new-step-input"
             onKeyPress={(e) => addNewStepToTask(e)}
             onChange={(e) => this.handleTypingStep(e)}

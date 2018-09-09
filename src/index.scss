@@ -58,7 +58,6 @@ body {
     @extend .dark;
     border: 1px solid #fff;
   }
-
 }
 
 ::-webkit-scrollbar {
@@ -1034,7 +1033,6 @@ button.change-todo-icon,
     padding: 5px 10px;
     .steps-trash { display: none; }
     p { padding: 5px; }
-
     &:hover .steps-trash {
       display: inline-flex;
       margin-left: auto;
@@ -1059,8 +1057,15 @@ button.change-todo-icon,
   }
 
   .activateStepInput {
-    padding-left: 10px;
+    padding: 10px 10px 10px 14px;
     font-size: 14px;
+    background-color: #ffffff;
+    color: cornflowerblue;
+    span {
+      margin-right: 5px;
+      font-size: 13px;
+      line-height: normal;
+    }
   }
 
   .add-new-step-wrapper {
@@ -1070,9 +1075,11 @@ button.change-todo-icon,
       @include flex;
       position: relative;
       width: 100%;
+      line-height: 1.1;
       .add-new-step-input {
         display: block;
-        border-color: transparent;
+        border: 0;
+        margin: 0 0 2px 5px;
         &::placeholder {
           font-size: 14px;
           padding-left: 0;
@@ -1080,20 +1087,7 @@ button.change-todo-icon,
         }
       }
     }
-
-    label.toggleStepLabel {
-      width: 16px;
-      height: 16px;
-      margin: 0;
-
-      & > span {
-        width: 16px;
-        height: 16px;
-      }
-      & + p { padding: 0 0 0 10px;}
-    }
   }
-  .activateStepInput { color: cornflowerblue; }
 
   .important-icon {
     margin: 0 0 0 auto;
@@ -1110,6 +1104,18 @@ button.change-todo-icon,
     font-weight: bolder;
     background-color: #ffffff;
     p { margin-left: 10px; }
+  }
+
+  label.toggleStepLabel {
+    width: 16px;
+    height: 16px;
+    margin: 1px 0 0 0;
+
+    & > span {
+      width: 16px;
+      height: 16px;
+    }
+    & + p { padding: 0 0 0 5px;}
   }
 }
 
@@ -1135,8 +1141,7 @@ div.show-hide_completed_todos img {
 }
 
 .task-settings-add-to-my-day,
-.task-settings-add-note,
-.activateStepInput {
+.task-settings-add-note {
   background-color: #ffffff;
 }
 
@@ -1314,7 +1319,6 @@ ul.searchList {
   margin: 10px;
 }
 
-.activateStepInput,
 .task-settings-additional li p,
 .task-settings-add-to-my-day li p,
 .task-settings-footer {
