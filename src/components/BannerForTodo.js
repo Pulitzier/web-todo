@@ -41,12 +41,14 @@ export default class BannerForTodo extends Component {
       showModal
     } = this.bannerState;
     const colorScheme = {
-      "orange": "rgba(249, 148, 7, 0.45)",
-      "green": "rgba(0, 158, 34, 0.45)",
-      "red": "rgba(255, 0, 0, 0.45)",
-      "blue": "rgba(0, 0, 255, 0.45)",
-      "blueviolet": "rgba(204, 7, 249, 0.45)"
-    }
+      "orange": "249, 148, 7",
+      "green": "0, 158, 34",
+      "red": "255, 0, 0",
+      "blue": "0, 0, 255",
+      "blueviolet": "204, 7, 249"
+    };
+    let bgColorForBanner = 'rgba(' + colorScheme[bgColor] + ', 0.45)';
+    let bgColorForSort = 'rgba(' + bgColor + ', 0.65)';
 
     const activateRename = (bool) => {
       this.setState(() => {
@@ -97,7 +99,7 @@ export default class BannerForTodo extends Component {
       >
         <section
           className="banner-main-section"
-          style={{backgroundColor: colorScheme[bgColor]}}
+          style={{backgroundColor: bgColorForBanner}}
         >
           <div
             className="panelBanner-text"
@@ -171,6 +173,7 @@ export default class BannerForTodo extends Component {
           <SortPopUp
             sortBy={sortCriteria}
             setSortCriteria={(criteria) => setBannerSortCriteria(criteria)}
+            bgColor={bgColorForSort}
           />
         }
       </div>
