@@ -1248,24 +1248,26 @@ div.show-hide_completed_todos img {
   .activeOption { color: cornflowerblue; }
 
   .remind-me {
+    line-height: 25px;
     & > div,
     & .pick-date-calendar {
       display: contents;
       width: 100%;
     }
-
     &.activeOption {
+      line-height: 20px;
       & > div {
-        & > p {
-          padding-top: 10px;
-          padding-bottom: 10px;
-        }
+        & > p { padding-top: 3px; padding-bottom: 3px; }
         & > span { color: #000000; }
       }
     }
   }
-
   .due-date, .repeat { @extend .remind-me }
+  .due-date.activeOption > div > p {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 25px;
+  }
 
   .repeat {
     div {
@@ -1275,21 +1277,16 @@ div.show-hide_completed_todos img {
   }
 
   span {
-    &.clear-repeat {
-      line-height: 45px;
+    &.clear-due-date {
+      line-height: 46px;
       padding: 0 15px;
       border-bottom: 1px solid lightgray;
       &:hover { background-color: rgb(221, 221, 221); }
     }
-
-    &.clear-due-date, &.clear-remind-date { @extend .clear-repeat }
-
-    &.clear-remind-date { line-height: 53px }
-
+    &.clear-repeat, &.clear-remind-date { @extend .clear-due-date; }
     &.date-label {
       display: block;
       font-size: 13px;
-      line-height: 10px;
     }
   }
 
