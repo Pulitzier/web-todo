@@ -40,6 +40,11 @@ export default class UserSettings extends Component {
       store.dispatch(openUserSettings(bool))
     };
 
+    const openSearch = () => {
+      store.dispatch(openSearchPanel(true));
+      store.dispatch(activateUserSettings(false));
+    };
+
     return (
       <Panel className="user-info">
         <div
@@ -53,7 +58,7 @@ export default class UserSettings extends Component {
             <img src="./assets/user-avatar.png" alt="User Avatar"/>
             <p>Yuryi Baravy</p>
           </button>
-          <button className="search" onClick={() => store.dispatch(openSearchPanel(true)) }>
+          <button className="search" onClick={() => openSearch() }>
             <img src="./assets/search.png" alt="Search Field"/>
           </button>
         </div>
