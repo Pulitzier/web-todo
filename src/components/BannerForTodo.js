@@ -48,7 +48,7 @@ export default class BannerForTodo extends Component {
       "blueviolet": "204, 7, 249"
     };
     let bgColorForBanner = 'rgba(' + colorScheme[bgColor] + ', 0.45)';
-    let bgColorForSort = 'rgba(' + bgColor + ', 0.65)';
+    let bgColorForSort = 'rgba(' + colorScheme[bgColor] + ', 0.65)';
 
     const activateRename = (bool) => {
       this.setState(() => {

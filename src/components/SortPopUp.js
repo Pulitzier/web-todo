@@ -12,7 +12,7 @@ export default class SortPopUp extends Component {
 
   render() {
     const { store } = this.context;
-    let { sortBy, setSortCriteria, bgColorForSort } = this.props;
+    let { sortBy, setSortCriteria, bgColor } = this.props;
     let { reverseTasks } = this.sortState;
 
     const changeSortOrder = () => {
@@ -47,7 +47,7 @@ export default class SortPopUp extends Component {
     return(
       <section
         className="banner-sort"
-        style={{backgroundColor: bgColorForSort}}
+        style={{backgroundColor: bgColor}}
       >
         <p>{setSortMessage()}</p>
         <button
