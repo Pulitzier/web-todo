@@ -56,13 +56,6 @@ export function chooseList(todoId) {
   }
 }
 
-export function activateNewList(bool) {
-  return{
-    type: 'ACTIVATE_NEW_LIST',
-    activateNewList: bool
-  }
-}
-
 export function setNewListTitle(title) {
   return {
     type: 'SET_NEW_LIST_TITLE',

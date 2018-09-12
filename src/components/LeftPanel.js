@@ -5,8 +5,6 @@ import List from './List';
 import {
   addNewTodoList,
   chooseList,
-  activateNewList,
-  setNewListTitle,
   activateTask,
   openSearchPanel
 } from "../actionCreators";
@@ -14,9 +12,17 @@ import { getTasksForTodo } from '../helpers';
 import UserSettings from "./UserSettings";
 
 export default class LeftPanel extends Component {
-
-  componentDidUpdate() {
-    this.newListTitleInput.focus();
+  constructor(props){
+    super(props);
+    this.activateNewList = this.activateNewList.bind(this);
+    this.pushNewListToState = this.pushNewListToState.bind(this);
+    this.chooseListItem = this.chooseListItem.bind(this);
+    this.setNewListTitle = this.setNewListTitle.bind(this);
+    this.addNewList = this.addNewList.bind(this);
+    this.todoListState = {
+      activateList: false,
+      newListTitle: 'Untitled Task'
+    };
   };
 
   componentDidMount() {
@@ -28,44 +34,70 @@ export default class LeftPanel extends Component {
 
   componentWillUnmount() {
     this.unsubscribe();
-  }
+  };
+
+  activateNewList(bool) {
+    this.setState(() => {
+      return this.todoListState = {
+        ...this.todoListState,
+        activateList: bool
+      }
+    })
+  };
+
+  setNewListTitle(title) {
+    this.setState(() => {
+      return this.todoListState = {
+        ...this.todoListState,
+        newListTitle: title
+      }
+    })
+  };
+
+  pushNewListToState() {
+    const { store } = this.context;
+    this.activateNewList(false);
+    store.dispatch(addNewTodoList(this.todoListState.newListTitle));
+    this.setNewListTitle('Untitled Task');
+    console.log('pushNewListToState');
+  };
+
+  chooseListItem(todoId) {
+    const { store } = this.context;
+    store.dispatch(openSearchPanel(false));
+    store.dispatch(activateTask(false));
+    store.dispatch(chooseList(todoId))
+  };
+
+  addNewList() {
+    const { store } = this.context;
+    const { app: { todos }} = store.getState();
+    store.dispatch(openSearchPanel(false));
+    let { newListTitle } = this.todoListState;
+    todos.map(todo => {
+      if (todo.title.indexOf('Untitled Task') !== -1) {
+        if (isNaN(parseInt(todo.title.replace( /[^\d.]/g, '' )))) {
+          newListTitle = 'Untitled Task ' + 1;
+        } else {
+          let index = parseInt(todo.title.replace( /[^\d.]/g, '' )) + 1;
+          newListTitle = 'Untitled Task ' + index;
+        };
+      }
+    });
+    console.log('addNewList');
+    this.setNewListTitle(newListTitle);
+    this.activateNewList(true);
+  };
 
   render(){
     const { store } = this.context;
     const state = store.getState();
     const { app: { todos, tasks } } = state;
-    const addNewList = () => {
-      store.dispatch(openSearchPanel(false));
-      let newListTitle = 'Untitled Task';
-      todos.map(item => {
-        if (item.title.indexOf('Untitled Task') !== -1) {
-          if (isNaN(parseInt(item.title.replace( /[^\d.]/g, '' )))) {
-            newListTitle = 'Untitled Task ' + 1;
-          } else {
-            let index = parseInt(item.title.replace( /[^\d.]/g, '' )) + 1;
-            newListTitle = 'Untitled Task '+index;
-          };
-        }
-      });
-      store.dispatch(setNewListTitle(newListTitle));
-      store.dispatch(activateNewList(true));
-    };
+    let { activateList, newListTitle } = this.todoListState;
 
-    const pushNewListToState = () => {
-      store.dispatch(activateNewList(false));
-      store.dispatch(addNewTodoList(state.newListTitle))
-      store.dispatch(setNewListTitle('Untitled Task'));
-    };
-
-    const typeNewListTitle = (e) => {
-      let newListTitle = e.target.value;
-      store.dispatch(setNewListTitle(newListTitle));
-    };
-
-    const chooseListItem = (todoId) => {
-      store.dispatch(openSearchPanel(false));
-      store.dispatch(activateTask(false));
-      store.dispatch(chooseList(todoId))
+    const renderTodoIconSrc = (todo) => {
+      if(todo.iconSource) return `${todo.iconSource}`;
+      return './assets/list.svg'
     };
 
     return (
@@ -78,7 +110,7 @@ export default class LeftPanel extends Component {
                 <li className={"nav-item "+ (todo.active ? 'active' : '')} key={todo.todoListId}>
                   <a
                     className={"nav-link " + (todo.active ? 'active' : '')}
-                    onClick={() => chooseListItem(todo.todoListId)}
+                    onClick={() => this.chooseListItem(todo.todoListId)}
                   >
                     <img
                       src={(() => {
@@ -96,7 +128,11 @@ export default class LeftPanel extends Component {
                       alt='Categories Icon'
                     />
                     <p>{todo.title}</p>
-                    <span>{(() => getTasksForTodo(tasks, todo).length ? getTasksForTodo(tasks, todo).length : '')()}</span>
+                    <span>{(() =>
+                      getTasksForTodo(tasks, todo).length ?
+                        getTasksForTodo(tasks, todo).length :
+                        ''
+                    )()}</span>
                   </a>
                 </li>
               )
@@ -104,41 +140,53 @@ export default class LeftPanel extends Component {
           })}
         </List>
         <hr />
-        <List className="nav flex-column todo-list">
-          {todos.map(todo => {
-            if (todo.todoListId >= 3) {
-              return (
-                <li
-                  className={"nav-item "+ (todo.active ? 'active' : '')}
-                  key={todo.todoListId}
-                >
-                  <a
-                    className="nav-link"
-                    onClick={() => chooseListItem(todo.todoListId)}
+        <div>
+          <List className="nav flex-column todo-list">
+            {todos.map(todo => {
+              if (todo.todoListId >= 3) {
+                return (
+                  <li
+                    className={"nav-item "+ (todo.active ? 'active' : '')}
+                    key={todo.todoListId}
                   >
-                    {todo.title}
-                    <span></span>
-                  </a>
-                </li>
-              )
+                    <a
+                      className="nav-link"
+                      onClick={() => this.chooseListItem(todo.todoListId)}
+                    >
+                      <img src={renderTodoIconSrc(todo)} alt='To-Do Icon'/>
+                      {todo.title}
+                      <span>{(() =>
+                          getTasksForTodo(tasks, todo).length ?
+                            getTasksForTodo(tasks, todo).length :
+                            ''
+                      )()}</span>
+                    </a>
+                  </li>
+                )
+              }
+            })}
+          </List>
+          <div className="add-new-list" onBlur={() => this.pushNewListToState()}>
+            {
+              activateList &&
+              <label className="add-new-list-label-wrapper">
+                <img src='./assets/list.svg' alt='To-Do Icon'/>
+                <input
+                  type="text"
+                  className="add-new-list-label"
+                  onChange={(event) => this.setNewListTitle(event.target.value)}
+                  value={newListTitle}
+                  autoFocus={activateList}
+                />
+              </label>
             }
-          })}
-        </List>
-        <div className="add-new-list" onBlur={() => pushNewListToState()}>
-          <input
-            type="text"
-            ref={node => this.newListTitleInput = node}
-            className={"add-new-list-label "+(state.activateNewList ? 'active' : 'inactive')}
-            onChange={typeNewListTitle}
-            value={state.newListTitle}
-            autoFocus={state.activateNewList}
-          />
-          <a
-            className="add-new-list-link"
-            onClick={() => addNewList()}
-          >
-            <span>+</span> New List
-          </a>
+            <a
+              className="add-new-list-link"
+              onClick={() => this.addNewList()}
+            >
+              <span>+</span> New List
+            </a>
+          </div>
         </div>
       </Panel>
     );

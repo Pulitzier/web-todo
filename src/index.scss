@@ -32,25 +32,20 @@ body {
 .light {
   background-color: #ffffff;
   color: #2e2f30;
-
   .user-settings-page { @extend .light }
 }
 
 .dark {
   background-color: #2e2f30;
   color: #ffffff;
-
   .user-settings-page { @extend .dark }
-
   .modal-content,
   .search-modal,
   #bannerSettings {
     background-color: #2e2f30;
     .sort-settings-menu > div { background-color: #2e2f30; }
   }
-
   .task-settings-title { background-color: #2e2f30 !important; }
-
   .task-settings-add-to-my-day,
   .task-settings-additional,
   .task-settings-add-note,
@@ -105,39 +100,36 @@ audio { visibility: hidden; }
 .leftPanel {
   padding: 0;
   border-right: 1px solid grey;
-
   hr { margin: 8px 0; }
-
   ul {
     max-width: 100%;
     margin: 0;
-
+    &.todo-list {
+      max-height: 400px;
+      overflow: auto;
+      flex-flow: nowrap;
+    }
     li {
       text-align: left;
-      padding: 4px 8px 4px 15px;
+      padding: 4px 8px 4px 10px;
       border-left: 5px solid transparent;
-
       &.active {
         border-left: 5px solid blue;
         background-color: lightgray;
       }
     }
   }
-
   .nav-link {
     @include flex;
     padding: 6px 2px;
-
     img {
       width: 18px;
       margin-right: 10px;
     }
-
     span {
       margin: 0 10px 0 auto;
       font-size: 13px;
     }
-
     p { margin: 0; }
   }
 }
@@ -154,30 +146,23 @@ audio { visibility: hidden; }
   max-width: 920px;
   width: 100%;
   height: 100%;
-
   section {
     section { margin: 20px 0 10px; }
   };
-
   img { width: 60px; };
-
   .settings-header {
     @include flex;
     margin: 20px 30px;
-
     button {
       padding: 6px 12px;
       &:active { background-color: lightgrey; }
     }
   };
-
   .settings-general-info {
     overflow-y: auto;
     max-height: 555px;
     padding: 30px 50px 10px 150px;
-
     & > * { width: 100%; };
-
     section {
       a {
         margin-top: 5px;
@@ -185,20 +170,16 @@ audio { visibility: hidden; }
         text-decoration: underline;
       }
     }
-
     .help-feedback {
       a {
         display: block;
         width: fit-content;
       }
     }
-
     .about-section { @extend .help-feedback }
-
     .user-manage {
       @include flex;
       & > div * { margin: 0 0 0 10px; }
-
       a {
         margin: 0 0 0 auto;
         padding: 6px 10px;
@@ -211,8 +192,7 @@ audio { visibility: hidden; }
         }
         &:hover { border: 2px solid slategray; }
       }
-    };
-
+    }
     .general-sets {
       flex-flow: column wrap;
       align-items: flex-start;
@@ -242,25 +222,21 @@ audio { visibility: hidden; }
 
 #thirdPartyNotices {
   background-color: rgba(0, 0, 0, 0.5);
-
   .modal-header {
     border: 0;
     min-height: 50px;
-
     .close {
       padding: 10px;
       margin: -10px -10px -10px auto;
       &:hover { background-color: lightgrey; }
     }
   }
-
   .modal-content {
     border-radius: 0;
     max-width: 340px;
     margin: 0 auto;
     max-height: 410px;
   }
-
   .modal-body { overflow-y: auto; }
 }
 
@@ -271,19 +247,16 @@ audio { visibility: hidden; }
   background-repeat: no-repeat;
   background-position: 50% 50%;
   background-size: 100%;
-
   &.with-sort { min-height: 250px; }
   &.responsive {
     background-size: auto 100%;
     #bannerSettings { right: 200px; }
   }
-
   .banner-main-section {
     display: flex;
     align-items: flex-end;
     height: 200px;
     justify-content: space-between;
-
     .panelBanner-text {
       margin: 15px;
       text-align: left;
@@ -300,14 +273,12 @@ audio { visibility: hidden; }
       }
     }
   }
-
   .banner-sort {
     @include flex;
     position: relative;
     min-height: 20px;
     padding: 10px 10px 10px 50px;
     color: #ffffff;
-
     .change-sort-order {
       img {
         width: 12px;
@@ -317,14 +288,12 @@ audio { visibility: hidden; }
       &.down img { transform: rotate(90deg); }
       &.up img { transform: rotate(-90deg); }
     }
-
     button {
       background-color: transparent;
       border: 0;
       color: #ffffff;
       position: relative;
       padding: 5px 15px;
-
       &.clear-banner-sort { margin-left: auto; }
       &.change-sort-order {
         padding-left: 10px;
@@ -348,7 +317,6 @@ button.open-greeting {
   @extend button.dots-menu;
   padding: 6px 12px;
   border: 0;
-
   img {
     width: 18px;
     margin-right: 0;
@@ -360,7 +328,6 @@ button.open-greeting {
   max-height: 450px;
   height: 100%;
   position: relative;
-
   .clearInput {
     padding: 1px 6px;
     border: 2px solid transparent;
@@ -370,15 +337,12 @@ button.open-greeting {
     color: cornflowerblue;
     background-color: transparent;
   }
-
   .add-new-todo { width: 100%; }
-
   button.add-new-todo-button {
     background-color: transparent;
     color: cornflowerblue;
     border-color: transparent;
     font-size: 13px;
-
     &.active {
       padding-top: 4px;
       font-size: 14.5px;
@@ -410,23 +374,19 @@ div.todo-list {
   position: relative;
   overflow: hidden;
   height: 20px;
-
   & > div {
     position: absolute;
     flex-flow: row;
     width: 570px;
     display: flex;
   }
-
   & p { font-size: 12px; }
 }
 
 .dark .leftPanel ul li.active,
 .dark #bannerSettings div.sort-settings-menu div:hover,
 .dark #bannerSettings div.sort-settings-link:hover,
-.dark #bannerSettings div.sort-settings-link.grey {
-  background-color: #5c6066;
-}
+.dark #bannerSettings div.sort-settings-link.grey { background-color: #5c6066; }
 
 .dark .task-settings {
   border: 1px solid lightgrey;
@@ -449,33 +409,27 @@ div.todo-list {
   padding: 50px 20px;
   color: #ffffff;
   z-index: 1;
-
   .greeting-header-section {
     @include flex;
     width: 100%;
     justify-content: space-between;
     margin: 15px 0;
-
     .done-greetings { color: #ffffff; }
-
     button {
       background-color: blue;
       border: 0;
       padding: 10px 15px;
     }
   }
-
   .greeting-suggestion-yesterday {
     background-color: #ffffff;
     color: #2e2f30;
     flex-flow: column;
     margin-bottom: 10px;
-
     .done-tasks-indicator {
       width: 100%;
       height: 2px
     }
-
     header {
       @extend .greeting-header-section;
       padding: 10px;
@@ -486,7 +440,6 @@ div.todo-list {
         color: #5c6066;
         font-weight: 700;
         font-size: 14px;
-
         img:last-of-type {
           width: 18px;
           height: 18px;
@@ -499,17 +452,14 @@ div.todo-list {
         margin: 0 10px;
       }
     }
-
     section {
       padding: 10px;
       p:last-of-type { font-size: 12px; }
     }
-
     img:last-of-type {
       width: 12px;
       margin-right: 7px;
     }
-
     button.collapse-suggestions {
       padding: 2px 5px;
       &:hover { background-color: rgb(221, 221, 221); }
@@ -523,7 +473,6 @@ div.todo-list {
       }
     }
   }
-
   .greeting-suggestion-section {
     @extend .greeting-suggestion-yesterday;
     section {
@@ -551,8 +500,6 @@ div.todo-list {
   }
 }
 
-div.sort-settings-link p { margin: 0; }
-
 .search-modal {
   position: absolute;
   background-color: #ffffff;
@@ -561,26 +508,21 @@ div.sort-settings-link p { margin: 0; }
   height: 100%;
   width: 100%;
   z-index: 1;
-
   hr { margin-top: 0.5rem; }
   input { width: 100%; }
-
   div > img {
     width: 50%;
     margin: 0 auto;
   }
-
   div.background-wrapper {
     @include flex;
     padding: 40px 0 10px 10px;
     justify-content: space-between;
-
     div.search-input-wrapper {
       position: relative;
       width: 100%;
     }
   }
-
   button.set-filter {
     padding: 2px 10px;
     background-color: transparent;
@@ -588,7 +530,6 @@ div.sort-settings-link p { margin: 0; }
     border-color: transparent;
     font-size: 13px;
   }
-
   .filter-menu {
     font-size: 12px;
     position: absolute;
@@ -598,7 +539,6 @@ div.sort-settings-link p { margin: 0; }
     border: 1px solid darkgrey;
     top: 74px;
   }
-
   .clearSearch {
     position: absolute;
     top: 0;
@@ -631,9 +571,7 @@ div.sort-settings-link p { margin: 0; }
 }
 
 .dark .confirmDeleteModal-child,
-.dark .search-modal div.background-wrapper div.search-input-wrapper input {
-  border: 1px solid lightgrey;
-}
+.dark .search-modal div.background-wrapper div.search-input-wrapper input { border: 1px solid lightgrey; }
 
 .add-new-todo-wrapper {
   &,
@@ -642,12 +580,10 @@ div.sort-settings-link p { margin: 0; }
     position: relative;
     width: 100%;
   }
-
   label.toggleTodoLabel-template {
     width: 20px;
     height: 20px;
     margin: 0;
-
     &.inactive {
       @include flex;
       justify-content: center;
@@ -659,16 +595,13 @@ div.sort-settings-link p { margin: 0; }
         }
       }
     }
-
     &.toggled > span {
       background-color: limegreen;
-
       &:after {
         content: '\2713';
         position: absolute;
       }
     }
-
     &.active > span {
       @include flex;
       background-color: #ffffff;
@@ -680,12 +613,10 @@ div.sort-settings-link p { margin: 0; }
       color: white;
     }
   }
-
   .add-new-todo-input {
     width: 100%;
     border-color: transparent;
     display: block;
-
     &.inactive::placeholder {
       color: cornflowerblue;
       padding-left: 10px;
@@ -695,28 +626,11 @@ div.sort-settings-link p { margin: 0; }
   }
 }
 
-.task-settings-footer p,
-.task-settings ul li p {
-  width: 100%;
-}
-
-.task-settings-footer p {
-  font-size: 13px;
-}
-
-.task-settings-add-note textarea::placeholder {
-  color: cornflowerblue;
-}
+.task-settings ul li p { width: 100%; }
 
 .dark .add-new-todo-wrapper .add-new-todo-input {
   background-color: #2e2f30;
   color: #ffffff;
-}
-
-.task-settings-add-note textarea {
-  outline: 0;
-  border: 0;
-  resize: none;
 }
 
 #lightTheme,
@@ -730,13 +644,9 @@ div.sort-settings-link p { margin: 0; }
 }
 
 .todos p,
-ul.searchList li p {
-  margin-left: 10px;
-}
+ul.searchList li p { margin-left: 10px; }
 
-p.lineThrough {
-  text-decoration: line-through;
-}
+p.lineThrough { text-decoration: line-through; }
 
 .settings-header img,
 .change-todo-icon img,
@@ -759,7 +669,6 @@ ul.searchList label.searchTaskLabel {
   border-width: 1px;
   border-style: solid;
   border-color: #1a1b1c;
-
   .icons-menu img {
     width: 40px;
     height: 40px;
@@ -767,12 +676,10 @@ ul.searchList label.searchTaskLabel {
     border: 1px solid transparent;
     &:hover { border-color: lightgrey; }
   }
-
   & .clear-icon {
     color: #2e2f30;
     font-size: 13px;
     text-align: center;
-
     p {
       padding: 2px 0;
       &:hover { background-color: lightgrey; }
@@ -790,9 +697,7 @@ ul.searchList label.searchTaskLabel {
   background-color: rgba(46, 47, 48, 0.4);
 }
 
-.dark .rename-list-wrapper {
-  background-color: rgba(92, 96, 102, 0.6);
-}
+.dark .rename-list-wrapper { background-color: rgba(92, 96, 102, 0.6); }
 
 input.rename-list {
   font-family: inherit;
@@ -809,9 +714,7 @@ input.rename-list {
 .todos label.toggleTodoLabel.done > span,
 .task-settings label.toggleTaskLabel.done > span,
 .task-settings label.toggleStepLabel.done > span,
-ul.searchList label.searchTaskLabel.toggled > span {
-  background-color: limegreen;
-}
+ul.searchList label.searchTaskLabel.toggled > span { background-color: limegreen; }
 
 .theme-sets label.ligthTheme-label > span,
 .theme-sets label.darkTheme-label > span,
@@ -857,6 +760,7 @@ button.task-settings-trash {
 }
 
 .active { display: block; }
+.inactive { display: none; }
 
 .todo-label-for-task,
 .task-notes {
@@ -875,7 +779,6 @@ button.task-settings-trash {
   margin-right: 3px;
 }
 
-.inactive { display: none; }
 
 .jumbotron-button {
   height: 50px;
@@ -902,16 +805,31 @@ button.task-settings-trash {
   width: 100%;
   text-align: center;
   background-color: #ffffff;
+  padding: 10px;
+  p {
+    font-size: 13px;
+    width: 100%;
+  }
 }
 
-button.change-todo-icon,
-div.show-hide_completed_todos { @include flex; }
+button.change-todo-icon { @include flex; }
+
+.show-hide_completed_todos {
+  @include flex;
+  p { display: flex; }
+  img {
+    width: 15px;
+    height: 15px;
+    margin-right: 10px;
+  }
+}
 
 .user-info {
   @include flex;
   position: relative;
   width: 100%;
-
+  flex-flow: column wrap;
+  margin: 10px auto;
   & img,
   button.search > img {
     width: 35px;
@@ -962,10 +880,6 @@ div.show-hide_completed_todos { @include flex; }
     }
   }
 }
-.user-info{
-  flex-flow: column wrap;
-  margin: 10px auto;
-}
 
 button.search,
 button.change-todo-icon,
@@ -976,9 +890,7 @@ button.change-todo-icon,
   background-color: transparent;
 }
 
-.dark button.user-settings-button {
-  color: #ffffff;
-}
+.dark button.user-settings-button { color: #ffffff; }
 
 .light .user-settings {
   border: 1px solid rgba(0,0,0,.1);
@@ -988,27 +900,32 @@ button.change-todo-icon,
 .dark .user-settings {
   border: 1px solid rgba(255,255,255,.5);
   background-color: #2e2f30;
-}
-
-.dark .user-settings hr {
-  border-top: 1px solid rgba(255,255,255,.5);
+  hr { border-top: 1px solid rgba(255,255,255,.5); }
 }
 
 .add-new-list {
   text-align: left;
   padding: 0 15px;
-
-  input.add-new-list-label {
-    padding: 10px 5px;
-    border: 0;
+  min-height: 100px;
+  label.add-new-list-label-wrapper {
+    @include flex;
+    height: 44px;
+    margin: 0;
+    img {
+      width: 18px;
+      margin: 0 10px 0 2px;
+    }
+    input.add-new-list-label {
+      padding: 10px 0;
+      border: 0;
+    }
   }
-
   a.add-new-list-link {
     @include flex;
-
+    position: absolute;
     & > span {
       font-size: 30px;
-      margin-right: 10px;
+      margin: 0 10px 0 3px;
     }
   }
 }
@@ -1025,7 +942,6 @@ button.change-todo-icon,
   position: relative;
   width: 450px;
   & > div { display: flex; }
-
   .step-title {
     @include flex;
     background-color: #ffffff;
@@ -1039,7 +955,6 @@ button.change-todo-icon,
       border: 0;
     }
   }
-
   ul {
     li {
       @include flex;
@@ -1054,7 +969,6 @@ button.change-todo-icon,
       }
     }
   }
-
   .activateStepInput {
     padding: 10px 10px 10px 14px;
     font-size: 14px;
@@ -1066,7 +980,6 @@ button.change-todo-icon,
       line-height: normal;
     }
   }
-
   .add-new-step-wrapper {
     padding: 10px;
     background-color: #ffffff;
@@ -1087,7 +1000,6 @@ button.change-todo-icon,
       }
     }
   }
-
   .important-icon {
     margin: 0 0 0 auto;
     display: flex;
@@ -1095,7 +1007,6 @@ button.change-todo-icon,
     background-color: transparent;
     img { margin-right: 0; }
   }
-
   .task-settings-title {
     padding: 30px 10px 20px;
     line-height: 1;
@@ -1104,44 +1015,16 @@ button.change-todo-icon,
     background-color: #ffffff;
     p { margin-left: 10px; }
   }
-
   label.toggleStepLabel {
     width: 16px;
     height: 16px;
     margin: 1px 0 0 0;
-
     & > span {
       width: 16px;
       height: 16px;
     }
     & + p { padding: 0 0 0 5px;}
   }
-}
-
-.sort-settings-menu img,
-div.sort-settings-link img,
-div.show-hide_completed_todos img {
-  width: 15px;
-  height: 15px;
-}
-
-div.sort-settings-link img:last-of-type {
-  margin: 0 10px 0 auto
-}
-
-div.sort-settings-link img.important {
-  margin-left: 10px;
-}
-
-.sort-settings-menu img,
-div.sort-settings-link img:first-of-type,
-div.show-hide_completed_todos img {
-  margin-right: 10px
-}
-
-.task-settings-add-to-my-day,
-.task-settings-add-note {
-  background-color: #ffffff;
 }
 
 .DayPicker.pick-date-calendar .DayPicker-wrapper,
@@ -1155,41 +1038,39 @@ div.show-hide_completed_todos img {
 
 .dark .DayPicker.pick-date-calendar .DayPicker-wrapper,
 .dark .task-settings-additional .pick-date-calendar .rc-calendar-panel,
-.dark .task-settings-additional .due-date-calendar .rc-calendar-panel {
-  background-color: #5c6066;
-}
+.dark .task-settings-additional .due-date-calendar .rc-calendar-panel { background-color: #5c6066; }
 
 .dark .task-settings-additional .reminder-window ul,
-.dark .task-settings-additional .repeat-date-picker {
-  background-color: #5c6066;
-}
+.dark .task-settings-additional .repeat-date-picker { background-color: #5c6066; }
 
 .task-settings-additional {
   background-color: #ffffff;
   margin: 10px;
-
+  ul {
+    list-style-type: none;
+    padding: 0 0 0 10px;
+    margin: 0;
+    width: 100%;
+  }
   li p {
+    padding: 10px;
     border-bottom: 1px solid lightgray;
     &:last-of-type p { border: 0; }
   }
-
   .reminder-window {
     ul {
       li {
         border: 0;
         padding-left: 10px;
         span { margin: 0 5px 0 auto; }
-
         p {
           border: 0;
           width: auto;
         }
-
         &:last-of-type { border-top: 1px solid lightgray; }
       }
     }
   }
-
   .repeat-window {
     ul {
       li {
@@ -1198,7 +1079,6 @@ div.show-hide_completed_todos img {
       }
     }
   }
-
   .repeat-date-picker {
     position: absolute;
     display: flex;
@@ -1211,9 +1091,7 @@ div.show-hide_completed_todos img {
     border: 1px solid #888888;
     p { padding: 0 0 10px 0; }
     .days-picker { margin: 7px 0; }
-
     .picker-value { max-width: 80px; }
-
     .picker-type {
       height: 30px;
       width: 100%;
@@ -1221,9 +1099,7 @@ div.show-hide_completed_todos img {
       display: inline-block;
       float: right;
     }
-
     .btn-group { display: flex; }
-
     button {
       border: 0;
       width: 50%;
@@ -1231,7 +1107,6 @@ div.show-hide_completed_todos img {
       &:last-of-type { margin-left: 2px; }
     }
   }
-
   span.repeat-day-label {
     margin: 4px;
     line-height: 1.1;
@@ -1243,9 +1118,7 @@ div.show-hide_completed_todos img {
       color: #ffffff;
     }
   }
-
   .activeOption { color: cornflowerblue; }
-
   .remind-me {
     line-height: 25px;
     & > div,
@@ -1267,14 +1140,12 @@ div.show-hide_completed_todos img {
     padding-bottom: 10px;
     line-height: 25px;
   }
-
   .repeat {
     div {
       p:last-of-type,
       span:last-of-type { border-bottom: 0; }
     }
   }
-
   span {
     &.clear-due-date {
       line-height: 46px;
@@ -1288,7 +1159,6 @@ div.show-hide_completed_todos img {
       font-size: 13px;
     }
   }
-
   .reminder-window {
     ul {
       position: absolute;
@@ -1302,23 +1172,24 @@ div.show-hide_completed_todos img {
   .repeat-window { @extend .reminder-window }
 }
 
-.task-settings-add-to-my-day ul,
-.task-settings-additional ul,
 ul.searchList {
   list-style-type: none;
   padding: 0 0 0 10px;
   margin: 0;
   width: 100%;
+  display: flex;
 }
 
 .task-settings-add-to-my-day {
   margin: 10px;
-}
-
-.task-settings-additional li p,
-.task-settings-add-to-my-day li p,
-.task-settings-footer {
-  padding: 10px
+  background-color: #ffffff;
+  ul {
+    list-style-type: none;
+    padding: 0 0 0 10px;
+    margin: 0;
+    width: 100%;
+    li p { padding: 10px; }
+  }
 }
 
 .task-settings-add-note {
@@ -1327,13 +1198,18 @@ ul.searchList {
   flex-flow: column;
   min-height: 178px;
   display: flex;
-
+  background-color: #ffffff;
   .btn-group { margin-left: auto; }
-
   button {
     margin-left: 10px;
     border: 0;
     padding: 5px 10px;
+  }
+  textarea {
+    outline: 0;
+    border: 0;
+    resize: none;
+    &::placeholder { color: cornflowerblue; }
   }
 }
 
@@ -1345,9 +1221,7 @@ ul.searchList {
   z-index: 1;
   border: 1px solid #5c6066;
   hr { margin: 10px auto; }
-
   & > div { padding: 10px; }
-
   div.sort-settings-menu {
     position: absolute;
     overflow: hidden;
@@ -1359,26 +1233,35 @@ ul.searchList {
     top: 1px;
     padding: 0;
     border: 0;
-
     &.active {
       transition: height 1s ease;
       border: 1px solid rgba(0, 0, 0, .2);
     }
-
     & > div {
       @include flex;
       padding: 10px;
       &:hover { background-color: lightgray; }
       & > p { margin: 0; }
     }
+    img {
+      width: 15px;
+      height: 15px;
+      margin-right: 10px;
+    }
   }
-
   div.sort-settings-link {
     @include flex;
     &:hover,
     &.grey { background-color: lightgray; }
+    p { margin: 0; }
+    img {
+      width: 15px;
+      height: 15px;
+      &:first-of-type { margin-right: 10px; }
+      &:last-of-type { margin: 0 10px 0 auto; }
+      &.important { margin-left: 10px; }
+    }
   }
-
   span {
     &.orange { background-color: orange; }
     &.green { background-color: green; }
@@ -1386,7 +1269,6 @@ ul.searchList {
     &.blueviolet { background-color: blueviolet; }
     &.blue { background-color: blue; }
   }
-
   span.bgImage-wrapper {
     overflow: hidden;
     display: flex;
@@ -1394,8 +1276,5 @@ ul.searchList {
     .theme-image { height: 40px; }
   }
 }
-
-ul.searchList li,
-.show-hide_completed_todos p { display: flex; }
 
 .modal-backdrop.show { opacity: 0; }

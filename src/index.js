@@ -7,7 +7,6 @@ import App from './components/App';
 import {
   appReducer,
   setSearchState,
-  activateNewList,
   setNewListTitle,
   setTaskSettings,
   handleUserSettings
@@ -21,7 +20,6 @@ const persistedState = loadState();
 const globalReducer = combineReducers({
   app: appReducer,
   search: setSearchState,
-  activateNewList,
   newListTitle: setNewListTitle,
   taskSettings: setTaskSettings,
   userSettings: handleUserSettings

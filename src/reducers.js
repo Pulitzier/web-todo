@@ -349,15 +349,6 @@ export function setSearchState(state = defaultSearch, action) {
   }
 }
 
-export function activateNewList(state = false, action) {
-  switch(action.type) {
-    case 'ACTIVATE_NEW_LIST':
-      return action.activateNewList;
-    default:
-      return state;
-  }
-}
-
 export function setNewListTitle(state = 'Untitled Task', action) {
   switch(action.type){
     case 'SET_NEW_LIST_TITLE':
