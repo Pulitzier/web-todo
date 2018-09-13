@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'react-proptypes';
 import RenameList from './RenameList';
-import { getActiveTodoList } from '../helpers';
+import { getActiveTodoList, checkActiveTodoTitle } from '../helpers';
 import IconsMenu from "./IconsMenu";
 import SortPopUp from "./SortPopUp";
 import BannerModalSettings from "./BannerModalSettings";
@@ -10,8 +10,9 @@ export default class BannerForTodo extends Component {
   constructor(props) {
     super(props);
     this.activateModalSettings = this.activateModalSettings.bind(this);
+    this.activateRename = this.activateRename.bind(this);
+    this.activateIcon = this.activateIcon.bind(this);
     this.bannerState = {
-      sortCriteria: '',
       shouldRenameList: false,
       shouldChangeIcon: false,
       showModal: false
@@ -25,7 +26,25 @@ export default class BannerForTodo extends Component {
         showModal: !this.bannerState.showModal
       }
     })
-  }
+  };
+
+  activateRename(bool) {
+    this.setState(() => {
+      return this.bannerState = {
+        ...this.bannerState,
+        shouldRenameList: bool
+      }
+    })
+  };
+
+  activateIcon(bool) {
+    this.setState(() => {
+      return this.bannerState = {
+        ...this.bannerState,
+        shouldChangeIcon: bool
+      }
+    })
+  };
 
   render(){
     const { store } = this.context;
@@ -33,13 +52,8 @@ export default class BannerForTodo extends Component {
     const { app: { todos }} = state;
     const { activeTask, deleteList, activateGreetings } = this.props;
     const activeTodo = getActiveTodoList(todos);
-    let { todoListId: todoId, iconSource: todoIconSrc, bgImage, bgColor } = activeTodo;
-    let {
-      sortCriteria,
-      shouldRenameList,
-      shouldChangeIcon,
-      showModal
-    } = this.bannerState;
+    let { title, todoListId: todoId, iconSource: todoIconSrc, bgImage, bgColor, sortOrder } = activeTodo;
+    let { shouldRenameList, shouldChangeIcon, showModal } = this.bannerState;
     const colorScheme = {
       "orange": "249, 148, 7",
       "green": "0, 158, 34",
@@ -50,41 +64,6 @@ export default class BannerForTodo extends Component {
     let bgColorForBanner = 'rgba(' + colorScheme[bgColor] + ', 0.45)';
     let bgColorForSort = 'rgba(' + colorScheme[bgColor] + ', 0.65)';
 
-    const activateRename = (bool) => {
-      this.setState(() => {
-        return this.bannerState = {
-          ...this.bannerState,
-          shouldRenameList: bool
-        }
-      })
-    };
-
-    const activateIcon = (bool) => {
-      this.setState(() => {
-        return this.bannerState = {
-          ...this.bannerState,
-          shouldChangeIcon: bool
-        }
-      })
-    };
-
-    const checkActiveTodoTitle = (todo) => {
-      return (
-        todo.title !== 'My Day' &&
-        todo.title !== 'Important' &&
-        todo.title !== 'To-Do'
-      )
-    };
-
-    const setBannerSortCriteria = (sortCriteria) => {
-      this.setState(() => {
-        return this.bannerState = {
-          ...this.bannerState,
-          sortCriteria
-        }
-      });
-    };
-
     const setMyDayTime = () => {
       let today = new Date();
       return (today.toLocaleString('en-us', {weekday: 'long'}) + ', ' +
@@ -94,7 +73,7 @@ export default class BannerForTodo extends Component {
 
     return (
       <div
-        className={"panelBanner " + (activeTask ? 'responsive ' : '') + (!!sortCriteria ? 'with-sort' : '')}
+        className={"panelBanner " + (activeTask ? 'responsive ' : '') + (!!sortOrder ? 'with-sort' : '')}
         style={{ backgroundImage: `url(${bgImage})`}}
       >
         <section
@@ -103,20 +82,16 @@ export default class BannerForTodo extends Component {
         >
           <div
             className="panelBanner-text"
-            onBlur={() => {
-              activateRename(false);
-            }}
+            onBlur={() => this.activateRename(false)}
           >
             {
-              shouldRenameList && checkActiveTodoTitle(activeTodo) ?
-                <RenameList activateRename={(bool) => activateRename(bool)}/> :
+              shouldRenameList && checkActiveTodoTitle(title) ?
+                <RenameList activateRename={(bool) => this.activateRename(bool)}/> :
                 <div>
                   {
                     todoIconSrc &&
-                    checkActiveTodoTitle(activeTodo) &&
-                    (<button className="change-todo-icon" onClick={() => {
-                      activateIcon(true)
-                    }}>
+                    checkActiveTodoTitle(title) &&
+                    (<button className="change-todo-icon" onClick={() => this.activateIcon(true)}>
                       <img src={todoIconSrc} />
                     </button>)
                   }
@@ -124,11 +99,11 @@ export default class BannerForTodo extends Component {
                     todoIconSrc &&
                     shouldChangeIcon &&
                     <IconsMenu
-                      activateIcon={(bool) => activateIcon(bool)}
+                      activateIcon={(bool) => this.activateIcon(bool)}
                       activeTodoId={activeTodo.todoListId}
                     />
                   }
-                  <h3 onClick={() => activateRename(true)}>{activeTodo.title}</h3>
+                  <h3 onClick={() => this.activateRename(true)}>{activeTodo.title}</h3>
                 </div>
             }
             {
@@ -161,18 +136,17 @@ export default class BannerForTodo extends Component {
               <BannerModalSettings
                 activeTodo={activeTodo}
                 deleteList={deleteList}
-                activateRename={(bool) => activateRename(bool)}
+                activateRename={(bool) => this.activateRename(bool)}
                 showModal={this.activateModalSettings}
-                setSortCriteria={(criteria) => setBannerSortCriteria(criteria)}
               />
             }
           </div>
         </section>
         {
-          sortCriteria &&
+          sortOrder &&
           <SortPopUp
-            sortBy={sortCriteria}
-            setSortCriteria={(criteria) => setBannerSortCriteria(criteria)}
+            sortBy={sortOrder}
+            todoListId={todoId}
             bgColor={bgColorForSort}
           />
         }

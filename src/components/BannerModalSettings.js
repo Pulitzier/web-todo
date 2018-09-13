@@ -8,6 +8,7 @@ import {
   typeNewTaskAction,
   filterCompletedTasks
 } from "../actionCreators";
+import { checkActiveTodoTitle } from '../helpers';
 
 export default class BannerModalSettings extends Component {
   constructor(props) {
@@ -39,13 +40,7 @@ export default class BannerModalSettings extends Component {
     const { store } = this.context;
     const state = store.getState();
     const { taskSettings: { showCompleted } } = state;
-    const {
-      activeTodo,
-      deleteList,
-      activateRename,
-      showModal,
-      setSortCriteria,
-    } = this.props;
+    const { activeTodo, deleteList, activateRename, showModal } = this.props;
     let { todoListId, bgColor, bgImage, title: todoTitle } = activeTodo;
     const imageScheme = [ "./assets/retro.jpg", "./assets/museum.jpg", "./assets/wi.jpg" ];
     const colorScheme = [ "orange", "green", "red", "blue", "blueviolet" ];
@@ -65,16 +60,7 @@ export default class BannerModalSettings extends Component {
       store.dispatch(typeNewTaskAction(false));
     };
 
-    const checkActiveTodoTitle = (todoTitle) => {
-      return (
-        todoTitle !== 'My Day' &&
-        todoTitle !== 'Important' &&
-        todoTitle !== 'To-Do'
-      )
-    };
-
     const handleSortTasks = (sortCriteria) => {
-      setSortCriteria(sortCriteria);
       store.dispatch(sortTasks(sortCriteria, todoListId));
       showModal();
     };
@@ -111,11 +97,7 @@ export default class BannerModalSettings extends Component {
           </div>
         }
         <div
-          className={'sort-settings-link ' +
-          (
-            handleHoverSortMenu ?
-              "grey" : ''
-          )}
+          className={'sort-settings-link ' + (handleHoverSortMenu ? "grey" : '' )}
           onMouseEnter={() =>
             this.setState(() =>
               this.modalState = {
@@ -150,9 +132,7 @@ export default class BannerModalSettings extends Component {
               "active" :
               ''
           )}
-          style={{
-            height: setHeight(),
-          }}
+          style={{ height: setHeight() }}
           onMouseEnter={() =>
             this.setState(() => {
               return this.modalState = {

@@ -56,13 +56,6 @@ export function chooseList(todoId) {
   }
 }
 
-export function setNewListTitle(title) {
-  return {
-    type: 'SET_NEW_LIST_TITLE',
-    title
-  }
-}
-
 export function changeBannerBgColor(color, todoId) {
   return {
     type: 'CHANGE_BANNER_BG_COLOR',

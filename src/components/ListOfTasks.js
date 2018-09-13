@@ -50,8 +50,18 @@ export default class ListOfTasks extends Component {
       this.newTaskInput.value = '';
     };
 
+    const setHeight = () => {
+      if(activeTodo.sortOrder) {
+        return 400;
+      }
+      return 450;
+    };
+
     return(
-      <div className="todo-list-wrapper">
+      <div
+        className="todo-list-wrapper"
+        style={{ height: setHeight() }}
+      >
         <div className="todo-list">
           {
             getTasksForTodo(tasks, activeTodo).map((task, index) => {

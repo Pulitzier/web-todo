@@ -41,3 +41,11 @@ export function getTasksForTodo(tasks, todo) {
 export function getStringDate(date, options = {weekday: 'short', hour: 'numeric'}) {
   return (new Date(date)).toLocaleString('en-us', options);
 }
+
+export function checkActiveTodoTitle(title) {
+  return (
+    title !== 'My Day' &&
+    title !== 'Important' &&
+    title !== 'To-Do'
+  )
+}

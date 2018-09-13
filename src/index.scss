@@ -7,51 +7,22 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-
+  .modal-backdrop.show { opacity: 0; }
   p { margin: 0; }
-}
-
-#root {
-  height: 100vh;
-  background-color: grey;
-  padding: 20px 0;
-}
-
-.container {
-  position: relative;
-  height: 650px;
-  max-width: 920px;
-  margin: auto;
-  margin-right: 18%;
-
-  button { outline: 0; };
-  input { outline: 0; };
-  link { outline: 0; };
-}
-
-.light {
-  background-color: #ffffff;
-  color: #2e2f30;
-  .user-settings-page { @extend .light }
-}
-
-.dark {
-  background-color: #2e2f30;
-  color: #ffffff;
-  .user-settings-page { @extend .dark }
-  .modal-content,
-  .search-modal,
-  #bannerSettings {
-    background-color: #2e2f30;
-    .sort-settings-menu > div { background-color: #2e2f30; }
-  }
-  .task-settings-title { background-color: #2e2f30 !important; }
-  .task-settings-add-to-my-day,
-  .task-settings-additional,
-  .task-settings-add-note,
-  .activateStepInput {
-    @extend .dark;
-    border: 1px solid #fff;
+  #root {
+    height: 100vh;
+    background-color: grey;
+    padding: 20px 0;
+    .container {
+      position: relative;
+      height: 650px;
+      max-width: 920px;
+      margin: auto;
+      margin-right: 18%;
+      button { outline: 0; };
+      input { outline: 0; };
+      link { outline: 0; };
+    }
   }
 }
 
@@ -65,7 +36,6 @@ body {
 ::-webkit-scrollbar-thumb {
   background: #888;
   border-radius: 6px;
-
   &:hover { background: #555; }
 }
 
@@ -76,7 +46,6 @@ audio { visibility: hidden; }
   background-color: rgba(0, 0, 0, 0.2);
   width: 100%;
   height: 100%;
-
   .confirmDeleteModal-child {
     position: relative;
     background-color: #ffffff;
@@ -84,11 +53,9 @@ audio { visibility: hidden; }
     top: calc(50% - (300px/2));
     margin: 0 auto;
     padding: 25px 20px;
-
     .button-group {
       display: table;
       margin: 30px 0 0 auto;
-
       button:first-of-type { margin-right: 10px; }
       button { border-radius: 0; }
     }
@@ -104,11 +71,6 @@ audio { visibility: hidden; }
   ul {
     max-width: 100%;
     margin: 0;
-    &.todo-list {
-      max-height: 400px;
-      overflow: auto;
-      flex-flow: nowrap;
-    }
     li {
       text-align: left;
       padding: 4px 8px 4px 10px;
@@ -131,6 +93,10 @@ audio { visibility: hidden; }
       font-size: 13px;
     }
     p { margin: 0; }
+  }
+  .custom-todo-list-wrapper {
+    max-height: 445px;
+    overflow: auto;
   }
 }
 
@@ -210,16 +176,6 @@ audio { visibility: hidden; }
   }
 }
 
-.light .settings-general-info .user-manage a {
-  color: slategray;
-  background-color: lightgrey;
-}
-
-.dark .settings-general-info .user-manage a {
-  color: #ffffff;
-  background-color: #5c6066;
-}
-
 #thirdPartyNotices {
   background-color: rgba(0, 0, 0, 0.5);
   .modal-header {
@@ -276,7 +232,7 @@ audio { visibility: hidden; }
   .banner-sort {
     @include flex;
     position: relative;
-    min-height: 20px;
+    min-height: 50px;
     padding: 10px 10px 10px 50px;
     color: #ffffff;
     .change-sort-order {
@@ -293,7 +249,7 @@ audio { visibility: hidden; }
       border: 0;
       color: #ffffff;
       position: relative;
-      padding: 5px 15px;
+      padding: 0 15px;
       &.clear-banner-sort { margin-left: auto; }
       &.change-sort-order {
         padding-left: 10px;
@@ -325,8 +281,6 @@ button.open-greeting {
 }
 
 .todo-list-wrapper {
-  max-height: 450px;
-  height: 100%;
   position: relative;
   .clearInput {
     padding: 1px 6px;
@@ -351,13 +305,11 @@ button.open-greeting {
   }
 }
 
-.light .todo-list-wrapper { background-color: #ffffff; }
-
-.dark .todo-list-wrapper { background-color: #2e2f30; }
-
 div.todo-list {
   text-align: left;
   width: 100%;
+  height: 100%;
+  overflow: auto;
   div.todos {
     @include flex;
     border-bottom: 1px solid darkgray;
@@ -381,17 +333,6 @@ div.todo-list {
     display: flex;
   }
   & p { font-size: 12px; }
-}
-
-.dark .leftPanel ul li.active,
-.dark #bannerSettings div.sort-settings-menu div:hover,
-.dark #bannerSettings div.sort-settings-link:hover,
-.dark #bannerSettings div.sort-settings-link.grey { background-color: #5c6066; }
-
-.dark .task-settings {
-  border: 1px solid lightgrey;
-  background-color: #1a1b1c;
-  & > * { background-color: #2e2f30; }
 }
 
 .todos .important-icon img,
@@ -560,19 +501,6 @@ div.todo-list {
   overflow-y: auto;
 }
 
-.dark .task-settings .step-title { background-color: #888888; }
-
-.dark .confirmDeleteModal-child,
-.dark .add-new-step-wrapper .add-new-step-input,
-.dark .task-settings-add-note textarea,
-.dark .search-modal div.background-wrapper div.search-input-wrapper input {
-  background-color: #2e2f30;
-  color: #ffffff;
-}
-
-.dark .confirmDeleteModal-child,
-.dark .search-modal div.background-wrapper div.search-input-wrapper input { border: 1px solid lightgrey; }
-
 .add-new-todo-wrapper {
   &,
   & > div {
@@ -628,11 +556,6 @@ div.todo-list {
 
 .task-settings ul li p { width: 100%; }
 
-.dark .add-new-todo-wrapper .add-new-todo-input {
-  background-color: #2e2f30;
-  color: #ffffff;
-}
-
 #lightTheme,
 #darkTheme,
 #toggleTodoCheckbox,
@@ -687,17 +610,10 @@ ul.searchList label.searchTaskLabel {
   }
 }
 
-.dark .icons-menu-wrapper {
-  background-color: #5c6066;
-  border-color: #888888;
-}
-
 .rename-list-wrapper {
   max-width: 240px;
   background-color: rgba(46, 47, 48, 0.4);
 }
-
-.dark .rename-list-wrapper { background-color: rgba(92, 96, 102, 0.6); }
 
 input.rename-list {
   font-family: inherit;
@@ -741,8 +657,6 @@ ul.searchList label.searchTaskLabel.toggled > span:after {
   content: '\2713';
   position: absolute;
 }
-
-.dark .clearInput { color: #000; }
 
 .settings-header button,
 button.task-settings-arrow-right,
@@ -890,23 +804,9 @@ button.change-todo-icon,
   background-color: transparent;
 }
 
-.dark button.user-settings-button { color: #ffffff; }
-
-.light .user-settings {
-  border: 1px solid rgba(0,0,0,.1);
-  background-color: #ffffff;
-}
-
-.dark .user-settings {
-  border: 1px solid rgba(255,255,255,.5);
-  background-color: #2e2f30;
-  hr { border-top: 1px solid rgba(255,255,255,.5); }
-}
-
 .add-new-list {
   text-align: left;
   padding: 0 15px;
-  min-height: 100px;
   label.add-new-list-label-wrapper {
     @include flex;
     height: 44px;
@@ -922,18 +822,11 @@ button.change-todo-icon,
   }
   a.add-new-list-link {
     @include flex;
-    position: absolute;
     & > span {
       font-size: 30px;
       margin: 0 10px 0 3px;
     }
   }
-}
-
-.dark .add-new-list input {
-  background-color: #1a1b1c;
-  color: #ffffff;
-  border: 1px solid #ffffff;
 }
 
 .task-settings {
@@ -1028,20 +921,12 @@ button.change-todo-icon,
 }
 
 .DayPicker.pick-date-calendar .DayPicker-wrapper,
-.task-settings-additional .pick-date-calendar .rc-calendar-panel,
-.task-settings-additional .due-date-calendar .rc-calendar-panel {
+.task-settings-additional .rc-calendar-panel {
   position: absolute;
   border: 1px solid #888888;
   background-color: #ffffff;
   text-align: center;
 }
-
-.dark .DayPicker.pick-date-calendar .DayPicker-wrapper,
-.dark .task-settings-additional .pick-date-calendar .rc-calendar-panel,
-.dark .task-settings-additional .due-date-calendar .rc-calendar-panel { background-color: #5c6066; }
-
-.dark .task-settings-additional .reminder-window ul,
-.dark .task-settings-additional .repeat-date-picker { background-color: #5c6066; }
 
 .task-settings-additional {
   background-color: #ffffff;
@@ -1277,4 +1162,93 @@ ul.searchList {
   }
 }
 
-.modal-backdrop.show { opacity: 0; }
+.light {
+  background-color: #ffffff;
+  color: #2e2f30;
+  .user-settings-page { @extend .light }
+  .settings-general-info .user-manage a {
+    color: slategray;
+    background-color: lightgrey;
+  }
+  .user-settings {
+    border: 1px solid rgba(0,0,0,.1);
+    background-color: #ffffff;
+  }
+  .todo-list-wrapper { background-color: #ffffff; }
+}
+
+
+.dark .todo-list-wrapper { background-color: #2e2f30; }
+.dark {
+  background-color: #2e2f30;
+  color: #ffffff;
+  .user-settings-page { @extend .dark }
+  .user-settings {
+    border: 1px solid rgba(255,255,255,.5);
+    background-color: #2e2f30;
+    hr { border-top: 1px solid rgba(255,255,255,.5); }
+  }
+  button.user-settings-button { color: #ffffff; }
+  .modal-content { background-color: #2e2f30; }
+  #bannerSettings {
+    background-color: #2e2f30;
+    .sort-settings-menu {
+      & > div { background-color: #2e2f30; };
+      div:hover { background-color: #5c6066; }
+    }
+    div.sort-settings-link {
+      &:hover,
+      &.grey { background-color: #5c6066; }
+    }
+  }
+  .task-settings-title { background-color: #2e2f30 !important; }
+  .task-settings-add-to-my-day,
+  .task-settings-additional,
+  .task-settings-add-note,
+  .activateStepInput {
+    @extend .dark;
+    border: 1px solid #fff;
+  }
+  .settings-general-info .user-manage a {
+    color: #ffffff;
+    background-color: #5c6066;
+  }
+  .DayPicker.pick-date-calendar .DayPicker-wrapper { background-color: #5c6066; }
+  .task-settings-additional {
+    .rc-calendar-panel,
+    .reminder-window ul,
+    .repeat-date-picker { background-color: #5c6066; }
+  }
+  .add-new-list-label-wrapper {
+    background-color: #1a1b1c;
+    color: #ffffff;
+    input { @extend .add-new-list-label-wrapper }
+  }
+  .clearInput { color: #000; }
+  .icons-menu-wrapper {
+    background-color: #5c6066;
+    border-color: #888888;
+  }
+  .rename-list-wrapper { background-color: rgba(92, 96, 102, 0.6); }
+  .confirmDeleteModal-child,
+  .add-new-step-wrapper .add-new-step-input,
+  .add-new-todo-wrapper .add-new-todo-input,
+  .task-settings-add-note textarea {
+    @extend .dark;
+  }
+  .confirmDeleteModal-child,
+  .search-modal {
+    background-color: #2e2f30;
+    div.background-wrapper div.search-input-wrapper input {
+      @extend .dark;
+      border: 1px solid lightgrey;
+    }
+  }
+  .leftPanel ul li.active { background-color: #5c6066; }
+  .task-settings {
+    border: 1px solid lightgrey;
+    background-color: #1a1b1c;
+    & > * { background-color: #2e2f30; }
+    .step-title { background-color: #888888; }
+  }
+}

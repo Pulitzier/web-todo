@@ -51,6 +51,7 @@ function todosReducer(state = defaultTodos, action) {
           category: 'custom',
           active: false,
           todoListId: todoId++,
+          sortOrder: '',
           iconSource: '',
           bgImage: "./assets/retro.jpg",
           bgColor: 'blue'
@@ -119,7 +120,17 @@ function todosReducer(state = defaultTodos, action) {
           }
         }
         return todo;
-      })
+      });
+    case 'SORT_TASKS':
+      return state.map(todo => {
+        if(todo.todoListId === action.listId){
+          return {
+            ...todo,
+            sortOrder: action.sort
+          }
+        }
+        return todo;
+      });
     default:
       return state;
   }
@@ -344,15 +355,6 @@ export function setSearchState(state = defaultSearch, action) {
         ...state,
         showCompleted: action.show
       };
-    default:
-      return state;
-  }
-}
-
-export function setNewListTitle(state = 'Untitled Task', action) {
-  switch(action.type){
-    case 'SET_NEW_LIST_TITLE':
-      return action.title;
     default:
       return state;
   }

@@ -59,7 +59,6 @@ export default class LeftPanel extends Component {
     this.activateNewList(false);
     store.dispatch(addNewTodoList(this.todoListState.newListTitle));
     this.setNewListTitle('Untitled Task');
-    console.log('pushNewListToState');
   };
 
   chooseListItem(todoId) {
@@ -84,7 +83,6 @@ export default class LeftPanel extends Component {
         };
       }
     });
-    console.log('addNewList');
     this.setNewListTitle(newListTitle);
     this.activateNewList(true);
   };
@@ -140,7 +138,7 @@ export default class LeftPanel extends Component {
           })}
         </List>
         <hr />
-        <div>
+        <div className="custom-todo-list-wrapper">
           <List className="nav flex-column todo-list">
             {todos.map(todo => {
               if (todo.todoListId >= 3) {
