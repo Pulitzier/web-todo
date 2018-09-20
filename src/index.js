@@ -7,9 +7,6 @@ import App from './components/App';
 import {
   appReducer,
   setSearchState,
-  activateNewList,
-  setNewListTitle,
-  setBannerForTodoState,
   setTaskSettings,
   handleUserSettings
 } from './reducers';
@@ -22,9 +19,6 @@ const persistedState = loadState();
 const globalReducer = combineReducers({
   app: appReducer,
   search: setSearchState,
-  activateNewList,
-  newListTitle: setNewListTitle,
-  bannerForTodoState: setBannerForTodoState,
   taskSettings: setTaskSettings,
   userSettings: handleUserSettings
 });

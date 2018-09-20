@@ -5,10 +5,11 @@ import {
   addNewTaskToList,
   typeNewTaskAction
 } from '../actionCreators';
-import TodoTasks from "./TodoTasks";
+import Task from "./Task";
+import { getTasksForTodo } from "../helpers";
 
 
-export default class ToDoListOfTask extends Component {
+export default class ListOfTasks extends Component {
   constructor(props) {
     super(props);
     this.todoState = {
@@ -16,22 +17,13 @@ export default class ToDoListOfTask extends Component {
       localToggleTask: false,
     };
   };
-  componentDidMount() {
-    let { store } = this.context;
-    this.unsubscribe = store.subscribe(() => {
-      this.forceUpdate();
-    });
-  };
-  componentWillUnmount() {
-    this.unsubscribe();
-  };
 
   render() {
     const { store } = this.context;
     const state = store.getState();
     const {
       app: { tasks },
-      taskSettings: { activateNewTask, typeNewTask }
+      taskSettings: { activateNewTask, typeNewTask, showCompleted }
     } = state;
     const { activeTodo } = this.props;
     const { localToggleTask } = this.todoState;
@@ -58,11 +50,26 @@ export default class ToDoListOfTask extends Component {
       this.newTaskInput.value = '';
     };
 
+    const setHeight = () => {
+      if(activeTodo.sortOrder) {
+        return 400;
+      }
+      return 450;
+    };
+
     return(
-      <div className="todo-list-wrapper">
+      <div
+        className="todo-list-wrapper"
+        style={{ height: setHeight() }}
+      >
         <div className="todo-list">
           {
-            !!tasks.length && <TodoTasks />
+            getTasksForTodo(tasks, activeTodo).map((task, index) => {
+              if ( !showCompleted && task.done ) {
+                return;
+              }
+              return <Task key={index} task={task} />
+            })
           }
           <div className="todos">
             <div className="add-new-todo">
@@ -82,7 +89,7 @@ export default class ToDoListOfTask extends Component {
                     type="text"
                     name="add-new-task"
                     ref={node => this.newTaskInput = node}
-                    placeholder={!activateNewTask ? "+ Add a to-do" : "Add a to-do"}
+                    placeholder="Add a to-do"
                     className={"add-new-todo-input " + (activateNewTask ? "activated" : "inactive")}
                     onFocus={() => activateToDoTask(true)}
                     onChange={() => handleTypeNewTask(true)}
@@ -119,6 +126,6 @@ export default class ToDoListOfTask extends Component {
   }
 };
 
-ToDoListOfTask.contextTypes = {
+ListOfTasks.contextTypes = {
   store: PropTypes.object
 };

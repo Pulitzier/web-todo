@@ -1,11 +1,6 @@
 export function getActiveTodoList(todos) {
-  let activeArray;
-  for (let key in todos) {
-    activeArray = todos[key].find(element => element.active);
-    if (activeArray) {
-      return activeArray
-    }
-  }
+  let activeArray = todos.find(element => element.active);
+  if (activeArray) return activeArray;
 }
 
 export function loadState() {
@@ -45,4 +40,12 @@ export function getTasksForTodo(tasks, todo) {
 
 export function getStringDate(date, options = {weekday: 'short', hour: 'numeric'}) {
   return (new Date(date)).toLocaleString('en-us', options);
+}
+
+export function checkActiveTodoTitle(title) {
+  return (
+    title !== 'My Day' &&
+    title !== 'Important' &&
+    title !== 'To-Do'
+  )
 }

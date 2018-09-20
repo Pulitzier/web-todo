@@ -49,25 +49,10 @@ export function filterCompletedTasks(bool) {
   }
 }
 
-export function chooseList(element, todosListName) {
+export function chooseList(todoId) {
   return {
     type: "CHOOSE_LIST",
-    todosListName,
-    element
-  }
-}
-
-export function activateNewList(bool) {
-  return{
-    type: 'ACTIVATE_NEW_LIST',
-    activateNewList: bool
-  }
-}
-
-export function setNewListTitle(title) {
-  return {
-    type: 'SET_NEW_LIST_TITLE',
-    title
+    todoId
   }
 }
 

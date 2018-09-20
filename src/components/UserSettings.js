@@ -8,12 +8,25 @@ import {
 import Panel from './Panel';
 
 export default class UserSettings extends Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  };
 
-  componentDidMount() {
+  componentDidMount(){
+    document.addEventListener('click', this.handleClick, false);
+  };
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClick, false);
+  };
+
+  handleClick(event) {
     let { store } = this.context;
-    store.subscribe(() => {
-      this.forceUpdate();
-    })
+    let { target } = event;
+    if (!this.userSettings.contains(target)) {
+      return store.dispatch(activateUserSettings(false));
+    }
   };
 
   render() {
@@ -22,13 +35,22 @@ export default class UserSettings extends Component {
     let activateSettings = state.userSettings.activateSettings;
 
     const openSettings = (bool) => {
+      store.dispatch(openSearchPanel(false));
       store.dispatch(activateUserSettings(false));
       store.dispatch(openUserSettings(bool))
     };
 
+    const openSearch = () => {
+      store.dispatch(openSearchPanel(true));
+      store.dispatch(activateUserSettings(false));
+    };
+
     return (
       <Panel className="user-info">
-        <div className="user-info-buttons">
+        <div
+          className="user-info-buttons"
+          ref={node => this.userSettings = node}
+        >
           <button
             className="user-settings-button"
             onClick={() => store.dispatch(activateUserSettings(!activateSettings))}
@@ -36,7 +58,7 @@ export default class UserSettings extends Component {
             <img src="./assets/user-avatar.png" alt="User Avatar"/>
             <p>Yuryi Baravy</p>
           </button>
-          <button className="search" onClick={() => store.dispatch(openSearchPanel(true)) }>
+          <button className="search" onClick={() => openSearch() }>
             <img src="./assets/search.png" alt="Search Field"/>
           </button>
         </div>

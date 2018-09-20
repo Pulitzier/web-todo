@@ -6,13 +6,13 @@ import {
   setRepeat
 } from '../actionCreators';
 import { getStringDate } from '../helpers';
-import DayPicker from 'react-day-picker';
-import 'react-day-picker/lib/style.css';
 import RepeatDatePicker from "./RepeatDatePicker";
+import CustomDayPicker from "./CustomDayPicker";
 
 export default class ChildTaskSettings extends Component {
   constructor(props) {
     super(props);
+    this.handleClick = this.handleClick.bind(this);
     this.childSettingsState = {
       openReminderWindow: false,
       openDueDateWindow: false,
@@ -84,7 +84,24 @@ export default class ChildTaskSettings extends Component {
         showRepeat: bool
       }
     })
-  }
+  };
+
+  componentDidMount(){
+    document.addEventListener('click', this.handleClick, false);
+  };
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClick, false);
+  };
+
+  handleClick(event) {
+    let { target } = event;
+    if (!this.additionalSet.contains(target)) {
+      this.openDueDate(false);
+      this.openReminder(false);
+      this.openRepeatWindow(false);
+    }
+  };
 
   render() {
     const { store } = this.context;
@@ -164,7 +181,10 @@ export default class ChildTaskSettings extends Component {
     };
 
     return (
-      <div className="task-settings-additional">
+      <div
+        className="task-settings-additional"
+        ref={node => this.additionalSet = node}
+      >
         <ul>
           <li className={"remind-me" + (remindDate && ' activeOption')}>
             <div onClick={() => this.openReminder(true)}>
@@ -173,8 +193,12 @@ export default class ChildTaskSettings extends Component {
                 Remind me
                 {
                   remindDate &&
+                  (<span> at {(new Date(remindDate)).toLocaleString('en-us', {hour: 'numeric'})}</span>)
+                }
+                {
+                  remindDate &&
                   (<span className="date-label">
-                    {getStringDate(remindDate)}
+                    {(new Date(remindDate)).toLocaleString('en-us', {weekday: 'short', month: 'short', day: 'numeric'})}
                     </span>)
                 }
               </p>
@@ -226,10 +250,11 @@ export default class ChildTaskSettings extends Component {
             }
             {
               showCalendar &&
-              <DayPicker
-                className="pick-date-calendar"
-                onDayClick={selectCustomDate}
-              />
+                <CustomDayPicker
+                  pickerClassName="pick-date-calendar"
+                  handleDateClick={selectCustomDate}
+                  handleClosePicker={() => this.showCustomCalendar(false)}
+                />
             }
           </li>
           <li className={"due-date" + (dueDate && ' activeOption')}>
@@ -241,8 +266,8 @@ export default class ChildTaskSettings extends Component {
                   return 'Due Today';
                 } else if (today.setHours(24,0,0,0) === (new Date(dueDate)).setHours(0,0,0,0)) {
                   return 'Due Tomorrow';
-                } else if (getNextWeekDate().setHours(0, 0, 0, 0) === (new Date(dueDate)).setHours(0, 0, 0, 0)) {
-                  return `Due ${getStringDate((new Date(dueDate)))}`;
+                } else if (today.setHours(24,0,0,0) < (new Date(dueDate)).setHours(0,0,0,0)) {
+                  return `Due ${(new Date(dueDate)).toLocaleString('en-us', {weekday: 'short', month: 'short', day: 'numeric'})}`;
                 };
                 return 'Add due date'
               })()}</p>
@@ -291,9 +316,10 @@ export default class ChildTaskSettings extends Component {
             }
             {
               showDueCalendar &&
-              <DayPicker
-                className="pick-date-calendar"
-                onDayClick={selectCustomDueDate}
+              <CustomDayPicker
+                pickerClassName="pick-date-calendar"
+                handleDateClick={selectCustomDueDate}
+                handleClosePicker={() => this.showDueDateCalendar(false)}
               />
             }
           </li>

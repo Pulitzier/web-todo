@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
 import { getActiveTodoList } from "../helpers";
 import BannerForTodo from './BannerForTodo.js';
-import ToDoListOfTask from './ToDoListOfTask.js';
+import ListOfTasks from './ListOfTasks.js';
 import Panel from './Panel';
 import TaskSettings from './TaskSettings';
 import SearchPanel from './SearchPanel';
@@ -17,13 +17,6 @@ export default class RightPanel extends Component {
     }
   };
 
-  componentDidMount(){
-    let { store } = this.context;
-    store.subscribe(() => {
-      this.forceUpdate();
-    })
-  };
-
   activateGreetingPanel() {
     this.setState(() => {
       return this.rightPanelState = {
@@ -32,6 +25,17 @@ export default class RightPanel extends Component {
       }
     })
   };
+
+  componentDidMount() {
+    let { store } = this.context;
+    this.unsubscribe = store.subscribe(() => {
+      this.forceUpdate()
+    });
+  };
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
 
   render() {
     const { store } = this.context;
@@ -59,7 +63,7 @@ export default class RightPanel extends Component {
             deleteList={deleteTodo}
             activateGreetings={this.activateGreetingPanel}
           />
-          <ToDoListOfTask activeTodo={activeTodo}/>
+          <ListOfTasks activeTodo={activeTodo}/>
         </div>
         {
           activeTask &&

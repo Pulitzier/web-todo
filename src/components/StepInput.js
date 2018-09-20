@@ -14,12 +14,12 @@ export default class StepInput extends Component {
   };
 
   componentDidMount() {
-    document.getElementsByTagName('body')[0].addEventListener('click', this.handleStepClick, false);
+    document.addEventListener('click', this.handleStepClick, false);
     document.getElementById('toggleStepCheckbox').focus();
   };
 
   componentWillUnmount() {
-    document.getElementsByTagName('body')[0].removeEventListener('click', this.handleStepClick, false)
+    document.removeEventListener('click', this.handleStepClick, false)
   };
 
   handleStepClick(event) {
@@ -61,10 +61,7 @@ export default class StepInput extends Component {
     };
 
     return (
-      <div
-        className="add-new-step-wrapper"
-        ref={node => this.stepNode = node}
-      >
+      <div className="add-new-step-wrapper">
         <div className="add-new-step">
           <label
             htmlFor="toggleStepCheckbox"
@@ -79,7 +76,7 @@ export default class StepInput extends Component {
             type="text"
             name="add-new-step"
             id="toggleStepCheckbox"
-            placeholder="Add a step"
+            placeholder="Add Step"
             className="add-new-step-input"
             onKeyPress={(e) => addNewStepToTask(e)}
             onChange={(e) => this.handleTypingStep(e)}

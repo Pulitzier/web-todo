@@ -1,207 +1,74 @@
-const defaultTodos = {
-  myPersonalToDo: [
-    {
-      title: 'My Day',
-      active: true,
-      todoListId: 0,
-      sortOrder: '',
-      currentDate: Date.now(),
-      bgImage: "./assets/retro.jpg",
-      bgColor: 'blue'
-    },
-    {
-      title: 'Important',
-      active: false,
-      todoListId: 1,
-      sortOrder: '',
-      currentDate: 1532863416253,
-      bgImage: "./assets/retro.jpg",
-      bgColor: 'blue'
-    },
-    {
-      title: 'To-Do',
-      active: false,
-      todoListId: 2,
-      sortOrder: '',
-      currentDate: 1531572460943,
-      bgImage: "./assets/retro.jpg",
-      bgColor: 'blue'
-    }
-  ],
-  toDoCategories: []
-};
+import { combineReducers } from 'redux';
 
-const defaultAppTodosState = {
-  todos: defaultTodos,
-  tasks: [],
-  steps: []
-};
+const defaultTodos = [
+  {
+    title: 'My Day',
+    category: 'mytodo',
+    active: true,
+    todoListId: 0,
+    sortOrder: '',
+    currentDate: Date.now(),
+    bgImage: "./assets/retro.jpg",
+    bgColor: 'blue'
+  },
+  {
+    title: 'Important',
+    category: 'important',
+    active: false,
+    todoListId: 1,
+    sortOrder: '',
+    currentDate: 1532863416253,
+    bgImage: "./assets/retro.jpg",
+    bgColor: 'blue'
+  },
+  {
+    title: 'To-Do',
+    category: 'todo',
+    active: false,
+    todoListId: 2,
+    sortOrder: '',
+    currentDate: 1531572460943,
+    bgImage: "./assets/retro.jpg",
+    bgColor: 'blue'
+  }
+];
+
+export const appReducer = combineReducers({
+  todos: todosReducer,
+  tasks: tasksReducer,
+  steps: stepsReducer
+});
 
 let todoId = 3;
-
-export function appReducer(state = defaultAppTodosState, action) {
-  const { todos, tasks, steps } = state;
-  switch(action.type) {
-    case 'ADD_NEW_TODO_LIST':
-      return {
-        ...state,
-        todos: todosReducer(todos, action)
-      };
-    case 'CHANGE_TODO_TITLE':
-      return {
-        ...state,
-        todos: todosReducer(todos, action)
-      };
-    case 'SET_ICON_FOR_TODO':
-      return {
-        ...state,
-        todos: todosReducer(todos, action)
-      };
-    case 'DELETE_TODO_LIST':
-      return {
-        ...state,
-        todos: todosReducer(todos, action),
-        tasks: tasksReducer(tasks, action)
-      };
-    case "CHOOSE_LIST":
-      return {
-        ...state,
-        todos: todosReducer(todos, action)
-      };
-    case 'CHANGE_BANNER_BG_IMAGE':
-      return {
-        ...state,
-        todos: todosReducer(todos, action)
-      };
-    case 'CHANGE_BANNER_BG_COLOR':
-      return {
-        ...state,
-        todos: todosReducer(todos, action)
-      };
-    case 'ADD_NEW_TASK_TO_LIST':
-      return {
-        ...state,
-        tasks: tasksReducer(tasks, action)
-      };
-    case 'ADD_TASK_TO_IMPORTANT':
-      return {
-        ...state,
-        tasks: tasksReducer(tasks, action)
-      };
-    case 'ADD_TASK_TO_MY_DAY':
-      return {
-        ...state,
-        tasks: tasksReducer(tasks, action)
-      };
-    case 'ADD_NOTE_TO_TASK':
-      return {
-        ...state,
-        tasks: tasksReducer(tasks, action)
-      };
-    case 'DELETE_TASK':
-      return {
-        ...state,
-        tasks: tasksReducer(tasks, action),
-        steps: stepsReducer(steps, action)
-      };
-    case 'TOGGLE_TASK':
-      return {
-        ...state,
-        tasks: tasksReducer(tasks, action)
-      };
-    case 'ACTIVATE_TASK_SETTINGS':
-      return {
-        ...state,
-        tasks: tasksReducer(tasks, action)
-      };
-    case 'SORT_TASKS':
-      return {
-        ...state,
-        tasks: tasksReducer(tasks, action)
-      };
-    case 'REVERT_TASKS':
-      return {
-        ...state,
-        tasks: tasksReducer(tasks, action)
-      };
-    case 'SET_REMIND_ME_DATE':
-      return {
-        ...state,
-        tasks: tasksReducer(tasks, action)
-      };
-    case 'SET_DUE_DATE':
-      return {
-        ...state,
-        tasks: tasksReducer(tasks, action)
-      };
-    case 'SET_REPEAT':
-      return {
-        ...state,
-        tasks: tasksReducer(tasks, action)
-      };
-    case 'DO_NOT_SUGGEST_TASK':
-      return {
-        ...state,
-        tasks: tasksReducer(tasks, action)
-      };
-    case 'ADD_STEP_TO_TASK':
-      return {
-        ...state,
-        steps: stepsReducer(steps, action)
-      };
-    case 'TOGGLE_STEP':
-      return {
-        ...state,
-        steps: stepsReducer(steps, action)
-      };
-    case 'DELETE_STEP':
-      return {
-        ...state,
-        steps: stepsReducer(steps, action)
-      };
-    default:
-      return state;
-  }
-}
-
-const todosReducer = (state = defaultTodos, action) => {
-  let { myPersonalToDo, toDoCategories } = state;
-  let newTodos = {};
+function todosReducer(state = defaultTodos, action) {
+  let newTodos = [];
   switch (action.type) {
     case 'ADD_NEW_TODO_LIST':
-      let customTodoId = todoId;
-      todoId++;
-      return {
+      return [
         ...state,
-        toDoCategories: [
-          ...toDoCategories,
-          {
-            title: action.title,
-            active: false,
-            todoListId: customTodoId,
-            iconSource: '',
-            bgImage: "./assets/retro.jpg",
-            bgColor: 'blue'
-          }
-        ]
-    };
+        ...[{
+          title: action.title,
+          category: 'custom',
+          active: false,
+          todoListId: todoId++,
+          sortOrder: '',
+          iconSource: '',
+          bgImage: "./assets/retro.jpg",
+          bgColor: 'blue'
+        }]
+      ];
     case 'CHANGE_TODO_TITLE':
-      return {
-        ...state,
-        toDoCategories: toDoCategories.map(todo => {
-          if(todo.todoListId === action.todoId) {
-            return {
-              ...todo,
-              title: action.title
-            }
-          };
-          return todo
-        })
-      };
+      return state.map(todo => {
+        if(todo.todoListId === action.todoId) {
+          return {
+            ...todo,
+            title: action.title
+          }
+        }
+        return todo;
+      });
     case 'SET_ICON_FOR_TODO':
-      return {
-        ...state,
-        toDoCategories: toDoCategories.map(todo => {
+      return state.map(todo => {
           if(todo.todoListId === action.todoId) {
             return {
               ...todo,
@@ -209,74 +76,61 @@ const todosReducer = (state = defaultTodos, action) => {
             }
           };
           return todo;
-        })
-      };
+      });
     case 'DELETE_TODO_LIST':
-      return {
-        ...state,
-        myPersonalToDo: myPersonalToDo.map(todo => {
-          if(todo.todoListId === 2) {
-            return {
-              ...todo,
-              active: true
-            }
+      newTodos = state.map(todo => {
+        if(todo.todoListId === 2) {
+          return {
+            ...todo,
+            active: true
           }
-          return todo
-        }),
-        toDoCategories: toDoCategories.filter(todo => todo.todoListId !== action.todoId)
-      };
+        }
+        return todo
+      });
+      return newTodos.filter(todo => todo.todoListId !== action.todoId);
     case "CHOOSE_LIST":
-      let { todosListName, element } = action;
-      for (let key in state) {
-        state[key].map(element => element.active = false)
-      }
-      let newTodoList = state[todosListName].map(item => {
-        if (item === element) {
+      return state.map(item => {
+        if (item.todoListId === action.todoId) {
           return {
             ...item,
             active: true
           }
         }
-        return item
+        return {
+          ...item,
+          active: false
+        }
       });
-      return {
-        ...state,
-        [todosListName]: newTodoList
-      };
     case 'CHANGE_BANNER_BG_COLOR':
-      for (let key in state) {
-        if(state[key].length) {
-          newTodos[key] = state[key].map(todo => {
-            if(todo.todoListId === action.todoId){
-              return {
-                ...todo,
-                bgColor: action.color
-              }
-            }
-            return todo;
-          })
-        } else {
-          newTodos[key] = state[key]
+      return state.map(todo => {
+        if(todo.todoListId === action.todoId){
+          return {
+            ...todo,
+            bgColor: action.color
+          }
         }
-      }
-      return newTodos;
+        return todo;
+      });
     case 'CHANGE_BANNER_BG_IMAGE':
-      for (let key in state) {
-        if(state[key].length) {
-          newTodos[key] = state[key].map(todo => {
-            if(todo.todoListId === action.todoId){
-              return {
-                ...todo,
-                bgImage: action.image
-              }
-            }
-            return todo;
-          })
-        } else {
-          newTodos[key] = state[key]
+      return state.map(todo => {
+        if(todo.todoListId === action.todoId){
+          return {
+            ...todo,
+            bgImage: action.image
+          }
         }
-      }
-      return newTodos;
+        return todo;
+      });
+    case 'SORT_TASKS':
+      return state.map(todo => {
+        if(todo.todoListId === action.listId){
+          return {
+            ...todo,
+            sortOrder: action.sort
+          }
+        }
+        return todo;
+      });
     default:
       return state;
   }
@@ -285,8 +139,7 @@ const todosReducer = (state = defaultTodos, action) => {
 // UUID generates random string of 36 signs long
 // this is not the case to tasks
 let taskUniqueId = 0;
-
-const tasksReducer = (state = [], action) => {
+function tasksReducer(state = [], action) {
   switch(action.type) {
     case 'ADD_NEW_TASK_TO_LIST':
       const { list: { todoListId } } = action;
@@ -381,7 +234,7 @@ const tasksReducer = (state = [], action) => {
           case 'DUE_DATE':
             return tasks = tasks.sort((a, b) => {
               return (b.dueDate - a.dueDate)
-            });;
+            });
           case 'CREATED_AT':
             return tasks = tasks.sort((a, b) => {
               return (b.createdAt - a.createdAt)
@@ -451,7 +304,7 @@ const tasksReducer = (state = [], action) => {
 };
 
 let stepUniqueId = 0;
-const stepsReducer = ( state = [], action) => {
+function stepsReducer( state = [], action) {
   switch(action.type) {
     case 'ADD_STEP_TO_TASK':
       const { taskId, stepText } = action;
@@ -506,43 +359,8 @@ export function setSearchState(state = defaultSearch, action) {
       return state;
   }
 }
-export function activateNewList(state = false, action) {
-  switch(action.type) {
-    case 'ACTIVATE_NEW_LIST':
-      return action.activateNewList;
-    default:
-      return state;
-  }
-}
-export function setNewListTitle(state = 'Untitled Task', action) {
-  switch(action.type){
-    case 'SET_NEW_LIST_TITLE':
-      return action.title;
-    default:
-      return state;
-  }
-}
 
-const defaultBannerState = {
-  activateBannerSettings: false,
-  currentBannerImage: "./assets/retro.jpg",
-  backgroundColor: "blue",
-  showCompleted: true
-};
-
-export function setBannerForTodoState(state = defaultBannerState, action) {
-  switch(action.type){
-    case 'SHOW_COMPLETED_FROM_BANNER':
-      return {
-        ...state,
-        showCompleted: action.show
-      };
-    default:
-      return state
-  }
-}
-
-export function setTaskSettings(state = {}, action) {
+export function setTaskSettings(state = { showCompleted: true }, action) {
   switch(action.type) {
     case 'ACTIVATE_NEW_TASK':
       return {
@@ -553,6 +371,11 @@ export function setTaskSettings(state = {}, action) {
       return {
         ...state,
         typeNewTask: action.typeNewTask
+      };
+    case 'SHOW_COMPLETED_FROM_BANNER':
+      return {
+        ...state,
+        showCompleted: action.show
       };
     default:
       return state;
@@ -566,7 +389,6 @@ const defaultUserSettings = {
   setLightTheme: true,
   setDarkTheme: false
 };
-
 export function handleUserSettings(state = defaultUserSettings, action) {
   switch(action.type) {
     case 'ACTIVATE_USER_SETTINGS':

@@ -6,12 +6,35 @@ import { setRepeat } from '../actionCreators';
 export default class RepeatDatePicker extends Component {
   constructor(props) {
     super(props);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleFormReset = this.handleFormReset.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.handlePickDay = this.handlePickDay.bind(this);
+    this.handlePickType = this.handlePickType.bind(this);
+    this.handlePickValue = this.handlePickValue.bind(this);
     this.datePickerState = {
       numberOfRepeat: 1,
       typeOfRange: 'weeks',
       daysPicked: [getStringDate((new Date()), {weekday: 'short'}).slice(0,2)]
     }
   };
+
+  componentDidMount(){
+    document.addEventListener('click', this.handleClick, false);
+  };
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClick, false);
+  };
+
+  handleClick(event) {
+    let { target } = event;
+    let { showCustomRepeat } = this.props;
+    if (!this.repeatDayPicker.contains(target)) {
+      showCustomRepeat(false);
+    }
+  };
+
   handlePickValue(event) {
     let value = event.target.value;
     if (value) {
@@ -23,6 +46,7 @@ export default class RepeatDatePicker extends Component {
       })
     }
   };
+
   handlePickType(e) {
     let value = e.target.value;
     if(value) {
@@ -34,6 +58,7 @@ export default class RepeatDatePicker extends Component {
       })
     }
   }
+
   handlePickDay(day) {
     let { daysPicked } = this.datePickerState;
     let newDayPicked;
@@ -51,6 +76,7 @@ export default class RepeatDatePicker extends Component {
       })
     }
   };
+
   handleFormSubmit() {
     let { store } = this.context;
     let { taskId, showCustomRepeat, updateDueDate } = this.props;
@@ -59,17 +85,22 @@ export default class RepeatDatePicker extends Component {
     updateDueDate();
     showCustomRepeat(false);
   };
+
   handleFormReset() {
     let { store } = this.context;
     let { taskId, showCustomRepeat } = this.props;
     store.dispatch(setRepeat(taskId, ''));
     showCustomRepeat(false);
-  }
+  };
+
   render() {
     let { numberOfRepeat, typeOfRange, daysPicked } = this.datePickerState;
     return (
       <div className="repeat-date-picker-wrapper">
-        <div className="repeat-date-picker">
+        <div
+          className="repeat-date-picker"
+          ref={node => this.repeatDayPicker = node}
+        >
           <p>Repeat every ...</p>
           <form
             onSubmit={(e) => {
@@ -82,6 +113,7 @@ export default class RepeatDatePicker extends Component {
               e.stopPropagation();
               this.handleFormReset();
             }}
+            onBlur={() => console.log("repeat calendar blur")}
           >
             <input
               className="picker-value"

@@ -25,13 +25,6 @@ export default class SearchPanel extends Component {
     });
   };
 
-  componentDidMount(){
-    let { store } = this.context;
-    store.subscribe(() => {
-      this.forceUpdate();
-    })
-  };
-
   openFilterMenu(bool) {
     this.setState(() => {
       return this.search = {

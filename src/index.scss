@@ -1,0 +1,1254 @@
+@mixin flex {
+  display: flex;
+  align-items: center;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  .modal-backdrop.show { opacity: 0; }
+  p { margin: 0; }
+  #root {
+    height: 100vh;
+    background-color: grey;
+    padding: 20px 0;
+    .container {
+      position: relative;
+      height: 650px;
+      max-width: 920px;
+      margin: auto;
+      margin-right: 18%;
+      button { outline: 0; };
+      input { outline: 0; };
+      link { outline: 0; };
+    }
+  }
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track { background: transparent; }
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 6px;
+  &:hover { background: #555; }
+}
+
+audio { visibility: hidden; }
+
+.confirmDeleteModal {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 100%;
+  .confirmDeleteModal-child {
+    position: relative;
+    background-color: #ffffff;
+    max-width: 300px;
+    top: calc(50% - (300px/2));
+    margin: 0 auto;
+    padding: 25px 20px;
+    .button-group {
+      display: table;
+      margin: 30px 0 0 auto;
+      button:first-of-type { margin-right: 10px; }
+      button { border-radius: 0; }
+    }
+  }
+}
+
+.row { height: 100%; }
+
+.leftPanel {
+  padding: 0;
+  border-right: 1px solid grey;
+  hr { margin: 8px 0; }
+  ul {
+    max-width: 100%;
+    margin: 0;
+    li {
+      text-align: left;
+      padding: 4px 8px 4px 10px;
+      border-left: 5px solid transparent;
+      &.active {
+        border-left: 5px solid blue;
+        background-color: lightgray;
+      }
+    }
+  }
+  .nav-link {
+    @include flex;
+    padding: 6px 2px;
+    img {
+      width: 18px;
+      margin-right: 10px;
+    }
+    span {
+      margin: 0 10px 0 auto;
+      font-size: 13px;
+    }
+    p { margin: 0; }
+  }
+  .custom-todo-list-wrapper {
+    max-height: 445px;
+    overflow: auto;
+  }
+}
+
+.rightPanel {
+  padding: 0;
+  display: flex;
+  & > div { width: 100%; }
+}
+
+.user-settings-page.active {
+  position: absolute;
+  max-height: 650px;
+  max-width: 920px;
+  width: 100%;
+  height: 100%;
+  section {
+    section { margin: 20px 0 10px; }
+  };
+  img { width: 60px; };
+  .settings-header {
+    @include flex;
+    margin: 20px 30px;
+    button {
+      padding: 6px 12px;
+      &:active { background-color: lightgrey; }
+    }
+  };
+  .settings-general-info {
+    overflow-y: auto;
+    max-height: 555px;
+    padding: 30px 50px 10px 150px;
+    & > * { width: 100%; };
+    section {
+      a {
+        margin-top: 5px;
+        color: cornflowerblue;
+        text-decoration: underline;
+      }
+    }
+    .help-feedback {
+      a {
+        display: block;
+        width: fit-content;
+      }
+    }
+    .about-section { @extend .help-feedback }
+    .user-manage {
+      @include flex;
+      & > div * { margin: 0 0 0 10px; }
+      a {
+        margin: 0 0 0 auto;
+        padding: 6px 10px;
+        font-weight: bolder;
+        text-decoration: none;
+        border: 2px solid transparent;
+        &:active {
+          background-color: slategray;
+          color: black;
+        }
+        &:hover { border: 2px solid slategray; }
+      }
+    }
+    .general-sets {
+      flex-flow: column wrap;
+      align-items: flex-start;
+    }
+  }
+}
+
+.theme-sets {
+  p { margin-bottom: 5px; }
+  label.ligthTheme-label,
+  label.darkTheme-label {
+    position: relative;
+    float: left;
+    margin-right: 10px;
+  }
+}
+
+#thirdPartyNotices {
+  background-color: rgba(0, 0, 0, 0.5);
+  .modal-header {
+    border: 0;
+    min-height: 50px;
+    .close {
+      padding: 10px;
+      margin: -10px -10px -10px auto;
+      &:hover { background-color: lightgrey; }
+    }
+  }
+  .modal-content {
+    border-radius: 0;
+    max-width: 340px;
+    margin: 0 auto;
+    max-height: 410px;
+  }
+  .modal-body { overflow-y: auto; }
+}
+
+.panelBanner {
+  display: flex;
+  flex-flow: column;
+  min-height: 200px;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: 100%;
+  &.with-sort { min-height: 250px; }
+  &.responsive {
+    background-size: auto 100%;
+    #bannerSettings { right: 200px; }
+  }
+  .banner-main-section {
+    display: flex;
+    align-items: flex-end;
+    height: 200px;
+    justify-content: space-between;
+    .panelBanner-text {
+      margin: 15px;
+      text-align: left;
+      color: #fff;
+      font-weight: 900;
+      position: relative;
+      h3 { margin: 0; }
+      .date-time { margin-left: 40px; }
+      & > div {
+        & > h3 { @extend .date-time }
+        & > button + h3 { margin-left: 3px; }
+        & > .icons-menu-wrapper + h3 { margin-left: 3px; }
+        &:first-of-type { @include flex; }
+      }
+    }
+  }
+  .banner-sort {
+    @include flex;
+    position: relative;
+    min-height: 50px;
+    padding: 10px 10px 10px 50px;
+    color: #ffffff;
+    .change-sort-order {
+      img {
+        width: 12px;
+        height: 12px;
+        margin: 5px;
+      }
+      &.down img { transform: rotate(90deg); }
+      &.up img { transform: rotate(-90deg); }
+    }
+    button {
+      background-color: transparent;
+      border: 0;
+      color: #ffffff;
+      position: relative;
+      padding: 0 15px;
+      &.clear-banner-sort { margin-left: auto; }
+      &.change-sort-order {
+        padding-left: 10px;
+        padding-right: 10px;
+        margin: 0 10px;
+      }
+      &:hover { background-color: rgba(0, 0, 0, 0.4); }
+    }
+  }
+}
+
+button.dots-menu {
+  border: 0;
+  border-radius: 0;
+  margin: 15px;
+  position: relative;
+  filter: opacity(.5);
+}
+
+button.open-greeting {
+  @extend button.dots-menu;
+  padding: 6px 12px;
+  border: 0;
+  img {
+    width: 18px;
+    margin-right: 0;
+    filter: invert(1);
+  }
+}
+
+.todo-list-wrapper {
+  position: relative;
+  .clearInput {
+    padding: 1px 6px;
+    border: 2px solid transparent;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: cornflowerblue;
+    background-color: transparent;
+  }
+  .add-new-todo { width: 100%; }
+  button.add-new-todo-button {
+    background-color: transparent;
+    color: cornflowerblue;
+    border-color: transparent;
+    font-size: 13px;
+    &.active {
+      padding-top: 4px;
+      font-size: 14.5px;
+      display: inline-block;
+    }
+  }
+}
+
+div.todo-list {
+  text-align: left;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  div.todos {
+    @include flex;
+    border-bottom: 1px solid darkgray;
+    padding: 8px 15px;
+    height: 50px;
+    .important-icon img { margin: 0; }
+  }
+}
+
+.task-title-wrapper { width: 100%; }
+
+.label-wrapper-for-task {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  height: 20px;
+  & > div {
+    position: absolute;
+    flex-flow: row;
+    width: 570px;
+    display: flex;
+  }
+  & p { font-size: 12px; }
+}
+
+.todos .important-icon img,
+.user-settings.active img,
+.task-settings img {
+  width: 18px;
+  margin-right: 10px;
+}
+
+.greetings-panel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #3771ce;
+  padding: 50px 20px;
+  color: #ffffff;
+  z-index: 1;
+  .greeting-header-section {
+    @include flex;
+    width: 100%;
+    justify-content: space-between;
+    margin: 15px 0;
+    .done-greetings { color: #ffffff; }
+    button {
+      background-color: blue;
+      border: 0;
+      padding: 10px 15px;
+    }
+  }
+  .greeting-suggestion-yesterday {
+    background-color: #ffffff;
+    color: #2e2f30;
+    flex-flow: column;
+    margin-bottom: 10px;
+    .done-tasks-indicator {
+      width: 100%;
+      height: 2px
+    }
+    header {
+      @extend .greeting-header-section;
+      padding: 10px;
+      border-bottom: 1px solid #555555;
+      h5 { margin-bottom: 2px; }
+      p {
+        display: flex;
+        color: #5c6066;
+        font-weight: 700;
+        font-size: 14px;
+        img:last-of-type {
+          width: 18px;
+          height: 18px;
+          margin-right: 10px;
+        }
+      }
+      button {
+        background-color: transparent;
+        border: 0;
+        margin: 0 10px;
+      }
+    }
+    section {
+      padding: 10px;
+      p:last-of-type { font-size: 12px; }
+    }
+    img:last-of-type {
+      width: 12px;
+      margin-right: 7px;
+    }
+    button.collapse-suggestions {
+      padding: 2px 5px;
+      &:hover { background-color: rgb(221, 221, 221); }
+      &.down img {
+        transform: rotate(90deg);
+        margin: 5px;
+      }
+      &.up img {
+        transform: rotate(-90deg);
+        margin: 5px;
+      }
+    }
+  }
+  .greeting-suggestion-section {
+    @extend .greeting-suggestion-yesterday;
+    section {
+      p:last-of-type {
+        color: #5c6066;
+        font-weight: 700;
+        font-size: 14px;
+      }
+      &.suggested-tasks {
+        display: flex;
+        button {
+          margin-right: 10px;
+          border: 0;
+          background-color: transparent;
+          color: cornflowerblue;
+          &:first-of-type { font-size: 26px; }
+        }
+        .suggested-tasks-settings { margin-left: auto; }
+      }
+    }
+    .suggested-task-parent {
+      display: inline-block;
+      margin-right: 10px;
+    }
+  }
+}
+
+.search-modal {
+  position: absolute;
+  background-color: #ffffff;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  hr { margin-top: 0.5rem; }
+  input { width: 100%; }
+  div > img {
+    width: 50%;
+    margin: 0 auto;
+  }
+  div.background-wrapper {
+    @include flex;
+    padding: 40px 0 10px 10px;
+    justify-content: space-between;
+    div.search-input-wrapper {
+      position: relative;
+      width: 100%;
+    }
+  }
+  button.set-filter {
+    padding: 2px 10px;
+    background-color: transparent;
+    color: cornflowerblue;
+    border-color: transparent;
+    font-size: 13px;
+  }
+  .filter-menu {
+    font-size: 12px;
+    position: absolute;
+    right: 5px;
+    padding: 4px 15px;
+    background-color: #fff;
+    border: 1px solid darkgrey;
+    top: 74px;
+  }
+  .clearSearch {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: cornflowerblue;
+    background-color: transparent;
+    border-color: transparent;
+  }
+}
+
+.user-info-settings {
+  position: relative;
+  width: 100%;
+}
+
+.task-middle-settings-wrapper {
+  flex-flow: column;
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+.add-new-todo-wrapper {
+  &,
+  & > div {
+    @include flex;
+    position: relative;
+    width: 100%;
+  }
+  label.toggleTodoLabel-template {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    &.inactive {
+      @include flex;
+      justify-content: center;
+      & > span {
+        border: 0;
+        &:after {
+          content: '+';
+          color: cornflowerblue;
+        }
+      }
+    }
+    &.toggled > span {
+      background-color: limegreen;
+      &:after {
+        content: '\2713';
+        position: absolute;
+      }
+    }
+    &.active > span {
+      @include flex;
+      background-color: #ffffff;
+      width: 20px;
+      height: 100%;
+      justify-content: center;
+      border: 1px solid darkgray;
+      border-radius: 50%;
+      color: white;
+    }
+  }
+  .add-new-todo-input {
+    width: 100%;
+    border-color: transparent;
+    display: block;
+    &.inactive::placeholder {
+      color: cornflowerblue;
+      padding-left: 10px;
+    }
+    &.activated { margin-left: 10px }
+    &.activated::placeholder { color: darkslateblue; }
+  }
+}
+
+.task-settings ul li p { width: 100%; }
+
+#lightTheme,
+#darkTheme,
+#toggleTodoCheckbox,
+#toggleTodoCheckbox-template,
+#searchTaskCheckbox,
+#addStepCheckbox-template {
+  position: absolute;
+  opacity: 0;
+}
+
+.todos p,
+ul.searchList li p { margin-left: 10px; }
+
+p.lineThrough { text-decoration: line-through; }
+
+.settings-header img,
+.change-todo-icon img,
+.theme-sets label.ligthTheme-label,
+.theme-sets label.darkTheme-label,
+.todos label.toggleTodoLabel,
+.task-settings label.toggleTaskLabel,
+ul.searchList label.searchTaskLabel {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+}
+
+.icons-menu-wrapper {
+  top: 100%;
+  width: 203px;
+  position: absolute;
+  z-index: 1;
+  background-color: #ffffff;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #1a1b1c;
+  .icons-menu img {
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    border: 1px solid transparent;
+    &:hover { border-color: lightgrey; }
+  }
+  & .clear-icon {
+    color: #2e2f30;
+    font-size: 13px;
+    text-align: center;
+    p {
+      padding: 2px 0;
+      &:hover { background-color: lightgrey; }
+    }
+  }
+}
+
+.rename-list-wrapper {
+  max-width: 240px;
+  background-color: rgba(46, 47, 48, 0.4);
+}
+
+input.rename-list {
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: inherit;
+  background-color: transparent;
+  border: 0 solid transparent;
+}
+
+.theme-sets label.ligthTheme-label.checked > span,
+.theme-sets label.darkTheme-label.checked > span,
+.todos label.toggleTodoLabel.done > span,
+.task-settings label.toggleTaskLabel.done > span,
+.task-settings label.toggleStepLabel.done > span,
+ul.searchList label.searchTaskLabel.toggled > span { background-color: limegreen; }
+
+.theme-sets label.ligthTheme-label > span,
+.theme-sets label.darkTheme-label > span,
+.todos label.toggleTodoLabel > span,
+.task-settings label.toggleStepLabel > span,
+.task-settings label.toggleTaskLabel > span,
+ul.searchList label.searchTaskLabel > span {
+  @include flex;
+  background-color: #ffffff;
+  width: 20px;
+  height: 100%;
+  justify-content: center;
+  border: 1px solid darkgray;
+  border-radius: 50%;
+  color: white;
+}
+
+.theme-sets label.ligthTheme-label.checked > span:after,
+.theme-sets label.darkTheme-label.checked > span:after,
+.todos label.toggleTodoLabel.done > span:after,
+.task-settings label.toggleStepLabel.done > span:after,
+.task-settings label.toggleTaskLabel.done > span:after,
+ul.searchList label.searchTaskLabel.toggled > span:after {
+  content: '\2713';
+  position: absolute;
+}
+
+.settings-header button,
+button.task-settings-arrow-right,
+button.task-settings-trash {
+  background-color: transparent;
+  color: cornflowerblue;
+  border-color: transparent;
+  font-size: 13px;
+}
+
+button.task-settings-arrow-right,
+button.task-settings-trash {
+  font-size: 14.5px;
+  display: inline-block;
+}
+
+.active { display: block; }
+.inactive { display: none; }
+
+.todo-label-for-task,
+.task-notes {
+  @include flex;
+  font-size: 12px;
+  max-height: 20px;
+  justify-self: left;
+}
+
+.todo-label-for-task img,
+.task-notes img,
+.remind-date-label img,
+.due-date-label img,
+.repeat-date-label img {
+  max-width: 10px;
+  margin-right: 3px;
+}
+
+
+.jumbotron-button {
+  height: 50px;
+  border-radius: 0;
+  padding: 3px;
+  margin: 2px;
+
+  &.active {
+    display: inline-block;
+    border: 2px solid blue;
+  }
+
+  & > span {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.task-settings-footer {
+  @include flex;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background-color: #ffffff;
+  padding: 10px;
+  p {
+    font-size: 13px;
+    width: 100%;
+  }
+}
+
+button.change-todo-icon { @include flex; }
+
+.show-hide_completed_todos {
+  @include flex;
+  p { display: flex; }
+  img {
+    width: 15px;
+    height: 15px;
+    margin-right: 10px;
+  }
+}
+
+.user-info {
+  @include flex;
+  position: relative;
+  width: 100%;
+  flex-flow: column wrap;
+  margin: 10px auto;
+  & img,
+  button.search > img {
+    width: 35px;
+    height: 35px;
+  }
+  .user-info-buttons {
+    @include flex;
+    width: 100%;
+  }
+  .user-settings-button {
+    padding: 0 12px;
+    border: 0;
+    background-color: transparent;
+    p:first-of-type {
+      display: inline-block;
+      margin: 0 10px;
+    }
+  }
+  .user-info-settings {
+    width: 300px;
+    .user-settings {
+      &.active {
+        position: absolute;
+        width: 260px;
+        margin: 10px auto 0;
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        height: 100px;
+        div {
+          @include flex;
+        }
+        hr {
+          width: 100%;
+          margin: 5px 0;
+        }
+        p {
+          margin: 10px;
+        }
+        div:last-of-type p:last-of-type {
+          color: red;
+        }
+        img {
+          display: inline-block;
+          margin: 0 10px;
+        }
+      }
+    }
+  }
+}
+
+button.search,
+button.change-todo-icon,
+.todos .important-icon {
+  margin: 0 0 0 auto;
+  padding: 0 12px;
+  border: 0;
+  background-color: transparent;
+}
+
+.add-new-list {
+  text-align: left;
+  padding: 0 15px;
+  label.add-new-list-label-wrapper {
+    @include flex;
+    height: 44px;
+    margin: 0;
+    img {
+      width: 18px;
+      margin: 0 10px 0 2px;
+    }
+    input.add-new-list-label {
+      padding: 10px 0;
+      border: 0;
+    }
+  }
+  a.add-new-list-link {
+    @include flex;
+    & > span {
+      font-size: 30px;
+      margin: 0 10px 0 3px;
+    }
+  }
+}
+
+.task-settings {
+  background-color: lightgray;
+  height: 100%;
+  position: relative;
+  width: 450px;
+  & > div { display: flex; }
+  .step-title {
+    @include flex;
+    background-color: #ffffff;
+    padding: 5px 10px;
+    .steps-trash { display: none; }
+    p { padding: 5px; }
+    &:hover .steps-trash {
+      display: inline-flex;
+      margin-left: auto;
+      background-color: transparent;
+      border: 0;
+    }
+  }
+  ul {
+    li {
+      @include flex;
+      p.added { color: cornflowerblue; }
+      button.clear-from-my-day {
+        width: 44px;
+        height: 44px;
+        border: 0px;
+        background-color: inherit;
+        p { padding: 2px 4px; }
+        &:hover { background-color: rgb(221, 221, 221); }
+      }
+    }
+  }
+  .activateStepInput {
+    padding: 10px 10px 10px 14px;
+    font-size: 14px;
+    background-color: #ffffff;
+    color: cornflowerblue;
+    span {
+      margin-right: 5px;
+      font-size: 13px;
+      line-height: normal;
+    }
+  }
+  .add-new-step-wrapper {
+    padding: 10px;
+    background-color: #ffffff;
+    .add-new-step {
+      @include flex;
+      position: relative;
+      width: 100%;
+      line-height: 1.1;
+      .add-new-step-input {
+        display: block;
+        border: 0;
+        margin: 0 0 2px 5px;
+        &::placeholder {
+          font-size: 14px;
+          padding-left: 0;
+          color: darkslateblue;
+        }
+      }
+    }
+  }
+  .important-icon {
+    margin: 0 0 0 auto;
+    display: flex;
+    border: 0;
+    background-color: transparent;
+    img { margin-right: 0; }
+  }
+  .task-settings-title {
+    padding: 30px 10px 20px;
+    line-height: 1;
+    font-size: 20px;
+    font-weight: bolder;
+    background-color: #ffffff;
+    p { margin-left: 10px; }
+  }
+  label.toggleStepLabel {
+    width: 16px;
+    height: 16px;
+    margin: 1px 0 0 0;
+    & > span {
+      width: 16px;
+      height: 16px;
+    }
+    & + p { padding: 0 0 0 5px;}
+  }
+}
+
+.DayPicker.pick-date-calendar .DayPicker-wrapper,
+.task-settings-additional .rc-calendar-panel {
+  position: absolute;
+  border: 1px solid #888888;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+.task-settings-additional {
+  background-color: #ffffff;
+  margin: 10px;
+  ul {
+    list-style-type: none;
+    padding: 0 0 0 10px;
+    margin: 0;
+    width: 100%;
+  }
+  li p {
+    padding: 10px;
+    border-bottom: 1px solid lightgray;
+    &:last-of-type p { border: 0; }
+  }
+  .reminder-window {
+    ul {
+      li {
+        border: 0;
+        padding-left: 10px;
+        span { margin: 0 5px 0 auto; }
+        p {
+          border: 0;
+          width: auto;
+        }
+        &:last-of-type { border-top: 1px solid lightgray; }
+      }
+    }
+  }
+  .repeat-window {
+    ul {
+      li {
+        border: 0;
+        padding-left: 10px;
+      }
+    }
+  }
+  .repeat-date-picker {
+    position: absolute;
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 10px;
+    width: 250px;
+    height: fit-content;
+    background-color: #5c6066;
+    background-color: #ffffff;
+    border: 1px solid #888888;
+    p { padding: 0 0 10px 0; }
+    .days-picker { margin: 7px 0; }
+    .picker-value { max-width: 80px; }
+    .picker-type {
+      height: 30px;
+      width: 100%;
+      max-width: 142px;
+      display: inline-block;
+      float: right;
+    }
+    .btn-group { display: flex; }
+    button {
+      border: 0;
+      width: 50%;
+      &:first-of-type { margin-right: 2px; }
+      &:last-of-type { margin-left: 2px; }
+    }
+  }
+  span.repeat-day-label {
+    margin: 4px;
+    line-height: 1.1;
+    display: inline-block;
+    background-color: lightgrey;
+    padding: 7px;
+    &.selected {
+      background-color: cornflowerblue;
+      color: #ffffff;
+    }
+  }
+  .activeOption { color: cornflowerblue; }
+  .remind-me {
+    line-height: 25px;
+    & > div,
+    & .pick-date-calendar {
+      display: contents;
+      width: 100%;
+    }
+    &.activeOption {
+      line-height: 20px;
+      & > div {
+        & > p { padding-top: 3px; padding-bottom: 3px; }
+        & > span { color: #000000; }
+      }
+    }
+  }
+  .due-date, .repeat { @extend .remind-me }
+  .due-date.activeOption > div > p {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 25px;
+  }
+  .repeat {
+    div {
+      p:last-of-type,
+      span:last-of-type { border-bottom: 0; }
+    }
+  }
+  span {
+    &.clear-due-date {
+      line-height: 46px;
+      padding: 0 15px;
+      border-bottom: 1px solid lightgray;
+      &:hover { background-color: rgb(221, 221, 221); }
+    }
+    &.clear-repeat, &.clear-remind-date { @extend .clear-due-date; }
+    &.date-label {
+      display: block;
+      font-size: 13px;
+    }
+  }
+  .reminder-window {
+    ul {
+      position: absolute;
+      right: 5px;
+      max-width: 250px;
+      border: 1px solid #888888;
+      background-color: #ffffff;
+      padding: 0;
+    }
+  }
+  .repeat-window { @extend .reminder-window }
+}
+
+ul.searchList {
+  list-style-type: none;
+  padding: 0 0 0 10px;
+  margin: 0;
+  width: 100%;
+  display: flex;
+}
+
+.task-settings-add-to-my-day {
+  margin: 10px;
+  background-color: #ffffff;
+  ul {
+    list-style-type: none;
+    padding: 0 0 0 10px;
+    margin: 0;
+    width: 100%;
+    li p { padding: 10px; }
+  }
+}
+
+.task-settings-add-note {
+  padding: 10px;
+  margin: 10px;
+  flex-flow: column;
+  min-height: 178px;
+  display: flex;
+  background-color: #ffffff;
+  .btn-group { margin-left: auto; }
+  button {
+    margin-left: 10px;
+    border: 0;
+    padding: 5px 10px;
+  }
+  textarea {
+    outline: 0;
+    border: 0;
+    resize: none;
+    &::placeholder { color: cornflowerblue; }
+  }
+}
+
+#bannerSettings {
+  position: absolute;
+  top: 187px;
+  right: 0;
+  background-color: #ffffff;
+  z-index: 1;
+  border: 1px solid #5c6066;
+  hr { margin: 10px auto; }
+  & > div { padding: 10px; }
+  div.sort-settings-menu {
+    position: absolute;
+    overflow: hidden;
+    height: 0;
+    min-width: 164px;
+    transition: height 1s ease;
+    background-color: #ffffff;
+    left: -164px;
+    top: 1px;
+    padding: 0;
+    border: 0;
+    &.active {
+      transition: height 1s ease;
+      border: 1px solid rgba(0, 0, 0, .2);
+    }
+    & > div {
+      @include flex;
+      padding: 10px;
+      &:hover { background-color: lightgray; }
+      & > p { margin: 0; }
+    }
+    img {
+      width: 15px;
+      height: 15px;
+      margin-right: 10px;
+    }
+  }
+  div.sort-settings-link {
+    @include flex;
+    &:hover,
+    &.grey { background-color: lightgray; }
+    p { margin: 0; }
+    img {
+      width: 15px;
+      height: 15px;
+      &:first-of-type { margin-right: 10px; }
+      &:last-of-type { margin: 0 10px 0 auto; }
+      &.important { margin-left: 10px; }
+    }
+  }
+  span {
+    &.orange { background-color: orange; }
+    &.green { background-color: green; }
+    &.red { background-color: red; }
+    &.blueviolet { background-color: blueviolet; }
+    &.blue { background-color: blue; }
+  }
+  span.bgImage-wrapper {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    .theme-image { height: 40px; }
+  }
+}
+
+.light {
+  background-color: #ffffff;
+  color: #2e2f30;
+  .user-settings-page { @extend .light }
+  .settings-general-info .user-manage a {
+    color: slategray;
+    background-color: lightgrey;
+  }
+  .user-settings {
+    border: 1px solid rgba(0,0,0,.1);
+    background-color: #ffffff;
+  }
+  .todo-list-wrapper { background-color: #ffffff; }
+}
+
+
+.dark .todo-list-wrapper { background-color: #2e2f30; }
+.dark {
+  background-color: #2e2f30;
+  color: #ffffff;
+  .user-settings-page { @extend .dark }
+  .user-settings {
+    border: 1px solid rgba(255,255,255,.5);
+    background-color: #2e2f30;
+    hr { border-top: 1px solid rgba(255,255,255,.5); }
+  }
+  button.user-settings-button { color: #ffffff; }
+  .modal-content { background-color: #2e2f30; }
+  #bannerSettings {
+    background-color: #2e2f30;
+    .sort-settings-menu {
+      & > div { background-color: #2e2f30; };
+      div:hover { background-color: #5c6066; }
+    }
+    div.sort-settings-link {
+      &:hover,
+      &.grey { background-color: #5c6066; }
+    }
+  }
+  .task-settings-title { background-color: #2e2f30 !important; }
+  .task-settings-add-to-my-day,
+  .task-settings-additional,
+  .task-settings-add-note,
+  .activateStepInput {
+    @extend .dark;
+    border: 1px solid #fff;
+  }
+  .settings-general-info .user-manage a {
+    color: #ffffff;
+    background-color: #5c6066;
+  }
+  .DayPicker.pick-date-calendar .DayPicker-wrapper { background-color: #5c6066; }
+  .task-settings-additional {
+    .rc-calendar-panel,
+    .reminder-window ul,
+    .repeat-date-picker { background-color: #5c6066; }
+  }
+  .add-new-list-label-wrapper {
+    background-color: #1a1b1c;
+    color: #ffffff;
+    input { @extend .add-new-list-label-wrapper }
+  }
+  .clearInput { color: #000; }
+  .icons-menu-wrapper {
+    background-color: #5c6066;
+    border-color: #888888;
+  }
+  .rename-list-wrapper { background-color: rgba(92, 96, 102, 0.6); }
+  .confirmDeleteModal-child,
+  .add-new-step-wrapper .add-new-step-input,
+  .add-new-todo-wrapper .add-new-todo-input,
+  .task-settings-add-note textarea {
+    @extend .dark;
+  }
+  .confirmDeleteModal-child,
+  .search-modal {
+    background-color: #2e2f30;
+    div.background-wrapper div.search-input-wrapper input {
+      @extend .dark;
+      border: 1px solid lightgrey;
+    }
+  }
+  .leftPanel ul li.active { background-color: #5c6066; }
+  .task-settings {
+    border: 1px solid lightgrey;
+    background-color: #1a1b1c;
+    & > * { background-color: #2e2f30; }
+    .step-title { background-color: #888888; }
+  }
+}

@@ -8,6 +8,7 @@ import {
   typeNewTaskAction,
   filterCompletedTasks
 } from "../actionCreators";
+import { checkActiveTodoTitle } from '../helpers';
 
 export default class BannerModalSettings extends Component {
   constructor(props) {
@@ -20,16 +21,11 @@ export default class BannerModalSettings extends Component {
   };
 
   componentDidMount(){
-    let { store } = this.context;
-    document.getElementsByTagName('body')[0].addEventListener('click', this.handleClick, false);
-    this.unsubscribe = store.subscribe(() => {
-      this.forceUpdate();
-    })
+    document.addEventListener('click', this.handleClick, false);
   };
 
   componentWillUnmount() {
-    document.getElementsByTagName('body')[0].removeEventListener('click', this.handleClick, false);
-    this.unsubscribe();
+    document.removeEventListener('click', this.handleClick, false);
   };
 
   handleClick(event) {
@@ -43,15 +39,9 @@ export default class BannerModalSettings extends Component {
   render(){
     const { store } = this.context;
     const state = store.getState();
-    const { bannerForTodoState: { showCompleted } } = state;
-    const {
-      activeTodo,
-      deleteList,
-      activateRename,
-      showModal,
-      setSortCriteria,
-    } = this.props;
-    let { todoListId, bgColor, title: todoTitle } = activeTodo;
+    const { taskSettings: { showCompleted } } = state;
+    const { activeTodo, deleteList, activateRename, showModal } = this.props;
+    let { todoListId, bgColor, bgImage, title: todoTitle } = activeTodo;
     const imageScheme = [ "./assets/retro.jpg", "./assets/museum.jpg", "./assets/wi.jpg" ];
     const colorScheme = [ "orange", "green", "red", "blue", "blueviolet" ];
     let { handleHoverSortLink, handleHoverSortMenu } = this.modalState;
@@ -70,16 +60,7 @@ export default class BannerModalSettings extends Component {
       store.dispatch(typeNewTaskAction(false));
     };
 
-    const checkActiveTodoTitle = (todoTitle) => {
-      return (
-        todoTitle !== 'My Day' &&
-        todoTitle !== 'Important' &&
-        todoTitle !== 'To-Do'
-      )
-    };
-
     const handleSortTasks = (sortCriteria) => {
-      setSortCriteria(sortCriteria);
       store.dispatch(sortTasks(sortCriteria, todoListId));
       showModal();
     };
@@ -101,7 +82,6 @@ export default class BannerModalSettings extends Component {
     return (
       <section
         id="bannerSettings"
-        className="banner-modal-settings"
         ref={node => this.bannerModal = node}
       >
         {
@@ -117,11 +97,7 @@ export default class BannerModalSettings extends Component {
           </div>
         }
         <div
-          className={'sort-settings-link ' +
-          (
-            handleHoverSortMenu ?
-              "grey" : ''
-          )}
+          className={'sort-settings-link ' + (handleHoverSortMenu ? "grey" : '' )}
           onMouseEnter={() =>
             this.setState(() =>
               this.modalState = {
@@ -156,9 +132,7 @@ export default class BannerModalSettings extends Component {
               "active" :
               ''
           )}
-          style={{
-            height: setHeight(),
-          }}
+          style={{ height: setHeight() }}
           onMouseEnter={() =>
             this.setState(() => {
               return this.modalState = {
@@ -228,8 +202,13 @@ export default class BannerModalSettings extends Component {
             <br />
             <br />
             {imageScheme.map((item,index) => (
-              <button key={index} onClick={() => changeBannerImage(item)}>
-                <img className="theme-image" src={item} alt="Theme Image" />
+              <button
+                key={index}
+                className={"jumbotron-button "+(bgImage === item ? 'active' : null)}
+                onClick={() => changeBannerImage(item)}>
+                <span className="bgImage-wrapper">
+                  <img className="theme-image" src={item} alt="Theme Image" />
+                </span>
               </button>
             ))}
           </div>
