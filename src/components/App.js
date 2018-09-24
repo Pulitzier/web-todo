@@ -47,7 +47,7 @@ export default class App extends Component {
           }
         });
       } else {
-        store.dispatch(deleteTodoList(element));
+        store.dispatch(deleteTodoList(element.todoListId));
       }
     };
 
