@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
-import { getActiveTodoList } from "../helpers";
 import BannerForTodo from './BannerForTodo.js';
 import ListOfTasks from './ListOfTasks.js';
 import Panel from './Panel';
 import TaskSettings from './TaskSettings';
 import SearchPanel from './SearchPanel';
 import GreetingsPanel from "./GreetingsPanel";
+import {
+  getActiveTodoList,
+  getActiveTask
+} from "../helpers";
 
 export default class RightPanel extends Component {
   constructor(props) {
@@ -44,7 +47,7 @@ export default class RightPanel extends Component {
     const activeTodo = getActiveTodoList(todos);
     const { deleteTask, deleteTodo, deleteStep } = this.props;
     let { activateGreetingsPanel } = this.rightPanelState;
-    const activeTask = tasks.length !== 0 ? (tasks.find(task => task.active === true) || '') : '';
+    const activeTask = getActiveTask(tasks);
 
     return (
       <Panel className="col-md-8 rightPanel">

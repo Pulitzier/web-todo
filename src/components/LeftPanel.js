@@ -6,9 +6,9 @@ import {
   addNewTodoList,
   chooseList,
   activateTask,
-  openSearchPanel
+  openSearchPanel, activateTaskSettings
 } from "../actionCreators";
-import { getTasksForTodo } from '../helpers';
+import {getActiveTask, getTasksForTodo} from '../helpers';
 import UserSettings from "./UserSettings";
 
 export default class LeftPanel extends Component {
@@ -63,8 +63,11 @@ export default class LeftPanel extends Component {
 
   chooseListItem(todoId) {
     const { store } = this.context;
+    const { app: { tasks }} = store.getState();
+    const { id: activeTaskId } = getActiveTask(tasks);
     store.dispatch(openSearchPanel(false));
     store.dispatch(activateTask(false));
+    store.dispatch(activateTaskSettings(activeTaskId, false));
     store.dispatch(chooseList(todoId))
   };
 

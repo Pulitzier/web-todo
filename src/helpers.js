@@ -49,3 +49,7 @@ export function checkActiveTodoTitle(title) {
     title !== 'To-Do'
   )
 }
+
+export function getActiveTask(tasks) {
+  return tasks.length !== 0 ? (tasks.find(task => task.active === true) || '') : '';
+}
