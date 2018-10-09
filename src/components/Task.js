@@ -150,15 +150,16 @@ export default class Task extends Component {
 
     return (
       <div
-        className="todos"
+        className="todo background-wrapper"
         onClick={() => activateSettings(id)}
       >
-        <label
-          className={
-            "toggleTodoLabel " +
-            (done ? "done" : '')
-          }
-        >
+        <div className="added-todo">
+          <label
+            className={
+              "toggleTodoLabel " +
+              (done ? "done" : '')
+            }
+          >
           <span
             onClick={(e) => {
               e.preventDefault();
@@ -166,12 +167,13 @@ export default class Task extends Component {
               toggleTodoTask(task);
             }}
           ></span>
-        </label>
-        <div className="task-title-wrapper">
-          <p className={done ? 'lineThrough' : null}>{taskText}</p>
-          {this.renderLabel(task)}
+          </label>
+          <div className="task-title-wrapper">
+            <p className={done ? 'lineThrough' : null}>{taskText}</p>
+            {this.renderLabel(task)}
+          </div>
+          <ButtonToImportance task={task}/>
         </div>
-        <ButtonToImportance task={task}/>
       </div>
     )
   }

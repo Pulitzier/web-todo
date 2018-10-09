@@ -6,6 +6,7 @@ import {
   openSearchPanel
 } from "../actionCreators";
 import Panel from './Panel';
+import MicrosoftLabel from "./MicrosoftLabel";
 
 export default class UserSettings extends Component {
   constructor(props) {
@@ -47,6 +48,7 @@ export default class UserSettings extends Component {
 
     return (
       <Panel className="user-info">
+        <MicrosoftLabel/>
         <div
           className="user-info-buttons"
           ref={node => this.userSettings = node}
@@ -68,7 +70,6 @@ export default class UserSettings extends Component {
               <img src="./assets/toggle.svg" alt="Settings"/>
               <p>Settings</p>
             </div>
-            <hr />
             <div>
               <img src="./assets/icon.svg" alt="Sign out"/>
               <p>Sign out</p>

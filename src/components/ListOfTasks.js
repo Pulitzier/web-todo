@@ -71,55 +71,50 @@ export default class ListOfTasks extends Component {
               return <Task key={index} task={task} />
             })
           }
-          <div className="todos">
-            <div className="add-new-todo">
-              <div className="add-new-todo-wrapper">
-                <div>
-                  <label
-                    htmlFor="toggleTodoCheckbox-template"
-                    className={
-                      "toggleTodoLabel-template " +
-                      (activateNewTask ? 'active ' : 'inactive ') +
-                      ((activateNewTask && localToggleTask) ? 'toggled' : 'untoggled')
-                    }
-                  >
-                    <span></span>
-                  </label>
-                  <input
-                    type="text"
-                    name="add-new-task"
-                    ref={node => this.newTaskInput = node}
-                    placeholder="Add a to-do"
-                    className={"add-new-todo-input " + (activateNewTask ? "activated" : "inactive")}
-                    onFocus={() => activateToDoTask(true)}
-                    onChange={() => handleTypeNewTask(true)}
-                  />
-                  <button
-                    className={"clearInput " +  (typeNewTask ? 'active' : 'inactive')}
-                    onClick={() => handleTypeNewTask(false)}
-                  >
-                    x
-                  </button>
-                </div>
-                <button
-                  className={"add-new-todo-button " +  (typeNewTask ? 'active' : 'inactive')}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    addNewTask(activeTodo)
-                  }}
-                >
-                  Add
-                </button>
-              </div>
-            </div>
+          <div className="add-new-todo-wrapper">
+            <label
+              htmlFor="toggleTodoCheckbox-template"
+              className={
+                "toggleTodoLabel-template " +
+                (activateNewTask ? 'active ' : 'inactive ') +
+                ((activateNewTask && localToggleTask) ? 'toggled' : 'untoggled')
+              }
+            >
+              <span></span>
+            </label>
+            <input
+              id="toggleTodoCheckbox-template"
+              type="text"
+              name="add-new-task"
+              ref={node => this.newTaskInput = node}
+              placeholder="Add a to-do"
+              className={"add-new-todo-input " + (activateNewTask ? "activated" : "inactive")}
+              onFocus={() => activateToDoTask(true)}
+              onChange={() => handleTypeNewTask(true)}
+            />
+            <button
+              className={"clearInput " +  (typeNewTask ? 'active' : 'inactive')}
+              onClick={() => handleTypeNewTask(false)}
+            >
+              x
+            </button>
+            <button
+              className={"add-new-todo-button " +  (typeNewTask ? 'active' : 'inactive')}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                addNewTask(activeTodo)
+              }}
+            >
+              Add
+            </button>
           </div>
-          <div className="todos"></div>
-          <div className="todos"></div>
-          <div className="todos"></div>
-          <div className="todos"></div>
-          <div className="todos"></div>
-          <div className="todos"></div>
+          <div className="todo"></div>
+          <div className="todo"></div>
+          <div className="todo"></div>
+          <div className="todo"></div>
+          <div className="todo"></div>
+          <div className="todo"></div>
         </div>
       </div>
     )

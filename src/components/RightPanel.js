@@ -48,7 +48,7 @@ export default class RightPanel extends Component {
 
     return (
       <Panel className="col-md-8 rightPanel">
-        <div>
+        <Panel>
           {
             activateSearch && <SearchPanel />
           }
@@ -64,7 +64,7 @@ export default class RightPanel extends Component {
             activateGreetings={this.activateGreetingPanel}
           />
           <ListOfTasks activeTodo={activeTodo}/>
-        </div>
+        </Panel>
         {
           activeTask &&
           <TaskSettings

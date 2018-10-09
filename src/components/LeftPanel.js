@@ -138,7 +138,7 @@ export default class LeftPanel extends Component {
           })}
         </List>
         <hr />
-        <div className="custom-todo-list-wrapper">
+        <Panel className="custom-todo-list-wrapper">
           <List className="nav flex-column todo-list">
             {todos.map(todo => {
               if (todo.todoListId >= 3) {
@@ -185,7 +185,7 @@ export default class LeftPanel extends Component {
               <span>+</span> New List
             </a>
           </div>
-        </div>
+        </Panel>
       </Panel>
     );
   }
