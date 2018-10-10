@@ -6,7 +6,8 @@ import {
   addNewTodoList,
   chooseList,
   activateTask,
-  openSearchPanel, activateTaskSettings
+  openSearchPanel,
+  activateTaskSettings
 } from "../actionCreators";
 import {getActiveTask, getTasksForTodo} from '../helpers';
 import UserSettings from "./UserSettings";

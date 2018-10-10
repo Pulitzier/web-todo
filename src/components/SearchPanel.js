@@ -5,6 +5,7 @@ import {
   toggleTask,
   setShowFilter
 } from '../actionCreators';
+import Task from "./Task";
 
 export default class SearchPanel extends Component {
   constructor(){
@@ -51,7 +52,7 @@ export default class SearchPanel extends Component {
 
     return (
       <Panel className="search-modal">
-        <div className="background-wrapper">
+        <div className="search-background-wrapper">
           <div className="search-input-wrapper">
             <input
               type="text"
@@ -96,36 +97,18 @@ export default class SearchPanel extends Component {
         <hr/>
         <div>
           <img className={searchWord ? "inactive" : "active"} src="./assets/ufo.jpg" alt="Nothing to Search"/>
-          <ul className={"searchList " + (searchWord ? "active" : "inactive")}>
+          <div className={"searchList " + (searchWord ? "active" : "inactive")}>
             {
               tasks.map((task, index) => {
                 if (task.taskText.indexOf(searchWord) !== -1) {
                   if (!showCompleted && task.done) {
                     return;
                   }
-                  return (
-                    <li key={index}>
-                      <label
-                        htmlFor="searchTaskCheckbox"
-                        className={
-                          "searchTaskLabel " +
-                          (task.done ? 'toggled' : '')
-                        }
-                      >
-                        <input
-                          id="searchTaskCheckbox"
-                          type="checkbox"
-                          onChange={() => toggleTodoTask(task.id)}
-                        />
-                        <span></span>
-                      </label>
-                      <p className={task.done ? 'lineThrough' : null}>{task.taskText}</p>
-                    </li>
-                  )
+                  return <Task key={index} task={task} />
                 }
               })
             }
-          </ul>
+          </div>
         </div>
       </Panel>
     )
