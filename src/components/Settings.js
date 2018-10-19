@@ -10,6 +10,7 @@ import {
   handleSetLightTheme,
   handleSetDarkTheme
 } from '../actionCreators';
+import MicrosoftLabel from "./StatusBarPanel";
 
 export default class Settings extends Component {
 
@@ -47,15 +48,17 @@ export default class Settings extends Component {
     return (
       <Panel className={"user-settings-page " + (openSettings ? 'active' : 'inactive')}>
         <header className="settings-header">
-          <button onClick={() => closeSettings(true)}>
-            <img src="./assets/left-arrow.svg" alt="Back"/>
+          <button className="close-settings" onClick={() => closeSettings(true)}>
+            <i className="fas fa-long-arrow-alt-left"></i>
           </button>
           <h2>Settings</h2>
         </header>
         <hr />
         <section className="settings-general-info">
           <section className="user-manage">
-            <img src="./assets/user-avatar.png" alt="User Avatar"/>
+            <span>
+              <i className="fas fa-user-tie"></i>
+            </span>
             <div>
               <h2>Yuryi Baravy</h2>
               <p>ybaravy@klika-tech.com</p>
@@ -67,28 +70,40 @@ export default class Settings extends Component {
           <hr />
           <section className="general-sets">
             <h5>General</h5>
-            <br />
             <p>Confirm before deleting</p>
-            <Toggle
-              checked={confirmDeletion}
-              name='confirmDelete'
-              value='yes'
-              icons={false}
-              onChange={() => confirmDelete(!confirmDeletion)}
-            />
+            <div className="toggle-wrapper">
+              <Toggle
+                checked={confirmDeletion}
+                name='confirmDelete'
+                value='yes'
+                icons={false}
+                onChange={() => confirmDelete(!confirmDeletion)}
+              />
+              {
+                confirmDeletion ?
+                  <p>On</p> :
+                  <p>Off</p>
+              }
+            </div>
             <p>Turn on completion sound</p>
-            <Toggle
-              checked={turnOnSound}
-              name='turnSound'
-              value='yes'
-              icons={false}
-              onChange={() => setSound(!turnOnSound)}
-            />
+            <div className="toggle-wrapper">
+              <Toggle
+                checked={turnOnSound}
+                name='turnSound'
+                value='yes'
+                icons={false}
+                onChange={() => setSound(!turnOnSound)}
+              />
+              {
+                turnOnSound ?
+                  <p>On</p> :
+                  <p>Off</p>
+              }
+              </div>
           </section>
           <hr />
           <section className="theme-sets">
             <h5>Theme</h5>
-            <br />
             <label
               htmlFor="lightTheme"
               className={"ligthTheme-label " + (setLightTheme ? 'checked' : '')}
@@ -115,14 +130,12 @@ export default class Settings extends Component {
           <hr />
           <section className="import-todos">
             <h5>Import to-dos</h5>
-            <br />
             <p>Import your lists and to-dos from Wunderlist and start your day right from where you left off.</p>
             <a href="https://import.todo.microsoft.com/" target="_blank">Start importing now</a>
           </section>
           <hr />
           <section className="help-feedback">
             <h5>Help & Feedback</h5>
-            <br />
             <p>Everything's synced. Let's go!</p>
             <a href="https://todosupport.helpshift.com/a/microsoft-to-do/?p=winpc" target="_blank">Get support</a>
             <a href="https://todo.uservoice.com/" target="_blank">Suggest a feature via UserVoice</a>
@@ -131,7 +144,6 @@ export default class Settings extends Component {
           <hr />
           <section className="about-section">
             <h5>About</h5>
-            <br />
             <p>My personal to-do manager</p>
             <p>2018, From QA to DEV</p>
             <p>1.23.4567.89 Version: 1.36.1807.20001; SessionId: 62435c0e-f24a-471c-8a6d-08025791b0f3.</p>

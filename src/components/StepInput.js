@@ -70,7 +70,7 @@ export default class StepInput extends Component {
               (toggleStep ? 'toggled' : 'untoggled')
             }
           >
-            <span></span>
+            <i></i>
           </label>
           <input
             type="text"

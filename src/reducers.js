@@ -22,7 +22,7 @@ const defaultTodos = [
     bgColor: 'blue'
   },
   {
-    title: 'To-Do',
+    title: 'Tasks',
     category: 'todo',
     active: false,
     todoListId: 2,
@@ -52,7 +52,7 @@ function todosReducer(state = defaultTodos, action) {
           active: false,
           todoListId: todoId++,
           sortOrder: '',
-          iconSource: '',
+          iconSource: "fa-list",
           bgImage: "./assets/retro.jpg",
           bgColor: 'blue'
         }]

@@ -93,6 +93,7 @@ export default class BannerModalSettings extends Component {
               activateRename(true);
             }}
           >
+            <i className="fas fa-pencil-alt"></i>
             <p>Rename List</p>
           </div>
         }
@@ -117,13 +118,9 @@ export default class BannerModalSettings extends Component {
             })
           }
         >
-          <img src='./assets/sort.svg' alt='Sort' />
+          <i className="fas fa-sort-alpha-down"></i>
           <p>Sort</p>
-          <img
-            className={ todoListId === 1 ? 'important' : ''}
-            src='./assets/play.svg'
-            alt='Greater Than'
-          />
+          <i className={"fas fa-angle-right " + (todoListId === 1 ? 'important' : '')}></i>
         </div>
         <div
           className={"sort-settings-menu " + (
@@ -153,33 +150,33 @@ export default class BannerModalSettings extends Component {
           {
             (todoListId !== 1) && (
               <div onClick={() => handleSortTasks('IMPORTANT')}>
-                <img src="./assets/star.svg" />
+                <i className="far fa-star"></i>
                 <p>Importance</p>
               </div>
             )
           }
           <div onClick={() => handleSortTasks('DUE_DATE')}>
-            <img src="./assets/calendar.svg" />
+            <i className="far fa-calendar-alt"></i>
             <p>Due date</p>
           </div>
           {
             !!todoListId && (
               <div onClick={() => handleSortTasks('ADDED_TO_MY_DAY')}>
-                <img src="./assets/sun.svg" />
+                <i className="far fa-sun"></i>
                 <p>Added to My Day</p>
               </div>
             )
           }
           <div onClick={() => handleSortTasks('COMPLETED')}>
-            <img src="./assets/check.svg" />
+            <i className="far fa-check-circle"></i>
             <p>Completed</p>
           </div>
           <div onClick={() => handleSortTasks('ABC')}>
-            <img src="./assets/exchange-arrows.svg" />
+            <i className="fas fa-exchange-alt"></i>
             <p>Alphabetically</p>
           </div>
           <div onClick={() => handleSortTasks('CREATED_AT')}>
-            <img src="./assets/graphic-design.svg" />
+            <i className="far fa-plus-square"></i>
             <p>Creation date</p>
           </div>
         </div>
@@ -188,23 +185,23 @@ export default class BannerModalSettings extends Component {
           todoListId !== 1 &&
           <div className="banner-theme-settings">
             <p>Theme</p>
-            {colorScheme.map((item,index) =>
-              <button
+            {colorScheme.map((item,index) => {
+              return (<button
                 key={index}
-                className={"jumbotron-button "+(bgColor === item ? 'active' : null)}
+                className={"jumbotron-button "+(bgColor === item ? 'active' : '')}
                 onClick={() => {
                   changeBannerColor(item);
                 }}
               >
                 <span className={item}></span>
-              </button>
+              </button>)}
             )}
             <br />
             <br />
             {imageScheme.map((item,index) => (
               <button
                 key={index}
-                className={"jumbotron-button "+(bgImage === item ? 'active' : null)}
+                className={"jumbotron-button "+(bgImage === item ? 'active' : '')}
                 onClick={() => changeBannerImage(item)}>
                 <span className="bgImage-wrapper">
                   <img className="theme-image" src={item} alt="Theme Image" />
@@ -227,13 +224,14 @@ export default class BannerModalSettings extends Component {
               showModal();
             }}
           >
-            <img src='./assets/check.svg' alt='Sort' />
+            <i className={showCompleted ? "far fa-check-circle" : "fas fa-check-circle"}></i>
             <p>{showCompleted ? "Hide" : 'Show'} completed to-dos</p>
           </div>
         }
         { checkActiveTodoTitle(todoTitle) &&
           (
             <div className="deleteList">
+              <i className="fas fa-trash-alt"></i>
               <p onClick={() => {
                 showModal();
                 deleteList(activeTodo);

@@ -21,9 +21,9 @@ export default class IconsMenu extends Component {
     let { activateIcon, activeTodoId } = this.props;
     let { target } = event;
     if(this.iconMenu && this.iconMenu.contains(target)){
-      if (target.localName === 'img') {
-        let { src: iconSrc } = target;
-        store.dispatch(setIconForTodo(activeTodoId, ("." + iconSrc.slice(21))));
+      if (target.localName === 'i') {
+        let { classList } = target;
+        store.dispatch(setIconForTodo(activeTodoId, classList[1]));
         return activateIcon(false);
       }
       store.dispatch(setIconForTodo(activeTodoId, ''));
@@ -36,20 +36,21 @@ export default class IconsMenu extends Component {
     return (
       <div className="icons-menu-wrapper" ref={node => this.iconMenu = node}>
         <div className="icons-menu">
-          <img src='./assets/sort.svg' alt='Sort' />
-          <img src='./assets/home.svg' alt='Sort'  />
-          <img src='./assets/icon.svg' alt='Sort' />
-          <img src='./assets/repeat.svg' alt='Sort' />
-          <img src='./assets/garbage.svg' alt='Sort' />
-          <img src='./assets/star.svg' alt='Sort' />
-          <img src='./assets/sun.svg' alt='Sort' />
-          <img src='./assets/play.svg' alt='Greater Than' />
-          <img src="./assets/check.svg" alt='Check mark' />
-          <img src="./assets/graphic-design.svg" alt='Design' />
-          <img src='./assets/toggle.svg' alt='Sort' />
-          <img src='./assets/star-fill.svg' alt='Sort' />
-          <img src="./assets/calendar.svg" alt='Graphics' />
-          <img src="./assets/exchange-arrows.svg" alt='Exchange' />
+          <i className="fa fa-sort-amount-down"></i>
+          <i className="fa fa-home"></i>
+          <i className="fa fa-calendar-alt"></i>
+          <i className="fa fa-archive"></i>
+          <i className="fa fa-wrench"></i>
+          <i className="fa fa-plane"></i>
+          <i className="fa fa-magic"></i>
+          <i className="fa fa-address-book"></i>
+          <i className="fa fa-award"></i>
+          <i className="fa fa-balance-scale"></i>
+          <i className="fa fa-book"></i>
+          <i className="fa fa-cogs"></i>
+          <i className="fa fa-comment-dollar"></i>
+          <i className="fa fa-cookie-bite"></i>
+          <i className="fa fa-bug"></i>
         </div>
         <div className="clear-icon">
           <p>Clear</p>

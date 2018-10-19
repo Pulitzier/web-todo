@@ -97,9 +97,11 @@ export default class LeftPanel extends Component {
     const { app: { todos, tasks } } = state;
     let { activateList, newListTitle } = this.todoListState;
 
-    const renderTodoIconSrc = (todo) => {
-      if(todo.iconSource) return `${todo.iconSource}`;
-      return './assets/list.svg'
+    const renderTodoIconSrc = (todoTitle) => {
+        if(todoTitle === 'My Day') return "far fa-sun";
+        if(todoTitle === 'Important') return "far fa-star";
+        if(todoTitle === 'Tasks') return "fas fa-home";
+        return
     };
 
     return (
@@ -114,21 +116,10 @@ export default class LeftPanel extends Component {
                     className={"nav-link " + (todo.active ? 'active' : '')}
                     onClick={() => this.chooseListItem(todo.todoListId)}
                   >
-                    <img
-                      src={(() => {
-                        if(todo.title === 'My Day') {
-                          return './assets/sun.svg'
-                        }
-                        if(todo.title === 'Important') {
-                          return './assets/star.svg'
-                        }
-                        if(todo.title === 'To-Do') {
-                          return './assets/home.svg'
-                        }
-                        return '';
-                      })()}
-                      alt='Categories Icon'
-                    />
+                    {
+                      renderTodoIconSrc(todo.title) &&
+                      <i className={renderTodoIconSrc(todo.title)}></i>
+                    }
                     <p>{todo.title}</p>
                     <span>{(() =>
                       getTasksForTodo(tasks, todo).length ?
@@ -155,7 +146,7 @@ export default class LeftPanel extends Component {
                       className="nav-link"
                       onClick={() => this.chooseListItem(todo.todoListId)}
                     >
-                      <img src={renderTodoIconSrc(todo)} alt='To-Do Icon'/>
+                      <i className={"fa " + todo.iconSource}></i>
                       {todo.title}
                       <span>{(() =>
                           getTasksForTodo(tasks, todo).length ?
@@ -172,7 +163,7 @@ export default class LeftPanel extends Component {
             {
               activateList &&
               <label className="add-new-list-label-wrapper">
-                <img src='./assets/list.svg' alt='To-Do Icon'/>
+                <i className="fas fa-list"></i>
                 <input
                   type="text"
                   className="add-new-list-label"

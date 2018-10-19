@@ -75,7 +75,7 @@ export default class SearchPanel extends Component {
             className="set-filter"
             onClick={() => this.openFilterMenu(!openFilterMenu)}
           >
-            <span>&bull;&bull;&bull;</span>
+            <i className="fas fa-ellipsis-h"></i>
           </button>
           {
             openFilterMenu &&

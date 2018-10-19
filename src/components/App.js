@@ -11,6 +11,7 @@ import {
   deleteTodoList,
   deleteStep
 } from "../actionCreators";
+import StatusBarPanel from "./StatusBarPanel";
 
 export default class App extends Component {
   constructor(props) {
@@ -112,6 +113,7 @@ export default class App extends Component {
             undefined
       )}>
         <div className="row">
+          <StatusBarPanel />
           <LeftPanel />
           <RightPanel
             deleteTask={handelDeleteTask}

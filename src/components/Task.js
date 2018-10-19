@@ -7,7 +7,7 @@ import {
 } from '../helpers';
 import {
   toggleTask,
-  activateTaskSettings,
+  activateTaskSettings, handleTaskImportanance,
 } from '../actionCreators';
 
 export default class Task extends Component {
@@ -24,14 +24,14 @@ export default class Task extends Component {
         case 0:
           if(task.todoIsParent) {
             return {
-              text: 'To-Do',
-              imgSrc: ''
+              text: 'Tasks',
+              iconSrc: ''
             };
           } else if (task.parentId >= 3) {
             let taskParent = todos.find(todo => todo.todoListId === task.parentId);
             return {
               text: taskParent.title,
-              imgSrc: taskParent.iconSource
+              iconSrc: taskParent.iconSource
             }
           }
           return;
@@ -39,13 +39,13 @@ export default class Task extends Component {
           if(task.todoIsParent){
             if(task.myDay) {
               return {
-                text: 'My Day • To-Do',
-                imgSrc: './assets/sun.svg'
+                text: 'My Day • Tasks',
+                iconSrc: 'far fa-sun'
               }
             } else {
               return {
-                text: 'To-Do',
-                imgSrc: ''
+                text: 'Tasks',
+                iconSrc: ''
               }
             }
           }
@@ -54,7 +54,7 @@ export default class Task extends Component {
           if(task.myDay) {
             return {
               text: 'My Day',
-              imgSrc: './assets/sun.svg'
+              iconSrc: 'far fa-sun'
             };
           }
           return;
@@ -85,7 +85,7 @@ export default class Task extends Component {
             {
               setLabelFromTodo(task) &&
               <p className="todo-label-for-task">
-                <img src={setLabelFromTodo(task).imgSrc}/>
+                <i className={setLabelFromTodo(task).iconSrc}></i>
                 {setLabelFromTodo(task).text}
               </p>
             }
@@ -93,7 +93,7 @@ export default class Task extends Component {
               dueDate &&
               (<p className="due-date-label">
                 &#8226;&nbsp;&nbsp;
-                <img src='./assets/calendar.svg' />
+                <i className="far fa-calendar-alt"></i>
                 {getStringDate(dueDate)}
               </p>)
             }
@@ -101,7 +101,7 @@ export default class Task extends Component {
               remindDate &&
               (<p className="remind-date-label">
                 &#8226;&nbsp;&nbsp;
-                <img src='./assets/clock.svg' />
+                <i className="far fa-clock"></i>
                 {getStringDate(remindDate)}
               </p>)
             }
@@ -109,14 +109,14 @@ export default class Task extends Component {
               repeat &&
               (<p className="repeat-date-label">
                 &#8226;&nbsp;&nbsp;
-                <img src='./assets/repeat.svg' />
+                <i className="fas fa-redo"></i>
               </p>)
             }
             {
               note &&
               (<p className="task-notes">
                 &#8226;&nbsp;&nbsp;
-                <img src='./assets/writing.svg' />
+                <i className="far fa-sticky-note"></i>
                 Notes
               </p>)
             }
@@ -148,6 +148,10 @@ export default class Task extends Component {
       store.dispatch(activateTaskSettings(taskId, true));
     };
 
+    const handleImportance = (taskId) => {
+      store.dispatch(handleTaskImportanance(taskId))
+    };
+
     return (
       <div
         className="todo background-wrapper"
@@ -155,24 +159,23 @@ export default class Task extends Component {
       >
         <div className="added-todo">
           <label
-            className={
-              "toggleTodoLabel " +
-              (done ? "done" : '')
-            }
-          >
-          <span
+            className={"toggleTodoLabel "+(done ? "done" : '')}
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
               toggleTodoTask(task);
             }}
-          ></span>
+          >
+            <i className={done ? "fas fa-check-circle" : "far fa-check-circle"}></i>
           </label>
           <div className="task-title-wrapper">
             <p className={done ? 'lineThrough' : null}>{taskText}</p>
             {this.renderLabel(task)}
           </div>
-          <ButtonToImportance task={task}/>
+          <ButtonToImportance
+            task={task}
+            setImportance={(id) => handleImportance(id)}
+          />
         </div>
       </div>
     )

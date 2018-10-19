@@ -7,7 +7,7 @@ import {
   toggleTask,
   toggleStep,
   addTaskToMyDay,
-  addNoteToTask
+  addNoteToTask, handleTaskImportanance
 } from '../actionCreators';
 import StepInput from "./StepInput";
 
@@ -99,25 +99,28 @@ export default class TaskSettings extends Component {
       return steps.filter(step => step.taskId === activeTaskId);
     };
 
+    const handleImportance = (taskId) => {
+      store.dispatch(handleTaskImportanance(taskId))
+    };
+
     return (
       <div className="task-settings">
         <div className="task-settings-title">
           <label
-            className={
-              "toggleTaskLabel " +
-              (done ? "done" : '')
-            }
-          >
-          <span
+            className={"toggleTaskLabel "+(done ? "done" : '')}
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
               setToggledTask(activeTaskId);
             }}
-          ></span>
+          >
+            <i className={done ? "fas fa-check-circle" : "far fa-check-circle"}></i>
           </label>
           <p>{taskText}</p>
-          <ButtonToImportance task={activeTask}/>
+          <ButtonToImportance
+            task={activeTask}
+            setImportance={(id) => handleImportance(id)}
+          />
         </div>
         <div className="task-middle-settings-wrapper">
           <div>
@@ -125,25 +128,21 @@ export default class TaskSettings extends Component {
               getStepsForTask().map((step, i) => (
                 <div key={i} className="step-title">
                   <label
-                    className={
-                      "toggleStepLabel " +
-                      (step.done ? "done" : '')
-                    }
+                    className={"toggleStepLabel "+(step.done ? "done" : '')}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setToggledStep(step.stepId);
+                    }}
                   >
-                <span
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setToggledStep(step.stepId);
-                  }}
-                ></span>
+                    <i className={step.done ? "fas fa-check-circle" : "far fa-check-circle"}></i>
                   </label>
                   <p>{step.stepText}</p>
                   <button
                     className="steps-trash"
                     onClick={() => handleDeleteStep(step)}
                   >
-                    <img src="./assets/garbage.svg" />
+                    <i className="fas fa-trash-alt"></i>
                   </button>
                 </div>
               ))
@@ -167,7 +166,7 @@ export default class TaskSettings extends Component {
                   className={"add-to-my-day " + (myDay && "active")}
                   onClick={() => addCustomToMyDay(activeTaskId, true)}
                 >
-                  <img src="./assets/sun.svg" />
+                  <i className="far fa-sun"></i>
                   {
                     myDay ?
                       (<p className="added">Added to My to-do</p>) :
@@ -183,7 +182,7 @@ export default class TaskSettings extends Component {
                           addCustomToMyDay(activeTaskId, false)
                         }}
                       >
-                        <p>x</p>
+                        <i className="fas fa-times"></i>
                       </button>
                     )
                   }
@@ -220,7 +219,7 @@ export default class TaskSettings extends Component {
           <button
             className="task-settings-arrow-right"
             onClick={() => closeTaskSettings(activeTaskId)}>
-            <img src="./assets/right.svg" />
+            <i className="fas fa-angle-right"></i>
           </button>
           <p>{(() => {
             return `Created on ${(new Date(createdAt)).toLocaleString('en-us', {weekday: 'short', month: 'short', day: 'numeric'})}`;
@@ -229,7 +228,7 @@ export default class TaskSettings extends Component {
             className="task-settings-trash"
             onClick={() => handleDeleteTask(activeTask)}
           >
-            <img src="./assets/garbage.svg" />
+            <i className="fas fa-trash-alt"></i>
           </button>
         </div>
       </div>

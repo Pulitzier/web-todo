@@ -9,6 +9,10 @@ body {
   font-family: sans-serif;
   .modal-backdrop.show { opacity: 0; }
   p { margin: 0; }
+  button {
+    background-color: transparent;
+    border-color: transparent;
+  }
   #root {
     height: 100vh;
     background-color: grey;
@@ -58,15 +62,25 @@ audio { visibility: hidden; }
     .button-group {
       display: table;
       margin: 30px 0 0 auto;
-      button:first-of-type { margin-right: 10px; }
-      button { border-radius: 0; }
+      button {
+        border-radius: 0;
+        &.delete-button {
+          margin-right: 10px;
+          background-color: #dc3545;
+          border-color: #dc3545;
+        }
+        &.cancel-button {
+          background-color: rgb(221, 221, 221);
+          border-color: rgb(221, 221, 221);
+        }
+      }
     }
   }
 }
 
 .leftPanel {
   padding: 0;
-  border-right: 1px solid grey;
+  margin-top: 26px;
   hr {
     margin: 8px auto;
     width: 90%;
@@ -88,15 +102,16 @@ audio { visibility: hidden; }
   .nav-link {
     @include flex;
     padding: 6px 2px;
-    img {
-      width: 18px;
-      margin-right: 10px;
-    }
     span {
       margin: 0 10px 0 auto;
       font-size: 13px;
     }
     p { margin: 0; }
+    i {
+      width: 18px;
+      margin-right: 10px;
+      color: cornflowerblue;
+    }
   }
   .custom-todo-list-wrapper {
     max-height: 445px;
@@ -107,7 +122,26 @@ audio { visibility: hidden; }
 .rightPanel {
   padding: 0;
   display: flex;
+  border-left: 1px solid grey;
   & > div { width: 100%; }
+}
+
+.status-bar {
+  width: 100%;
+  position: absolute;
+  display: flex;
+  z-index: 2;
+  .microsoft-label {
+    width: 100%;
+    margin: 5px 10px;
+    align-self: flex-start;
+    color: lightslategray;
+    font-size: 13px;
+  }
+  button {
+    padding: 0 10px;
+    font-size: 13px;
+  }
 }
 
 .user-settings-page.active {
@@ -116,17 +150,19 @@ audio { visibility: hidden; }
   max-width: 920px;
   width: 100%;
   height: 100%;
-  section {
-    section { margin: 20px 0 10px; }
-  };
-  img { width: 60px; };
+  section { section { margin: 20px 0 10px; } };
+  h5 { margin-bottom: 20px; }
   .settings-header {
     @include flex;
-    margin: 20px 30px;
-    button {
+    margin: 30px 15px 20px;
+    button.close-settings {
+      color: cornflowerblue;
+      display: inline-block;
       padding: 6px 12px;
-      &:active { background-color: lightgrey; }
+      font-size: 20px;
+      &:hover { background-color: lightgrey; }
     }
+    h2 { margin: 0 0 0 20px; }
   };
   .settings-general-info {
     overflow-y: auto;
@@ -146,10 +182,17 @@ audio { visibility: hidden; }
         width: fit-content;
       }
     }
-    .about-section { @extend .help-feedback }
+    .about-section {
+      @extend .help-feedback;
+      p:nth-child(3),
+      p:nth-child(4) { color: #555555; }
+    }
     .user-manage {
       @include flex;
-      & > div * { margin: 0 0 0 10px; }
+      & > div {
+        * { margin: 0 0 0 20px; }
+        p { color: #a0a2a5; }
+      }
       a {
         margin: 0 0 0 auto;
         padding: 6px 10px;
@@ -162,21 +205,78 @@ audio { visibility: hidden; }
         }
         &:hover { border: 2px solid slategray; }
       }
+      span {
+        width: 70px;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: lightgray;
+        border-radius: 50%;
+        font-size: 10px;
+      }
     }
     .general-sets {
       flex-flow: column wrap;
       align-items: flex-start;
+      div.toggle-wrapper {
+        align-items: center;
+        display: flex;
+        height: 24px;
+        margin: 5px 0;
+        p {
+          line-height: normal;
+          margin-left: 10px;
+        }
+      }
+      .react-toggle-track {
+        width: 40px;
+        height: 18px;
+      }
+      .react-toggle-thumb {
+        width: 12px;
+        height: 12px;
+        top: 3px;
+        left: 3px;
+      }
+      .react-toggle--checked {
+        .react-toggle-track { background-color: royalblue; }
+        .react-toggle-thumb { left: 24px; }
+      }
     }
-  }
-}
-
-.theme-sets {
-  p { margin-bottom: 5px; }
-  label.ligthTheme-label,
-  label.darkTheme-label {
-    position: relative;
-    float: left;
-    margin-right: 10px;
+    .theme-sets {
+      p { margin-bottom: 15px; }
+      label.ligthTheme-label,
+      label.darkTheme-label {
+        position: relative;
+        float: left;
+        margin-right: 10px;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        & > span {
+          @include flex;
+          background-color: #ffffff;
+          width: 20px;
+          height: 100%;
+          justify-content: center;
+          border: 1px solid darkgray;
+          border-radius: 50%;
+          color: white;
+        }
+        &.checked > span {
+          background-color: royalblue;
+          &:after {
+            content: '\2022';
+            font-size: 32px;
+            position: absolute;
+          }
+        }
+      }
+    }
+    .import-todos {
+      p { margin-bottom: 8px; }
+    }
   }
 }
 
@@ -223,14 +323,25 @@ audio { visibility: hidden; }
       color: #fff;
       font-weight: 900;
       position: relative;
-      h3 { margin: 0; cursor: pointer; }
+      h3 {
+        margin: 0;
+        &.non-default-todo { cursor: pointer; }
+      }
       .date-time { margin-left: 40px; }
       & > div {
         & > h3 { @extend .date-time }
         & > button + h3 { margin-left: 3px; }
         & > .icons-menu-wrapper + h3 { margin-left: 3px; }
         &:first-of-type { @include flex; }
+        button.banner-change-todo-icon {
+          i {
+            width: 18px;
+            color: cornflowerblue;
+            &.fa-plus-circle { visibility: hidden; }
+          }
+        }
       }
+
     }
   }
   .banner-sort {
@@ -239,18 +350,8 @@ audio { visibility: hidden; }
     min-height: 50px;
     padding: 10px 10px 10px 50px;
     color: #ffffff;
-    .change-sort-order {
-      img {
-        width: 12px;
-        height: 12px;
-        margin: 5px;
-      }
-      &.down img { transform: rotate(90deg); }
-      &.up img { transform: rotate(-90deg); }
-    }
+    .change-sort-order {}
     button {
-      background-color: transparent;
-      border: 0;
       color: #ffffff;
       position: relative;
       padding: 0 15px;
@@ -277,11 +378,7 @@ button.open-greeting {
   @extend button.dots-menu;
   padding: 6px 12px;
   border: 0;
-  img {
-    width: 18px;
-    margin-right: 0;
-    filter: invert(1);
-  }
+  .fa-lightbulb { color: #fff; }
 }
 
 .todo-list-wrapper {
@@ -296,9 +393,7 @@ button.open-greeting {
   }
   .add-new-todo { width: 100%; }
   button.add-new-todo-button {
-    background-color: transparent;
     color: cornflowerblue;
-    border-color: transparent;
     font-size: 13px;
     &.active {
       padding-top: 4px;
@@ -330,7 +425,6 @@ div.todo {
     &:hover {
       background-color: #f4f6f7;
       span { background-color: #f4f6f7; }
-      label.toggleTodoLabel.done > span { background-color: limegreen; }
     }
   }
   .added-todo {
@@ -344,7 +438,27 @@ div.todo {
   }
 }
 
-.important-icon img { width: 18px; }
+label.toggleTaskLabel,
+label.toggleStepLabel,
+label.toggleTodoLabel {
+  @include flex;
+  width: 20px;
+  height: 20px;
+  justify-content: center;
+  border: 1px solid darkgray;
+  border-radius: 50%;
+  margin: 0;
+  i {
+    color: darkgray;
+    font-size: 20px;
+    &.far { visibility: hidden; }
+  }
+  &:hover i { visibility: visible; }
+  &.done {
+    border-color: limegreen;
+    i { color: limegreen; }
+  }
+}
 
 .add-new-todo-wrapper {
   @include flex;
@@ -363,6 +477,7 @@ div.todo {
       justify-content: center;
       & > span {
         border: 0;
+        font-size: 30px;
         &:after {
           content: '+';
           color: cornflowerblue;
@@ -419,12 +534,6 @@ div.todo {
   & p { font-size: 12px; }
 }
 
-.user-settings.active img,
-.task-settings img {
-  width: 18px;
-  margin-right: 10px;
-}
-
 .greetings-panel {
   position: relative;
   width: 100%;
@@ -464,14 +573,8 @@ div.todo {
         color: #5c6066;
         font-weight: 700;
         font-size: 14px;
-        img:last-of-type {
-          width: 18px;
-          height: 18px;
-          margin-right: 10px;
-        }
       }
       button {
-        background-color: transparent;
         border: 0;
         margin: 0 10px;
       }
@@ -480,21 +583,9 @@ div.todo {
       padding: 10px;
       p:last-of-type { font-size: 12px; }
     }
-    img:last-of-type {
-      width: 12px;
-      margin-right: 7px;
-    }
     button.collapse-suggestions {
       padding: 2px 5px;
       &:hover { background-color: rgb(221, 221, 221); }
-      &.down img {
-        transform: rotate(90deg);
-        margin: 5px;
-      }
-      &.up img {
-        transform: rotate(-90deg);
-        margin: 5px;
-      }
     }
   }
   .greeting-suggestion-section {
@@ -510,7 +601,6 @@ div.todo {
         button {
           margin-right: 10px;
           border: 0;
-          background-color: transparent;
           color: cornflowerblue;
           &:first-of-type { font-size: 26px; }
         }
@@ -549,9 +639,7 @@ div.todo {
   }
   button.set-filter {
     padding: 2px 10px;
-    background-color: transparent;
     color: cornflowerblue;
-    border-color: transparent;
     font-size: 13px;
   }
   .filter-menu {
@@ -574,17 +662,6 @@ div.todo {
   }
 }
 
-.user-info-settings {
-  position: relative;
-  width: 100%;
-}
-
-.task-middle-settings-wrapper {
-  flex-flow: column;
-  max-height: 520px;
-  overflow-y: auto;
-}
-
 #lightTheme,
 #darkTheme,
 #toggleTodoCheckbox,
@@ -596,41 +673,30 @@ div.todo {
 
 p.lineThrough { text-decoration: line-through; }
 
-.settings-header img,
-.change-todo-icon img,
-.theme-sets label.ligthTheme-label,
-.theme-sets label.darkTheme-label,
-.todo label.toggleTodoLabel,
-.task-settings label.toggleTaskLabel {
-  width: 20px;
-  height: 20px;
-  margin: 0;
-  cursor: pointer;
-}
-
 .icons-menu-wrapper {
   top: 100%;
-  width: 203px;
+  width: 192px;
   position: absolute;
   z-index: 1;
   background-color: #ffffff;
   border-width: 1px;
   border-style: solid;
   border-color: #1a1b1c;
-  .icons-menu img {
-    width: 40px;
-    height: 40px;
-    padding: 8px;
-    border: 1px solid transparent;
-    &:hover { border-color: lightgrey; }
+  .icons-menu {
+    i.fa {
+      color: cornflowerblue;
+      width: 38px;
+      padding: 10px;
+      &:hover { background-color: #f4f6f7; }
+    }
   }
   & .clear-icon {
-    color: #2e2f30;
+    color: royalblue;
     font-size: 13px;
     text-align: center;
     p {
       padding: 2px 0;
-      &:hover { background-color: lightgrey; }
+      &:hover { background-color: #f4f6f7; }
     }
   }
 }
@@ -649,41 +715,6 @@ p.lineThrough { text-decoration: line-through; }
   }
 }
 
-.theme-sets label.ligthTheme-label.checked > span,
-.theme-sets label.darkTheme-label.checked > span,
-.todo label.toggleTodoLabel.done > span,
-.task-settings label.toggleTaskLabel.done > span,
-.task-settings label.toggleStepLabel.done > span { background-color: limegreen; }
-
-.theme-sets label.ligthTheme-label > span,
-.theme-sets label.darkTheme-label > span,
-.todo label.toggleTodoLabel > span,
-.task-settings label.toggleStepLabel > span,
-.task-settings label.toggleTaskLabel > span {
-  @include flex;
-  background-color: #ffffff;
-  width: 20px;
-  height: 100%;
-  justify-content: center;
-  border: 1px solid darkgray  ;
-  border-radius: 50%;
-  color: white;
-}
-
-.theme-sets label.ligthTheme-label.checked > span:after,
-.theme-sets label.darkTheme-label.checked > span:after,
-.todo label.toggleTodoLabel.done > span:after,
-.task-settings label.toggleStepLabel.done > span:after,
-.task-settings label.toggleTaskLabel.done > span:after {
-  content: '\2713';
-  position: absolute;
-}
-
-.settings-header button {
-  @extend button.task-settings-arrow-right;
-  font-size: 13px;
-}
-
 .active { display: block; }
 .inactive { display: none; }
 
@@ -695,31 +726,6 @@ p.lineThrough { text-decoration: line-through; }
   justify-self: left;
 }
 
-.todo-label-for-task img,
-.task-notes img,
-.remind-date-label img,
-.due-date-label img,
-.repeat-date-label img {
-  max-width: 10px;
-  margin-right: 3px;
-}
-
-.jumbotron-button {
-  height: 50px;
-  border-radius: 0;
-  padding: 3px;
-  margin: 2px;
-  &.active {
-    display: inline-block;
-    border: 2px solid blue;
-  }
-  & > span {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-  }
-}
-
 .task-settings-footer {
   @include flex;
   position: absolute;
@@ -729,16 +735,15 @@ p.lineThrough { text-decoration: line-through; }
   background-color: #ffffff;
   padding: 5px;
   button {
-    img { margin: 0 }
     &.task-settings-trash {
-      background-color: transparent;
-      color: cornflowerblue;
-      border-color: transparent;
-      font-size: 14.5px;
-      display: inline-block;
-      padding: 5px 8px;
+      @extend button.close-settings;
+      margin-right: 10px;
     }
-    &.task-settings-arrow-right { @extend button.task-settings-trash }
+    &.task-settings-arrow-right {
+      @extend button.close-settings;
+      display: flex;
+      i { font-size: 25px; }
+    }
     &:hover {
       cursor: pointer;
       background-color: #f4f6f7;
@@ -747,18 +752,6 @@ p.lineThrough { text-decoration: line-through; }
   p {
     font-size: 13px;
     width: 100%;
-  }
-}
-
-button.change-todo-icon { @include flex; }
-
-.show-hide_completed_todos {
-  @include flex;
-  p { display: flex; }
-  img {
-    width: 15px;
-    height: 15px;
-    margin-right: 10px;
   }
 }
 
@@ -772,14 +765,10 @@ button.change-todo-icon { @include flex; }
     @include flex;
     width: 100%;
     button.search {
-      padding: 6px 8px;
+      padding: 10px 10px;
       border: 0;
-      background-color: transparent;
       cursor: pointer;
-      & > img {
-        width: 28px;
-        height: 28px;
-      }
+      i { font-size: 20px; }
       p:first-of-type {
         display: inline-block;
         margin: 0 10px;
@@ -789,10 +778,22 @@ button.change-todo-icon { @include flex; }
       @extend button.search;
       @include flex;
       width: 100%;
+      padding: 6px 10px;
+      i { font-size: 14px; }
+      span {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: lightgray;
+        border-radius: 50%;
+      }
     }
     & > button:hover { background-color: #f4f6f7; }
   }
   .user-info-settings {
+    position: relative;
     width: 300px;
     .user-settings {
       &.active {
@@ -809,27 +810,22 @@ button.change-todo-icon { @include flex; }
         }
         div:first-of-type { border-bottom: 1px solid rgba(0, 0, 0, 0.1) }
         p { margin: 10px; }
-        div:last-of-type p:last-of-type { color: red; }
-        img {
-          display: inline-block;
-          margin: 0 10px;
+        div:last-of-type {
+          i.fa:last-of-type, p:last-of-type { color: red; }
         }
+        i { padding: 10px; }
       }
     }
-  }
-  .microsoft-label {
-    margin: 5px 10px;
-    align-self: flex-start;
-    color: lightslategray;
-    font-size: 14px;
   }
 }
 
 button.change-todo-icon {
+  @include flex;
   margin: 0 0 0 auto;
   padding: 0 12px;
   border: 0;
-  background-color: transparent;
+  background-color: #fff;
+  .fa-plus-circle { color: cornflowerblue; }
 }
 
 .add-new-list {
@@ -838,10 +834,10 @@ button.change-todo-icon {
   label.add-new-list-label-wrapper {
     @include flex;
     height: 44px;
-    margin: 0;
-    img {
-      width: 18px;
-      margin: 0 10px 0 2px;
+    margin: 0 0 0 2px;
+    i {
+      color: cornflowerblue;
+      margin-right: 10px;
     }
     input.add-new-list-label {
       padding: 10px 0;
@@ -863,6 +859,7 @@ button.change-todo-icon {
   position: relative;
   width: 450px;
   & > div { display: flex; }
+  i { color: cornflowerblue; }
   .step-title {
     @include flex;
     background-color: #ffffff;
@@ -871,10 +868,17 @@ button.change-todo-icon {
     p { padding: 5px; }
     &:hover .steps-trash {
       display: inline-flex;
-      margin-left: auto;
+      margin: 0 5px 0 auto;
       background-color: transparent;
       border: 0;
+      font-size: 16px;
     }
+  }
+  label.toggleStepLabel {
+    width: 14px;
+    height: 14px;
+    margin-left: 3px;
+    i { font-size: 14px; }
   }
   ul {
     li {
@@ -884,7 +888,7 @@ button.change-todo-icon {
         &.added { color: cornflowerblue; }
       }
       button.clear-from-my-day {
-        width: 44px;
+        width: 50px;
         height: 44px;
         border: 0px;
         background-color: inherit;
@@ -925,34 +929,25 @@ button.change-todo-icon {
       }
     }
   }
-  .important-icon {
-    margin: 0 0 0 auto;
-    display: flex;
-  }
   .task-settings-title {
-    padding: 30px 10px 20px;
+    @include flex;
+    padding: 35px 10px 20px;
     line-height: 1;
     font-size: 20px;
     font-weight: bolder;
     background-color: #ffffff;
-    p { margin-left: 10px; }
+    p { margin: 0 auto 0 10px; }
+    .important-icon { font-size: 18px; }
   }
-  label.toggleStepLabel {
-    width: 16px;
-    height: 16px;
-    margin: 1px 0 0 0;
-    & > span {
-      width: 16px;
-      height: 16px;
-    }
-    & + p { padding: 0 0 0 5px;}
+  .task-middle-settings-wrapper {
+    flex-flow: column;
+    max-height: 520px;
+    overflow-y: auto;
   }
 }
 
 .important-icon {
-  border: 0;
-  background-color: transparent;
-  img { margin-right: 0; }
+  i { color: cornflowerblue; }
 }
 
 .DayPicker.pick-date-calendar .DayPicker-wrapper,
@@ -1153,15 +1148,41 @@ div.searchList {
   z-index: 1;
   border: 1px solid #5c6066;
   hr { margin: 10px auto; }
+  i {
+    color: lightslategray;
+    margin-right: 20px;
+  }
+  p { display: inline-block; }
   & > div { padding: 10px; }
+  div.renameList:hover {
+    cursor: pointer;
+    background-color: lightgray;
+  }
+  div.sort-settings-link {
+    @include flex;
+    padding: 6px 10px;
+    &:hover,
+    &.grey {
+      cursor: pointer;
+      background-color: lightgray;
+    }
+    p { margin: 0; }
+    i {
+      &.important { margin-left: 10px; }
+      &.fa-angle-right {
+        margin: 0 0 0 auto;
+        font-size: 25px;
+      }
+    }
+  }
   div.sort-settings-menu {
     position: absolute;
     overflow: hidden;
     height: 0;
-    min-width: 164px;
+    min-width: 210px;
     transition: height 1s ease;
     background-color: #ffffff;
-    left: -164px;
+    left: -205px;
     top: 1px;
     padding: 0;
     border: 0;
@@ -1172,40 +1193,58 @@ div.searchList {
     & > div {
       @include flex;
       padding: 10px;
-      &:hover { background-color: lightgray; }
+      &:hover {
+        cursor: pointer;
+        background-color: lightgray;
+      }
       & > p { margin: 0; }
     }
-    img {
-      width: 15px;
-      height: 15px;
-      margin-right: 10px;
-    }
   }
-  div.sort-settings-link {
+  div.banner-theme-settings p { display: block; }
+  div.show-hide_completed_todos {
     @include flex;
-    &:hover,
-    &.grey { background-color: lightgray; }
-    p { margin: 0; }
-    img {
-      width: 15px;
-      height: 15px;
-      &:first-of-type { margin-right: 10px; }
-      &:last-of-type { margin: 0 10px 0 auto; }
-      &.important { margin-left: 10px; }
+    p { display: flex; }
+    &:hover {
+      cursor: pointer;
+      background-color: lightgray;
     }
   }
-  span {
-    &.orange { background-color: orange; }
-    &.green { background-color: green; }
-    &.red { background-color: red; }
-    &.blueviolet { background-color: blueviolet; }
-    &.blue { background-color: blue; }
+  div.deleteList {
+    &:hover {
+      cursor: pointer;
+      background-color: lightgray;
+    }
+    i, p { color: red; }
   }
-  span.bgImage-wrapper {
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    .theme-image { height: 40px; }
+  .jumbotron-button {
+    height: 50px;
+    border-radius: 0;
+    padding: 3px;
+    margin: 2px;
+    &.active {
+      display: inline-block;
+      border: 2px solid blue;
+    }
+    &:hover {
+      cursor: pointer;
+      border: 2px solid #dddddd;
+    }
+    & > span {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      &.orange { background-color: orange; }
+      &.green { background-color: green; }
+      &.red { background-color: red; }
+      &.blueviolet { background-color: blueviolet; }
+      &.blue { background-color: blue; }
+      &.bgImage-wrapper {
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        .theme-image { height: 40px; }
+      }
+    }
   }
 }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
-import { getActiveTodoList } from "../helpers";
-import {changeListTitle, setIconForTodo} from '../actionCreators';
+import { getActiveTodoList, setInitialIconWhenRename } from "../helpers";
+import { changeListTitle, setIconForTodo } from '../actionCreators';
 import IconsMenu from "./IconsMenu";
 
 export default class RenameList extends Component {
@@ -44,10 +44,9 @@ export default class RenameList extends Component {
       this.renameList &&
       this.renameList.contains(target)
     ) {
-      if (target.localName === 'img') {
-        let { src: iconSrc } = target;
-        iconSrc.slice(-8,-4) !== 'list' ?
-          store.dispatch(setIconForTodo(todoListId, ("." + iconSrc.slice(21)))) :
+      if (target.localName === 'i') {
+        target.classList[1] !== 'fa-plus-circle' ?
+          store.dispatch(setIconForTodo(todoListId, target.classList[1])) :
           null;
         return this.changeIconInRename(!this.renameListState.changeIcon);
       }
@@ -86,14 +85,8 @@ export default class RenameList extends Component {
         ref={node => this.renameList = node}
         className="rename-list-wrapper"
       >
-        <button
-          className="change-todo-icon"
-        >
-          {
-            iconSource ?
-              <img className="change-todo-icon-image" src={iconSource} /> :
-              <img className="default-change-icon-image" src={'./assets/list.svg'} />
-          }
+        <button className="change-todo-icon">
+          <i className={"fa " + setInitialIconWhenRename(iconSource)}></i>
         </button>
         {
           changeIcon &&

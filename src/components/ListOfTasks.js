@@ -96,7 +96,7 @@ export default class ListOfTasks extends Component {
               className={"clearInput " +  (typeNewTask ? 'active' : 'inactive')}
               onClick={() => handleTypeNewTask(false)}
             >
-              x
+              <i className="fas fa-times"></i>
             </button>
             <button
               className={"add-new-todo-button " +  (typeNewTask ? 'active' : 'inactive')}

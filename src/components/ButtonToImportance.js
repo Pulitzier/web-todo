@@ -4,11 +4,7 @@ import { handleTaskImportanance } from "../actionCreators";
 
 export default class ButtonToImportance extends Component {
   render(){
-    const { store } = this.context;
-    const { id, important } = this.props.task;
-    const handleImportance = (taskId) => {
-      store.dispatch(handleTaskImportanance(taskId))
-    };
+    const { task: { id, important }, setImportance } = this.props;
 
     return (
       <button
@@ -16,14 +12,10 @@ export default class ButtonToImportance extends Component {
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          handleImportance(id);
+          setImportance(id);
         }}
       >
-        {
-          important ?
-            (<img src="./assets/star-fill.svg"/>) :
-            (<img src="./assets/star.svg"/>)
-        }
+        <i className={important ? "fas fa-star" : "far fa-star"}></i>
       </button>
     )
   }

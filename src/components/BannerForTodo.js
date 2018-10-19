@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'react-proptypes';
 import RenameList from './RenameList';
-import { getActiveTodoList, checkActiveTodoTitle } from '../helpers';
+import {
+  getActiveTodoList,
+  checkActiveTodoTitle,
+  setInitialIconWhenRename
+} from '../helpers';
 import IconsMenu from "./IconsMenu";
 import SortPopUp from "./SortPopUp";
 import BannerModalSettings from "./BannerModalSettings";
@@ -91,8 +95,8 @@ export default class BannerForTodo extends Component {
                   {
                     todoIconSrc &&
                     checkActiveTodoTitle(title) &&
-                    (<button className="change-todo-icon" onClick={() => this.activateIcon(true)}>
-                      <img src={todoIconSrc} />
+                    (<button className="banner-change-todo-icon" onClick={() => this.activateIcon(true)}>
+                      <i className={"fa " + setInitialIconWhenRename(todoIconSrc)}></i>
                     </button>)
                   }
                   {
@@ -103,14 +107,15 @@ export default class BannerForTodo extends Component {
                       activeTodoId={activeTodo.todoListId}
                     />
                   }
-                  <h3 onClick={() => this.activateRename(true)}>{activeTodo.title}</h3>
+                  <h3
+                    className={checkActiveTodoTitle(title) ? "non-default-todo" : ''}
+                    onClick={() => this.activateRename(true)}
+                  >{activeTodo.title}</h3>
                 </div>
             }
             {
               (todoId === 0) &&
-              <div className="date-time">
-                { setMyDayTime() }
-              </div>
+              <div className="date-time">{setMyDayTime()}</div>
             }
           </div>
           <div>
@@ -121,7 +126,7 @@ export default class BannerForTodo extends Component {
                 style={{backgroundColor: bgColor}}
                 onClick={() => activateGreetings()}
               >
-                <img src='./assets/bulb.svg'/>
+                <i className="far fa-lightbulb"></i>
               </button>
             }
             <button
@@ -129,7 +134,7 @@ export default class BannerForTodo extends Component {
               style={{backgroundColor: bgColor}}
               onClick={() => this.activateModalSettings()}
             >
-              <span>&bull;&bull;&bull;</span>
+              <i className="fas fa-ellipsis-h"></i>
             </button>
             {
               showModal &&

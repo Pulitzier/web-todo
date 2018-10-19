@@ -46,10 +46,14 @@ export function checkActiveTodoTitle(title) {
   return (
     title !== 'My Day' &&
     title !== 'Important' &&
-    title !== 'To-Do'
+    title !== 'Tasks'
   )
 }
 
 export function getActiveTask(tasks) {
   return tasks.length !== 0 ? (tasks.find(task => task.active === true) || '') : '';
+}
+
+export function setInitialIconWhenRename(iconSource) {
+  return iconSource === "fa-list" ? "fa-plus-circle" : iconSource;
 }

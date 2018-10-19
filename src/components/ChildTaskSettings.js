@@ -188,7 +188,7 @@ export default class ChildTaskSettings extends Component {
         <ul>
           <li className={"remind-me" + (remindDate && ' activeOption')}>
             <div onClick={() => this.openReminder(true)}>
-              <img src="./assets/clock.svg" />
+              <i className="fas fa-stopwatch"></i>
               <p>
                 Remind me
                 {
@@ -211,14 +211,14 @@ export default class ChildTaskSettings extends Component {
                     e.stopPropagation();
                     clearReminderDate();
                   }}
-                >x</span>)
+                ><i className="fas fa-times"></i></span>)
               }
             </div>
             {
               openReminderWindow && <div className="reminder-window">
                 <ul>
                   <li onClick={() => setLaterTodayDate()}>
-                    <img src="./assets/clock.svg" />
+                    <i className="far fa-clock"></i>
                     <p>Later Today</p>
                     <span>{(() => {
                       let time = getLaterTodayDate();
@@ -226,7 +226,7 @@ export default class ChildTaskSettings extends Component {
                     })()}</span>
                   </li>
                   <li onClick={() => setTomorrowDate()}>
-                    <img src="./assets/right.svg" />
+                    <i className="far fa-arrow-alt-circle-right"></i>
                     <p>Tomorrow</p>
                     <span>{(() => {
                         let time = getTomorrowDate();
@@ -234,7 +234,7 @@ export default class ChildTaskSettings extends Component {
                       })()}</span>
                   </li>
                   <li onClick={() => setNextWeekDate()}>
-                    <img src="./assets/play.svg" />
+                    <i className="fas fa-angle-double-right"></i>
                     <p>Next Week</p>
                     <span>{(() => {
                       let time = getNextWeekDate();
@@ -242,7 +242,7 @@ export default class ChildTaskSettings extends Component {
                     })()}</span>
                   </li>
                   <li onClick={() => this.showCustomCalendar(true)}>
-                    <img src="./assets/calendar.svg" />
+                    <i className="fas fa-calculator"></i>
                     <p>Pick a date & time</p>
                   </li>
                 </ul>
@@ -259,7 +259,7 @@ export default class ChildTaskSettings extends Component {
           </li>
           <li className={"due-date" + (dueDate && ' activeOption')}>
             <div onClick={() => this.openDueDate(true)}>
-              <img src="./assets/calendar.svg" />
+              <i className="far fa-minus-square"></i>
               <p>{(() => {
                 let today = new Date();
                 if(today.setHours(0,0,0,0) === new Date(dueDate).setHours(0,0,0,0)) {
@@ -280,19 +280,19 @@ export default class ChildTaskSettings extends Component {
                     e.stopPropagation();
                     clearDueDate();
                   }}
-                >x</span>)
+                ><i className="fas fa-times"></i></span>)
               }
             </div>
             {
               openDueDateWindow && <div className="reminder-window">
                 <ul>
                   <li onClick={() => setDueTodayDate()}>
-                    <img src="./assets/clock.svg" />
+                    <i className="far fa-clock"></i>
                     <p>Today</p>
                     <span>{getStringDate((new Date()), {weekday: 'short'})}</span>
                   </li>
                   <li onClick={() => setDueTomorrow()}>
-                    <img src="./assets/right.svg" />
+                    <i className="far fa-arrow-alt-circle-right"></i>
                     <p>Tomorrow</p>
                     <span>{(() => {
                       let time = getTomorrowDate();
@@ -300,7 +300,7 @@ export default class ChildTaskSettings extends Component {
                     })()}</span>
                   </li>
                   <li onClick={() => setDueNextWeek()}>
-                    <img src="./assets/play.svg" />
+                    <i className="fas fa-angle-double-right"></i>
                     <p>Next Week</p>
                     <span>{(() => {
                       let time = getNextWeekDate();
@@ -308,7 +308,7 @@ export default class ChildTaskSettings extends Component {
                     })()}</span>
                   </li>
                   <li onClick={() => this.showDueDateCalendar(true)}>
-                    <img src="./assets/calendar.svg" />
+                    <i className="fas fa-calculator"></i>
                     <p>Pick a date</p>
                   </li>
                 </ul>
@@ -325,7 +325,7 @@ export default class ChildTaskSettings extends Component {
           </li>
           <li className={"repeat" + (repeat && ' activeOption')}>
             <div onClick={() => this.openRepeatWindow(true)}>
-              <img src="./assets/repeat.svg" />
+              <i className="fas fa-redo"></i>
               <p>{(() => {
                 switch (repeat){
                   case 'daily':
@@ -349,30 +349,30 @@ export default class ChildTaskSettings extends Component {
                     e.stopPropagation();
                     clearRepeat();
                   }}
-                >x</span>)
+                ><i className="fas fa-times"></i></span>)
               }
             </div>
             {
               openRepeat && <div className="repeat-window">
                 <ul>
                   <li onClick={() => setRepeatType('daily')}>
-                    <img src="./assets/matrix.svg" />
+                    <i className="fas fa-braille"></i>
                     <p>Daily</p>
                   </li>
                   <li onClick={() => setRepeatType('weekdays')}>
-                    <img src="./assets/dots.svg" />
+                    <i className="fas fa-grip-horizontal"></i>
                     <p>Weekdays</p>
                   </li>
                   <li onClick={() => setRepeatType('weekly')}>
-                    <img src="./assets/circular.svg" />
+                    <i className="fas fa-grip-vertical"></i>
                     <p>Weekly</p>
                   </li>
                   <li onClick={() => setRepeatType('monthly')}>
-                    <img src="./assets/dots.svg" />
+                    <i className="fab fa-blackberry"></i>
                     <p>Monthly</p>
                   </li>
                   <li onClick={() => this.showCustomRepeat(true)}>
-                    <img src="./assets/rhombs.svg" />
+                    <i className="fas fa-chess-board"></i>
                     <p>Custom</p>
                   </li>
                 </ul>

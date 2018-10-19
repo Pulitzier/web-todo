@@ -6,7 +6,7 @@ import {
   openSearchPanel
 } from "../actionCreators";
 import Panel from './Panel';
-import MicrosoftLabel from "./MicrosoftLabel";
+import MicrosoftLabel from "./StatusBarPanel";
 
 export default class UserSettings extends Component {
   constructor(props) {
@@ -48,7 +48,6 @@ export default class UserSettings extends Component {
 
     return (
       <Panel className="user-info">
-        <MicrosoftLabel/>
         <div
           className="user-info-buttons"
           ref={node => this.userSettings = node}
@@ -57,21 +56,23 @@ export default class UserSettings extends Component {
             className="user-settings-button"
             onClick={() => store.dispatch(activateUserSettings(!activateSettings))}
           >
-            <img src="./assets/user-avatar.png" alt="User Avatar"/>
+            <span>
+              <i className="fas fa-user-tie"></i>
+            </span>
             <p>Yuryi Baravy</p>
           </button>
           <button className="search" onClick={() => openSearch() }>
-            <img src="./assets/search.png" alt="Search Field"/>
+            <i className="fas fa-search"></i>
           </button>
         </div>
         <div className="user-info-settings">
           <div className={"user-settings " + (activateSettings ? 'active' : 'inactive')}>
             <div onClick={() => openSettings(true)}>
-              <img src="./assets/toggle.svg" alt="Settings"/>
+              <i className="fa fa-cog"></i>
               <p>Settings</p>
             </div>
             <div>
-              <img src="./assets/icon.svg" alt="Sign out"/>
+              <i className="fa fa-sign-out-alt"></i>
               <p>Sign out</p>
             </div>
           </div>

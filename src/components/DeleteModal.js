@@ -23,8 +23,8 @@ export default class DeleteModal extends Component {
           <h3>Delete {props.nameOfItem}?</h3>
           <p>"{props.messageOfItem}" will be deleted forever.</p>
           <div className="button-group">
-            <button className="btn btn-danger" onClick={() => props.onDelete()}>Delete</button>
-            <button className="btn btn-default" onClick={() => props.onCancel()}>Cancel</button>
+            <button className="btn btn-danger delete-button" onClick={() => props.onDelete()}>Delete</button>
+            <button className="btn btn-default cancel-button" onClick={() => props.onCancel()}>Cancel</button>
           </div>
         </div>
       </div>
