@@ -31,7 +31,7 @@ export default class Task extends Component {
             let taskParent = todos.find(todo => todo.todoListId === task.parentId);
             return {
               text: taskParent.title,
-              iconSrc: taskParent.iconSource
+              iconSrc: (taskParent.iconSource !== "fa-list" ? taskParent.iconSource : '')
             }
           }
           return;
@@ -47,6 +47,12 @@ export default class Task extends Component {
                 text: 'Tasks',
                 iconSrc: ''
               }
+            }
+          } else if (task.parentId >= 3) {
+            let taskParent = todos.find(todo => todo.todoListId === task.parentId);
+            return {
+              text: taskParent.title,
+              iconSrc: (taskParent.iconSource !== "fa-list" ? taskParent.iconSource : '')
             }
           }
           return;
@@ -94,23 +100,25 @@ export default class Task extends Component {
       if (labelsCategories.length === 1) {
         return object[labelsCategories[0]].map((label,i) => (
           <p key={i} className="label-for-task">
-            <i className={label.iconSrc}></i>
-            <span>{label.text}</span>
+            { label.iconSrc && <i className={label.iconSrc}></i> }
+            { label.text && <span>{label.text}</span> }
           </p>
         ))
       } else if (labelsCategories.length > 1) {
-        let readyLabels = [];
+        let readyLabels = [],
+          index = 0;
         for (let labelCategory in object) {
-          object[labelCategory].map((label, i) =>
+          object[labelCategory].map(label => {
             readyLabels.push(
-              <p key={i} className="label-for-task">
-                <i className="fas fa-circle"></i>
-                <i className={label.iconSrc}></i>
-                <span>{label.text}</span>
+              <p key={index} className="label-for-task">
+                { (readyLabels.length !== 0) && <i className="fas fa-circle"></i> }
+                { label.iconSrc && <i className={label.iconSrc}></i> }
+                { label.text && <span>{label.text}</span> }
               </p>
-            )
-          )
-        };
+            );
+            index++;
+          })
+        }
         return readyLabels;
       }
     };
