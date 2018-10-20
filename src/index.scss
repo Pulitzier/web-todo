@@ -434,7 +434,38 @@ div.todo {
     margin: 0 10px;
     padding: 8px 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    p { margin-left: 10px; }
+    .task-title-wrapper {
+      width: 100%;
+      margin-left: 10px;
+      .label-wrapper-for-task {
+        display: flex;
+        position: relative;
+        overflow: hidden;
+        height: 20px;
+        & > div {
+          position: absolute;
+          flex-flow: row;
+          width: 570px;
+          display: flex;
+        }
+        & p.label-for-task {
+          @include flex;
+          font-size: 12px;
+          i {
+            margin-right: 5px;
+            &.fas.fa-circle {
+              margin-left: 5px;
+              font-size: 4px;
+            }
+            &.far.fa-sun,
+            &.fa-calendar-alt {
+              color: cornflowerblue;
+              & + span { color: cornflowerblue; }
+            }
+          }
+        }
+      }
+    }
   }
 }
 
@@ -516,22 +547,6 @@ label.toggleTodoLabel {
     }
     &.activated::placeholder { color: darkslateblue; }
   }
-}
-
-.task-title-wrapper { width: 100%; }
-
-.label-wrapper-for-task {
-  display: flex;
-  position: relative;
-  overflow: hidden;
-  height: 20px;
-  & > div {
-    position: absolute;
-    flex-flow: row;
-    width: 570px;
-    display: flex;
-  }
-  & p { font-size: 12px; }
 }
 
 .greetings-panel {
@@ -718,7 +733,6 @@ p.lineThrough { text-decoration: line-through; }
 .active { display: block; }
 .inactive { display: none; }
 
-.todo-label-for-task,
 .task-notes {
   @include flex;
   font-size: 12px;

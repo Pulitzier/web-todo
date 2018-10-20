@@ -65,61 +65,61 @@ export default class Task extends Component {
       let allTaskSteps = steps.filter(step => step.taskId === taskId);
       let doneSteps = allTaskSteps.filter(step => step.done);
       if(allTaskSteps.length !== 0) {
-        return (
-          <p>{doneSteps.length} of {allTaskSteps.length}</p>
-        );
+        return {
+          text: `${doneSteps.length} of ${allTaskSteps.length}`,
+          iconSrc: ''
+        }
       }
     };
 
-    if(
-      (note || remindDate || dueDate || repeat) ||
-      countStepsForTask(taskId) ||
-      setLabelFromTodo(task)
-    ) {
+    const generateLabels = (elem, src) => ({
+      text: elem,
+      iconSrc: src
+    });
+    const setLabelsCategories = (object, key) => {
+      if(!(key in object)) object[key] = [];
+      return (value) => object[key].push(value);
+    };
+
+    let labelsObject = {};
+    setLabelFromTodo(task) && setLabelsCategories(labelsObject, "category")(setLabelFromTodo(task));
+    countStepsForTask(taskId) && setLabelsCategories(labelsObject, "steps")(countStepsForTask(taskId));
+    dueDate && setLabelsCategories(labelsObject, "dueDate")(generateLabels(getStringDate(dueDate), "far fa-calendar-alt"));
+    repeat && setLabelsCategories(labelsObject, "dueDate")(generateLabels("", "fas fa-redo"));
+    remindDate && setLabelsCategories(labelsObject, "remindDate")(generateLabels(getStringDate(remindDate),"far fa-clock"));
+    note && setLabelsCategories(labelsObject, "notes")(generateLabels("","far fa-sticky-note"));
+
+    const generateLabelsLayout = (object) => {
+      let labelsCategories = Object.keys(object);
+      if (labelsCategories.length === 1) {
+        return object[labelsCategories[0]].map((label,i) => (
+          <p key={i} className="label-for-task">
+            <i className={label.iconSrc}></i>
+            <span>{label.text}</span>
+          </p>
+        ))
+      } else if (labelsCategories.length > 1) {
+        let readyLabels = [];
+        for (let labelCategory in object) {
+          object[labelCategory].map((label, i) =>
+            readyLabels.push(
+              <p key={i} className="label-for-task">
+                <i className="fas fa-circle"></i>
+                <i className={label.iconSrc}></i>
+                <span>{label.text}</span>
+              </p>
+            )
+          )
+        };
+        return readyLabels;
+      }
+    };
+
+    if(Object.keys(labelsObject).length !== 0) {
       return (
         <div className="label-wrapper-for-task">
           <div className="list-of-labels">
-            {
-              countStepsForTask(taskId)
-            }
-            {
-              setLabelFromTodo(task) &&
-              <p className="todo-label-for-task">
-                <i className={setLabelFromTodo(task).iconSrc}></i>
-                {setLabelFromTodo(task).text}
-              </p>
-            }
-            {
-              dueDate &&
-              (<p className="due-date-label">
-                &#8226;&nbsp;&nbsp;
-                <i className="far fa-calendar-alt"></i>
-                {getStringDate(dueDate)}
-              </p>)
-            }
-            {
-              remindDate &&
-              (<p className="remind-date-label">
-                &#8226;&nbsp;&nbsp;
-                <i className="far fa-clock"></i>
-                {getStringDate(remindDate)}
-              </p>)
-            }
-            {
-              repeat &&
-              (<p className="repeat-date-label">
-                &#8226;&nbsp;&nbsp;
-                <i className="fas fa-redo"></i>
-              </p>)
-            }
-            {
-              note &&
-              (<p className="task-notes">
-                &#8226;&nbsp;&nbsp;
-                <i className="far fa-sticky-note"></i>
-                Notes
-              </p>)
-            }
+            {generateLabelsLayout(labelsObject)}
           </div>
         </div>
       )
