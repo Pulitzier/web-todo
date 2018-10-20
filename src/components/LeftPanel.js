@@ -7,7 +7,7 @@ import {
   chooseList,
   activateTask,
   openSearchPanel,
-  activateTaskSettings
+  activateTaskSettings, addStep
 } from "../actionCreators";
 import {getActiveTask, getTasksForTodo} from '../helpers';
 import UserSettings from "./UserSettings";
@@ -98,10 +98,17 @@ export default class LeftPanel extends Component {
     let { activateList, newListTitle } = this.todoListState;
 
     const renderTodoIconSrc = (todoTitle) => {
-        if(todoTitle === 'My Day') return "far fa-sun";
-        if(todoTitle === 'Important') return "far fa-star";
-        if(todoTitle === 'Tasks') return "fas fa-home";
-        return
+      if(todoTitle === 'My Day') return "far fa-sun";
+      if(todoTitle === 'Important') return "far fa-star";
+      if(todoTitle === 'Tasks') return "fas fa-home";
+      return
+    };
+
+    const addNewList = (event) => {
+      let { key } = event;
+      if (key === 'Enter') {
+        this.pushNewListToState();
+      }
     };
 
     return (
@@ -168,6 +175,7 @@ export default class LeftPanel extends Component {
                   type="text"
                   className="add-new-list-label"
                   onChange={(event) => this.setNewListTitle(event.target.value)}
+                  onKeyPress={(event) => addNewList(event)}
                   value={newListTitle}
                   autoFocus={activateList}
                 />

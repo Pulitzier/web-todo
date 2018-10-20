@@ -8,7 +8,6 @@ import {
 import Task from "./Task";
 import { getTasksForTodo } from "../helpers";
 
-
 export default class ListOfTasks extends Component {
   constructor(props) {
     super(props);
@@ -30,7 +29,7 @@ export default class ListOfTasks extends Component {
 
     const activateToDoTask = (bool) => {
       store.dispatch(activateTask(bool));
-      document.querySelector('body').addEventListener('dblclick', () => {
+      document.addEventListener('dblclick', () => {
         store.dispatch(activateTask(false));
         store.dispatch(typeNewTaskAction(false));
         this.newTaskInput.value = '';
@@ -55,6 +54,13 @@ export default class ListOfTasks extends Component {
         return 400;
       }
       return 450;
+    };
+
+    const addNewTaskOnEnter = (event, todo) => {
+      let { key } = event;
+      if (key === 'Enter') {
+        addNewTask(todo);
+      }
     };
 
     return(
@@ -91,6 +97,7 @@ export default class ListOfTasks extends Component {
               className={"add-new-todo-input " + (activateNewTask ? "activated" : "inactive")}
               onFocus={() => activateToDoTask(true)}
               onChange={() => handleTypeNewTask(true)}
+              onKeyPress={(event) => addNewTaskOnEnter(event, activeTodo)}
             />
             <button
               className={"clearInput " +  (typeNewTask ? 'active' : 'inactive')}
