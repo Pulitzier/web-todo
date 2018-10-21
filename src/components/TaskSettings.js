@@ -128,7 +128,7 @@ export default class TaskSettings extends Component {
               getStepsForTask().map((step, i) => (
                 <div key={i} className="step-title">
                   <label
-                    className={"toggleStepLabel "+(step.done ? "done" : '')}
+                    className={"toggle-step-label "+(step.done ? "done" : '')}
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();

@@ -167,7 +167,7 @@ export default class Task extends Component {
       >
         <div className="added-todo">
           <label
-            className={"toggleTodoLabel "+(done ? "done" : '')}
+            className={"toggle-todo-label "+(done ? "done" : '')}
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();

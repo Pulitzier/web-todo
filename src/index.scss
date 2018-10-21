@@ -470,8 +470,9 @@ div.todo {
 }
 
 label.toggleTaskLabel,
-label.toggleStepLabel,
-label.toggleTodoLabel {
+label.toggle-step-label-template,
+label.toggle-step-label,
+label.toggle-todo-label {
   @include flex;
   width: 20px;
   height: 20px;
@@ -491,7 +492,7 @@ label.toggleTodoLabel {
   }
 }
 
-.add-new-todo-wrapper {
+.add-new-task-wrapper {
   @include flex;
   position: relative;
   max-height: 50px;
@@ -499,7 +500,7 @@ label.toggleTodoLabel {
   margin: 0 10px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   & > * { cursor: pointer; }
-  label.toggleTodoLabel-template {
+  label.toggle-task-label-template {
     width: 20px;
     height: 20px;
     margin: 0;
@@ -533,7 +534,7 @@ label.toggleTodoLabel {
       color: white;
     }
   }
-  .add-new-todo-input {
+  .add-new-task-input {
     width: 100%;
     border-color: transparent;
     display: block;
@@ -888,7 +889,8 @@ button.change-todo-icon {
       font-size: 16px;
     }
   }
-  label.toggleStepLabel {
+  label.toggle-step-label,
+  label.toggle-step-label-template {
     width: 14px;
     height: 14px;
     margin-left: 3px;
@@ -924,22 +926,20 @@ button.change-todo-icon {
     }
   }
   .add-new-step-wrapper {
+    @include flex;
     padding: 10px;
     background-color: #ffffff;
-    .add-new-step {
-      @include flex;
-      position: relative;
-      width: 100%;
-      line-height: 1.1;
-      .add-new-step-input {
-        display: block;
-        border: 0;
-        margin: 0 0 2px 5px;
-        &::placeholder {
-          font-size: 14px;
-          padding-left: 0;
-          color: darkslateblue;
-        }
+    position: relative;
+    width: 100%;
+    line-height: 1.1;
+    .add-new-step-input {
+      display: block;
+      border: 0;
+      margin: 0 0 2px 5px;
+      &::placeholder {
+        font-size: 14px;
+        padding-left: 0;
+        color: darkslateblue;
       }
     }
   }
@@ -1332,7 +1332,7 @@ div.searchList {
   .rename-list-wrapper { background-color: rgba(92, 96, 102, 0.6); }
   .confirmDeleteModal-child,
   .add-new-step-wrapper .add-new-step-input,
-  .add-new-todo-wrapper .add-new-todo-input,
+  .add-new-task-wrapper .add-new-task-input,
   .task-settings-add-note textarea {
     @extend .dark;
   }

@@ -5,16 +5,46 @@ import {
   addNewTaskToList,
   typeNewTaskAction
 } from '../actionCreators';
-import Task from "./Task";
 import { getTasksForTodo } from "../helpers";
+import Task from "./Task";
+import Panel from "./Panel";
+import BasicInput from "./BasicInput";
+import EmptyTaskWrapper from './EmptyTaskWrapper';
 
 export default class ListOfTasks extends Component {
   constructor(props) {
     super(props);
+    this.activateToDoTask = this.activateToDoTask.bind(this);
+    this.handleTypeNewTask = this.handleTypeNewTask.bind(this);
+    this.addNewTask = this.addNewTask.bind(this);
     this.todoState = {
-      activateTodoTask: false,
-      localToggleTask: false,
+      localToggleTask: false
     };
+  };
+
+  activateToDoTask(bool) {
+    const { store } = this.context;
+    store.dispatch(activateTask(bool));
+    document.addEventListener('dblclick', () => {
+      store.dispatch(activateTask(false));
+      store.dispatch(typeNewTaskAction(false));
+      this.newTaskInput.value = '';
+    })
+  };
+
+  handleTypeNewTask(bool) {
+    const { store } = this.context;
+    store.dispatch(typeNewTaskAction(bool));
+    !bool ? this.newTaskInput.value = '' : null;
+  };
+
+  addNewTask(activeTodo) {
+    const { store } = this.context;
+    let newTask = this.newTaskInput.value;
+    store.dispatch(addNewTaskToList(newTask, activeTodo));
+    store.dispatch(typeNewTaskAction(false));
+    this.newTaskInput.focus();
+    this.newTaskInput.value = '';
   };
 
   render() {
@@ -27,28 +57,6 @@ export default class ListOfTasks extends Component {
     const { activeTodo } = this.props;
     const { localToggleTask } = this.todoState;
 
-    const activateToDoTask = (bool) => {
-      store.dispatch(activateTask(bool));
-      document.addEventListener('dblclick', () => {
-        store.dispatch(activateTask(false));
-        store.dispatch(typeNewTaskAction(false));
-        this.newTaskInput.value = '';
-      })
-    };
-
-    const handleTypeNewTask = (bool) => {
-      store.dispatch(typeNewTaskAction(bool));
-      !bool ? this.newTaskInput.value = '' : null;
-    };
-
-    const addNewTask = (activeTodo) => {
-      let newTask = this.newTaskInput.value;
-      store.dispatch(addNewTaskToList(newTask, activeTodo));
-      store.dispatch(typeNewTaskAction(false));
-      this.newTaskInput.focus();
-      this.newTaskInput.value = '';
-    };
-
     const setHeight = () => {
       if(activeTodo.sortOrder) {
         return 400;
@@ -59,7 +67,7 @@ export default class ListOfTasks extends Component {
     const addNewTaskOnEnter = (event, todo) => {
       let { key } = event;
       if (key === 'Enter') {
-        addNewTask(todo);
+        this.addNewTask(todo);
       }
     };
 
@@ -68,7 +76,7 @@ export default class ListOfTasks extends Component {
         className="todo-list-wrapper"
         style={{ height: setHeight() }}
       >
-        <div className="todo-list">
+        <Panel className="todo-list">
           {
             getTasksForTodo(tasks, activeTodo).map((task, index) => {
               if ( !showCompleted && task.done ) {
@@ -77,31 +85,22 @@ export default class ListOfTasks extends Component {
               return <Task key={index} task={task} />
             })
           }
-          <div className="add-new-todo-wrapper">
-            <label
-              htmlFor="toggleTodoCheckbox-template"
-              className={
-                "toggleTodoLabel-template " +
-                (activateNewTask ? 'active ' : 'inactive ') +
-                ((activateNewTask && localToggleTask) ? 'toggled' : 'untoggled')
-              }
-            >
-              <span></span>
-            </label>
-            <input
-              id="toggleTodoCheckbox-template"
-              type="text"
-              name="add-new-task"
-              ref={node => this.newTaskInput = node}
-              placeholder="Add a to-do"
-              className={"add-new-todo-input " + (activateNewTask ? "activated" : "inactive")}
-              onFocus={() => activateToDoTask(true)}
-              onChange={() => handleTypeNewTask(true)}
-              onKeyPress={(event) => addNewTaskOnEnter(event, activeTodo)}
-            />
+          <BasicInput
+            inputType="task"
+            labelChangeClassCondition={{
+              optionOne: activateNewTask,
+              optionTwo: localToggleTask
+            }}
+            inputRef={component => this.newTaskInput = component}
+            inputActions={{
+              onKeyPress: (event) => addNewTaskOnEnter(event, activeTodo),
+              onChange: () => this.handleTypeNewTask(true),
+              onFocus: () => this.activateToDoTask(true)
+            }}
+          >
             <button
               className={"clearInput " +  (typeNewTask ? 'active' : 'inactive')}
-              onClick={() => handleTypeNewTask(false)}
+              onClick={() => this.handleTypeNewTask(false)}
             >
               <i className="fas fa-times"></i>
             </button>
@@ -110,19 +109,14 @@ export default class ListOfTasks extends Component {
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                addNewTask(activeTodo)
+                this.addNewTask(activeTodo)
               }}
             >
               Add
             </button>
-          </div>
-          <div className="todo"></div>
-          <div className="todo"></div>
-          <div className="todo"></div>
-          <div className="todo"></div>
-          <div className="todo"></div>
-          <div className="todo"></div>
-        </div>
+          </BasicInput>
+          <EmptyTaskWrapper numberOfTasks={getTasksForTodo(tasks, activeTodo).length}/>
+        </Panel>
       </div>
     )
   }

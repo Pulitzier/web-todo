@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
 import { addStep } from '../actionCreators';
+import BasicInput from "./BasicInput";
 
 export default class StepInput extends Component {
   constructor(props){
     super(props);
     this.handleStepClick = this.handleStepClick.bind(this);
+    this.handleTypingStep = this.handleTypingStep.bind(this);
+    this.addNewStepToTask = this.addNewStepToTask.bind(this);
     this.stepState = {
       toggleStep: false,
       typeNewStep: false,
@@ -15,7 +18,7 @@ export default class StepInput extends Component {
 
   componentDidMount() {
     document.addEventListener('click', this.handleStepClick, false);
-    document.getElementById('toggleStepCheckbox').focus();
+    document.getElementById('toggle-step-checkbox-template').focus();
   };
 
   componentWillUnmount() {
@@ -47,42 +50,29 @@ export default class StepInput extends Component {
     })
   };
 
-  render(){
-    let { toggleStep } = this.stepState;
-    let { stepText } = this.stepState;
+  addNewStepToTask(event) {
     const { store } = this.context;
     const { activateStep, taskId } = this.props;
-    const addNewStepToTask = (event) => {
-      let { key } = event;
-      if (key === 'Enter' && stepText) {
-        store.dispatch(addStep(taskId, stepText));
-        activateStep();
-      }
-    };
+    let { stepText } = this.stepState;
+    let { key } = event;
+    if (key === 'Enter' && stepText) {
+      store.dispatch(addStep(taskId, stepText));
+      activateStep();
+    }
+  };
+
+  render(){
+    let { toggleStep } = this.stepState;
 
     return (
-      <div className="add-new-step-wrapper">
-        <div className="add-new-step">
-          <label
-            htmlFor="toggleStepCheckbox"
-            className={
-              "toggleStepLabel " +
-              (toggleStep ? 'toggled' : 'untoggled')
-            }
-          >
-            <i></i>
-          </label>
-          <input
-            type="text"
-            name="add-new-step"
-            id="toggleStepCheckbox"
-            placeholder="Add Step"
-            className="add-new-step-input"
-            onKeyPress={(e) => addNewStepToTask(e)}
-            onChange={(e) => this.handleTypingStep(e)}
-          />
-        </div>
-      </div>
+      <BasicInput
+        inputType="step"
+        labelChangeClassCondition={{ optionOne: toggleStep }}
+        inputActions={{
+          onKeyPress: (e) => this.addNewStepToTask(e),
+          onChange: (e) => this.handleTypingStep(e)
+        }}
+      />
     )
   }
 };
