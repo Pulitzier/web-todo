@@ -11,7 +11,10 @@ import MicrosoftLabel from "./StatusBarPanel";
 export default class UserSettings extends Component {
   constructor(props) {
     super(props);
+    this.expandSettingsButton = this.expandSettingsButton.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.openSettings = this.openSettings.bind(this);
+    this.openSearch = this.openSearch.bind(this);
   };
 
   componentDidMount(){
@@ -30,21 +33,29 @@ export default class UserSettings extends Component {
     }
   };
 
+  expandSettingsButton() {
+    let { store } = this.context;
+    let { activateSettings } = store.getState().userSettings;
+    store.dispatch(activateUserSettings(!activateSettings))
+  }
+
+  openSettings(bool) {
+    let { store } = this.context;
+    store.dispatch(openSearchPanel(false));
+    store.dispatch(activateUserSettings(false));
+    store.dispatch(openUserSettings(bool))
+  };
+
+  openSearch(bool) {
+    let { store } = this.context;
+    store.dispatch(openSearchPanel(bool));
+    store.dispatch(activateUserSettings(false));
+  };
+
   render() {
     let { store } = this.context;
     let state = store.getState();
-    let activateSettings = state.userSettings.activateSettings;
-
-    const openSettings = (bool) => {
-      store.dispatch(openSearchPanel(false));
-      store.dispatch(activateUserSettings(false));
-      store.dispatch(openUserSettings(bool))
-    };
-
-    const openSearch = () => {
-      store.dispatch(openSearchPanel(true));
-      store.dispatch(activateUserSettings(false));
-    };
+    let { activateSettings, activateSearch } = state.userSettings;
 
     return (
       <Panel className="user-info">
@@ -54,20 +65,20 @@ export default class UserSettings extends Component {
         >
           <button
             className="user-settings-button"
-            onClick={() => store.dispatch(activateUserSettings(!activateSettings))}
+            onClick={() => this.expandSettingsButton()}
           >
             <span>
               <i className="fas fa-user-tie"></i>
             </span>
             <p>Yuryi Baravy</p>
           </button>
-          <button className="search" onClick={() => openSearch() }>
+          <button className="search" onClick={() => this.openSearch(!activateSearch)}>
             <i className="fas fa-search"></i>
           </button>
         </div>
         <div className="user-info-settings">
           <div className={"user-settings " + (activateSettings ? 'active' : 'inactive')}>
-            <div onClick={() => openSettings(true)}>
+            <div onClick={() => this.openSettings(true)}>
               <i className="fa fa-cog"></i>
               <p>Settings</p>
             </div>
