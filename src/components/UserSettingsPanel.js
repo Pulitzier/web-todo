@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
-import Panel from './Panel';
+import BasicPanel from './BasicPanel';
 import Toggle from 'react-toggle';
 import "react-toggle/style.css";
 import {
@@ -12,7 +12,7 @@ import {
 } from '../actionCreators';
 import MicrosoftLabel from "./StatusBarPanel";
 
-export default class Settings extends Component {
+export default class UserSettingsPanel extends Component {
 
   render() {
     let { store } = this.context;
@@ -46,7 +46,7 @@ export default class Settings extends Component {
     };
 
     return (
-      <Panel className={"user-settings-page " + (openSettings ? 'active' : 'inactive')}>
+      <BasicPanel className={"user-settings-page " + (openSettings ? 'active' : 'inactive')}>
         <header className="settings-header">
           <button className="close-settings" onClick={() => closeSettings(true)}>
             <i className="fas fa-long-arrow-alt-left"></i>
@@ -200,11 +200,11 @@ export default class Settings extends Component {
             </div>
           </div>
         </div>
-      </Panel>
+      </BasicPanel>
     )
   }
 };
 
-Settings.contextTypes = {
+UserSettingsPanel.contextTypes = {
   store: PropTypes.object,
 };

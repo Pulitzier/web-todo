@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
-import ButtonToImportance from './ButtonToImportance';
+import ImportanceButton from './ImportanceButton';
 import {
   getStringDate,
-  getActiveTodoList
+  getActiveTodoList,
+  playSoundWhenDone
 } from '../helpers';
 import {
   toggleTask,
   activateTaskSettings, handleTaskImportanance,
 } from '../actionCreators';
+import BasicLabel from "./BasicLabel";
 
 export default class Task extends Component {
+  constructor(props) {
+    super(props);
+    this.handleImportance = this.handleImportance.bind(this);
+    this.activateSettings = this.activateSettings.bind(this);
+    this.toggleTodoTask = this.toggleTodoTask.bind(this);
+  };
 
   renderLabel(task) {
     const { store } = this.context;
@@ -135,6 +143,23 @@ export default class Task extends Component {
     return;
   };
 
+  toggleTodoTask(task, turnOnSound) {
+    const { store } = this.context;
+    let { id, done } = task;
+    turnOnSound && playSoundWhenDone(done, turnOnSound);
+    store.dispatch(toggleTask(id));
+  };
+
+  activateSettings(taskId) {
+    const { store } = this.context;
+    store.dispatch(activateTaskSettings(taskId, true));
+  };
+
+  handleImportance(taskId) {
+    const { store } = this.context;
+    store.dispatch(handleTaskImportanance(taskId))
+  };
+
   render() {
     const { store } = this.context;
     const state = store.getState();
@@ -142,47 +167,30 @@ export default class Task extends Component {
     let { task } = this.props;
     let { id, done, taskText } = task;
 
-    const playSoundWhenDone = (taskDone) => {
-      let audio = document.getElementById("soundOnComplete");
-      if (turnOnSound && !taskDone) audio.play();
-    };
-
-    const toggleTodoTask = (task) => {
-      turnOnSound ? playSoundWhenDone(task.done) : null;
-      store.dispatch(toggleTask(task.id));
-    };
-
-    const activateSettings = (taskId) => {
-      store.dispatch(activateTaskSettings(taskId, true));
-    };
-
-    const handleImportance = (taskId) => {
-      store.dispatch(handleTaskImportanance(taskId))
+    const handleToggleLabel = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      this.toggleTodoTask(task, turnOnSound);
     };
 
     return (
       <div
         className="todo background-wrapper"
-        onClick={() => activateSettings(id)}
+        onClick={() => this.activateSettings(id)}
       >
         <div className="added-todo">
-          <label
-            className={"toggle-todo-label "+(done ? "done" : '')}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              toggleTodoTask(task);
-            }}
-          >
-            <i className={done ? "fas fa-check-circle" : "far fa-check-circle"}></i>
-          </label>
+          <BasicLabel
+            labelClassName={("toggle-todo-label "+(done ? "done" : ''))}
+            iconClassName={(done ? "fas fa-check-circle" : "far fa-check-circle")}
+            labelOnClickAction={(event) => handleToggleLabel(event)}
+          />
           <div className="task-title-wrapper">
             <p className={done ? 'lineThrough' : null}>{taskText}</p>
             {this.renderLabel(task)}
           </div>
-          <ButtonToImportance
+          <ImportanceButton
             task={task}
-            setImportance={(id) => handleImportance(id)}
+            setImportance={(id) => this.handleImportance(id)}
           />
         </div>
       </div>

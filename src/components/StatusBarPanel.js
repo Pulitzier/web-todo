@@ -1,9 +1,9 @@
 import React from 'react';
-import Panel from "./Panel";
+import BasicPanel from "./BasicPanel";
 
 const StatusBarPanel = () => {
   return (
-    <Panel className="status-bar">
+    <BasicPanel className="status-bar">
       <p className="microsoft-label">Microsoft To-Do</p>
       <button>
         <span>&#95;</span>
@@ -14,7 +14,7 @@ const StatusBarPanel = () => {
       <button>
         <i className="fas fa-times"></i>
       </button>
-    </Panel>
+    </BasicPanel>
   )
 };
 

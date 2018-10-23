@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes  from 'react-proptypes';
-import Panel from './Panel';
+import BasicPanel from './BasicPanel';
 import {
   toggleTask,
   setShowFilter
@@ -51,7 +51,7 @@ export default class SearchPanel extends Component {
     };
 
     return (
-      <Panel className="search-modal">
+      <BasicPanel className="search-modal">
         <div className="search-background-wrapper">
           <div className="search-input-wrapper">
             <input
@@ -110,7 +110,7 @@ export default class SearchPanel extends Component {
             }
           </div>
         </div>
-      </Panel>
+      </BasicPanel>
     )
   }
 };

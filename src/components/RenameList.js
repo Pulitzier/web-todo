@@ -8,7 +8,9 @@ export default class RenameList extends Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
+    this.handleChangeInput = this.handleChangeInput.bind(this);
     this.changeIconInRename = this.changeIconInRename.bind(this);
+    this.handleChangeListTitle = this.handleChangeListTitle.bind(this);
     this.renameListState = {
       newListTitle: '',
       changeIcon: false,
@@ -58,6 +60,21 @@ export default class RenameList extends Component {
     return activateRename(false);
   };
 
+  handleChangeInput(event) {
+    let { target: { value } } = event;
+    this.setState(() => {
+      return this.renameListState = {
+        ...this.renameListState,
+        newListTitle: value
+      }
+    })
+  };
+
+  handleChangeListTitle(todoId, title) {
+    let { store } = this.context;
+    store.dispatch(changeListTitle(todoId, title));
+  };
+
   render(){
     const { store } = this.context;
     const state = store.getState();
@@ -65,20 +82,6 @@ export default class RenameList extends Component {
     const { title, todoListId, iconSource } = getActiveTodoList(todos);
     const { activateRename } = this.props;
     let { newListTitle, changeIcon } = this.renameListState;
-
-    const handleChangeInput = (event) => {
-      let { target: { value } } = event;
-      this.setState(() => {
-        return this.renameListState = {
-          ...this.renameListState,
-          newListTitle: value
-        }
-      })
-    };
-
-    const handleChangeListTitle = (todoId, title) => {
-      store.dispatch(changeListTitle(todoId, title));
-    };
 
     return (
       <div
@@ -97,17 +100,13 @@ export default class RenameList extends Component {
         }
         <input
           className="rename-list"
-          value={
-            newListTitle ?
-              newListTitle :
-              title
-          }
-          onChange={(event) => handleChangeInput(event)}
+          value={ newListTitle || title }
+          onChange={(event) => this.handleChangeInput(event)}
           onKeyPress={(event) => {
             let { key } = event;
             if (key === 'Enter') {
               activateRename(false);
-              handleChangeListTitle(todoListId, newListTitle);
+              this.handleChangeListTitle(todoListId, newListTitle);
             }
           }}
           autoFocus={true}

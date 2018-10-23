@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
-import Panel from './Panel';
+import BasicPanel from './BasicPanel';
 import List from './List';
 import {
   addNewTodoList,
@@ -10,7 +10,7 @@ import {
   activateTaskSettings, addStep
 } from "../actionCreators";
 import {getActiveTask, getTasksForTodo} from '../helpers';
-import UserSettings from "./UserSettings";
+import UserModalSettings from "./UserModalSettings";
 
 export default class LeftPanel extends Component {
   constructor(props){
@@ -112,8 +112,8 @@ export default class LeftPanel extends Component {
     };
 
     return (
-      <Panel className="col-md-4 leftPanel">
-        <UserSettings />
+      <BasicPanel className="col-md-4 leftPanel">
+        <UserModalSettings />
         <List className="nav flex-column my-todo-list">
           {todos.map(todo => {
             if (todo.todoListId < 3) {
@@ -140,7 +140,7 @@ export default class LeftPanel extends Component {
           })}
         </List>
         <hr />
-        <Panel className="custom-todo-list-wrapper">
+        <BasicPanel className="custom-todo-list-wrapper">
           <List className="nav flex-column todo-list">
             {todos.map(todo => {
               if (todo.todoListId >= 3) {
@@ -188,8 +188,8 @@ export default class LeftPanel extends Component {
               <span>+</span> New List
             </a>
           </div>
-        </Panel>
-      </Panel>
+        </BasicPanel>
+      </BasicPanel>
     );
   }
 };

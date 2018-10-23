@@ -5,10 +5,10 @@ import {
   openUserSettings,
   openSearchPanel
 } from "../actionCreators";
-import Panel from './Panel';
+import BasicPanel from './BasicPanel';
 import MicrosoftLabel from "./StatusBarPanel";
 
-export default class UserSettings extends Component {
+export default class UserModalSettings extends Component {
   constructor(props) {
     super(props);
     this.expandSettingsButton = this.expandSettingsButton.bind(this);
@@ -58,7 +58,7 @@ export default class UserSettings extends Component {
     let { activateSettings, activateSearch } = state.userSettings;
 
     return (
-      <Panel className="user-info">
+      <BasicPanel className="user-info">
         <div
           className="user-info-buttons"
           ref={node => this.userSettings = node}
@@ -88,11 +88,11 @@ export default class UserSettings extends Component {
             </div>
           </div>
         </div>
-      </Panel>
+      </BasicPanel>
     )
   }
 };
 
-UserSettings.contextTypes = {
+UserModalSettings.contextTypes = {
   store: PropTypes.object,
 };

@@ -302,8 +302,10 @@ audio { visibility: hidden; }
 
 .panelBanner {
   display: flex;
-  flex-flow: column;
   min-height: 200px;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-end;
   background-repeat: no-repeat;
   background-position: 50% 50%;
   background-size: 100%;
@@ -318,12 +320,21 @@ audio { visibility: hidden; }
     height: 200px;
     justify-content: space-between;
     .panelBanner-text {
-      margin: 15px;
-      text-align: left;
+      width: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
       color: #fff;
       font-weight: 900;
-      position: relative;
+      text-align: left;
+      max-width: 430px;
+      margin: 15px 0;
+      &:not(.renamed){
+        margin-left: 8px;
+        padding: 8px;
+      }
       h3 {
+        font-size: 28px;
         margin: 0;
         &.non-default-todo { cursor: pointer; }
       }
@@ -341,7 +352,6 @@ audio { visibility: hidden; }
           }
         }
       }
-
     }
   }
   .banner-sort {
@@ -350,7 +360,13 @@ audio { visibility: hidden; }
     min-height: 50px;
     padding: 10px 10px 10px 50px;
     color: #ffffff;
-    .change-sort-order {}
+    .change-sort-order {
+      i.fa-angle-down{
+        &.reverced{
+          transform: rotate(-180deg);
+        }
+      }
+    }
     button {
       color: #ffffff;
       position: relative;
@@ -367,6 +383,8 @@ audio { visibility: hidden; }
 }
 
 button.dots-menu {
+  min-width: 40px;
+  min-height: 36px;
   border: 0;
   border-radius: 0;
   margin: 15px;
@@ -718,14 +736,16 @@ p.lineThrough { text-decoration: line-through; }
 }
 
 .rename-list-wrapper {
-  max-width: 240px;
-  background-color: rgba(46, 47, 48, 0.4);
+  width: fit-content;
+  margin-left: 8px;
+  padding: 8px;
+  background-color: #fff;
   input.rename-list {
     font-family: inherit;
     font-weight: 500;
-    font-size: 1.75rem;
+    font-size: 28px;
     line-height: 1.2;
-    color: inherit;
+    color: black;
     background-color: transparent;
     border: 0 solid transparent;
   }
@@ -839,7 +859,6 @@ button.change-todo-icon {
   margin: 0 0 0 auto;
   padding: 0 12px;
   border: 0;
-  background-color: #fff;
   .fa-plus-circle { color: cornflowerblue; }
 }
 

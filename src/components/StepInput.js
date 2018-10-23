@@ -67,7 +67,11 @@ export default class StepInput extends Component {
     return (
       <BasicInput
         inputType="step"
-        labelChangeClassCondition={{ optionOne: toggleStep }}
+        labelClassName={
+          "toggle-step-label-template " +
+          (toggleStep ? 'toggled' : 'untoggled')
+        }
+        iconClassName={"add-new-step-input " + (toggleStep ? "activated" : "inactive")}
         inputActions={{
           onKeyPress: (e) => this.addNewStepToTask(e),
           onChange: (e) => this.handleTypingStep(e)

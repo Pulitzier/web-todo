@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
-import Settings from "./Settings";
+import UserSettingsPanel from "./UserSettingsPanel";
 import DeleteModal from "./DeleteModal";
 import AudioForCompletion from "./AudioForCompletion";
 import '../index.css';
@@ -120,7 +120,7 @@ export default class App extends Component {
             deleteTodo={handelDeleteTodo}
             deleteStep={handleDeleteStep}
           />
-          <Settings />
+          <UserSettingsPanel />
           {
             turnOnSound ? <AudioForCompletion /> : null
           }

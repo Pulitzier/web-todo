@@ -1,20 +1,28 @@
 import React, { Component } from 'react';
 import PropTypes from "react-proptypes";
-import ButtonToImportance from './ButtonToImportance';
+import ImportanceButton from './ImportanceButton';
 import ChildTaskSettings from './ChildTaskSettings';
+import StepInput from "./StepInput";
+import BasicLabel from './BasicLabel';
 import {
   activateTaskSettings,
   toggleTask,
   toggleStep,
   addTaskToMyDay,
-  addNoteToTask, handleTaskImportanance
+  addNoteToTask,
+  handleTaskImportanance
 } from '../actionCreators';
-import StepInput from "./StepInput";
+import { playSoundWhenDone } from '../helpers';
 
 export default class TaskSettings extends Component {
   constructor(props) {
     super(props);
     const { activeTask } = props;
+    this.closeTaskSettings = this.closeTaskSettings.bind(this);
+    this.setToggledTask = this.setToggledTask.bind(this);
+    this.setToggledStep = this.setToggledStep.bind(this);
+    this.addCustomToMyDay = this.addCustomToMyDay.bind(this);
+    this.handleImportance = this.handleImportance.bind(this);
     this.taskState = {
       showConfirmMessage: false,
       activateStepInput: false,
@@ -71,55 +79,68 @@ export default class TaskSettings extends Component {
     });
   };
 
+  closeTaskSettings(taskId) {
+    let { store } = this.context;
+    this.newNote.blur();
+    store.dispatch(activateTaskSettings(taskId, false))
+  };
+
+  setToggledTask(taskId, done) {
+    let { store } = this.context;
+    const { userSettings: { turnOnSound } } = store.getState();
+    turnOnSound && playSoundWhenDone(done, turnOnSound);
+    store.dispatch(toggleTask(taskId))
+  };
+
+  setToggledStep(stepId, done) {
+    let { store } = this.context;
+    const { userSettings: { turnOnSound } } = store.getState();
+    turnOnSound && playSoundWhenDone(done, turnOnSound);
+    store.dispatch(toggleStep(stepId))
+  };
+
+  addCustomToMyDay(taskId, bool) {
+    let { store } = this.context;
+    store.dispatch(addTaskToMyDay(taskId, bool))
+  };
+
+  handleImportance(taskId) {
+    let { store } = this.context;
+    store.dispatch(handleTaskImportanance(taskId))
+  };
+
   render() {
     const { store } = this.context;
-    const { app: { steps }} = store.getState();
+    const { app: { steps } } = store.getState();
     const { activateStepInput, showNoteControls, newNoteText } = this.taskState;
     const { handleDeleteTask, activeTask, handleDeleteStep } = this.props;
-    let { id: activeTaskId, done, taskText, createdAt, myDay, note: taskNote } = activeTask;
-
-    const closeTaskSettings = (taskId) => {
-      this.newNote.blur();
-      store.dispatch(activateTaskSettings(taskId, false))
-    };
-
-    const setToggledTask = (taskId) => {
-      store.dispatch(toggleTask(taskId))
-    };
-
-    const setToggledStep = (stepId) => {
-      store.dispatch(toggleStep(stepId))
-    };
-
-    const addCustomToMyDay = (taskId, bool) => {
-      store.dispatch(addTaskToMyDay(taskId, bool))
-    };
+    let { id: activeTaskId, done: doneTask, taskText, createdAt, myDay, note: taskNote } = activeTask;
 
     const getStepsForTask = () => {
       return steps.filter(step => step.taskId === activeTaskId);
     };
 
-    const handleImportance = (taskId) => {
-      store.dispatch(handleTaskImportanance(taskId))
+    const setCreationDate = () => {
+      let options = {
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric'
+      };
+      return `Created on ${(new Date(createdAt)).toLocaleString('en-us', options)}`;
     };
 
     return (
       <div className="task-settings">
         <div className="task-settings-title">
-          <label
-            className={"toggleTaskLabel "+(done ? "done" : '')}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setToggledTask(activeTaskId);
-            }}
-          >
-            <i className={done ? "fas fa-check-circle" : "far fa-check-circle"}></i>
-          </label>
+          <BasicLabel
+            labelClassName={("toggleTaskLabel "+(doneTask ? "done" : ''))}
+            labelOnClickAction={() => this.setToggledTask(activeTaskId, doneTask)}
+            iconClassName={(doneTask ? "fas fa-check-circle" : "far fa-check-circle")}
+          />
           <p>{taskText}</p>
-          <ButtonToImportance
+          <ImportanceButton
             task={activeTask}
-            setImportance={(id) => handleImportance(id)}
+            setImportance={(id) => this.handleImportance(id)}
           />
         </div>
         <div className="task-middle-settings-wrapper">
@@ -127,16 +148,11 @@ export default class TaskSettings extends Component {
             {
               getStepsForTask().map((step, i) => (
                 <div key={i} className="step-title">
-                  <label
-                    className={"toggle-step-label "+(step.done ? "done" : '')}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setToggledStep(step.stepId);
-                    }}
-                  >
-                    <i className={step.done ? "fas fa-check-circle" : "far fa-check-circle"}></i>
-                  </label>
+                  <BasicLabel
+                    labelClassName={("toggle-step-label "+(step.done ? "done" : ''))}
+                    iconClassName={(step.done ? "fas fa-check-circle" : "far fa-check-circle")}
+                    labelOnClickAction={() => this.setToggledStep(step.stepId, step.done)}
+                  />
                   <p>{step.stepText}</p>
                   <button
                     className="steps-trash"
@@ -164,7 +180,7 @@ export default class TaskSettings extends Component {
               <ul>
                 <li
                   className={"add-to-my-day " + (myDay && "active")}
-                  onClick={() => addCustomToMyDay(activeTaskId, true)}
+                  onClick={() => this.addCustomToMyDay(activeTaskId, true)}
                 >
                   <i className="far fa-sun"></i>
                   {
@@ -179,7 +195,7 @@ export default class TaskSettings extends Component {
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
-                          addCustomToMyDay(activeTaskId, false)
+                          this.addCustomToMyDay(activeTaskId, false)
                         }}
                       >
                         <i className="fas fa-times"></i>
@@ -218,12 +234,10 @@ export default class TaskSettings extends Component {
         <div className='task-settings-footer'>
           <button
             className="task-settings-arrow-right"
-            onClick={() => closeTaskSettings(activeTaskId)}>
+            onClick={() => this.closeTaskSettings(activeTaskId)}>
             <i className="fas fa-angle-right"></i>
           </button>
-          <p>{(() => {
-            return `Created on ${(new Date(createdAt)).toLocaleString('en-us', {weekday: 'short', month: 'short', day: 'numeric'})}`;
-          })()}</p>
+          <p>{setCreationDate()}</p>
           <button
             className="task-settings-trash"
             onClick={() => handleDeleteTask(activeTask)}

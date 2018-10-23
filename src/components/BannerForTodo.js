@@ -1,14 +1,24 @@
 import React, {Component} from 'react';
 import PropTypes from 'react-proptypes';
-import RenameList from './RenameList';
 import {
   getActiveTodoList,
   checkActiveTodoTitle,
   setInitialIconWhenRename
 } from '../helpers';
+import RenameList from './RenameList';
 import IconsMenu from "./IconsMenu";
 import SortPopUp from "./SortPopUp";
 import BannerModalSettings from "./BannerModalSettings";
+import BasicIconButton from './BasicIconButton';
+import BasicPanel from "./BasicPanel";
+
+const colorScheme = {
+  "orange": "249, 148, 7",
+  "green": "0, 158, 34",
+  "red": "255, 0, 0",
+  "blue": "0, 0, 255",
+  "blueviolet": "204, 7, 249"
+};
 
 export default class BannerForTodo extends Component {
   constructor(props) {
@@ -16,6 +26,7 @@ export default class BannerForTodo extends Component {
     this.activateModalSettings = this.activateModalSettings.bind(this);
     this.activateRename = this.activateRename.bind(this);
     this.activateIcon = this.activateIcon.bind(this);
+    this.renderBannerText = this.renderBannerText.bind(this);
     this.bannerState = {
       shouldRenameList: false,
       shouldChangeIcon: false,
@@ -50,23 +61,49 @@ export default class BannerForTodo extends Component {
     })
   };
 
+  renderBannerText(activeTodo) {
+    let { title, todoListId: todoId, iconSource: todoIconSrc } = activeTodo;
+    let { shouldRenameList, shouldChangeIcon } = this.bannerState;
+    if (shouldRenameList && checkActiveTodoTitle(title)) {
+      return <RenameList activateRename={(bool) => this.activateRename(bool)}/>
+    }
+    return (
+      <BasicPanel>
+        {
+          todoIconSrc !== "fa-list" &&
+          checkActiveTodoTitle(title) &&
+          (<BasicIconButton
+            buttonClassName="banner-change-todo-icon"
+            buttonOnClickAction={() => this.activateIcon(true)}
+            iconClassName={("fa " + setInitialIconWhenRename(todoIconSrc))}
+          />)
+        }
+        {
+          shouldChangeIcon &&
+          todoIconSrc !== "fa-list" &&
+          <IconsMenu
+            activateIcon={(bool) => this.activateIcon(bool)}
+            activeTodoId={todoId}
+          />
+        }
+        <h3
+          className={checkActiveTodoTitle(title) ? "non-default-todo" : ''}
+          onClick={() => this.activateRename(true)}
+        >{title}</h3>
+      </BasicPanel>
+    )
+  };
+
   render(){
     const { store } = this.context;
     const state = store.getState();
     const { app: { todos }} = state;
     const { activeTask, deleteList, activateGreetings } = this.props;
     const activeTodo = getActiveTodoList(todos);
-    let { title, todoListId: todoId, iconSource: todoIconSrc, bgImage, bgColor, sortOrder } = activeTodo;
-    let { shouldRenameList, shouldChangeIcon, showModal } = this.bannerState;
-    const colorScheme = {
-      "orange": "249, 148, 7",
-      "green": "0, 158, 34",
-      "red": "255, 0, 0",
-      "blue": "0, 0, 255",
-      "blueviolet": "204, 7, 249"
-    };
-    let bgColorForBanner = 'rgba(' + colorScheme[bgColor] + ', 0.45)';
-    let bgColorForSort = 'rgba(' + colorScheme[bgColor] + ', 0.65)';
+    let { todoListId: todoId, bgImage, bgColor, sortOrder } = activeTodo;
+    let { showModal, shouldRenameList } = this.bannerState;
+    let bgColorForBanner = `linear-gradient(rgba(${colorScheme[bgColor]},0.65), rgba(${colorScheme[bgColor]}, 0.35))`;
+    let bgColorForSort = `rgba(${colorScheme[bgColor]},0.45)`;
 
     const setMyDayTime = () => {
       let today = new Date();
@@ -77,65 +114,38 @@ export default class BannerForTodo extends Component {
 
     return (
       <div
-        className={"panelBanner " + (activeTask ? 'responsive ' : '') + (!!sortOrder ? 'with-sort' : '')}
-        style={{ backgroundImage: `url(${bgImage})`}}
+        className={("panelBanner " + (activeTask ? 'responsive ' : '') + (!!sortOrder ? 'with-sort' : ''))}
+        style={{ backgroundImage: `${bgColorForBanner}, url(${bgImage})`}}
       >
-        <section
-          className="banner-main-section"
-          style={{backgroundColor: bgColorForBanner}}
-        >
+        <section className="banner-main-section">
           <div
-            className="panelBanner-text"
+            className={"panelBanner-text " + (shouldRenameList ? "renamed" : '')}
             onBlur={() => this.activateRename(false)}
           >
             {
-              shouldRenameList && checkActiveTodoTitle(title) ?
-                <RenameList activateRename={(bool) => this.activateRename(bool)}/> :
-                <div>
-                  {
-                    todoIconSrc &&
-                    checkActiveTodoTitle(title) &&
-                    (<button className="banner-change-todo-icon" onClick={() => this.activateIcon(true)}>
-                      <i className={"fa " + setInitialIconWhenRename(todoIconSrc)}></i>
-                    </button>)
-                  }
-                  {
-                    todoIconSrc &&
-                    shouldChangeIcon &&
-                    <IconsMenu
-                      activateIcon={(bool) => this.activateIcon(bool)}
-                      activeTodoId={activeTodo.todoListId}
-                    />
-                  }
-                  <h3
-                    className={checkActiveTodoTitle(title) ? "non-default-todo" : ''}
-                    onClick={() => this.activateRename(true)}
-                  >{activeTodo.title}</h3>
-                </div>
+              this.renderBannerText(activeTodo)
             }
             {
               (todoId === 0) &&
-              <div className="date-time">{setMyDayTime()}</div>
+              <p className="date-time">{setMyDayTime()}</p>
             }
           </div>
-          <div>
+          <div className="banner-button-group">
             {
               (todoId === 0) &&
-              <button
-                className="open-greeting"
-                style={{backgroundColor: bgColor}}
-                onClick={() => activateGreetings()}
-              >
-                <i className="far fa-lightbulb"></i>
-              </button>
+              <BasicIconButton
+                buttonClassName="open-greeting"
+                buttonOnClickAction={() => activateGreetings()}
+                buttonStyle={{backgroundColor: bgColor}}
+                iconClassName="far fa-lightbulb"
+              />
             }
-            <button
-              className="btn btn-primary dots-menu"
-              style={{backgroundColor: bgColor}}
-              onClick={() => this.activateModalSettings()}
-            >
-              <i className="fas fa-ellipsis-h"></i>
-            </button>
+            <BasicIconButton
+              buttonClassName="btn btn-primary dots-menu"
+              buttonOnClickAction={() => this.activateModalSettings()}
+              buttonStyle={{backgroundColor: bgColor}}
+              iconClassName="fas fa-ellipsis-h"
+            />
             {
               showModal &&
               <BannerModalSettings

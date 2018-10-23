@@ -7,7 +7,7 @@ import {
 } from '../actionCreators';
 import { getTasksForTodo } from "../helpers";
 import Task from "./Task";
-import Panel from "./Panel";
+import BasicPanel from "./BasicPanel";
 import BasicInput from "./BasicInput";
 import EmptyTaskWrapper from './EmptyTaskWrapper';
 
@@ -76,7 +76,7 @@ export default class ListOfTasks extends Component {
         className="todo-list-wrapper"
         style={{ height: setHeight() }}
       >
-        <Panel className="todo-list">
+        <BasicPanel className="todo-list">
           {
             getTasksForTodo(tasks, activeTodo).map((task, index) => {
               if ( !showCompleted && task.done ) {
@@ -87,10 +87,12 @@ export default class ListOfTasks extends Component {
           }
           <BasicInput
             inputType="task"
-            labelChangeClassCondition={{
-              optionOne: activateNewTask,
-              optionTwo: localToggleTask
-            }}
+            labelClassName={
+              "toggle-task-label-template " +
+              (activateNewTask ? 'active ' : 'inactive ') +
+              (activateNewTask && localToggleTask ? 'toggled' : 'untoggled')
+            }
+            iconClassName={"add-new-task-input " + (activateNewTask ? "activated" : "inactive")}
             inputRef={component => this.newTaskInput = component}
             inputActions={{
               onKeyPress: (event) => addNewTaskOnEnter(event, activeTodo),
@@ -115,8 +117,8 @@ export default class ListOfTasks extends Component {
               Add
             </button>
           </BasicInput>
-          <EmptyTaskWrapper numberOfTasks={getTasksForTodo(tasks, activeTodo).length}/>
-        </Panel>
+          <EmptyTaskWrapper numberOfEmptyTasks={getTasksForTodo(tasks, activeTodo).length}/>
+        </BasicPanel>
       </div>
     )
   }

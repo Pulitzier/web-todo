@@ -57,3 +57,8 @@ export function getActiveTask(tasks) {
 export function setInitialIconWhenRename(iconSource) {
   return iconSource === "fa-list" ? "fa-plus-circle" : iconSource;
 }
+
+export function playSoundWhenDone(taskDone, turnOnSound) {
+  let audio = document.getElementById("soundOnComplete");
+  if (turnOnSound && !taskDone) audio.play();
+}

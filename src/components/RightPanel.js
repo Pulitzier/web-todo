@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
 import BannerForTodo from './BannerForTodo.js';
 import ListOfTasks from './ListOfTasks.js';
-import Panel from './Panel';
+import BasicPanel from './BasicPanel';
 import TaskSettings from './TaskSettings';
 import SearchPanel from './SearchPanel';
 import GreetingsPanel from "./GreetingsPanel";
@@ -50,8 +50,8 @@ export default class RightPanel extends Component {
     const activeTask = getActiveTask(tasks);
 
     return (
-      <Panel className="col-md-8 rightPanel">
-        <Panel>
+      <BasicPanel className="col-md-8 rightPanel">
+        <BasicPanel>
           {
             activateSearch && <SearchPanel />
           }
@@ -67,7 +67,7 @@ export default class RightPanel extends Component {
             activateGreetings={this.activateGreetingPanel}
           />
           <ListOfTasks activeTodo={activeTodo}/>
-        </Panel>
+        </BasicPanel>
         {
           activeTask &&
           <TaskSettings
@@ -76,7 +76,7 @@ export default class RightPanel extends Component {
             activeTask={activeTask}
           />
         }
-      </Panel>
+      </BasicPanel>
     )
   }
 };

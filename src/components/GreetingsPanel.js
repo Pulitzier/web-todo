@@ -5,6 +5,7 @@ import {
   activateTaskSettings,
   clearSuggestedField
 } from '../actionCreators';
+import BasicPanel from "./BasicPanel";
 
 export default class GreetingsPanel extends Component {
   constructor(props) {
@@ -102,7 +103,7 @@ export default class GreetingsPanel extends Component {
     };
 
     return (
-      <div className="greetings-panel">
+      <BasicPanel className="greetings-panel">
         <h3>{this.getDayPeriod()}, Yuryi Baravy</h3>
         <section className="greeting-header-section">
           {
@@ -203,7 +204,7 @@ export default class GreetingsPanel extends Component {
             })
           }
         </section>
-      </div>
+      </BasicPanel>
     )
   }
 };
