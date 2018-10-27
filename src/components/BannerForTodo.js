@@ -9,8 +9,9 @@ import RenameList from './RenameList';
 import IconsMenu from "./IconsMenu";
 import SortPopUp from "./SortPopUp";
 import BannerModalSettings from "./BannerModalSettings";
-import BasicIconButton from './BasicIconButton';
+import BasicButton from './BasicButton';
 import BasicPanel from "./BasicPanel";
+import GreetingPopUp from './GreetingPopUp';
 
 const colorScheme = {
   "orange": "249, 148, 7",
@@ -27,6 +28,7 @@ export default class BannerForTodo extends Component {
     this.activateRename = this.activateRename.bind(this);
     this.activateIcon = this.activateIcon.bind(this);
     this.renderBannerText = this.renderBannerText.bind(this);
+    this.getLatestTasks = this.getLatestTasks.bind(this);
     this.bannerState = {
       shouldRenameList: false,
       shouldChangeIcon: false,
@@ -61,6 +63,24 @@ export default class BannerForTodo extends Component {
     })
   };
 
+  getLatestTasks(tasks) {
+    let latestTasks = [];
+    let tasksIds = tasks.reduce((arr, task) => {
+      arr.push(task.id);
+      return arr
+    }, []);
+    if (tasksIds.length <= 3) {
+      return tasks.filter((task) => tasksIds.indexOf(task.id) !== -1);
+    }
+    for (let i=1; i<4; i++) {
+      tasks.map((task) => {
+        if (task.id === tasksIds[tasksIds.length - i]) latestTasks.push(task)
+      })
+    }
+    return latestTasks
+  };
+
+
   renderBannerText(activeTodo) {
     let { title, todoListId: todoId, iconSource: todoIconSrc } = activeTodo;
     let { shouldRenameList, shouldChangeIcon } = this.bannerState;
@@ -72,7 +92,7 @@ export default class BannerForTodo extends Component {
         {
           todoIconSrc !== "fa-list" &&
           checkActiveTodoTitle(title) &&
-          (<BasicIconButton
+          (<BasicButton
             buttonClassName="banner-change-todo-icon"
             buttonOnClickAction={() => this.activateIcon(true)}
             iconClassName={("fa " + setInitialIconWhenRename(todoIconSrc))}
@@ -97,7 +117,7 @@ export default class BannerForTodo extends Component {
   render(){
     const { store } = this.context;
     const state = store.getState();
-    const { app: { todos }} = state;
+    const { app: { todos, tasks }} = state;
     const { activeTask, deleteList, activateGreetings } = this.props;
     const activeTodo = getActiveTodoList(todos);
     let { todoListId: todoId, bgImage, bgColor, sortOrder } = activeTodo;
@@ -133,14 +153,14 @@ export default class BannerForTodo extends Component {
           <div className="banner-button-group">
             {
               (todoId === 0) &&
-              <BasicIconButton
+              <BasicButton
                 buttonClassName="open-greeting"
                 buttonOnClickAction={() => activateGreetings()}
                 buttonStyle={{backgroundColor: bgColor}}
                 iconClassName="far fa-lightbulb"
               />
             }
-            <BasicIconButton
+            <BasicButton
               buttonClassName="btn btn-primary dots-menu"
               buttonOnClickAction={() => this.activateModalSettings()}
               buttonStyle={{backgroundColor: bgColor}}

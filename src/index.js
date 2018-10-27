@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import './index.css';
-import App from './components/App';
+import AppWrapper from './components/AppWrapper';
 import {
   appReducer,
   setSearchState,
@@ -36,7 +36,7 @@ localStorage.clear();
 
 ReactDOM.render(
   <Provider store={ store }>
-    <App />
+    <AppWrapper />
   </Provider>,
   document.getElementById('root')
 );

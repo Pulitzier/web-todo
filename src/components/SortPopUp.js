@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
 import { revertTasks, sortTasks } from '../actionCreators';
-import BasicIconButton from './BasicIconButton';
+import BasicButton from './BasicButton';
 
 export default class SortPopUp extends Component {
   constructor(props) {
@@ -61,12 +61,12 @@ export default class SortPopUp extends Component {
         style={{backgroundColor: bgColor}}
       >
         <p>{this.setSortMessage()}</p>
-        <BasicIconButton
+        <BasicButton
           buttonClassName={("change-sort-order " + (reverseTasks ? 'up' : 'down'))}
           buttonOnClickAction={() => this.changeSortOrder()}
           iconClassName={("fas fa-angle-down " + (reverseTasks && "reverced"))}
         />
-        <BasicIconButton
+        <BasicButton
           buttonClassName="clear-banner-sort"
           buttonOnClickAction={() => this.handleSortTasks('')}
           iconClassName="fas fa-times"

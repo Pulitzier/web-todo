@@ -18,18 +18,32 @@ body {
     background-color: grey;
     padding: 5px 0;
     .container {
-      cursor: default;
-      position: relative;
-      height: 650px;
-      max-width: 920px;
-      margin: auto;
-      margin-right: 18%;
-      input { outline: 0; };
-      button, a {
-        outline: 0;
-        cursor: pointer;
-      };
-      .row { height: 100%; }
+      .expanded-app {
+        display: flex;
+        flex-wrap: wrap;
+        cursor: default;
+        position: relative;
+        height: 650px;
+        max-width: 920px;
+        margin: auto;
+        margin-right: 18%;
+        input { outline: 0; };
+        button, a {
+          outline: 0;
+          cursor: pointer;
+        };
+      }
+      .collapsed-app {
+        position: fixed;
+        bottom: 0;
+        background-color: #fff;
+        width: 250px;
+        height: 30px;
+        .status-bar {
+          height: 100%;
+          justify-content: flex-end;
+        }
+      }
     }
   }
 }
@@ -114,7 +128,7 @@ audio { visibility: hidden; }
     }
   }
   .custom-todo-list-wrapper {
-    max-height: 445px;
+    max-height: 415px;
     overflow: auto;
   }
 }
@@ -166,7 +180,7 @@ audio { visibility: hidden; }
   };
   .settings-general-info {
     overflow-y: auto;
-    max-height: 555px;
+    max-height: 525px;
     padding: 30px 50px 10px 150px;
     & > * { width: 100%; };
     section {
@@ -1296,8 +1310,6 @@ div.searchList {
   .todo-list-wrapper { background-color: #ffffff; }
 }
 
-
-.dark .todo-list-wrapper { background-color: #2e2f30; }
 .dark {
   background-color: #2e2f30;
   color: #ffffff;
@@ -1307,7 +1319,7 @@ div.searchList {
     background-color: #2e2f30;
     hr { border-top: 1px solid rgba(255,255,255,.5); }
   }
-  button.user-settings-button { color: #ffffff; }
+  button.user-settings-button { color: darkgray; }
   .modal-content { background-color: #2e2f30; }
   #bannerSettings {
     background-color: #2e2f30;
@@ -1348,6 +1360,7 @@ div.searchList {
     background-color: #5c6066;
     border-color: #888888;
   }
+  .todo-list-wrapper { background-color: #2e2f30; }
   .rename-list-wrapper { background-color: rgba(92, 96, 102, 0.6); }
   .confirmDeleteModal-child,
   .add-new-step-wrapper .add-new-step-input,
@@ -1363,7 +1376,14 @@ div.searchList {
       border: 1px solid lightgrey;
     }
   }
-  .leftPanel ul li.active { background-color: #5c6066; }
+  .leftPanel ul {
+    li {
+      &.active { background-color: #5c6066; }
+      &:not(.active):hover {
+        color: darkgray;
+      }
+    }
+  }
   .task-settings {
     border: 1px solid lightgrey;
     background-color: #1a1b1c;

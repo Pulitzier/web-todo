@@ -1,5 +1,5 @@
 import React from 'react';
-import BasicIconButton from './BasicIconButton';
+import BasicButton from './BasicButton';
 
 const ImportanceButton = (props) => {
   let { task: { id, important }, setImportance } = props;
@@ -11,7 +11,7 @@ const ImportanceButton = (props) => {
   };
 
   return (
-    <BasicIconButton
+    <BasicButton
       buttonClassName="important-icon"
       buttonOnClickAction={(event) => handleButtonClick(event)}
       iconClassName={(important ? "fas fa-star" : "far fa-star")}
