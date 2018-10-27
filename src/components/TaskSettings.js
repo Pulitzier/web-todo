@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from "react-proptypes";
-import ImportanceButton from './ImportanceButton';
-import ChildTaskSettings from './ChildTaskSettings';
-import StepInput from "./StepInput";
-import BasicLabel from './BasicLabel';
 import {
   activateTaskSettings,
   toggleTask,
@@ -13,6 +9,12 @@ import {
   handleTaskImportanance
 } from '../actionCreators';
 import { playSoundWhenDone } from '../helpers';
+import ImportanceButton from './ImportanceButton';
+import ChildTaskSettings from './ChildTaskSettings';
+import StepInput from "./StepInput";
+import BasicLabel from './BasicLabel';
+import BasicButton from './BasicButton';
+import BasicPanel from "./BasicPanel";
 
 export default class TaskSettings extends Component {
   constructor(props) {
@@ -130,8 +132,8 @@ export default class TaskSettings extends Component {
     };
 
     return (
-      <div className="task-settings">
-        <div className="task-settings-title">
+      <BasicPanel className="task-settings">
+        <BasicPanel className="task-settings-title">
           <BasicLabel
             labelClassName={("toggleTaskLabel "+(doneTask ? "done" : ''))}
             labelOnClickAction={() => this.setToggledTask(activeTaskId, doneTask)}
@@ -142,25 +144,24 @@ export default class TaskSettings extends Component {
             task={activeTask}
             setImportance={(id) => this.handleImportance(id)}
           />
-        </div>
-        <div className="task-middle-settings-wrapper">
+        </BasicPanel>
+        <BasicPanel className="task-middle-settings-wrapper">
           <div>
             {
               getStepsForTask().map((step, i) => (
-                <div key={i} className="step-title">
+                <BasicPanel key={i} className="step-title">
                   <BasicLabel
                     labelClassName={("toggle-step-label "+(step.done ? "done" : ''))}
                     iconClassName={(step.done ? "fas fa-check-circle" : "far fa-check-circle")}
                     labelOnClickAction={() => this.setToggledStep(step.stepId, step.done)}
                   />
                   <p>{step.stepText}</p>
-                  <button
-                    className="steps-trash"
-                    onClick={() => handleDeleteStep(step)}
-                  >
-                    <i className="fas fa-trash-alt"></i>
-                  </button>
-                </div>
+                  <BasicButton
+                    buttonClassName="steps-trash"
+                    buttonOnClickAction={() => handleDeleteStep(step)}
+                    iconClassName="fas fa-trash-alt"
+                  />
+                </BasicPanel>
               ))
             }
             {
@@ -189,63 +190,63 @@ export default class TaskSettings extends Component {
                       (<p className="need-to-add">Add to My to-do</p>)
                   }
                   {
-                    myDay && (
-                      <button
-                        className="clear-from-my-day"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          this.addCustomToMyDay(activeTaskId, false)
-                        }}
-                      >
-                        <i className="fas fa-times"></i>
-                      </button>
-                    )
+                    myDay &&
+                    <BasicButton
+                      buttonClassName="clear-from-my-day"
+                      buttonOnClickAction={(event) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        this.addCustomToMyDay(activeTaskId, false)
+                      }}
+                      iconClassName="fas fa-times"
+                    />
                   }
                 </li>
               </ul>
             </div>
             <ChildTaskSettings activeTask={activeTask}/>
             <div className="task-settings-add-note">
-            <textarea
-              rows="5"
-              cols="30"
-              ref={node => this.newNote = node}
-              placeholder="Add a note"
-              value={showNoteControls ? newNoteText : taskNote}
-              onChange={(e) => this.typeNewNote(e)}
-            ></textarea>
+              <textarea
+                rows="5"
+                cols="30"
+                ref={node => this.newNote = node}
+                placeholder="Add a note"
+                value={showNoteControls ? newNoteText : taskNote}
+                onChange={(e) => this.typeNewNote(e)}
+              ></textarea>
               {
                 showNoteControls &&
-                (<div className="btn-group">
-                  <button
-                    className="btn-default"
-                    onClick={() => this.typeNewNote(false)}
-                  >Cancel</button>
-                  <button
-                    className="btn-primary"
-                    onClick={() => this.saveNoteForTask(activeTaskId)}
-                  >Save</button>
-                </div>)
+                (<BasicPanel className="btn-group">
+                  <BasicButton
+                    buttonClassName="btn-default"
+                    buttonOnClickAction={() => this.typeNewNote(false)}
+                    buttonText="Cancel"
+                  />
+                  <BasicButton
+                    buttonClassName="btn-primary"
+                    buttonOnClickAction={() => this.saveNoteForTask(activeTaskId)}
+                    buttonText="Save"
+                  />
+
+                </BasicPanel>)
               }
             </div>
           </div>
-        </div>
-        <div className='task-settings-footer'>
-          <button
-            className="task-settings-arrow-right"
-            onClick={() => this.closeTaskSettings(activeTaskId)}>
-            <i className="fas fa-angle-right"></i>
-          </button>
+        </BasicPanel>
+        <BasicPanel className='task-settings-footer'>
+          <BasicButton
+            buttonClassName="task-settings-arrow-right"
+            buttonOnClickAction={() => this.closeTaskSettings(activeTaskId)}
+            iconClassName="fas fa-angle-right"
+          />
           <p>{setCreationDate()}</p>
-          <button
-            className="task-settings-trash"
-            onClick={() => handleDeleteTask(activeTask)}
-          >
-            <i className="fas fa-trash-alt"></i>
-          </button>
-        </div>
-      </div>
+          <BasicButton
+            buttonClassName="task-settings-trash"
+            buttonOnClickAction={() => handleDeleteTask(activeTask)}
+            iconClassName="fas fa-trash-alt"
+          />
+        </BasicPanel>
+      </BasicPanel>
     )
   }
 };

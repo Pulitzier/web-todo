@@ -13,7 +13,7 @@ import BasicButton from './BasicButton';
 import BasicPanel from "./BasicPanel";
 import GreetingPopUp from './GreetingPopUp';
 
-const colorScheme = {
+const BANNER_COLOR_SCHEME = {
   "orange": "249, 148, 7",
   "green": "0, 158, 34",
   "red": "255, 0, 0",
@@ -122,8 +122,8 @@ export default class BannerForTodo extends Component {
     const activeTodo = getActiveTodoList(todos);
     let { todoListId: todoId, bgImage, bgColor, sortOrder } = activeTodo;
     let { showModal, shouldRenameList } = this.bannerState;
-    let bgColorForBanner = `linear-gradient(rgba(${colorScheme[bgColor]},0.65), rgba(${colorScheme[bgColor]}, 0.35))`;
-    let bgColorForSort = `rgba(${colorScheme[bgColor]},0.45)`;
+    let bgColorForBanner = `linear-gradient(rgba(${BANNER_COLOR_SCHEME[bgColor]},0.65), rgba(${BANNER_COLOR_SCHEME[bgColor]}, 0.35))`;
+    let bgColorForSort = `rgba(${BANNER_COLOR_SCHEME[bgColor]},0.45)`;
 
     const setMyDayTime = () => {
       let today = new Date();

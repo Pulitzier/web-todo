@@ -2,11 +2,11 @@ import React from 'react';
 
 const BasicButton = (props) => {
   let {
-    buttonClassName,
+    buttonClassName = '',
     buttonOnClickAction = (() => {}),
-    buttonText,
-    iconClassName,
-    buttonStyle,
+    buttonText = '',
+    iconClassName = '',
+    buttonStyle = {},
     disabled = false
   } = props;
 
