@@ -1,9 +1,13 @@
 import React from 'react';
 
 const BasicPanel = (props) => {
+  let { className, children, style={} } = props;
   return (
-    <div className={props.className}>
-      {props.children}
+    <div
+      className={className}
+      style={style}
+    >
+      {children}
     </div>
   )
 };

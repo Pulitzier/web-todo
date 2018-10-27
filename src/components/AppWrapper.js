@@ -8,20 +8,19 @@ import {
 } from "../actionCreators";
 import CollapsedApp from "./CollapsedApp";
 import ExpandedApp from './ExpandedApp';
+import BasicPanel from "./BasicPanel";
 
 export default class AppWrapper extends Component {
   constructor(props) {
     super(props);
     this.clearLocalAppState = this.clearLocalAppState.bind(this);
-    this.handleCollapseApp = this.handleCollapseApp.bind(this);
+    this.handleCollapse = this.handleCollapse.bind(this);
     this.handelDeleteTask = this.handelDeleteTask.bind(this);
     this.handelDeleteTodo = this.handelDeleteTodo.bind(this);
     this.handleConfirm = this.handleConfirm.bind(this);
     this.handleDecline = this.handleDecline.bind(this);
     this.handleDeleteStep = this.handleDeleteStep.bind(this);
-    this.renderCollapsedApp = this.renderCollapsedApp.bind(this);
-    this.renderExpandedApp = this.renderExpandedApp.bind(this);
-    this.localAppState = {
+    this.state = {
       collapseApp: true,
       taskToDelete: '',
       todoToDelete: '',
@@ -30,7 +29,7 @@ export default class AppWrapper extends Component {
   }
 
   componentDidMount() {
-    let { store } = this.context;
+    const { store } = this.context;
     this.unsubscribe = store.subscribe(() => {
       this.forceUpdate()
     });
@@ -41,12 +40,12 @@ export default class AppWrapper extends Component {
   }
 
   handelDeleteTodo(element) {
-    let { store } = this.context;
+    const { store } = this.context;
     const { userSettings: { confirmDeletion } } = store.getState();
     if (confirmDeletion) {
       this.setState(() => {
-        return this.localAppState = {
-          ...this.localAppState,
+        return this.state = {
+          ...this.state,
           todoToDelete: element
         }
       });
@@ -56,12 +55,12 @@ export default class AppWrapper extends Component {
   };
 
   handelDeleteTask(element) {
-    let { store } = this.context;
+    const { store } = this.context;
     const { userSettings: { confirmDeletion } } = store.getState();
     if (confirmDeletion) {
       this.setState(() => {
-        return this.localAppState = {
-          ...this.localAppState,
+        return this.state = {
+          ...this.state,
           taskToDelete: element,
         }
       });
@@ -71,12 +70,12 @@ export default class AppWrapper extends Component {
   };
 
   handleDeleteStep(element) {
-    let { store } = this.context;
+    const { store } = this.context;
     const { userSettings: { confirmDeletion } } = store.getState();
     if (confirmDeletion) {
       this.setState(() => {
-        return this.localAppState = {
-          ...this.localAppState,
+        return this.state = {
+          ...this.state,
           taskStepToDelete: element,
         }
       });
@@ -87,8 +86,8 @@ export default class AppWrapper extends Component {
 
   clearLocalAppState() {
     this.setState(() => {
-      return this.localAppState = {
-        ...this.localAppState,
+      return this.state = {
+        ...this.state,
         taskToDelete: '',
         todoToDelete: '',
         taskStepToDelete: ''
@@ -97,8 +96,9 @@ export default class AppWrapper extends Component {
   };
 
   handleConfirm(element) {
-    let { store } = this.context;
-    const { taskToDelete, todoToDelete, taskStepToDelete } = this.localAppState;
+    const { store } = this.context;
+    const { taskToDelete, todoToDelete, taskStepToDelete } = this.state;
+    console.log(this.state);
     if(taskToDelete) {
       store.dispatch(deleteTask(element.id));
       this.clearLocalAppState();
@@ -115,58 +115,43 @@ export default class AppWrapper extends Component {
     return this.clearLocalAppState()
   };
 
-  handleCollapseApp(bool) {
-    this.setState(() => {
-      return this.localAppState = {
-        ...this.localAppState,
-        collapseApp: bool
-      }
+  handleCollapse(bool) {
+    this.setState({
+      ...this.state,
+      collapseApp: bool
     })
   }
 
-  renderCollapsedApp() {
-    let { collapseApp } = this.localAppState;
-    return (
-      <CollapsedApp
-        collapseApp={collapseApp}
-        handleCollapse={(bool) => this.handleCollapseApp(bool)}
-      />
-    )
-  };
-
-  renderExpandedApp() {
+  render() {
     const { store } = this.context;
     const { userSettings: { confirmDeletion, turnOnSound, setDarkTheme, setLightTheme } } = store.getState();
-    const { taskToDelete, todoToDelete, taskStepToDelete, collapseApp } = this.localAppState;
+    const { collapseApp, taskToDelete, todoToDelete, taskStepToDelete } = this.state;
 
     return (
-      <ExpandedApp
-        handleCollapse={(bool) => this.handleCollapseApp(bool)}
-        handleDeleteStep={(element) => this.handleDeleteStep(element)}
-        handelDeleteTodo={(element) => this.handelDeleteTodo(element)}
-        handelDeleteTask={(element) => this.handelDeleteTask(element)}
-        handleConfirm={(element) => this.handleConfirm(element)}
-        handleDecline={() => this.handleDecline()}
-        customOptons={{
-          collapseApp,
-          confirmDeletion,
-          turnOnSound,
-          setDarkTheme,
-          setLightTheme,
-          taskToDelete,
-          todoToDelete,
-          taskStepToDelete
-        }}
-      />
-    )
-  };
-
-  render() {
-    let { collapseApp } = this.localAppState;
-    return (
-      <div className="container">
-        { collapseApp ? this.renderCollapsedApp() : this.renderExpandedApp() }
-      </div>
+      <BasicPanel className="container">
+        <CollapsedApp
+          collapseApp={collapseApp}
+          handleCollapse={(bool) => this.handleCollapse(bool)}
+        />
+        <ExpandedApp
+          handleCollapse={(bool) => this.handleCollapse(bool)}
+          handleDeleteStep={(element) => this.handleDeleteStep(element)}
+          handelDeleteTodo={(element) => this.handelDeleteTodo(element)}
+          handelDeleteTask={(element) => this.handelDeleteTask(element)}
+          handleConfirm={(element) => this.handleConfirm(element)}
+          handleDecline={() => this.handleDecline()}
+          customOptions={{
+            collapseApp,
+            confirmDeletion,
+            turnOnSound,
+            setDarkTheme,
+            setLightTheme,
+            taskToDelete,
+            todoToDelete,
+            taskStepToDelete
+          }}
+        />
+      </BasicPanel>
     );
   }
 };

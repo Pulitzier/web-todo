@@ -27,8 +27,11 @@ body {
         max-width: 920px;
         margin: auto;
         margin-right: 18%;
-        input { outline: 0; };
-        button, a {
+        input, input:active { outline: 0; };
+        a,
+        a:hover,
+        button,
+        button:active {
           outline: 0;
           cursor: pointer;
         };
@@ -42,6 +45,11 @@ body {
         .status-bar {
           height: 100%;
           justify-content: flex-end;
+          button,
+          button:hover {
+            outline: 0;
+            cursor: pointer;
+          }
         }
       }
     }

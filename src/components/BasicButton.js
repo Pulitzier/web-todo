@@ -1,7 +1,14 @@
 import React from 'react';
 
 const BasicButton = (props) => {
-  let { buttonClassName, buttonOnClickAction, buttonText, iconClassName, buttonStyle } = props;
+  let {
+    buttonClassName,
+    buttonOnClickAction = (() => {}),
+    buttonText,
+    iconClassName,
+    buttonStyle,
+    disabled = false
+  } = props;
 
   const renderButtonChild = (text) => {
     if (text) return <span>{text}</span>;
@@ -13,6 +20,7 @@ const BasicButton = (props) => {
       className={buttonClassName}
       onClick={buttonOnClickAction}
       style={buttonStyle}
+      disabled={disabled}
     >
       {renderButtonChild(buttonText)}
     </button>

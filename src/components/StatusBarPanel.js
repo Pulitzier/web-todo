@@ -11,21 +11,20 @@ const StatusBarPanel = (props) => {
   return (
     <BasicPanel className="status-bar">
       {renderBarChild(barType)}
-      <button
-        onClick={() => handleCollapseApp(true)}
+      <BasicButton
+        buttonOnClickAction={() => handleCollapseApp(true)}
         disabled={collapseApp}
-      >
-        <span>&#95;</span>
-      </button>
-      <button
-        onClick={() => handleCollapseApp(false)}
+        buttonText="&#95;"
+      />
+      <BasicButton
+        buttonOnClickAction={() => handleCollapseApp(false)}
         disabled={!collapseApp}
-      >
-        <i className="far fa-square"></i>
-      </button>
-      <button disabled>
-        <i className="fas fa-times"></i>
-      </button>
+        iconClassName="far fa-square"
+      />
+      <BasicButton
+        disabled={true}
+        iconClassName="fas fa-times"
+      />
     </BasicPanel>
   )
 };
