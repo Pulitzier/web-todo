@@ -240,12 +240,15 @@ export default class BannerModalSettings extends Component {
         }
         { checkActiveTodoTitle(todoTitle) &&
           (
-            <div className="deleteList">
-              <i className="fas fa-trash-alt"></i>
-              <p onClick={() => {
+            <div
+              className="deleteList"
+              onClick={() => {
                 showModal();
                 deleteList(activeTodo);
-              }}>Delete List</p>
+              }}
+            >
+              <i className="fas fa-trash-alt"></i>
+              <p>Delete List</p>
             </div>
           )
         }

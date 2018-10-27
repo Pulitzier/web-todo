@@ -9,12 +9,30 @@ import DeleteModal from "./DeleteModal";
 import BasicPanel from "./BasicPanel";
 import {deleteStep, deleteTask, deleteTodoList} from "../actionCreators";
 
+const EXPANDED_APP_STYLES = {
+  opacity: 1,
+  top: 0,
+  transition: 'all 0.5s ease'
+};
+
+const COLLAPSED_APP_STYLES = {
+  opacity: 0,
+  width: 250,
+  height: 30,
+  margin: 0,
+  top: 2000,
+  transition: 'all 0.5s ease'
+}
+
 export default class ExpandedApp extends Component {
   constructor(props) {
     super(props);
     this.handleConfirm = this.handleConfirm.bind(this);
     this.handleDeleteTask = this.handleDeleteTask.bind(this);
+    this.handleDeleteTodo = this.handleDeleteTodo.bind(this);
     this.clearLocalAppState = this.clearLocalAppState.bind(this);
+    this.handleDeleteStep = this.handleDeleteStep.bind(this);
+    this.handleDecline = this.handleDecline.bind(this);
     this.localState = {
       taskToDelete: '',
       todoToDelete: '',
@@ -36,7 +54,6 @@ export default class ExpandedApp extends Component {
   clearLocalAppState() {
     this.setState(() => {
       return this.localState = {
-        ...this.localState,
         taskToDelete: '',
         todoToDelete: '',
         taskStepToDelete: ''
@@ -59,6 +76,36 @@ export default class ExpandedApp extends Component {
     }
   };
 
+  handleDeleteTodo(element) {
+    const { store } = this.context;
+    const { userSettings: { confirmDeletion } } = store.getState();
+    if (confirmDeletion) {
+      this.setState(() => {
+        return this.localState = {
+          ...this.localState,
+          todoToDelete: element
+        }
+      });
+    } else {
+      store.dispatch(deleteTodoList(element.todoListId));
+    }
+  };
+
+  handleDeleteStep(element) {
+    const { store } = this.context;
+    const { userSettings: { confirmDeletion } } = store.getState();
+    if (confirmDeletion) {
+      this.setState(() => {
+        return this.localState = {
+          ...this.localState,
+          taskStepToDelete: element,
+        }
+      });
+    } else {
+      store.dispatch(deleteStep(element.stepId));
+    }
+  };
+
   handleConfirm(element) {
     const { store } = this.context;
     const { taskToDelete, todoToDelete, taskStepToDelete } = this.localState;
@@ -74,43 +121,18 @@ export default class ExpandedApp extends Component {
     }
   };
 
+  handleDecline() {
+    return this.clearLocalAppState()
+  };
+
   render() {
     const { store } = this.context;
-    const { userSettings: { confirmDeletion } } = store.getState();
-    let { taskToDelete } = this.localState;
-    let {
-      handleCollapse,
-      handleDeleteStep,
-      handelDeleteTodo,
-      // handleDeleteTask,
-      handleDecline,
-      customOptions: {
-        collapseApp,
-        turnOnSound,
-        setDarkTheme,
-        setLightTheme,
-        // taskToDelete,
-        todoToDelete,
-        taskStepToDelete
-      }
-    } = this.props;
-
-    console.log(taskToDelete);
+    const { userSettings: { confirmDeletion, turnOnSound, setDarkTheme, setLightTheme } } = store.getState();
+    let { taskToDelete, todoToDelete, taskStepToDelete } = this.localState;
+    let { handleCollapse, collapseApp } = this.props;
 
     const setOpacity = (expandApp) => {
-      if (expandApp) return {
-        opacity: 1,
-        top: 0,
-        transition: 'all 0.5s ease'
-      };
-      return {
-        opacity: 0,
-        width: 250,
-        height: 30,
-        margin: 0,
-        top: 2000,
-        transition: 'all 0.5s ease'
-      }
+      return expandApp ? EXPANDED_APP_STYLES : COLLAPSED_APP_STYLES;
     };
 
     return (
@@ -125,21 +147,21 @@ export default class ExpandedApp extends Component {
         <LeftPanel />
         <RightPanel
           deleteTask={this.handleDeleteTask}
-          deleteTodo={(element) => handelDeleteTodo(element)}
-          deleteStep={(element) => handleDeleteStep(element)}
+          deleteTodo={this.handleDeleteTodo}
+          deleteStep={this.handleDeleteStep}
         />
         <UserSettingsPanel />
         {
           turnOnSound && <AudioForCompletion />
         }
         {
-          (confirmDeletion && taskToDelete) ?
+          (confirmDeletion && taskToDelete) &&
           <DeleteModal
             nameOfItem="task"
             messageOfItem={taskToDelete.taskText}
             onDelete={() => this.handleConfirm(taskToDelete)}
-            onCancel={handleDecline()}
-          /> : null
+            onCancel={this.handleDecline}
+          />
         }
         {
           (confirmDeletion && todoToDelete) &&
@@ -147,7 +169,7 @@ export default class ExpandedApp extends Component {
             nameOfItem="todo"
             messageOfItem={todoToDelete.title}
             onDelete={() => this.handleConfirm(todoToDelete)}
-            onCancel={handleDecline()}
+            onCancel={this.handleDecline}
           />
         }
         {
@@ -156,7 +178,7 @@ export default class ExpandedApp extends Component {
             nameOfItem="step"
             messageOfItem={taskStepToDelete.stepText}
             onDelete={() => this.handleConfirm(taskStepToDelete)}
-            onCancel={handleDecline()}
+            onCancel={this.handleDecline}
           />
         }
       </BasicPanel>

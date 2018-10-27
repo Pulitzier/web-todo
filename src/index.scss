@@ -18,6 +18,7 @@ body {
     background-color: grey;
     padding: 5px 0;
     .container {
+      max-width: 920px;
       .expanded-app {
         display: flex;
         flex-wrap: wrap;
@@ -26,7 +27,6 @@ body {
         height: 650px;
         max-width: 920px;
         margin: auto;
-        margin-right: 18%;
         input, input:active { outline: 0; };
         a,
         a:hover,

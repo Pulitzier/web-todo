@@ -391,6 +391,11 @@ const defaultUserSettings = {
 };
 export function handleUserSettings(state = defaultUserSettings, action) {
   switch(action.type) {
+    case 'SET_COLLAPSE_APP':
+      return {
+        ...state,
+        collapseApp: action.collapse
+      };
     case 'ACTIVATE_USER_SETTINGS':
       return {
         ...state,
