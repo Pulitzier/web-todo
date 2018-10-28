@@ -4,6 +4,7 @@ import {
   setRemindMeDate,
   setDueDate,
   setRepeat,
+  updateTimestamp,
   shouldShowGreetings
 } from '../actionCreators';
 import { getStringDate } from '../helpers';
@@ -14,6 +15,7 @@ export default class ChildTaskSettings extends Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
+    this.shouldShowGreetingsPopup = this.shouldShowGreetingsPopup.bind(this);
     this.childSettingsState = {
       openReminderWindow: false,
       openDueDateWindow: false,
@@ -104,6 +106,15 @@ export default class ChildTaskSettings extends Component {
     }
   };
 
+  shouldShowGreetingsPopup() {
+    const { store } = this.context;
+    let { taskSettings: { greetingTimestamp }} = store.getState();
+    if(new Date().toDateString() !== new Date(greetingTimestamp).toDateString()) {
+      store.dispatch(updateTimestamp(Date.now()));
+      store.dispatch(shouldShowGreetings(true));
+    }
+  };
+
   render() {
     const { store } = this.context;
     const { activeTask: { id, remindDate, dueDate, repeat } } = this.props;
@@ -153,22 +164,22 @@ export default class ChildTaskSettings extends Component {
     const setDueTodayDate = () => {
       let dueToday = new Date();
       store.dispatch(setDueDate(id, (new Date(dueToday.setHours(23, 0, 0)))));
-      store.dispatch(shouldShowGreetings(true));
+      this.shouldShowGreetingsPopup();
       this.openDueDate(false);
     };
     const setDueTomorrow = () => {
       store.dispatch(setDueDate(id, getTomorrowDate()));
-      store.dispatch(shouldShowGreetings(true));
+      this.shouldShowGreetingsPopup();
       this.openDueDate(false);
     };
     const setDueNextWeek = () => {
       store.dispatch(setDueDate(id, getNextWeekDate()));
-      store.dispatch(shouldShowGreetings(true));
+      this.shouldShowGreetingsPopup();
       this.openDueDate(false);
     };
     const selectCustomDueDate = (date) => {
       store.dispatch(setDueDate(id, date.getTime()));
-      store.dispatch(shouldShowGreetings(true));
+      this.shouldShowGreetingsPopup();
       this.showDueDateCalendar(false);
     };
     const clearDueDate = () => {

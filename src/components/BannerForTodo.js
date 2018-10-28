@@ -106,6 +106,8 @@ export default class BannerForTodo extends Component {
     let bgColorForBanner = `linear-gradient(rgba(${BANNER_COLOR_SCHEME[bgColor]},0.65), rgba(${BANNER_COLOR_SCHEME[bgColor]}, 0.35))`;
     let bgColorForSort = `rgba(${BANNER_COLOR_SCHEME[bgColor]},0.45)`;
 
+    console.log(greetingTasks);
+
     const setMyDayTime = () => {
       let today = new Date();
       return (today.toLocaleString('en-us', {weekday: 'long'}) + ', ' +
@@ -159,6 +161,7 @@ export default class BannerForTodo extends Component {
           </div>
         </section>
         {
+          activeTodo.todoListId === 0 &&
           showGreetingPopup &&
           <GreetingPopUp
             activeTask={activeTask}

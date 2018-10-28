@@ -258,6 +258,13 @@ export function clearSuggestedField() {
 export function shouldShowGreetings(bool) {
   return {
     type: 'SHOULD_SHOW_GREETINGS',
-    showGreeting: bool
+    showGreeting: bool,
+  }
+}
+
+export function updateTimestamp(time) {
+  return {
+    type: 'UPDATE_GREETING_TIMESTAMP',
+    greetingTimestamp: time
   }
 }

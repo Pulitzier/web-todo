@@ -10,7 +10,6 @@ import {
   getActiveTodoList,
   getActiveTask
 } from "../helpers";
-import { shouldShowGreetings } from '../actionCreators';
 
 export default class RightPanel extends Component {
   constructor(props) {
@@ -27,10 +26,6 @@ export default class RightPanel extends Component {
     this.unsubscribe = store.subscribe(() => {
       this.forceUpdate()
     });
-    const { taskSettings: { showGreetingPopup }} = store.getState();
-    // let { greetingTasks } = this.props;
-    // this.showGreetingPopup()
-    console.log(showGreetingPopup);
   };
 
   componentWillUnmount() {

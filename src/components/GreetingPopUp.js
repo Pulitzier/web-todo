@@ -16,8 +16,12 @@ const GreetingPopUp = (props) => {
   };
 
   const getTimeOfLastTask = (tasks) => {
-    let dateString = new Date(tasks[tasks.length-1].dueDate);
-    return dateString.toDateString();
+    let dateString;
+    if(tasks.length !== 0) {
+      if (tasks[tasks.length-1].dueDate) dateString = new Date(tasks[tasks.length-1].dueDate);
+      if (tasks[tasks.length-1].createdAt) dateString = new Date(tasks[tasks.length-1].createdAt);
+      return dateString.toDateString();
+    }
   };
 
   const showGreetingsPanel = () => {

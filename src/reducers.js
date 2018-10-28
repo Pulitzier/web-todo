@@ -245,13 +245,7 @@ function tasksReducer(state = [], action) {
     case 'SET_DUE_DATE':
       return state.map(task => {
         if(task.id === action.taskId) {
-          if (action.date === '') {
-            return {
-              ...task,
-              dueDate: action.date,
-              showOnGreeting: false
-            }
-          } else if(task.todoIsParent) {
+          if(task.todoIsParent) {
             return {
               ...task,
               dueDate: action.date,
@@ -363,6 +357,11 @@ export function setTaskSettings(state = DEFAULT_TASK_SETTINGS, action) {
       return {
         ...state,
         showGreetingPopup: action.showGreeting
+      };
+    case 'UPDATE_GREETING_TIMESTAMP':
+      return {
+        ...state,
+        greetingTimestamp: action.greetingTimestamp
       };
     default:
       return state;

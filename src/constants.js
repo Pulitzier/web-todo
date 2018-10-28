@@ -38,7 +38,8 @@ export const DEFAULT_SEARCH = {
 
 export const DEFAULT_TASK_SETTINGS = {
   showCompleted: true,
-  showGreetingPanel: false,
+  showGreetingPopup: false,
+  greetingTimestamp: ''
 };
 
 export const DEFAULT_USER_SETTINGS = {
