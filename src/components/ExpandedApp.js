@@ -33,6 +33,7 @@ export default class ExpandedApp extends Component {
     this.clearLocalAppState = this.clearLocalAppState.bind(this);
     this.handleDeleteStep = this.handleDeleteStep.bind(this);
     this.handleDecline = this.handleDecline.bind(this);
+    this.renderDeleteModal = this.renderDeleteModal.bind(this);
     this.localState = {
       taskToDelete: '',
       todoToDelete: '',
@@ -125,11 +126,25 @@ export default class ExpandedApp extends Component {
     return this.clearLocalAppState()
   };
 
+  renderDeleteModal(element) {
+    let elementText = element.title || element.taskText || element.stepText || '';
+    let elementType = element.title ? "todo" : element.taskText ? "task" : element.stepText ? "step" : '';
+    if (element) return (
+      <DeleteModal
+        nameOfItem={elementType}
+        messageOfItem={elementText}
+        onDelete={() => this.handleConfirm(element)}
+        onCancel={this.handleDecline}
+      />
+    )
+  };
+
   render() {
     const { store } = this.context;
     const { userSettings: { confirmDeletion, turnOnSound, setDarkTheme, setLightTheme } } = store.getState();
-    let { taskToDelete, todoToDelete, taskStepToDelete } = this.localState;
     let { handleCollapse, collapseApp } = this.props;
+    let { taskToDelete, todoToDelete, taskStepToDelete } = this.localState;
+    let elementToDelete = taskToDelete || todoToDelete || taskStepToDelete;
 
     const setOpacity = (expandApp) => {
       return expandApp ? EXPANDED_APP_STYLES : COLLAPSED_APP_STYLES;
@@ -155,31 +170,8 @@ export default class ExpandedApp extends Component {
           turnOnSound && <AudioForCompletion />
         }
         {
-          (confirmDeletion && taskToDelete) &&
-          <DeleteModal
-            nameOfItem="task"
-            messageOfItem={taskToDelete.taskText}
-            onDelete={() => this.handleConfirm(taskToDelete)}
-            onCancel={this.handleDecline}
-          />
-        }
-        {
-          (confirmDeletion && todoToDelete) &&
-          <DeleteModal
-            nameOfItem="todo"
-            messageOfItem={todoToDelete.title}
-            onDelete={() => this.handleConfirm(todoToDelete)}
-            onCancel={this.handleDecline}
-          />
-        }
-        {
-          (confirmDeletion && taskStepToDelete) &&
-          <DeleteModal
-            nameOfItem="step"
-            messageOfItem={taskStepToDelete.stepText}
-            onDelete={() => this.handleConfirm(taskStepToDelete)}
-            onCancel={this.handleDecline}
-          />
+          confirmDeletion &&
+          this.renderDeleteModal(elementToDelete)
         }
       </BasicPanel>
     )
