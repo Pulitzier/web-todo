@@ -335,6 +335,9 @@ audio { visibility: hidden; }
   &.responsive {
     background-size: auto 100%;
     #bannerSettings { right: 200px; }
+    .banner-sort { padding-top: 6px; padding-bottom: 6px; }
+    .change-sort-order { margin: 0 5px; }
+    .clear-banner-sort { padding: 0 10px; }
   }
   .banner-main-section {
     display: flex;
@@ -402,6 +405,23 @@ audio { visibility: hidden; }
       &:hover { background-color: rgba(0, 0, 0, 0.4); }
     }
   }
+  .greeting-pop-up-wrapper {
+    @extend .banner-sort;
+    @include flex;
+    padding-right: 15px;
+    & > div {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .greeting-btn-group {
+      display: flex;
+      &.responsive { flex-direction: column; }
+    }
+    p { display: inline-block; }
+    button { border: 0; }
+  }
 }
 
 button.dots-menu {
@@ -423,6 +443,7 @@ button.open-greeting {
 
 .todo-list-wrapper {
   position: relative;
+  overflow: auto;
   .clearInput {
     padding: 1px 6px;
     border: 2px solid transparent;

@@ -10,6 +10,7 @@ import Task from "./Task";
 import BasicPanel from "./BasicPanel";
 import BasicInput from "./BasicInput";
 import EmptyTaskWrapper from './EmptyTaskWrapper';
+import BasicButton from "./BasicButton";
 
 export default class ListOfTasks extends Component {
   constructor(props) {
@@ -54,12 +55,25 @@ export default class ListOfTasks extends Component {
       app: { tasks },
       taskSettings: { activateNewTask, typeNewTask, showCompleted }
     } = state;
-    const { activeTodo } = this.props;
+    const { activeTodo, activeTask, greetingTasks } = this.props;
     const { localToggleTask } = this.todoState;
 
     const setHeight = () => {
-      if(activeTodo.sortOrder) {
-        return 400;
+      if(activeTask) {
+        if (activeTodo.sortOrder && (greetingTasks.length !== 0)) {
+          return 322;
+        } else if ((greetingTasks.length !== 0)) {
+          return 382;
+        } else if (activeTodo.sortOrder) {
+          return 390;
+        }
+        return 450;
+      } else {
+        if (activeTodo.sortOrder && (greetingTasks.length !== 0)) {
+          return 350;
+        } else if (activeTodo.sortOrder || (greetingTasks.length !== 0)) {
+          return 400;
+        }
       }
       return 450;
     };
@@ -72,7 +86,7 @@ export default class ListOfTasks extends Component {
     };
 
     return(
-      <div
+      <BasicPanel
         className="todo-list-wrapper"
         style={{ height: setHeight() }}
       >
@@ -100,26 +114,24 @@ export default class ListOfTasks extends Component {
               onFocus: () => this.activateToDoTask(true)
             }}
           >
-            <button
-              className={"clearInput " +  (typeNewTask ? 'active' : 'inactive')}
-              onClick={() => this.handleTypeNewTask(false)}
-            >
-              <i className="fas fa-times"></i>
-            </button>
-            <button
-              className={"add-new-todo-button " +  (typeNewTask ? 'active' : 'inactive')}
-              onClick={(e) => {
+            <BasicButton
+              buttonClassName={"clearInput " +  (typeNewTask ? 'active' : 'inactive')}
+              buttonOnClickAction={() => this.handleTypeNewTask(false)}
+              iconClassName="fas fa-times"
+            />
+            <BasicButton
+              buttonClassName={"add-new-todo-button " +  (typeNewTask ? 'active' : 'inactive')}
+              buttonOnClickAction={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 this.addNewTask(activeTodo)
               }}
-            >
-              Add
-            </button>
+              buttonText='Add'
+            />
           </BasicInput>
           <EmptyTaskWrapper numberOfEmptyTasks={getTasksForTodo(tasks, activeTodo).length}/>
         </BasicPanel>
-      </div>
+      </BasicPanel>
     )
   }
 };

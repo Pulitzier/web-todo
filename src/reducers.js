@@ -162,6 +162,7 @@ function tasksReducer(state = [], action) {
           dueDate: '',
           remindDate: '',
           repeat: '',
+          showOnGreeting: false
         }
       ];
     case 'ADD_TASK_TO_IMPORTANT':
@@ -271,6 +272,19 @@ function tasksReducer(state = [], action) {
     case 'SET_DUE_DATE':
       return state.map(task => {
         if(task.id === action.taskId) {
+          if (action.date === '') {
+            return {
+              ...task,
+              dueDate: action.date,
+              showOnGreeting: false
+            }
+          } else if(task.todoIsParent) {
+            return {
+              ...task,
+              dueDate: action.date,
+              showOnGreeting: true
+            }
+          }
           return {
             ...task,
             dueDate: action.date

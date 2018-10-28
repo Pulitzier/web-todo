@@ -23,7 +23,6 @@ export default class BannerForTodo extends Component {
     this.activateRename = this.activateRename.bind(this);
     this.activateIcon = this.activateIcon.bind(this);
     this.renderBannerText = this.renderBannerText.bind(this);
-    this.getLatestTasks = this.getLatestTasks.bind(this);
     this.bannerState = {
       shouldRenameList: false,
       shouldChangeIcon: false,
@@ -56,23 +55,6 @@ export default class BannerForTodo extends Component {
         shouldChangeIcon: bool
       }
     })
-  };
-
-  getLatestTasks(tasks) {
-    let latestTasks = [];
-    let tasksIds = tasks.reduce((arr, task) => {
-      arr.push(task.id);
-      return arr
-    }, []);
-    if (tasksIds.length <= 3) {
-      return tasks.filter((task) => tasksIds.indexOf(task.id) !== -1);
-    }
-    for (let i=1; i<4; i++) {
-      tasks.map((task) => {
-        if (task.id === tasksIds[tasksIds.length - i]) latestTasks.push(task)
-      })
-    }
-    return latestTasks
   };
 
   renderBannerText(activeTodo) {
@@ -112,7 +94,7 @@ export default class BannerForTodo extends Component {
     const { store } = this.context;
     const state = store.getState();
     const { app: { todos, tasks }} = state;
-    const { activeTask, deleteList, activateGreetings } = this.props;
+    const { activeTask, deleteList, activateGreetings, greetingTasks } = this.props;
     const activeTodo = getActiveTodoList(todos);
     let { todoListId: todoId, bgImage, bgColor, sortOrder } = activeTodo;
     let { showModal, shouldRenameList } = this.bannerState;
@@ -171,6 +153,14 @@ export default class BannerForTodo extends Component {
             }
           </div>
         </section>
+        {
+          (greetingTasks.length !== 0) &&
+          <GreetingPopUp
+            activeTask={activeTask}
+            latestTasks={greetingTasks}
+            bgColor={bgColorForSort}
+          />
+        }
         {
           sortOrder &&
           <SortPopUp

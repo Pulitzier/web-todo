@@ -1,20 +1,33 @@
 import React from 'react';
 import BasicButton from './BasicButton';
+import BasicPanel from "./BasicPanel";
 
 const GreetingPopUp = (props) => {
-  let { latestTasks = [] } = props;
+  let { activeTask, bgColor, latestTasks = [] } = props;
   const getCompletedTasks = (tasks) => {
-    if (tasks.length) return tasks.filter((task) => task.done);
-    return tasks;
+    return tasks.filter((task) => task.done);
   };
+
   return (
-    <div className="greeting-pop-up-wrapper">
+    <BasicPanel
+      className="greeting-pop-up-wrapper"
+      style={{backgroundColor: bgColor}}
+    >
       <span></span>
-      <div>
+      <BasicPanel>
         <p><span>{getCompletedTasks(latestTasks).length} of {latestTasks.length}</span></p>
-        <BasicButton />
-      </div>
-    </div>
+        <BasicPanel className={"greeting-btn-group " + (activeTask && 'responsive')}>
+          <BasicButton
+            buttonClassName='greeting-not-now-btn btn-default'
+            buttonText='Not now'
+          />
+          <BasicButton
+            buttonClassName='greeting-review-btn btn-primary'
+            buttonText='Review'
+          />
+        </BasicPanel>
+      </BasicPanel>
+    </BasicPanel>
   )
 };
 

@@ -15,18 +15,10 @@ export default class RightPanel extends Component {
   constructor(props) {
     super(props);
     this.activateGreetingPanel = this.activateGreetingPanel.bind(this);
+    this.getLatestTasks = this.getLatestTasks.bind(this);
     this.rightPanelState = {
       activateGreetingsPanel: false,
     }
-  };
-
-  activateGreetingPanel() {
-    this.setState(() => {
-      return this.rightPanelState = {
-        ...this.rightPanelState,
-        activateGreetingsPanel: !this.rightPanelState.activateGreetingsPanel
-      }
-    })
   };
 
   componentDidMount() {
@@ -38,7 +30,20 @@ export default class RightPanel extends Component {
 
   componentWillUnmount() {
     this.unsubscribe();
-  }
+  };
+
+  activateGreetingPanel() {
+    this.setState(() => {
+      return this.rightPanelState = {
+        ...this.rightPanelState,
+        activateGreetingsPanel: !this.rightPanelState.activateGreetingsPanel
+      }
+    })
+  };
+
+  getLatestTasks(tasks) {
+    return tasks.filter(task => task.showOnGreeting);
+  };
 
   render() {
     const { store } = this.context;
@@ -65,8 +70,13 @@ export default class RightPanel extends Component {
             activeTask={activeTask}
             deleteList={deleteTodo}
             activateGreetings={this.activateGreetingPanel}
+            greetingTasks={this.getLatestTasks(tasks)}
           />
-          <ListOfTasks activeTodo={activeTodo}/>
+          <ListOfTasks
+            activeTodo={activeTodo}
+            activeTask={activeTask}
+            greetingTasks={this.getLatestTasks(tasks)}
+          />
         </BasicPanel>
         {
           activeTask &&
