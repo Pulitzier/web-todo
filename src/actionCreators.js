@@ -254,3 +254,10 @@ export function clearSuggestedField() {
     suggestion: false
   }
 }
+
+export function shouldShowGreetings(bool) {
+  return {
+    type: 'SHOULD_SHOW_GREETINGS',
+    showGreeting: bool
+  }
+}

@@ -113,7 +113,7 @@ export default class GreetingsPanel extends Component {
           }
           <button
             className="done-greetings"
-            onClick={() => activateGreetings()}
+            onClick={() => activateGreetings(false)}
           >Done</button>
         </section>
         <section className="greeting-suggestion-yesterday">
@@ -131,7 +131,7 @@ export default class GreetingsPanel extends Component {
                 className={"collapse-suggestions " +
                 (collapsedYesterday ? "down" : "up")}
               >
-                <img src="./assets/right.svg"/>
+                <i className="fas fa-angle-right"></i>
               </button>
             </header>
           }
@@ -146,7 +146,7 @@ export default class GreetingsPanel extends Component {
                   >+</button>
                   <div>
                     <p>{task.taskText}</p>
-                    <p><img src={taskParent.iconSource} />{taskParent.title}</p>
+                    <p><i className={taskParent.iconSource}/>{taskParent.title}</p>
                   </div>
                   <button
                     className="suggested-tasks-settings"
@@ -167,7 +167,7 @@ export default class GreetingsPanel extends Component {
                   getUniqueParentsTasks(suggestedTasks).map((parent, i) => {
                     return (
                       <p key={i} className="suggested-task-parent">
-                        {parent.iconSource && <img src={parent.iconSource} />}
+                        {parent.iconSource && <i className={parent.iconSource} />}
                         {parent.title}
                       </p>
                     )
@@ -178,7 +178,7 @@ export default class GreetingsPanel extends Component {
                 className={"collapse-suggestions " +
                 (collapsedSuggestions ? "down" : "up")}
               >
-                <img src="./assets/right.svg"/>
+                <i className="fas fa-angle-right"></i>
               </button>
             </header>
           }
@@ -193,7 +193,7 @@ export default class GreetingsPanel extends Component {
                   >+</button>
                   <div>
                     <p>{task.taskText}</p>
-                    <p><img src={taskParent.iconSource} />{taskParent.title}</p>
+                    <p><i className={taskParent.iconSource} />{taskParent.title}</p>
                   </div>
                   <button
                     className="suggested-tasks-settings"

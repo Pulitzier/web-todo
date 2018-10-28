@@ -3,7 +3,8 @@ import PropTypes from 'react-proptypes';
 import {
   setRemindMeDate,
   setDueDate,
-  setRepeat
+  setRepeat,
+  shouldShowGreetings
 } from '../actionCreators';
 import { getStringDate } from '../helpers';
 import RepeatDatePicker from "./RepeatDatePicker";
@@ -152,18 +153,22 @@ export default class ChildTaskSettings extends Component {
     const setDueTodayDate = () => {
       let dueToday = new Date();
       store.dispatch(setDueDate(id, (new Date(dueToday.setHours(23, 0, 0)))));
+      store.dispatch(shouldShowGreetings(true));
       this.openDueDate(false);
     };
     const setDueTomorrow = () => {
       store.dispatch(setDueDate(id, getTomorrowDate()));
+      store.dispatch(shouldShowGreetings(true));
       this.openDueDate(false);
     };
     const setDueNextWeek = () => {
       store.dispatch(setDueDate(id, getNextWeekDate()));
+      store.dispatch(shouldShowGreetings(true));
       this.openDueDate(false);
     };
     const selectCustomDueDate = (date) => {
       store.dispatch(setDueDate(id, date.getTime()));
+      store.dispatch(shouldShowGreetings(true));
       this.showDueDateCalendar(false);
     };
     const clearDueDate = () => {

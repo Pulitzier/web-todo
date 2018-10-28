@@ -415,10 +415,14 @@ audio { visibility: hidden; }
       align-items: center;
       justify-content: space-between;
     }
+    .greeting-pop-up p > span { font-size: 12px; color: darkgrey }
     .greeting-btn-group {
       display: flex;
+      button { margin-left: 10px}
       &.responsive { flex-direction: column; }
     }
+    &.responsive { span { min-width: 0px; }}
+    & > span { min-width: 140px; }
     p { display: inline-block; }
     button { border: 0; }
   }

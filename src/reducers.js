@@ -1,37 +1,10 @@
 import { combineReducers } from 'redux';
-
-const defaultTodos = [
-  {
-    title: 'My Day',
-    category: 'mytodo',
-    active: true,
-    todoListId: 0,
-    sortOrder: '',
-    currentDate: Date.now(),
-    bgImage: "./assets/retro.jpg",
-    bgColor: 'blue'
-  },
-  {
-    title: 'Important',
-    category: 'important',
-    active: false,
-    todoListId: 1,
-    sortOrder: '',
-    currentDate: 1532863416253,
-    bgImage: "./assets/retro.jpg",
-    bgColor: 'blue'
-  },
-  {
-    title: 'Tasks',
-    category: 'todo',
-    active: false,
-    todoListId: 2,
-    sortOrder: '',
-    currentDate: 1531572460943,
-    bgImage: "./assets/retro.jpg",
-    bgColor: 'blue'
-  }
-];
+import {
+  DEFAULT_TODOS,
+  DEFAULT_SEARCH,
+  DEFAULT_TASK_SETTINGS,
+  DEFAULT_USER_SETTINGS
+} from "./constants";
 
 export const appReducer = combineReducers({
   todos: todosReducer,
@@ -40,7 +13,7 @@ export const appReducer = combineReducers({
 });
 
 let todoId = 3;
-function todosReducer(state = defaultTodos, action) {
+function todosReducer(state = DEFAULT_TODOS, action) {
   let newTodos = [];
   switch (action.type) {
     case 'ADD_NEW_TODO_LIST':
@@ -352,12 +325,7 @@ function stepsReducer( state = [], action) {
   }
 };
 
-const defaultSearch = {
-  activateSearch: false,
-  showCompleted: true
-};
-
-export function setSearchState(state = defaultSearch, action) {
+export function setSearchState(state = DEFAULT_SEARCH, action) {
   switch(action.type) {
     case 'ACTIVATE_SEARCH_PANEL':
       return {
@@ -374,7 +342,7 @@ export function setSearchState(state = defaultSearch, action) {
   }
 }
 
-export function setTaskSettings(state = { showCompleted: true }, action) {
+export function setTaskSettings(state = DEFAULT_TASK_SETTINGS, action) {
   switch(action.type) {
     case 'ACTIVATE_NEW_TASK':
       return {
@@ -391,20 +359,17 @@ export function setTaskSettings(state = { showCompleted: true }, action) {
         ...state,
         showCompleted: action.show
       };
+    case 'SHOULD_SHOW_GREETINGS':
+      return {
+        ...state,
+        showGreetingPopup: action.showGreeting
+      };
     default:
       return state;
   }
 }
 
-const defaultUserSettings = {
-  collapseApp: false,
-  openSettings: false,
-  confirmDeletion: true,
-  turnOnSound: true,
-  setLightTheme: true,
-  setDarkTheme: false
-};
-export function handleUserSettings(state = defaultUserSettings, action) {
+export function handleUserSettings(state = DEFAULT_USER_SETTINGS, action) {
   switch(action.type) {
     case 'SET_COLLAPSE_APP':
       return {

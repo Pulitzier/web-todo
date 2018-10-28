@@ -5,9 +5,8 @@ import {
   checkActiveTodoTitle,
   setInitialIconWhenRename
 } from '../helpers';
-import {
-  BANNER_COLOR_SCHEME
-} from  '../constants';
+import { shouldShowGreetings } from '../actionCreators';
+import { BANNER_COLOR_SCHEME } from  '../constants';
 import RenameList from './RenameList';
 import IconsMenu from "./IconsMenu";
 import SortPopUp from "./SortPopUp";
@@ -22,6 +21,7 @@ export default class BannerForTodo extends Component {
     this.activateModalSettings = this.activateModalSettings.bind(this);
     this.activateRename = this.activateRename.bind(this);
     this.activateIcon = this.activateIcon.bind(this);
+    this.deactivateGreetingPopup = this.deactivateGreetingPopup.bind(this);
     this.renderBannerText = this.renderBannerText.bind(this);
     this.bannerState = {
       shouldRenameList: false,
@@ -55,6 +55,11 @@ export default class BannerForTodo extends Component {
         shouldChangeIcon: bool
       }
     })
+  };
+
+  deactivateGreetingPopup() {
+    const { store } = this.context;
+    store.dispatch(shouldShowGreetings(false))
   };
 
   renderBannerText(activeTodo) {
@@ -93,7 +98,7 @@ export default class BannerForTodo extends Component {
   render(){
     const { store } = this.context;
     const state = store.getState();
-    const { app: { todos, tasks }} = state;
+    const { app: { todos }, taskSettings: { showGreetingPopup }} = state;
     const { activeTask, deleteList, activateGreetings, greetingTasks } = this.props;
     const activeTodo = getActiveTodoList(todos);
     let { todoListId: todoId, bgImage, bgColor, sortOrder } = activeTodo;
@@ -154,11 +159,13 @@ export default class BannerForTodo extends Component {
           </div>
         </section>
         {
-          (greetingTasks.length !== 0) &&
+          showGreetingPopup &&
           <GreetingPopUp
             activeTask={activeTask}
             latestTasks={greetingTasks}
             bgColor={bgColorForSort}
+            deactivateGreetingSuggestions={this.deactivateGreetingPopup}
+            activateGreetingPanel={() => activateGreetings()}
           />
         }
         {
