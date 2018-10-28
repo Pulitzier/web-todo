@@ -502,6 +502,7 @@ div.todo {
               color: cornflowerblue;
               & + span { color: cornflowerblue; }
             }
+            &.fa-redo { margin-left: 5px }
           }
         }
       }
@@ -855,12 +856,13 @@ p.lineThrough { text-decoration: line-through; }
     .user-settings {
       &.active {
         position: absolute;
-        width: 260px;
-        margin: 3px auto 0;
         display: flex;
         flex-flow: column;
         justify-content: center;
+        width: 260px;
         height: 92px;
+        margin: 3px auto 0;
+        left: 5px;
         div {
           @include flex;
           cursor: pointer;

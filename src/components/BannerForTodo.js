@@ -75,7 +75,6 @@ export default class BannerForTodo extends Component {
     return latestTasks
   };
 
-
   renderBannerText(activeTodo) {
     let { title, todoListId: todoId, iconSource: todoIconSrc } = activeTodo;
     let { shouldRenameList, shouldChangeIcon } = this.bannerState;

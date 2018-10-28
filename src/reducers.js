@@ -383,6 +383,7 @@ export function setTaskSettings(state = { showCompleted: true }, action) {
 }
 
 const defaultUserSettings = {
+  collapseApp: false,
   openSettings: false,
   confirmDeletion: true,
   turnOnSound: true,
