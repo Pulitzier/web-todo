@@ -8,6 +8,10 @@ import {
   typeNewTaskAction,
   filterCompletedTasks
 } from "../actionCreators";
+import {
+  COLOR_SCHEME,
+  IMAGE_SCHEME
+} from  '../constants';
 import { checkActiveTodoTitle } from '../helpers';
 
 export default class BannerModalSettings extends Component {
@@ -76,8 +80,6 @@ export default class BannerModalSettings extends Component {
     const { taskSettings: { showCompleted } } = state;
     const { activeTodo, deleteList, activateRename, showModal } = this.props;
     let { todoListId, bgColor, bgImage, title: todoTitle } = activeTodo;
-    const imageScheme = [ "./assets/retro.jpg", "./assets/museum.jpg", "./assets/wi.jpg" ];
-    const colorScheme = [ "orange", "green", "red", "blue", "blueviolet" ];
     let { handleHoverSortLink, handleHoverSortMenu } = this.modalState;
 
     const setHeight = () => {
@@ -195,7 +197,7 @@ export default class BannerModalSettings extends Component {
           todoListId !== 1 &&
           <div className="banner-theme-settings">
             <p>Theme</p>
-            {colorScheme.map((item,index) => {
+            {COLOR_SCHEME.map((item,index) => {
               return (<button
                 key={index}
                 className={"jumbotron-button "+(bgColor === item ? 'active' : '')}
@@ -208,7 +210,7 @@ export default class BannerModalSettings extends Component {
             )}
             <br />
             <br />
-            {imageScheme.map((item,index) => (
+            {IMAGE_SCHEME.map((item,index) => (
               <button
                 key={index}
                 className={"jumbotron-button "+(bgImage === item ? 'active' : '')}

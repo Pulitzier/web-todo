@@ -5,6 +5,9 @@ import {
   checkActiveTodoTitle,
   setInitialIconWhenRename
 } from '../helpers';
+import {
+  BANNER_COLOR_SCHEME
+} from  '../constants';
 import RenameList from './RenameList';
 import IconsMenu from "./IconsMenu";
 import SortPopUp from "./SortPopUp";
@@ -12,14 +15,6 @@ import BannerModalSettings from "./BannerModalSettings";
 import BasicButton from './BasicButton';
 import BasicPanel from "./BasicPanel";
 import GreetingPopUp from './GreetingPopUp';
-
-const BANNER_COLOR_SCHEME = {
-  "orange": "249, 148, 7",
-  "green": "0, 158, 34",
-  "red": "255, 0, 0",
-  "blue": "0, 0, 255",
-  "blueviolet": "204, 7, 249"
-};
 
 export default class BannerForTodo extends Component {
   constructor(props) {
