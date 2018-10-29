@@ -617,7 +617,7 @@ label.toggle-todo-label {
 }
 
 .greetings-panel {
-  position: relative;
+  position: absolute;
   width: 100%;
   height: 100%;
   background-color: #3771ce;
@@ -666,12 +666,14 @@ label.toggle-todo-label {
       p:last-of-type { font-size: 12px; }
     }
     button.collapse-suggestions {
-      padding: 2px 5px;
-      &:hover { background-color: rgb(221, 221, 221); }
+      padding: 4px 12px;
+      background-color: rgba(221, 221, 221, 0.7);
+      &:hover { background-color: rgba(221, 221, 221, 1); }
     }
   }
   .greeting-suggestion-section {
     @extend .greeting-suggestion-yesterday;
+    header { margin-bottom: 0; }
     section {
       p:last-of-type {
         color: #5c6066;
@@ -686,7 +688,7 @@ label.toggle-todo-label {
           color: cornflowerblue;
           &:first-of-type { font-size: 26px; }
         }
-        .suggested-tasks-settings { margin-left: auto; }
+        .tasks-settings-btn { margin-left: auto; }
       }
     }
     .suggested-task-parent {

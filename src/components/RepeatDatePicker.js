@@ -113,7 +113,6 @@ export default class RepeatDatePicker extends Component {
               e.stopPropagation();
               this.handleFormReset();
             }}
-            onBlur={() => console.log("repeat calendar blur")}
           >
             <input
               className="picker-value"

@@ -3,16 +3,28 @@ import PropTypes from 'react-proptypes';
 import {
   addTaskToMyDay,
   activateTaskSettings,
-  clearSuggestedField
+  clearSuggestedField, toggleTask
 } from '../actionCreators';
 import BasicPanel from "./BasicPanel";
+import BasicButton from "./BasicButton";
+import {playSoundWhenDone} from "../helpers";
 
 export default class GreetingsPanel extends Component {
   constructor(props) {
     super(props);
-    this.greetingState = {
+    this.showSuggestedTasksMenu = this.showSuggestedTasksMenu.bind(this);
+    this.addSuggestedTaskToMyDay = this.addSuggestedTaskToMyDay.bind(this);
+    this.getDayPeriod = this.getDayPeriod.bind(this);
+    this.setToggledTask = this.setToggledTask.bind(this);
+    this.collapseYesterday = this.collapseYesterday.bind(this);
+    this.getTaskForSuggest = this.getTaskForSuggest.bind(this);
+    this.getYesterdayTasks = this.getYesterdayTasks.bind(this);
+    this.collapseSuggestion = this.collapseSuggestion.bind(this);
+    this.expandTaskSettings = this.expandTaskSettings.bind(this);
+      this.greetingState = {
       collapsedSuggestions: true,
-      collapsedYesterday: true
+      collapsedYesterday: true,
+      showTaskOptions: false,
     }
   };
 
@@ -26,6 +38,16 @@ export default class GreetingsPanel extends Component {
           "Good Evening" :
           "Hello"
   };
+
+  showSuggestedTasksMenu() {
+    console.log(key);
+    this.setState(() => {
+      return this.greetingState = {
+        ...this.greetingState,
+        showTaskOptions: !this.greetingState.showTaskOptions
+      }
+    })
+  }
 
   getTaskForSuggest(tasks) {
     return tasks.filter(task => task.suggestForMyDay === true)
@@ -60,11 +82,29 @@ export default class GreetingsPanel extends Component {
     })
   };
 
+  addSuggestedTaskToMyDay(taskId) {
+    const { store } = this.context;
+    store.dispatch(clearSuggestedField(taskId));
+    store.dispatch(addTaskToMyDay(taskId, true));
+  };
+
+  expandTaskSettings(taskId) {
+    const { store } = this.context;
+    store.dispatch(activateTaskSettings(taskId, true))
+  };
+
+  setToggledTask(taskId, done) {
+    let { store } = this.context;
+    const { userSettings: { turnOnSound } } = store.getState();
+    turnOnSound && playSoundWhenDone(done, turnOnSound);
+    store.dispatch(toggleTask(taskId))
+  };
+
   render(){
     const { store } = this.context;
     const { app: { todos, tasks }} = store.getState();
-    const { activateGreetings } = this.props;
-    let { collapsedSuggestions, collapsedYesterday } = this.greetingState;
+    const { activateGreetings, handleDeleteTask } = this.props;
+    let { collapsedSuggestions, collapsedYesterday, showTaskOptions } = this.greetingState;
     const suggestedTasks = this.getTaskForSuggest(tasks);
     const yesterdayTasks = this.getYesterdayTasks(tasks);
     let yesterdayWidth = (() => {
@@ -93,15 +133,6 @@ export default class GreetingsPanel extends Component {
       })
     };
 
-    const addSuggestedTaskToMyDay = (taskId) => {
-      store.dispatch(clearSuggestedField(taskId));
-      store.dispatch(addTaskToMyDay(taskId, true));
-    };
-
-    const expandTaskSettings = (taskId) => {
-      store.dispatch(activateTaskSettings(taskId, true))
-    };
-
     return (
       <BasicPanel className="greetings-panel">
         <h3>{this.getDayPeriod()}, Yuryi Baravy</h3>
@@ -111,10 +142,11 @@ export default class GreetingsPanel extends Component {
               <p>Nice job! Here are some suggestions around what to focus on today</p> :
               <p>To-dos you may not have had a chance to finish show up here</p>
           }
-          <button
-            className="done-greetings"
-            onClick={() => activateGreetings(false)}
-          >Done</button>
+          <BasicButton
+            buttonClassName="done-greetings"
+            buttonOnClickAction={() => activateGreetings()}
+            buttonText="Done"
+          />
         </section>
         <section className="greeting-suggestion-yesterday">
           {
@@ -127,12 +159,10 @@ export default class GreetingsPanel extends Component {
                 }
                 <div className="done-tasks-indicator" style={{width: yesterdayWidth}}></div>
               </div>
-              <button
-                className={"collapse-suggestions " +
-                (collapsedYesterday ? "down" : "up")}
-              >
-                <i className="fas fa-angle-right"></i>
-              </button>
+              <BasicButton
+                buttonClassName={"collapse-suggestions "+(collapsedYesterday ? "down" : "up")}
+                iconClassName="fas fa-angle-right"
+              />
             </header>
           }
           {
@@ -142,7 +172,7 @@ export default class GreetingsPanel extends Component {
               return (
                 <section key={i} className="suggested-tasks">
                   <button
-                    onClick={() => addSuggestedTaskToMyDay(task.id)}
+                    onClick={() => this.addSuggestedTaskToMyDay(task.id)}
                   >+</button>
                   <div>
                     <p>{task.taskText}</p>
@@ -150,7 +180,7 @@ export default class GreetingsPanel extends Component {
                   </div>
                   <button
                     className="suggested-tasks-settings"
-                    onClick={() => expandTaskSettings(task.id)}
+                    onClick={() => this.expandTaskSettings(task.id)}
                   ><span>&bull;&bull;&bull;</span></button>
                 </section>
               )
@@ -167,19 +197,17 @@ export default class GreetingsPanel extends Component {
                   getUniqueParentsTasks(suggestedTasks).map((parent, i) => {
                     return (
                       <p key={i} className="suggested-task-parent">
-                        {parent.iconSource && <i className={parent.iconSource} />}
+                        <i className={(parent.iconSource !== 'fa-list') ? parent.iconSource : ''} />
                         {parent.title}
                       </p>
                     )
                   })
                 }
               </div>
-              <button
-                className={"collapse-suggestions " +
-                (collapsedSuggestions ? "down" : "up")}
-              >
-                <i className="fas fa-angle-right"></i>
-              </button>
+              <BasicButton
+                buttonClassName={"collapse-suggestions "+(collapsedSuggestions ? "down" : "up")}
+                iconClassName={"fas "+ (collapsedSuggestions ? "fa-angle-down" : "fa-angle-up")}
+              />
             </header>
           }
           {
@@ -189,16 +217,33 @@ export default class GreetingsPanel extends Component {
               return (
                 <section key={i} className="suggested-tasks">
                   <button
-                    onClick={() => addSuggestedTaskToMyDay(task.id)}
+                    onClick={() => this.addSuggestedTaskToMyDay(task.id)}
                   >+</button>
                   <div>
                     <p>{task.taskText}</p>
-                    <p><i className={taskParent.iconSource} />{taskParent.title}</p>
+                    <p>
+                      <i className={(taskParent.iconSource !== 'fa-list') ? taskParent.iconSource : ''} />
+                      {taskParent.title}
+                    </p>
                   </div>
-                  <button
-                    className="suggested-tasks-settings"
-                    onClick={() => expandTaskSettings(task.id)}
-                  ><span>&bull;&bull;&bull;</span></button>
+                  {
+                    showTaskOptions &&
+                    <div className="suggested-tasks-settings">
+                      <div onClick={() => this.setToggledTask(task.id, task.done)}>
+                        <i className="far fa-check-circle"></i>
+                        <p>Mark as completed</p>
+                      </div>
+                      <div onClick={() => handleDeleteTask(task)}>
+                        <i className="far fa-trash-alt"></i>
+                        <p>Delete task</p>
+                      </div>
+                    </div>
+                  }
+                  <BasicButton
+                    buttonClassName="tasks-settings-btn"
+                    buttonOnClickAction={() => this.showSuggestedTasksMenu(task.id)}
+                    iconClassName="fas fa-ellipsis-h"
+                  />
                 </section>
               )
             })
