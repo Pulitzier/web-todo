@@ -63,6 +63,7 @@ export default class RightPanel extends Component {
           {
             activateGreetingsPanel &&
             <GreetingsPanel
+              greetingTasks={this.getLatestTasks(tasks)}
               handleDeleteTask={deleteTask}
               activateGreetings={this.activateGreetingPanel}
             />

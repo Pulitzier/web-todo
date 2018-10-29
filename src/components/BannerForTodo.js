@@ -23,7 +23,7 @@ export default class BannerForTodo extends Component {
     this.activateIcon = this.activateIcon.bind(this);
     this.deactivateGreetingPopup = this.deactivateGreetingPopup.bind(this);
     this.renderBannerText = this.renderBannerText.bind(this);
-    this.bannerState = {
+    this.state = {
       shouldRenameList: false,
       shouldChangeIcon: false,
       showModal: false
@@ -31,30 +31,15 @@ export default class BannerForTodo extends Component {
   };
 
   activateModalSettings() {
-    this.setState(() => {
-      return this.bannerState = {
-        ...this.bannerState,
-        showModal: !this.bannerState.showModal
-      }
-    })
+    this.setState({ showModal: !this.state.showModal })
   };
 
   activateRename(bool) {
-    this.setState(() => {
-      return this.bannerState = {
-        ...this.bannerState,
-        shouldRenameList: bool
-      }
-    })
+    this.setState({ shouldRenameList: bool });
   };
 
   activateIcon(bool) {
-    this.setState(() => {
-      return this.bannerState = {
-        ...this.bannerState,
-        shouldChangeIcon: bool
-      }
-    })
+    this.setState({ shouldChangeIcon: bool })
   };
 
   deactivateGreetingPopup() {
@@ -64,7 +49,7 @@ export default class BannerForTodo extends Component {
 
   renderBannerText(activeTodo) {
     let { title, todoListId: todoId, iconSource: todoIconSrc } = activeTodo;
-    let { shouldRenameList, shouldChangeIcon } = this.bannerState;
+    let { shouldRenameList, shouldChangeIcon } = this.state;
     if (shouldRenameList && checkActiveTodoTitle(title)) {
       return <RenameList activateRename={(bool) => this.activateRename(bool)}/>
     }
@@ -102,7 +87,7 @@ export default class BannerForTodo extends Component {
     const { activeTask, deleteList, activateGreetings, greetingTasks } = this.props;
     const activeTodo = getActiveTodoList(todos);
     let { todoListId: todoId, bgImage, bgColor, sortOrder } = activeTodo;
-    let { showModal, shouldRenameList } = this.bannerState;
+    let { showModal, shouldRenameList } = this.state;
     let bgColorForBanner = `linear-gradient(rgba(${BANNER_COLOR_SCHEME[bgColor]},0.65), rgba(${BANNER_COLOR_SCHEME[bgColor]}, 0.35))`;
     let bgColorForSort = `rgba(${BANNER_COLOR_SCHEME[bgColor]},0.45)`;
 

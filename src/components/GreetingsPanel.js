@@ -3,16 +3,18 @@ import PropTypes from 'react-proptypes';
 import {
   addTaskToMyDay,
   activateTaskSettings,
-  clearSuggestedField, toggleTask
+  clearSuggestedField,
+  toggleTask,
+  deleteTask
 } from '../actionCreators';
+import { playSoundWhenDone } from "../helpers";
 import BasicPanel from "./BasicPanel";
 import BasicButton from "./BasicButton";
-import {playSoundWhenDone} from "../helpers";
+import SuggestedTask from "./SuggestedTask";
 
 export default class GreetingsPanel extends Component {
   constructor(props) {
     super(props);
-    this.showSuggestedTasksMenu = this.showSuggestedTasksMenu.bind(this);
     this.addSuggestedTaskToMyDay = this.addSuggestedTaskToMyDay.bind(this);
     this.getDayPeriod = this.getDayPeriod.bind(this);
     this.setToggledTask = this.setToggledTask.bind(this);
@@ -21,6 +23,7 @@ export default class GreetingsPanel extends Component {
     this.getYesterdayTasks = this.getYesterdayTasks.bind(this);
     this.collapseSuggestion = this.collapseSuggestion.bind(this);
     this.expandTaskSettings = this.expandTaskSettings.bind(this);
+    this.handleDeleteTask = this.handleDeleteTask.bind(this);
       this.greetingState = {
       collapsedSuggestions: true,
       collapsedYesterday: true,
@@ -38,15 +41,6 @@ export default class GreetingsPanel extends Component {
           "Good Evening" :
           "Hello"
   };
-
-  showSuggestedTasksMenu() {
-    this.setState(() => {
-      return this.greetingState = {
-        ...this.greetingState,
-        showTaskOptions: !this.greetingState.showTaskOptions
-      }
-    })
-  }
 
   getTaskForSuggest(tasks) {
     return tasks.filter(task => task.suggestForMyDay === true)
@@ -99,11 +93,16 @@ export default class GreetingsPanel extends Component {
     store.dispatch(toggleTask(taskId))
   };
 
+  handleDeleteTask(taskId) {
+    const { store } = this.context;
+    store.dispatch(deleteTask(taskId));
+  }
+
   render(){
     const { store } = this.context;
     const { app: { todos, tasks }} = store.getState();
-    const { activateGreetings, handleDeleteTask } = this.props;
-    let { collapsedSuggestions, collapsedYesterday, showTaskOptions } = this.greetingState;
+    const { activateGreetings } = this.props;
+    let { collapsedSuggestions, collapsedYesterday } = this.greetingState;
     const suggestedTasks = this.getTaskForSuggest(tasks);
     const yesterdayTasks = this.getYesterdayTasks(tasks);
     let yesterdayWidth = (() => {
@@ -212,38 +211,15 @@ export default class GreetingsPanel extends Component {
           {
             collapsedSuggestions &&
             suggestedTasks.map((task, i) => {
-              let taskParent = getTaskParent(task);
               return (
-                <section key={i} className="suggested-tasks">
-                  <button
-                    onClick={() => this.addSuggestedTaskToMyDay(task.id)}
-                  >+</button>
-                  <div>
-                    <p>{task.taskText}</p>
-                    <p>
-                      <i className={(taskParent.iconSource !== 'fa-list') ? taskParent.iconSource : ''} />
-                      {taskParent.title}
-                    </p>
-                  </div>
-                  {
-                    showTaskOptions &&
-                    <div className="suggested-tasks-settings">
-                      <div onClick={() => this.setToggledTask(task.id, task.done)}>
-                        <i className="far fa-check-circle"></i>
-                        <p>Mark as completed</p>
-                      </div>
-                      <div onClick={() => handleDeleteTask(task)}>
-                        <i className="far fa-trash-alt"></i>
-                        <p>Delete task</p>
-                      </div>
-                    </div>
-                  }
-                  <BasicButton
-                    buttonClassName="tasks-settings-btn"
-                    buttonOnClickAction={() => this.showSuggestedTasksMenu(task.id)}
-                    iconClassName="fas fa-ellipsis-h"
-                  />
-                </section>
+                <SuggestedTask
+                  key={i}
+                  task={task}
+                  taskParent={getTaskParent(task)}
+                  addTaskToMyDay={this.addSuggestedTaskToMyDay}
+                  handleDeleteTask={this.handleDeleteTask}
+                  setToggledTask={this.setToggledTask}
+                />
               )
             })
           }

@@ -352,7 +352,7 @@ audio { visibility: hidden; }
       color: #fff;
       font-weight: 900;
       text-align: left;
-      max-width: 430px;
+      max-width: 390px;
       margin: 15px 0;
       &:not(.renamed){
         margin-left: 8px;
@@ -648,7 +648,7 @@ label.toggle-todo-label {
     header {
       @extend .greeting-header-section;
       padding: 10px;
-      border-bottom: 1px solid #555555;
+      border-bottom: 1px solid darkgray;
       h5 { margin-bottom: 2px; }
       p {
         display: flex;
@@ -674,21 +674,51 @@ label.toggle-todo-label {
   .greeting-suggestion-section {
     @extend .greeting-suggestion-yesterday;
     header { margin-bottom: 0; }
-    section {
-      p:last-of-type {
+    div {
+      p.task-parent-title {
         color: #5c6066;
         font-weight: 700;
-        font-size: 14px;
+        font-size: 12px;
       }
       &.suggested-tasks {
         display: flex;
+        position: relative;
+        border-bottom: 1px solid darkgray;
         button {
           margin-right: 10px;
           border: 0;
           color: cornflowerblue;
-          &:first-of-type { font-size: 26px; }
+          background-color: transparent;
+          &:hover { background-color: rgba(221, 221, 221, 1); }
+          &:first-of-type { font-size: 28px; }
+          &.add-me-btn {
+            @include flex;
+            margin: 10px;
+            width: 30px;
+            height: 30px;
+            & span { line-height: 1; }
+          }
+          &.tasks-settings-btn {
+            font-size: 12px;
+            padding: 0 10px;
+            margin: 8px 20px 8px auto;
+          }
         }
-        .tasks-settings-btn { margin-left: auto; }
+        .suggested-tasks-settings {
+          right: 4px;
+          bottom: 45px;
+          min-width: 170px;
+          position: absolute;
+          background-color: #fff;
+          border: 1px solid lightgray;
+          & div {
+            @include flex;
+            padding: 10px 30px 10px 10px;
+            &:hover { background-color: rgba(221, 221, 221, 1); }
+            i { margin-right: 10px }
+            &:last-of-type { color: red; }
+          }
+        }
       }
     }
     .suggested-task-parent {
