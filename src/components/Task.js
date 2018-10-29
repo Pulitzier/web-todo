@@ -11,6 +11,7 @@ import {
   activateTaskSettings, handleTaskImportanance,
 } from '../actionCreators';
 import BasicLabel from "./BasicLabel";
+import BasicPanel from "./BasicPanel";
 
 export default class Task extends Component {
   constructor(props) {
@@ -178,7 +179,7 @@ export default class Task extends Component {
         className="todo background-wrapper"
         onClick={() => this.activateSettings(id)}
       >
-        <div className="added-todo">
+        <BasicPanel className="added-todo">
           <BasicLabel
             labelClassName={("toggle-todo-label "+(done ? "done" : ''))}
             iconClassName={(done ? "fas fa-check-circle" : "far fa-check-circle")}
@@ -192,7 +193,7 @@ export default class Task extends Component {
             task={task}
             setImportance={(id) => this.handleImportance(id)}
           />
-        </div>
+        </BasicPanel>
       </div>
     )
   }

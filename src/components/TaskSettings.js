@@ -146,7 +146,7 @@ export default class TaskSettings extends Component {
           />
         </BasicPanel>
         <BasicPanel className="task-middle-settings-wrapper">
-          <div>
+          <BasicPanel>
             {
               getStepsForTask().map((step, i) => (
                 <BasicPanel key={i} className="step-title">
@@ -231,7 +231,7 @@ export default class TaskSettings extends Component {
                 </BasicPanel>)
               }
             </div>
-          </div>
+          </BasicPanel>
         </BasicPanel>
         <BasicPanel className='task-settings-footer'>
           <BasicButton

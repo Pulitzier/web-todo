@@ -3,6 +3,7 @@ import PropTypes from 'react-proptypes';
 import { getActiveTodoList, setInitialIconWhenRename } from "../helpers";
 import { changeListTitle, setIconForTodo } from '../actionCreators';
 import IconsMenu from "./IconsMenu";
+import BasicButton from "./BasicButton";
 
 export default class RenameList extends Component {
   constructor(props) {
@@ -88,9 +89,10 @@ export default class RenameList extends Component {
         ref={node => this.renameList = node}
         className="rename-list-wrapper"
       >
-        <button className="change-todo-icon">
-          <i className={"fa " + setInitialIconWhenRename(iconSource)}></i>
-        </button>
+        <BasicButton
+          buttonClassName="change-todo-icon"
+          iconClassName={"fa " + setInitialIconWhenRename(iconSource)}
+        />
         {
           changeIcon &&
           <IconsMenu

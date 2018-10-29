@@ -26,7 +26,7 @@ export default class IconsMenu extends Component {
         store.dispatch(setIconForTodo(activeTodoId, classList[1]));
         return activateIcon(false);
       }
-      store.dispatch(setIconForTodo(activeTodoId, ''));
+      store.dispatch(setIconForTodo(activeTodoId, 'fa fa-plus-circle'));
       return activateIcon(false);
     }
     return activateIcon(false);

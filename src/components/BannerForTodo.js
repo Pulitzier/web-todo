@@ -114,12 +114,12 @@ export default class BannerForTodo extends Component {
     };
 
     return (
-      <div
+      <BasicPanel
         className={("panelBanner " + (activeTask ? 'responsive ' : '') + (!!sortOrder ? 'with-sort' : ''))}
         style={{ backgroundImage: `${bgColorForBanner}, url(${bgImage})`}}
       >
-        <section className="banner-main-section">
-          <div
+        <BasicPanel className="banner-main-section">
+          <BasicPanel
             className={"panelBanner-text " + (shouldRenameList ? "renamed" : '')}
             onBlur={() => this.activateRename(false)}
           >
@@ -130,8 +130,8 @@ export default class BannerForTodo extends Component {
               (todoId === 0) &&
               <p className="date-time">{setMyDayTime()}</p>
             }
-          </div>
-          <div className="banner-button-group">
+          </BasicPanel>
+          <BasicPanel className="banner-button-group">
             {
               (todoId === 0) &&
               <BasicButton
@@ -156,8 +156,8 @@ export default class BannerForTodo extends Component {
                 showModal={this.activateModalSettings}
               />
             }
-          </div>
-        </section>
+          </BasicPanel>
+        </BasicPanel>
         {
           activeTodo.todoListId === 0 &&
           showGreetingPopup &&
@@ -177,7 +177,7 @@ export default class BannerForTodo extends Component {
             bgColor={bgColorForSort}
           />
         }
-      </div>
+      </BasicPanel>
     )
   }
 };

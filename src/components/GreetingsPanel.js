@@ -40,7 +40,6 @@ export default class GreetingsPanel extends Component {
   };
 
   showSuggestedTasksMenu() {
-    console.log(key);
     this.setState(() => {
       return this.greetingState = {
         ...this.greetingState,
