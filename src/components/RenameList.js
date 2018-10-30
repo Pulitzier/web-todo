@@ -82,7 +82,7 @@ export default class RenameList extends Component {
     const { app: { todos } } = state;
     const { title, todoListId, iconSource } = getActiveTodoList(todos);
     const { activateRename } = this.props;
-    let { newListTitle, changeIcon } = this.renameListState;
+    const { newListTitle, changeIcon } = this.renameListState;
 
     return (
       <div

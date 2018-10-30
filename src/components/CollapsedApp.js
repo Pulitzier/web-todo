@@ -3,7 +3,7 @@ import BasicPanel from "./BasicPanel";
 import StatusBarPanel from "./StatusBarPanel";
 
 const CollapsedApp = (props) => {
-  let { collapseApp, handleCollapse } = props;
+  const { collapseApp, handleCollapse } = props;
 
   const setOpacity = (collapseApp) => {
     if (collapseApp) return {

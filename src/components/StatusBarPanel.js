@@ -3,7 +3,7 @@ import BasicPanel from "./BasicPanel";
 import BasicButton from './BasicButton';
 
 const StatusBarPanel = (props) => {
-  let { barType, collapseApp, handleCollapseApp } = props;
+  const { barType, collapseApp, handleCollapseApp } = props;
   const renderBarChild = (type) => {
     if(type && type === "collapsed") return;
     return <p className="microsoft-label">Microsoft To-Do</p>

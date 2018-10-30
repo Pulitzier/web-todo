@@ -53,7 +53,7 @@ export default class StepInput extends Component {
   addNewStepToTask(event) {
     const { store } = this.context;
     const { activateStep, taskId } = this.props;
-    let { stepText } = this.stepState;
+    const { stepText } = this.stepState;
     let { key } = event;
     if (key === 'Enter' && stepText) {
       store.dispatch(addStep(taskId, stepText));
@@ -62,7 +62,7 @@ export default class StepInput extends Component {
   };
 
   render(){
-    let { toggleStep } = this.stepState;
+    const { toggleStep } = this.stepState;
 
     return (
       <BasicInput

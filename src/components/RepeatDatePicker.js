@@ -28,8 +28,8 @@ export default class RepeatDatePicker extends Component {
   };
 
   handleClick(event) {
+    const { showCustomRepeat } = this.props;
     let { target } = event;
-    let { showCustomRepeat } = this.props;
     if (!this.repeatDayPicker.contains(target)) {
       showCustomRepeat(false);
     }
@@ -60,7 +60,7 @@ export default class RepeatDatePicker extends Component {
   }
 
   handlePickDay(day) {
-    let { daysPicked } = this.datePickerState;
+    const { daysPicked } = this.datePickerState;
     let newDayPicked;
     if (day) {
       this.setState(() => {
@@ -78,8 +78,8 @@ export default class RepeatDatePicker extends Component {
   };
 
   handleFormSubmit() {
-    let { store } = this.context;
-    let { taskId, showCustomRepeat, updateDueDate } = this.props;
+    const { store } = this.context;
+    const { taskId, showCustomRepeat, updateDueDate } = this.props;
     let serializedRepeat = JSON.stringify(this.datePickerState);
     store.dispatch(setRepeat(taskId, serializedRepeat));
     updateDueDate();
@@ -87,14 +87,14 @@ export default class RepeatDatePicker extends Component {
   };
 
   handleFormReset() {
-    let { store } = this.context;
-    let { taskId, showCustomRepeat } = this.props;
+    const { store } = this.context;
+    const { taskId, showCustomRepeat } = this.props;
     store.dispatch(setRepeat(taskId, ''));
     showCustomRepeat(false);
   };
 
   render() {
-    let { numberOfRepeat, typeOfRange, daysPicked } = this.datePickerState;
+    const { numberOfRepeat, typeOfRange, daysPicked } = this.datePickerState;
     return (
       <div className="repeat-date-picker-wrapper">
         <div

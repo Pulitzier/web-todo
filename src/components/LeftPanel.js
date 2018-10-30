@@ -22,12 +22,12 @@ export default class LeftPanel extends Component {
     this.addNewList = this.addNewList.bind(this);
     this.todoListState = {
       activateList: false,
-      newListTitle: 'Untitled Task'
+      newListTitle: 'Untitled Todo'
     };
   };
 
   componentDidMount() {
-    let { store } = this.context;
+    const { store } = this.context;
     this.unsubscribe = store.subscribe(() => {
       this.forceUpdate()
     });
@@ -59,7 +59,7 @@ export default class LeftPanel extends Component {
     const { store } = this.context;
     this.activateNewList(false);
     store.dispatch(addNewTodoList(this.todoListState.newListTitle));
-    this.setNewListTitle('Untitled Task');
+    this.setNewListTitle('Untitled Todo');
   };
 
   chooseListItem(todoId) {
@@ -78,12 +78,12 @@ export default class LeftPanel extends Component {
     store.dispatch(openSearchPanel(false));
     let { newListTitle } = this.todoListState;
     todos.map(todo => {
-      if (todo.title.indexOf('Untitled Task') !== -1) {
+      if (todo.title.indexOf('Untitled Todo') !== -1) {
         if (isNaN(parseInt(todo.title.replace( /[^\d.]/g, '' )))) {
-          newListTitle = 'Untitled Task ' + 1;
+          newListTitle = 'Untitled Todo ' + 1;
         } else {
           let index = parseInt(todo.title.replace( /[^\d.]/g, '' )) + 1;
-          newListTitle = 'Untitled Task ' + index;
+          newListTitle = 'Untitled Todo ' + index;
         };
       }
     });
@@ -95,7 +95,7 @@ export default class LeftPanel extends Component {
     const { store } = this.context;
     const state = store.getState();
     const { app: { todos, tasks } } = state;
-    let { activateList, newListTitle } = this.todoListState;
+    const { activateList, newListTitle } = this.todoListState;
 
     const renderTodoIconSrc = (todoTitle) => {
       if(todoTitle === 'My Day') return "far fa-sun";

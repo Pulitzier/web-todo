@@ -45,7 +45,7 @@ export default class TaskSettings extends Component {
   };
 
   typeNewNote(event) {
-    let { activeTask: { note }} = this.props;
+    const { activeTask: { note }} = this.props;
     if(event) {
       let { target: { value }} = event;
       this.setState(() => {
@@ -69,7 +69,7 @@ export default class TaskSettings extends Component {
 
   saveNoteForTask(taskId) {
     const { store } = this.context;
-    let { newNoteText } = this.taskState;
+    const { newNoteText } = this.taskState;
     store.dispatch(addNoteToTask(taskId, newNoteText));
     this.newNote.blur();
     this.setState(() => {
@@ -82,32 +82,32 @@ export default class TaskSettings extends Component {
   };
 
   closeTaskSettings(taskId) {
-    let { store } = this.context;
+    const { store } = this.context;
     this.newNote.blur();
     store.dispatch(activateTaskSettings(taskId, false))
   };
 
   setToggledTask(taskId, done) {
-    let { store } = this.context;
+    const { store } = this.context;
     const { userSettings: { turnOnSound } } = store.getState();
     turnOnSound && playSoundWhenDone(done, turnOnSound);
     store.dispatch(toggleTask(taskId))
   };
 
   setToggledStep(stepId, done) {
-    let { store } = this.context;
+    const { store } = this.context;
     const { userSettings: { turnOnSound } } = store.getState();
     turnOnSound && playSoundWhenDone(done, turnOnSound);
     store.dispatch(toggleStep(stepId))
   };
 
   addCustomToMyDay(taskId, bool) {
-    let { store } = this.context;
+    const { store } = this.context;
     store.dispatch(addTaskToMyDay(taskId, bool))
   };
 
   handleImportance(taskId) {
-    let { store } = this.context;
+    const { store } = this.context;
     store.dispatch(handleTaskImportanance(taskId))
   };
 
@@ -116,7 +116,7 @@ export default class TaskSettings extends Component {
     const { app: { steps } } = store.getState();
     const { activateStepInput, showNoteControls, newNoteText } = this.taskState;
     const { handleDeleteTask, activeTask, handleDeleteStep } = this.props;
-    let { id: activeTaskId, done: doneTask, taskText, createdAt, myDay, note: taskNote } = activeTask;
+    const { id: activeTaskId, done: doneTask, taskText, createdAt, myDay, note: taskNote } = activeTask;
 
     const getStepsForTask = () => {
       return steps.filter(step => step.taskId === activeTaskId);

@@ -118,7 +118,7 @@ export default class ChildTaskSettings extends Component {
   render() {
     const { store } = this.context;
     const { activeTask: { id, remindDate, dueDate, repeat } } = this.props;
-    let {
+    const {
       openReminderWindow,
       showCalendar,
       showDueCalendar,

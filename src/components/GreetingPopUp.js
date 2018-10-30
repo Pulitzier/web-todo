@@ -3,7 +3,7 @@ import BasicButton from './BasicButton';
 import BasicPanel from "./BasicPanel";
 
 const GreetingPopUp = (props) => {
-  let {
+  const {
     activeTask,
     bgColor,
     activateGreetingPanel,

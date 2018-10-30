@@ -6,7 +6,7 @@ import {
   typeNewTaskAction
 } from '../actionCreators';
 import { getTasksForTodo } from "../helpers";
-import Task from "./Task";
+import TodoTask from "./TodoTask";
 import BasicPanel from "./BasicPanel";
 import BasicInput from "./BasicInput";
 import EmptyTaskWrapper from './EmptyTaskWrapper';
@@ -96,7 +96,7 @@ export default class ListOfTasks extends Component {
               if ( !showCompleted && task.done ) {
                 return;
               }
-              return <Task key={index} task={task} />
+              return <TodoTask key={index} task={task} />
             })
           }
           <BasicInput

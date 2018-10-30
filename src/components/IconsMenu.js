@@ -18,7 +18,7 @@ export default class IconsMenu extends Component {
 
   handleClick(event) {
     const { store } = this.context;
-    let { activateIcon, activeTodoId } = this.props;
+    const { activateIcon, activeTodoId } = this.props;
     let { target } = event;
     if(this.iconMenu && this.iconMenu.contains(target)){
       if (target.localName === 'i') {

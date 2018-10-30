@@ -22,9 +22,13 @@ export default class BannerModalSettings extends Component {
     this.changeBannerImage = this.changeBannerImage.bind(this);
     this.changeBannerColor = this.changeBannerColor.bind(this);
     this.handleSortTasks = this.handleSortTasks.bind(this);
-    this.modalState = {
-      handleHoverSortLink: false,
-      handleHoverSortMenu: false
+    this.handleHoverSortLink = this.handleHoverSortLink.bind(this);
+    this.handleMouseEnterSortLink = this.handleMouseEnterSortLink.bind(this);
+    this.handleMouseLeaveSortLink = this.handleMouseLeaveSortLink.bind(this);
+    this.handleHoverSortMenu = this.handleHoverSortMenu.bind(this);
+    this.state = {
+      hoverSortLink: false,
+      hoverSortMenu: false
     }
   };
 
@@ -74,19 +78,33 @@ export default class BannerModalSettings extends Component {
     store.dispatch(filterCompletedTasks(bool))
   };
 
+  handleHoverSortLink(bool) {
+    this.setState({ hoverSortLink: bool })
+  };
+
+  handleMouseEnterSortLink() {
+    this.handleHoverSortLink(true)
+  };
+
+  handleMouseLeaveSortLink() {
+    if (!this.state.hoverSortMenu) this.handleHoverSortLink(false);
+  };
+
+  handleHoverSortMenu() {
+    this.setState({ hoverSortMenu: !this.state.hoverSortMenu })
+  };
+
   render(){
     const { store } = this.context;
     const state = store.getState();
     const { taskSettings: { showCompleted } } = state;
     const { activeTodo, deleteList, activateRename, showModal } = this.props;
-    let { todoListId, bgColor, bgImage, title: todoTitle } = activeTodo;
-    let { handleHoverSortLink, handleHoverSortMenu } = this.modalState;
+    const { todoListId, bgColor, bgImage, title: todoTitle } = activeTodo;
+    const { hoverSortLink, hoverSortMenu } = this.state;
 
     const setHeight = () => {
-      if(handleHoverSortLink || handleHoverSortMenu) {
-        if(todoListId > 1 ) {
-          return 264;
-        }
+      if(hoverSortLink || hoverSortMenu) {
+        if(todoListId > 1 ) return 264;
         return 220;
       }
     };
@@ -110,25 +128,9 @@ export default class BannerModalSettings extends Component {
           </div>
         }
         <div
-          className={'sort-settings-link ' + (handleHoverSortMenu ? "grey" : '' )}
-          onMouseEnter={() =>
-            this.setState(() =>
-              this.modalState = {
-                ...this.modalState,
-                handleHoverSortLink: true,
-              }
-            )
-          }
-          onMouseLeave={() =>
-            this.setState(() => {
-              if (!handleHoverSortMenu) {
-                return this.modalState = {
-                  ...this.modalState,
-                  handleHoverSortLink: false,
-                }
-              }
-            })
-          }
+          className={'sort-settings-link ' + (hoverSortMenu ? "grey" : '' )}
+          onMouseEnter={() => this.handleMouseEnterSortLink()}
+          onMouseLeave={() => this.handleMouseLeaveSortLink()}
         >
           <i className="fas fa-sort-alpha-down"></i>
           <p>Sort</p>
@@ -136,28 +138,14 @@ export default class BannerModalSettings extends Component {
         </div>
         <div
           className={"sort-settings-menu " + (
-            handleHoverSortLink ||
-            handleHoverSortMenu ?
+            hoverSortLink ||
+            hoverSortMenu ?
               "active" :
               ''
           )}
           style={{ height: setHeight() }}
-          onMouseEnter={() =>
-            this.setState(() => {
-              return this.modalState = {
-                ...this.modalState,
-                handleHoverSortMenu: true
-              }
-            })
-          }
-          onMouseLeave={() =>
-            this.setState(() =>
-              this.modalState = {
-                ...this.modalState,
-                handleHoverSortMenu: false
-              }
-            )
-          }
+          onMouseEnter={() => this.handleHoverSortMenu()}
+          onMouseLeave={() => this.handleHoverSortMenu()}
         >
           {
             (todoListId !== 1) && (

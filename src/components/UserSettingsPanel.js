@@ -11,13 +11,47 @@ import {
   handleSetDarkTheme
 } from '../actionCreators';
 import MicrosoftLabel from "./StatusBarPanel";
+import BasicButton from "./BasicButton";
 
 export default class UserSettingsPanel extends Component {
+  constructor(props) {
+    super(props);
+    this.setSound = this.setSound.bind(this);
+    this.confirmDelete = this.confirmDelete.bind(this);
+    this.closeSettings = this.closeSettings.bind(this);
+    this.checkDarkTheme = this.checkDarkTheme.bind(this);
+    this.checkLightTheme = this.checkLightTheme.bind(this);
+  };
+
+  closeSettings(bool) {
+    const { store } = this.context;
+    store.dispatch(openUserSettings(!bool))
+  };
+
+  confirmDelete(bool) {
+    const { store } = this.context;
+    store.dispatch(confirmBeforeDelete(bool))
+  };
+
+  setSound(bool) {
+    const { store } = this.context;
+    store.dispatch(turnCompletionSound(bool))
+  };
+
+  checkLightTheme() {
+    const { store } = this.context;
+    store.dispatch(handleSetLightTheme())
+  };
+
+  checkDarkTheme() {
+    const { store } = this.context;
+    store.dispatch(handleSetDarkTheme())
+  };
 
   render() {
-    let { store } = this.context;
-    let state = store.getState();
-    let {
+    const { store } = this.context;
+    const state = store.getState();
+    const {
       openSettings,
       confirmDeletion,
       turnOnSound,
@@ -25,32 +59,14 @@ export default class UserSettingsPanel extends Component {
       setDarkTheme
     } = state.userSettings;
 
-    const closeSettings = (bool) => {
-      store.dispatch(openUserSettings(!bool))
-    };
-
-    const confirmDelete = (bool) => {
-      store.dispatch(confirmBeforeDelete(bool))
-    };
-
-    const setSound = (bool) => {
-      store.dispatch(turnCompletionSound(bool))
-    };
-
-    const checkLightTheme = () => {
-      store.dispatch(handleSetLightTheme())
-    };
-
-    const checkDarkTheme = () => {
-      store.dispatch(handleSetDarkTheme())
-    };
-
     return (
       <BasicPanel className={"user-settings-page " + (openSettings ? 'active' : 'inactive')}>
         <header className="settings-header">
-          <button className="close-settings" onClick={() => closeSettings(true)}>
-            <i className="fas fa-long-arrow-alt-left"></i>
-          </button>
+          <BasicButton
+            buttonClassName="close-settings"
+            buttonOnClickAction={() => this.closeSettings(true)}
+            iconClassName="fas fa-long-arrow-alt-left"
+          />
           <h2>Settings</h2>
         </header>
         <hr />
@@ -77,7 +93,7 @@ export default class UserSettingsPanel extends Component {
                 name='confirmDelete'
                 value='yes'
                 icons={false}
-                onChange={() => confirmDelete(!confirmDeletion)}
+                onChange={() => this.confirmDelete(!confirmDeletion)}
               />
               {
                 confirmDeletion ?
@@ -92,13 +108,9 @@ export default class UserSettingsPanel extends Component {
                 name='turnSound'
                 value='yes'
                 icons={false}
-                onChange={() => setSound(!turnOnSound)}
+                onChange={() => this.setSound(!turnOnSound)}
               />
-              {
-                turnOnSound ?
-                  <p>On</p> :
-                  <p>Off</p>
-              }
+              <p>{ turnOnSound ? "On" : "Off" }</p>
               </div>
           </section>
           <hr />
@@ -107,7 +119,7 @@ export default class UserSettingsPanel extends Component {
             <label
               htmlFor="lightTheme"
               className={"ligthTheme-label " + (setLightTheme ? 'checked' : '')}
-              onClick={() => checkLightTheme()}
+              onClick={() => this.checkLightTheme()}
             >
               <input
                 id="lightTheme"
@@ -118,7 +130,7 @@ export default class UserSettingsPanel extends Component {
             <label
               htmlFor="darkTheme"
               className={"darkTheme-label " + (setDarkTheme ? 'checked' : '')}
-              onClick={() => checkDarkTheme()}
+              onClick={() => this.checkDarkTheme()}
             >
               <input
                 id="darkTheme"

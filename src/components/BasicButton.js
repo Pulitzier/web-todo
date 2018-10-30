@@ -1,7 +1,7 @@
 import React from 'react';
 
 const BasicButton = (props) => {
-  let {
+  const {
     buttonClassName = '',
     buttonOnClickAction = (() => {}),
     buttonText = '',

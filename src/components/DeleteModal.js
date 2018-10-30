@@ -1,7 +1,7 @@
 import React from 'react';
 
 const DeleteModal = (props) => {
-  let { nameOfItem, messageOfItem, onCancel, onDelete } = props;
+  const { nameOfItem, messageOfItem, onCancel, onDelete } = props;
   return (
     <div className="confirmDeleteModal" >
       <div className="confirmDeleteModal-child">

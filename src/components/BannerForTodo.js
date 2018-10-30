@@ -48,8 +48,8 @@ export default class BannerForTodo extends Component {
   };
 
   renderBannerText(activeTodo) {
-    let { title, todoListId: todoId, iconSource: todoIconSrc } = activeTodo;
-    let { shouldRenameList, shouldChangeIcon } = this.state;
+    const { title, todoListId: todoId, iconSource: todoIconSrc } = activeTodo;
+    const { shouldRenameList, shouldChangeIcon } = this.state;
     if (shouldRenameList && checkActiveTodoTitle(title)) {
       return <RenameList activateRename={(bool) => this.activateRename(bool)}/>
     }
@@ -86,9 +86,15 @@ export default class BannerForTodo extends Component {
     const { app: { todos }, taskSettings: { showGreetingPopup }} = state;
     const { activeTask, deleteList, activateGreetings, greetingTasks } = this.props;
     const activeTodo = getActiveTodoList(todos);
-    let { todoListId: todoId, bgImage, bgColor, sortOrder } = activeTodo;
-    let { showModal, shouldRenameList } = this.state;
-    let bgColorForBanner = `linear-gradient(rgba(${BANNER_COLOR_SCHEME[bgColor]},0.65), rgba(${BANNER_COLOR_SCHEME[bgColor]}, 0.35))`;
+    const { todoListId: todoId, bgImage, bgColor, sortOrder } = activeTodo;
+    const { showModal, shouldRenameList } = this.state;
+    let bgColorForBanner =
+      'linear-gradient(rgba(' +
+      BANNER_COLOR_SCHEME[bgColor] +
+      ',0.65), rgba(' +
+      BANNER_COLOR_SCHEME[bgColor] +
+      ', 0.35))'
+    ;
     let bgColorForSort = `rgba(${BANNER_COLOR_SCHEME[bgColor]},0.45)`;
 
     const setMyDayTime = () => {

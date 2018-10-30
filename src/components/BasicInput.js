@@ -1,7 +1,7 @@
 import React from 'react';
 
 const BasicInput = (props) => {
-  let {
+  const {
     inputType,
     labelClassName,
     iconClassName,

@@ -53,9 +53,9 @@ export default class UserModalSettings extends Component {
   };
 
   render() {
-    let { store } = this.context;
-    let state = store.getState();
-    let { activateSettings, activateSearch } = state.userSettings;
+    const { store } = this.context;
+    const state = store.getState();
+    const { activateSettings, activateSearch } = state.userSettings;
 
     return (
       <BasicPanel className="user-info">

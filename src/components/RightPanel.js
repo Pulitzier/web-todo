@@ -22,7 +22,7 @@ export default class RightPanel extends Component {
   };
 
   componentDidMount() {
-    let { store } = this.context;
+    const { store } = this.context;
     this.unsubscribe = store.subscribe(() => {
       this.forceUpdate()
     });
@@ -51,7 +51,7 @@ export default class RightPanel extends Component {
     const { app: { todos, tasks }, search: { activateSearch } } = state;
     const activeTodo = getActiveTodoList(todos);
     const { deleteTask, deleteTodo, deleteStep } = this.props;
-    let { activateGreetingsPanel } = this.rightPanelState;
+    const { activateGreetingsPanel } = this.rightPanelState;
     const activeTask = getActiveTask(tasks);
 
     return (

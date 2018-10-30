@@ -52,8 +52,8 @@ export default class SortPopUp extends Component {
   };
 
   render() {
-    let { bgColor } = this.props;
-    let { reverseTasks } = this.sortState;
+    const { bgColor } = this.props;
+    const { reverseTasks } = this.sortState;
 
     return(
       <section

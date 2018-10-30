@@ -13,7 +13,7 @@ import {
 import BasicLabel from "./BasicLabel";
 import BasicPanel from "./BasicPanel";
 
-export default class Task extends Component {
+export default class TodoTask extends Component {
   constructor(props) {
     super(props);
     this.handleImportance = this.handleImportance.bind(this);
@@ -25,8 +25,8 @@ export default class Task extends Component {
     const { store } = this.context;
     const state = store.getState();
     const { app: { todos, steps }} = state;
-    let { todoListId: activeTodoId } = getActiveTodoList(todos);
-    let { id: taskId, note, remindDate, dueDate, repeat } = task;
+    const { todoListId: activeTodoId } = getActiveTodoList(todos);
+    const { id: taskId, note, remindDate, dueDate, repeat } = task;
 
     const setLabelFromTodo = task => {
       switch (activeTodoId){
@@ -146,7 +146,7 @@ export default class Task extends Component {
 
   toggleTodoTask(task, turnOnSound) {
     const { store } = this.context;
-    let { id, done } = task;
+    const { id, done } = task;
     turnOnSound && playSoundWhenDone(done, turnOnSound);
     store.dispatch(toggleTask(id));
   };
@@ -165,8 +165,8 @@ export default class Task extends Component {
     const { store } = this.context;
     const state = store.getState();
     const { userSettings: { turnOnSound }} = state;
-    let { task } = this.props;
-    let { id, done, taskText } = task;
+    const { task } = this.props;
+    const { id, done, taskText } = task;
 
     const handleToggleLabel = (event) => {
       event.preventDefault();
@@ -185,10 +185,10 @@ export default class Task extends Component {
             iconClassName={(done ? "fas fa-check-circle" : "far fa-check-circle")}
             labelOnClickAction={(event) => handleToggleLabel(event)}
           />
-          <div className="task-title-wrapper">
+          <BasicPanel className="task-title-wrapper">
             <p className={done ? 'lineThrough' : null}>{taskText}</p>
             {this.renderLabel(task)}
-          </div>
+          </BasicPanel>
           <ImportanceButton
             task={task}
             setImportance={(id) => this.handleImportance(id)}
@@ -199,6 +199,6 @@ export default class Task extends Component {
   }
 };
 
-Task.contextTypes = {
+TodoTask.contextTypes = {
   store: PropTypes.object
 };

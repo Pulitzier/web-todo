@@ -24,7 +24,7 @@ export default class GreetingsPanel extends Component {
     this.collapseSuggestion = this.collapseSuggestion.bind(this);
     this.expandTaskSettings = this.expandTaskSettings.bind(this);
     this.handleDeleteTask = this.handleDeleteTask.bind(this);
-      this.greetingState = {
+    this.state = {
       collapsedSuggestions: true,
       collapsedYesterday: true,
       showTaskOptions: false,
@@ -58,21 +58,11 @@ export default class GreetingsPanel extends Component {
   }
 
   collapseSuggestion() {
-    this.setState(() => {
-      return this.greetingState = {
-        ...this.greetingState,
-        collapsedSuggestions: !this.greetingState.collapsedSuggestions
-      }
-    })
+    this.setState({ collapsedSuggestions: !this.state.collapsedSuggestions })
   }
 
   collapseYesterday() {
-    this.setState(() => {
-      return this.greetingState = {
-        ...this.greetingState,
-        collapsedYesterday: !this.greetingState.collapsedYesterday
-      }
-    })
+    this.setState({ collapsedYesterday: !this.state.collapsedYesterday })
   };
 
   addSuggestedTaskToMyDay(taskId) {
@@ -87,7 +77,7 @@ export default class GreetingsPanel extends Component {
   };
 
   setToggledTask(taskId, done) {
-    let { store } = this.context;
+    const { store } = this.context;
     const { userSettings: { turnOnSound } } = store.getState();
     turnOnSound && playSoundWhenDone(done, turnOnSound);
     store.dispatch(toggleTask(taskId))
@@ -102,7 +92,7 @@ export default class GreetingsPanel extends Component {
     const { store } = this.context;
     const { app: { todos, tasks }} = store.getState();
     const { activateGreetings } = this.props;
-    let { collapsedSuggestions, collapsedYesterday } = this.greetingState;
+    const { collapsedSuggestions, collapsedYesterday } = this.state;
     const suggestedTasks = this.getTaskForSuggest(tasks);
     const yesterdayTasks = this.getYesterdayTasks(tasks);
     let yesterdayWidth = (() => {
@@ -166,21 +156,15 @@ export default class GreetingsPanel extends Component {
           {
             collapsedYesterday &&
             yesterdayTasks.map((task, i) => {
-              let taskParent = getTaskParent(task);
               return (
-                <section key={i} className="suggested-tasks">
-                  <button
-                    onClick={() => this.addSuggestedTaskToMyDay(task.id)}
-                  >+</button>
-                  <div>
-                    <p>{task.taskText}</p>
-                    <p><i className={taskParent.iconSource}/>{taskParent.title}</p>
-                  </div>
-                  <button
-                    className="suggested-tasks-settings"
-                    onClick={() => this.expandTaskSettings(task.id)}
-                  ><span>&bull;&bull;&bull;</span></button>
-                </section>
+                <SuggestedTask
+                  key={i}
+                  task={task}
+                  taskParent={getTaskParent(task)}
+                  addTaskToMyDay={this.addSuggestedTaskToMyDay}
+                  handleDeleteTask={this.handleDeleteTask}
+                  setToggledTask={this.setToggledTask}
+                />
               )
             })
           }

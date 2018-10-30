@@ -5,7 +5,7 @@ import {
   toggleTask,
   setShowFilter
 } from '../actionCreators';
-import Task from "./Task";
+import TodoTask from "./TodoTask";
 
 export default class SearchPanel extends Component {
   constructor(){
@@ -36,11 +36,11 @@ export default class SearchPanel extends Component {
   }
 
   render(){
-    let searchWord = this.search.word;
+    const searchWord = this.search.word;
     const { store } = this.context;
     const state = store.getState();
     const { app: { tasks }, search: { showCompleted } } = state;
-    let { openFilterMenu } = this.search;
+    const { openFilterMenu } = this.search;
 
     const toggleTodoTask = (taskId) => {
       store.dispatch(toggleTask(taskId))
@@ -104,7 +104,7 @@ export default class SearchPanel extends Component {
                   if (!showCompleted && task.done) {
                     return;
                   }
-                  return <Task key={index} task={task} />
+                  return <TodoTask key={index} task={task} />
                 }
               })
             }
