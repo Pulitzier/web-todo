@@ -60,18 +60,18 @@ export default class ListOfTasks extends Component {
 
     const setHeight = () => {
       if(activeTask) {
-        if (activeTodo.sortOrder && (greetingTasks.length !== 0)) {
+        if (activeTodo.sortOrder && (greetingTasks && greetingTasks.length !== 0)) {
           return 322;
-        } else if ((greetingTasks.length !== 0)) {
+        } else if ((greetingTasks && greetingTasks.length !== 0)) {
           return 382;
         } else if (activeTodo.sortOrder) {
           return 390;
         }
         return 450;
       } else {
-        if (activeTodo.sortOrder && (greetingTasks.length !== 0)) {
+        if (activeTodo.sortOrder && (greetingTasks && greetingTasks.length !== 0)) {
           return 350;
-        } else if (activeTodo.sortOrder || (greetingTasks.length !== 0)) {
+        } else if (activeTodo.sortOrder || (greetingTasks && greetingTasks.length !== 0)) {
           return 400;
         }
       }

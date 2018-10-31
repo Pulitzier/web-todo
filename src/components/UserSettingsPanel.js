@@ -51,13 +51,13 @@ export default class UserSettingsPanel extends Component {
   render() {
     const { store } = this.context;
     const state = store.getState();
-    const {
+    const { userSettings: {
       openSettings,
       confirmDeletion,
       turnOnSound,
       setLightTheme,
       setDarkTheme
-    } = state.userSettings;
+    }} = state;
 
     return (
       <BasicPanel className={"user-settings-page " + (openSettings ? 'active' : 'inactive')}>

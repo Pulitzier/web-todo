@@ -20,7 +20,7 @@ export default class LeftPanel extends Component {
     this.chooseListItem = this.chooseListItem.bind(this);
     this.setNewListTitle = this.setNewListTitle.bind(this);
     this.addNewList = this.addNewList.bind(this);
-    this.todoListState = {
+    this.state = {
       activateList: false,
       newListTitle: 'Untitled Todo'
     };
@@ -38,27 +38,17 @@ export default class LeftPanel extends Component {
   };
 
   activateNewList(bool) {
-    this.setState(() => {
-      return this.todoListState = {
-        ...this.todoListState,
-        activateList: bool
-      }
-    })
+    this.setState({ activateList: bool })
   };
 
   setNewListTitle(title) {
-    this.setState(() => {
-      return this.todoListState = {
-        ...this.todoListState,
-        newListTitle: title
-      }
-    })
+    this.setState({ newListTitle: title })
   };
 
   pushNewListToState() {
     const { store } = this.context;
     this.activateNewList(false);
-    store.dispatch(addNewTodoList(this.todoListState.newListTitle));
+    store.dispatch(addNewTodoList(this.state.newListTitle));
     this.setNewListTitle('Untitled Todo');
   };
 
@@ -76,7 +66,7 @@ export default class LeftPanel extends Component {
     const { store } = this.context;
     const { app: { todos }} = store.getState();
     store.dispatch(openSearchPanel(false));
-    let { newListTitle } = this.todoListState;
+    let { newListTitle } = this.state;
     todos.map(todo => {
       if (todo.title.indexOf('Untitled Todo') !== -1) {
         if (isNaN(parseInt(todo.title.replace( /[^\d.]/g, '' )))) {
@@ -95,7 +85,7 @@ export default class LeftPanel extends Component {
     const { store } = this.context;
     const state = store.getState();
     const { app: { todos, tasks } } = state;
-    const { activateList, newListTitle } = this.todoListState;
+    const { activateList, newListTitle } = this.state;
 
     const renderTodoIconSrc = (todoTitle) => {
       if(todoTitle === 'My Day') return "far fa-sun";

@@ -245,16 +245,10 @@ function tasksReducer(state = [], action) {
     case 'SET_DUE_DATE':
       return state.map(task => {
         if(task.id === action.taskId) {
-          if(task.todoIsParent) {
-            return {
-              ...task,
-              dueDate: action.date,
-              showOnGreeting: true
-            }
-          }
           return {
             ...task,
-            dueDate: action.date
+            dueDate: action.date,
+            showOnGreeting: true
           }
         }
         return task;

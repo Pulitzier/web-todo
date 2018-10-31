@@ -31,14 +31,14 @@ export default class CustomDayPicker extends Component {
   };
 
   render(){
-    const { pickerClassName, handleDateClick } = this.props;
+    const { taskId, pickerClassName, handleDateClick } = this.props;
     return (
       <div
         ref={node => this.customDayPicker = node}
       >
         <DayPicker
           className={pickerClassName}
-          onDayClick={handleDateClick}
+          onDayClick={(date) => handleDateClick(taskId, date)}
         />
       </div>
     )

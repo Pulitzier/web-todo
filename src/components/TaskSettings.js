@@ -8,6 +8,7 @@ import {
   addNoteToTask,
   handleTaskImportanance
 } from '../actionCreators';
+import { DATE_OPTIONS } from '../constants';
 import { playSoundWhenDone } from '../helpers';
 import ImportanceButton from './ImportanceButton';
 import ChildTaskSettings from './ChildTaskSettings';
@@ -123,12 +124,7 @@ export default class TaskSettings extends Component {
     };
 
     const setCreationDate = () => {
-      let options = {
-        weekday: 'short',
-        month: 'short',
-        day: 'numeric'
-      };
-      return `Created on ${(new Date(createdAt)).toLocaleString('en-us', options)}`;
+      return `Created on ${(new Date(createdAt)).toLocaleString('en-us', DATE_OPTIONS)}`;
     };
 
     return (

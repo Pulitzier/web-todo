@@ -15,8 +15,8 @@ export default class RightPanel extends Component {
   constructor(props) {
     super(props);
     this.activateGreetingPanel = this.activateGreetingPanel.bind(this);
-    this.getLatestTasks = this.getLatestTasks.bind(this);
-    this.rightPanelState = {
+    this.filterSuggestedTasks = this.filterSuggestedTasks.bind(this);
+    this.state = {
       activateGreetingsPanel: false,
     }
   };
@@ -33,16 +33,14 @@ export default class RightPanel extends Component {
   };
 
   activateGreetingPanel() {
-    this.setState(() => {
-      return this.rightPanelState = {
-        ...this.rightPanelState,
-        activateGreetingsPanel: !this.rightPanelState.activateGreetingsPanel
-      }
-    })
+    this.setState({ activateGreetingsPanel: !this.state.activateGreetingsPanel })
   };
 
-  getLatestTasks(tasks) {
-    return tasks.filter(task => task.showOnGreeting);
+  filterSuggestedTasks(tasks) {
+    let arr = tasks.filter((task) => (task.showOnGreeting && task.todoIsParent));
+    if(arr.length !== 0) {
+      return arr;
+    }
   };
 
   render() {
@@ -51,8 +49,9 @@ export default class RightPanel extends Component {
     const { app: { todos, tasks }, search: { activateSearch } } = state;
     const activeTodo = getActiveTodoList(todos);
     const { deleteTask, deleteTodo, deleteStep } = this.props;
-    const { activateGreetingsPanel } = this.rightPanelState;
+    const { activateGreetingsPanel } = this.state;
     const activeTask = getActiveTask(tasks);
+    let suggestedTasks = this.filterSuggestedTasks(tasks);
 
     return (
       <BasicPanel className="col-md-8 rightPanel">
@@ -63,7 +62,7 @@ export default class RightPanel extends Component {
           {
             activateGreetingsPanel &&
             <GreetingsPanel
-              greetingTasks={this.getLatestTasks(tasks)}
+              greetingTasks={suggestedTasks}
               handleDeleteTask={deleteTask}
               activateGreetings={this.activateGreetingPanel}
             />
@@ -72,12 +71,12 @@ export default class RightPanel extends Component {
             activeTask={activeTask}
             deleteList={deleteTodo}
             activateGreetings={this.activateGreetingPanel}
-            greetingTasks={this.getLatestTasks(tasks)}
+            greetingTasks={suggestedTasks}
           />
           <ListOfTasks
             activeTodo={activeTodo}
             activeTask={activeTask}
-            greetingTasks={this.getLatestTasks(tasks)}
+            greetingTasks={suggestedTasks}
           />
         </BasicPanel>
         {

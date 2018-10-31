@@ -14,7 +14,8 @@ body {
     border-color: transparent;
   }
   #root {
-    height: 100vh;
+    height: 100%;
+    min-height: 100vh;
     background-color: grey;
     padding: 5px 0;
     .container {

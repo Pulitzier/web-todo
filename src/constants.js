@@ -87,3 +87,9 @@ export const BANNER_COLOR_SCHEME = {
   "blue": "0, 0, 255",
   "blueviolet": "204, 7, 249"
 };
+
+export const DATE_OPTIONS = {
+  weekday: 'short',
+  month: 'short',
+  day: 'numeric'
+};

@@ -5,8 +5,9 @@ import {
   setDueDate,
   setRepeat,
   updateTimestamp,
-  shouldShowGreetings
+  shouldShowGreetings,
 } from '../actionCreators';
+import { DATE_OPTIONS } from '../constants';
 import { getStringDate } from '../helpers';
 import RepeatDatePicker from "./RepeatDatePicker";
 import CustomDayPicker from "./CustomDayPicker";
@@ -16,7 +17,28 @@ export default class ChildTaskSettings extends Component {
     super(props);
     this.handleClick = this.handleClick.bind(this);
     this.shouldShowGreetingsPopup = this.shouldShowGreetingsPopup.bind(this);
-    this.childSettingsState = {
+    this.showCustomCalendar = this.showCustomCalendar.bind(this);
+    this.openRepeatWindow = this.openRepeatWindow.bind(this);
+    this.openDueDate = this.openDueDate.bind(this);
+    this.openReminder = this.openReminder.bind(this);
+    this.getTomorrowDate = this.getTomorrowDate.bind(this);
+    this.setLaterTodayDate = this.setLaterTodayDate.bind(this);
+    this.getLaterTodayDate = this.getLaterTodayDate.bind(this);
+    this.showCustomRepeat = this.showCustomRepeat.bind(this);
+    this.showDueDateCalendar = this.showDueDateCalendar.bind(this);
+    this.setTomorrowDate = this.setTomorrowDate.bind(this);
+    this.getNextWeekDate = this.getNextWeekDate.bind(this);
+    this.setNextWeekDate = this.setNextWeekDate.bind(this);
+    this.selectCustomDate = this.selectCustomDate.bind(this);
+    this.selectCustomDueDate = this.selectCustomDueDate.bind(this);
+    this.setDueNextWeek = this.setDueNextWeek.bind(this);
+    this.setDueTomorrow = this.setDueTomorrow.bind(this);
+    this.setDueTodayDate = this.setDueTodayDate.bind(this);
+    this.clearReminderDate = this.clearReminderDate.bind(this);
+    this.clearRepeat = this.clearRepeat.bind(this);
+    this.setRepeatType = this.setRepeatType.bind(this);
+    this.clearDueDate = this.clearDueDate.bind(this);
+    this.state = {
       openReminderWindow: false,
       openDueDateWindow: false,
       openRepeat: false,
@@ -24,69 +46,6 @@ export default class ChildTaskSettings extends Component {
       showDueCalendar: false,
       showRepeat: false
     }
-  };
-
-  openReminder(bool) {
-    this.setState(() => {
-      return this.childSettingsState = {
-        ...this.childSettingsState,
-        openReminderWindow: bool,
-        openDueDateWindow: false,
-        openRepeat: false
-      }
-    })
-  };
-
-  openDueDate(bool) {
-    this.setState(() => {
-      return this.childSettingsState = {
-        ...this.childSettingsState,
-        openReminderWindow: false,
-        openDueDateWindow: bool,
-        openRepeat: false
-      }
-    })
-  };
-
-  openRepeatWindow(bool) {
-    this.setState(() => {
-      return this.childSettingsState = {
-        ...this.childSettingsState,
-        openReminderWindow: false,
-        openDueDateWindow: false,
-        openRepeat: bool,
-      }
-    })
-  };
-
-  showCustomCalendar(bool) {
-    this.setState(() => {
-      return this.childSettingsState = {
-        ...this.childSettingsState,
-        openReminderWindow: false,
-        showCalendar: bool,
-      }
-    })
-  };
-
-  showDueDateCalendar(bool) {
-    this.setState(() => {
-      return this.childSettingsState = {
-        ...this.childSettingsState,
-        openDueDateWindow: false,
-        showDueCalendar: bool,
-      }
-    })
-  }
-
-  showCustomRepeat(bool) {
-    this.setState(() => {
-      return this.childSettingsState = {
-        ...this.childSettingsState,
-        openRepeat: false,
-        showRepeat: bool
-      }
-    })
   };
 
   componentDidMount(){
@@ -106,18 +65,155 @@ export default class ChildTaskSettings extends Component {
     }
   };
 
+  openReminder(bool) {
+    this.setState({
+      openReminderWindow: bool,
+      openDueDateWindow: false,
+      openRepeat: false
+    })
+  };
+
+  openDueDate(bool) {
+    this.setState({
+      openReminderWindow: false,
+      openDueDateWindow: bool,
+      openRepeat: false
+    })
+  };
+
+  openRepeatWindow(bool) {
+    this.setState({
+      openReminderWindow: false,
+      openDueDateWindow: false,
+      openRepeat: bool,
+    })
+  };
+
+  showCustomCalendar(bool) {
+    this.setState({
+      openReminderWindow: false,
+      showCalendar: bool,
+    })
+  };
+
+  showDueDateCalendar(bool) {
+    this.setState({
+      openDueDateWindow: false,
+      showDueCalendar: bool,
+    })
+  }
+
+  showCustomRepeat(bool) {
+    this.setState({
+      openRepeat: false,
+      showRepeat: bool
+    })
+  };
+
   shouldShowGreetingsPopup() {
     const { store } = this.context;
-    let { taskSettings: { greetingTimestamp }} = store.getState();
+    let { taskSettings: { greetingTimestamp, showGreetingPopup }} = store.getState();
     if(new Date().toDateString() !== new Date(greetingTimestamp).toDateString()) {
       store.dispatch(updateTimestamp(Date.now()));
-      store.dispatch(shouldShowGreetings(true));
+      if(!showGreetingPopup) store.dispatch(shouldShowGreetings(true));
     }
   };
 
-  render() {
+  getLaterTodayDate() {
+    let today = new Date();
+    return today.setHours(18, 0, 0);
+  };
+
+  setLaterTodayDate(id) {
     const { store } = this.context;
-    const { activeTask: { id, remindDate, dueDate, repeat } } = this.props;
+    store.dispatch(setRemindMeDate(id, this.getLaterTodayDate()));
+    this.openReminder(false);
+  };
+
+  getTomorrowDate() {
+    let today = new Date();
+    return (new Date(today.setDate(today.getDate() + 1))).setHours(9, 0, 0);
+  };
+
+  setTomorrowDate(id) {
+    const { store } = this.context;
+    store.dispatch(setRemindMeDate(id, this.getTomorrowDate()));
+    this.openReminder(false);
+  };
+
+  getNextWeekDate() {
+    let today = new Date();
+    today.setHours(9, 0, 0);
+    today.setDate(today.getDate() + 7);
+    return today;
+  };
+
+  setNextWeekDate(id) {
+    const { store } = this.context;
+    store.dispatch(setRemindMeDate(id, this.getNextWeekDate()));
+    this.openReminder(false);
+  };
+
+  selectCustomDate(id, date) {
+    const { store } = this.context;
+    store.dispatch(setRemindMeDate(id, date.getTime()));
+    this.showCustomCalendar(false);
+  };
+
+  clearReminderDate(id) {
+    const { store } = this.context;
+    store.dispatch(setRemindMeDate(id, ''));
+  };
+
+  setDueTodayDate(id) {
+    const { store } = this.context;
+    let dueToday = new Date();
+    store.dispatch(setDueDate(id, (new Date(dueToday.setHours(23, 0, 0)))));
+    this.shouldShowGreetingsPopup();
+    this.openDueDate(false);
+  };
+
+  setDueTomorrow(id) {
+    const { store } = this.context;
+    store.dispatch(setDueDate(id, this.getTomorrowDate()));
+    this.shouldShowGreetingsPopup();
+    this.openDueDate(false);
+  };
+
+  setDueNextWeek(id) {
+    const { store } = this.context;
+    store.dispatch(setDueDate(id, this.getNextWeekDate()));
+    this.shouldShowGreetingsPopup();
+    this.openDueDate(false);
+  };
+
+  selectCustomDueDate(id, date) {
+    const { store } = this.context;
+    store.dispatch(setDueDate(id, date.getTime()));
+    this.shouldShowGreetingsPopup();
+    this.showDueDateCalendar(false);
+  };
+
+  clearDueDate(id) {
+    const { store } = this.context;
+    store.dispatch(setDueDate(id, ''));
+    store.dispatch(setRepeat(id, ''));
+  };
+
+  setRepeatType(id, type) {
+    const { store } = this.context;
+    this.setDueTomorrow();
+    store.dispatch(setRepeat(id, type));
+    this.openRepeatWindow(false);
+  };
+
+  clearRepeat(id) {
+    const { store } = this.context;
+    store.dispatch(setRepeat(id, ''))
+  };
+
+  render() {
+    const { activeTask: { id: activeTaskId, remindDate, dueDate, repeat } } = this.props;
     const {
       openReminderWindow,
       showCalendar,
@@ -125,76 +221,7 @@ export default class ChildTaskSettings extends Component {
       openDueDateWindow,
       openRepeat,
       showRepeat
-    } = this.childSettingsState;
-
-    const getLaterTodayDate = () => {
-      let today = new Date();
-      return today.setHours(18, 0, 0);
-    };
-    const setLaterTodayDate = () => {
-      store.dispatch(setRemindMeDate(id, getLaterTodayDate()));
-      this.openReminder(false);
-    };
-    const getTomorrowDate = () => {
-      let today = new Date();
-      return (new Date(today.setDate(today.getDate() + 1))).setHours(9, 0, 0);
-    };
-    const setTomorrowDate = () => {
-      store.dispatch(setRemindMeDate(id, getTomorrowDate()));
-      this.openReminder(false);
-    };
-    const getNextWeekDate = () => {
-      let today = new Date();
-      today.setHours(9, 0, 0);
-      today.setDate(today.getDate() + 7);
-      return today;
-    };
-    const setNextWeekDate = () => {
-      store.dispatch(setRemindMeDate(id, getNextWeekDate()));
-      this.openReminder(false);
-    };
-    const selectCustomDate = (date) => {
-      store.dispatch(setRemindMeDate(id, date.getTime()));
-      this.showCustomCalendar(false);
-    };
-    const clearReminderDate = () => {
-      store.dispatch(setRemindMeDate(id, ''));
-    };
-
-    const setDueTodayDate = () => {
-      let dueToday = new Date();
-      store.dispatch(setDueDate(id, (new Date(dueToday.setHours(23, 0, 0)))));
-      this.shouldShowGreetingsPopup();
-      this.openDueDate(false);
-    };
-    const setDueTomorrow = () => {
-      store.dispatch(setDueDate(id, getTomorrowDate()));
-      this.shouldShowGreetingsPopup();
-      this.openDueDate(false);
-    };
-    const setDueNextWeek = () => {
-      store.dispatch(setDueDate(id, getNextWeekDate()));
-      this.shouldShowGreetingsPopup();
-      this.openDueDate(false);
-    };
-    const selectCustomDueDate = (date) => {
-      store.dispatch(setDueDate(id, date.getTime()));
-      this.shouldShowGreetingsPopup();
-      this.showDueDateCalendar(false);
-    };
-    const clearDueDate = () => {
-      store.dispatch(setDueDate(id, ''));
-      store.dispatch(setRepeat(id, ''));
-    };
-
-    const setRepeatType = (type) => {
-      setDueTomorrow();
-      store.dispatch(setRepeat(id, type));
-      this.openRepeatWindow(false);
-    };
-    const clearRepeat = () => {
-      store.dispatch(setRepeat(id, ''))
-    };
+    } = this.state;
 
     return (
       <div
@@ -214,7 +241,7 @@ export default class ChildTaskSettings extends Component {
                 {
                   remindDate &&
                   (<span className="date-label">
-                    {(new Date(remindDate)).toLocaleString('en-us', {weekday: 'short', month: 'short', day: 'numeric'})}
+                    {(new Date(remindDate)).toLocaleString('en-us', DATE_OPTIONS)}
                     </span>)
                 }
               </p>
@@ -225,7 +252,7 @@ export default class ChildTaskSettings extends Component {
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    clearReminderDate();
+                    this.clearReminderDate(activeTaskId);
                   }}
                 ><i className="fas fa-times"></i></span>)
               }
@@ -233,27 +260,27 @@ export default class ChildTaskSettings extends Component {
             {
               openReminderWindow && <div className="reminder-window">
                 <ul>
-                  <li onClick={() => setLaterTodayDate()}>
+                  <li onClick={() => this.setLaterTodayDate(activeTaskId)}>
                     <i className="far fa-clock"></i>
                     <p>Later Today</p>
                     <span>{(() => {
-                      let time = getLaterTodayDate();
+                      let time = this.getLaterTodayDate();
                       return getStringDate(time, {hour: 'numeric'});
                     })()}</span>
                   </li>
-                  <li onClick={() => setTomorrowDate()}>
+                  <li onClick={() => this.setTomorrowDate(activeTaskId)}>
                     <i className="far fa-arrow-alt-circle-right"></i>
                     <p>Tomorrow</p>
                     <span>{(() => {
-                        let time = getTomorrowDate();
+                        let time = this.getTomorrowDate();
                         return getStringDate(time);
                       })()}</span>
                   </li>
-                  <li onClick={() => setNextWeekDate()}>
+                  <li onClick={() => this.setNextWeekDate(activeTaskId)}>
                     <i className="fas fa-angle-double-right"></i>
                     <p>Next Week</p>
                     <span>{(() => {
-                      let time = getNextWeekDate();
+                      let time = this.getNextWeekDate();
                       return getStringDate(time);
                     })()}</span>
                   </li>
@@ -267,8 +294,9 @@ export default class ChildTaskSettings extends Component {
             {
               showCalendar &&
                 <CustomDayPicker
+                  taskId={activeTaskId}
                   pickerClassName="pick-date-calendar"
-                  handleDateClick={selectCustomDate}
+                  handleDateClick={this.selectCustomDate}
                   handleClosePicker={() => this.showCustomCalendar(false)}
                 />
             }
@@ -283,7 +311,7 @@ export default class ChildTaskSettings extends Component {
                 } else if (today.setHours(24,0,0,0) === (new Date(dueDate)).setHours(0,0,0,0)) {
                   return 'Due Tomorrow';
                 } else if (today.setHours(24,0,0,0) < (new Date(dueDate)).setHours(0,0,0,0)) {
-                  return `Due ${(new Date(dueDate)).toLocaleString('en-us', {weekday: 'short', month: 'short', day: 'numeric'})}`;
+                  return `Due ${(new Date(dueDate)).toLocaleString('en-us', DATE_OPTIONS)}`;
                 };
                 return 'Add due date'
               })()}</p>
@@ -294,7 +322,7 @@ export default class ChildTaskSettings extends Component {
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    clearDueDate();
+                    this.clearDueDate(activeTaskId);
                   }}
                 ><i className="fas fa-times"></i></span>)
               }
@@ -302,24 +330,24 @@ export default class ChildTaskSettings extends Component {
             {
               openDueDateWindow && <div className="reminder-window">
                 <ul>
-                  <li onClick={() => setDueTodayDate()}>
+                  <li onClick={() => this.setDueTodayDate(activeTaskId)}>
                     <i className="far fa-clock"></i>
                     <p>Today</p>
                     <span>{getStringDate((new Date()), {weekday: 'short'})}</span>
                   </li>
-                  <li onClick={() => setDueTomorrow()}>
+                  <li onClick={() => this.setDueTomorrow(activeTaskId)}>
                     <i className="far fa-arrow-alt-circle-right"></i>
                     <p>Tomorrow</p>
                     <span>{(() => {
-                      let time = getTomorrowDate();
+                      let time = this.getTomorrowDate();
                       return getStringDate(time, {weekday: 'short'});
                     })()}</span>
                   </li>
-                  <li onClick={() => setDueNextWeek()}>
+                  <li onClick={() => this.setDueNextWeek(activeTaskId)}>
                     <i className="fas fa-angle-double-right"></i>
                     <p>Next Week</p>
                     <span>{(() => {
-                      let time = getNextWeekDate();
+                      let time = this.getNextWeekDate();
                       return getStringDate(time, {weekday: 'short'});
                     })()}</span>
                   </li>
@@ -333,8 +361,9 @@ export default class ChildTaskSettings extends Component {
             {
               showDueCalendar &&
               <CustomDayPicker
+                taskId={activeTaskId}
                 pickerClassName="pick-date-calendar"
-                handleDateClick={selectCustomDueDate}
+                handleDateClick={this.selectCustomDueDate}
                 handleClosePicker={() => this.showDueDateCalendar(false)}
               />
             }
@@ -363,7 +392,7 @@ export default class ChildTaskSettings extends Component {
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    clearRepeat();
+                    this.clearRepeat(activeTaskId);
                   }}
                 ><i className="fas fa-times"></i></span>)
               }
@@ -371,19 +400,19 @@ export default class ChildTaskSettings extends Component {
             {
               openRepeat && <div className="repeat-window">
                 <ul>
-                  <li onClick={() => setRepeatType('daily')}>
+                  <li onClick={() => this.setRepeatType(activeTaskId, 'daily')}>
                     <i className="fas fa-braille"></i>
                     <p>Daily</p>
                   </li>
-                  <li onClick={() => setRepeatType('weekdays')}>
+                  <li onClick={() => this.setRepeatType(activeTaskId, 'weekdays')}>
                     <i className="fas fa-grip-horizontal"></i>
                     <p>Weekdays</p>
                   </li>
-                  <li onClick={() => setRepeatType('weekly')}>
+                  <li onClick={() => this.setRepeatType(activeTaskId, 'weekly')}>
                     <i className="fas fa-grip-vertical"></i>
                     <p>Weekly</p>
                   </li>
-                  <li onClick={() => setRepeatType('monthly')}>
+                  <li onClick={() => this.setRepeatType(activeTaskId, 'monthly')}>
                     <i className="fab fa-blackberry"></i>
                     <p>Monthly</p>
                   </li>
@@ -397,8 +426,8 @@ export default class ChildTaskSettings extends Component {
             {
               showRepeat &&
               <RepeatDatePicker
-                taskId={id}
-                updateDueDate={setDueTomorrow}
+                taskId={activeTaskId}
+                updateDueDate={this.setDueTomorrow}
                 showCustomRepeat={(bool) => this.showCustomRepeat(bool)}/>
             }
           </li>
