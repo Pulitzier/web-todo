@@ -9,7 +9,7 @@ export default class StepInput extends Component {
     this.handleStepClick = this.handleStepClick.bind(this);
     this.handleTypingStep = this.handleTypingStep.bind(this);
     this.addNewStepToTask = this.addNewStepToTask.bind(this);
-    this.stepState = {
+    this.state = {
       toggleStep: false,
       typeNewStep: false,
       stepText: '',
@@ -41,19 +41,16 @@ export default class StepInput extends Component {
 
   handleTypingStep = (event) => {
     let { target: { value: step }} = event;
-    this.setState(() => {
-      return this.stepState = {
-        ...this.stepState,
-        typeNewStep: true,
-        stepText: step
-      }
+    this.setState({
+      typeNewStep: true,
+      stepText: step
     })
   };
 
   addNewStepToTask(event) {
     const { store } = this.context;
     const { activateStep, taskId } = this.props;
-    const { stepText } = this.stepState;
+    const { stepText } = this.state;
     let { key } = event;
     if (key === 'Enter' && stepText) {
       store.dispatch(addStep(taskId, stepText));
@@ -62,7 +59,7 @@ export default class StepInput extends Component {
   };
 
   render(){
-    const { toggleStep } = this.stepState;
+    const { toggleStep } = this.state;
 
     return (
       <BasicInput

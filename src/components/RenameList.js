@@ -12,7 +12,7 @@ export default class RenameList extends Component {
     this.handleChangeInput = this.handleChangeInput.bind(this);
     this.changeIconInRename = this.changeIconInRename.bind(this);
     this.handleChangeListTitle = this.handleChangeListTitle.bind(this);
-    this.renameListState = {
+    this.state = {
       newListTitle: '',
       changeIcon: false,
     }
@@ -27,12 +27,7 @@ export default class RenameList extends Component {
   };
 
   changeIconInRename = (bool) => {
-    this.setState(() => {
-      return this.renameListState = {
-        ...this.renameListState,
-        changeIcon: bool
-      }
-    })
+    this.setState({ changeIcon: bool })
   };
 
   handleClick(event) {
@@ -51,7 +46,7 @@ export default class RenameList extends Component {
         target.classList[1] !== 'fa-plus-circle' ?
           store.dispatch(setIconForTodo(todoListId, target.classList[1])) :
           null;
-        return this.changeIconInRename(!this.renameListState.changeIcon);
+        return this.changeIconInRename(!this.state.changeIcon);
       }
       store.dispatch(setIconForTodo(todoListId, ""));
       this.changeIconInRename(false);
@@ -63,12 +58,7 @@ export default class RenameList extends Component {
 
   handleChangeInput(event) {
     let { target: { value } } = event;
-    this.setState(() => {
-      return this.renameListState = {
-        ...this.renameListState,
-        newListTitle: value
-      }
-    })
+    this.setState({ newListTitle: value })
   };
 
   handleChangeListTitle(todoId, title) {
@@ -82,7 +72,7 @@ export default class RenameList extends Component {
     const { app: { todos } } = state;
     const { title, todoListId, iconSource } = getActiveTodoList(todos);
     const { activateRename } = this.props;
-    const { newListTitle, changeIcon } = this.renameListState;
+    const { newListTitle, changeIcon } = this.state;
 
     return (
       <div

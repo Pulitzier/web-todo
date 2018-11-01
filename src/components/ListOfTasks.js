@@ -18,7 +18,7 @@ export default class ListOfTasks extends Component {
     this.activateToDoTask = this.activateToDoTask.bind(this);
     this.handleTypeNewTask = this.handleTypeNewTask.bind(this);
     this.addNewTask = this.addNewTask.bind(this);
-    this.todoState = {
+    this.state = {
       localToggleTask: false
     };
   };
@@ -56,7 +56,7 @@ export default class ListOfTasks extends Component {
       taskSettings: { activateNewTask, typeNewTask, showCompleted }
     } = state;
     const { activeTodo, activeTask, greetingTasks } = this.props;
-    const { localToggleTask } = this.todoState;
+    const { localToggleTask } = this.state;
 
     const setHeight = () => {
       if(activeTask) {

@@ -26,7 +26,7 @@ export default class UserModalSettings extends Component {
   };
 
   handleClick(event) {
-    let { store } = this.context;
+    const { store } = this.context;
     let { target } = event;
     if (!this.userSettings.contains(target)) {
       return store.dispatch(activateUserSettings(false));
@@ -34,20 +34,20 @@ export default class UserModalSettings extends Component {
   };
 
   expandSettingsButton() {
-    let { store } = this.context;
-    let { activateSettings } = store.getState().userSettings;
+    const { store } = this.context;
+    const { activateSettings } = store.getState().userSettings;
     store.dispatch(activateUserSettings(!activateSettings))
   }
 
   openSettings(bool) {
-    let { store } = this.context;
+    const { store } = this.context;
     store.dispatch(openSearchPanel(false));
     store.dispatch(activateUserSettings(false));
     store.dispatch(openUserSettings(bool))
   };
 
   openSearch(bool) {
-    let { store } = this.context;
+    const { store } = this.context;
     store.dispatch(openSearchPanel(bool));
     store.dispatch(activateUserSettings(false));
   };

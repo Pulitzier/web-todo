@@ -388,7 +388,7 @@ audio { visibility: hidden; }
     color: #ffffff;
     .change-sort-order {
       i.fa-angle-down{
-        &.reverced{
+        &.reversed{
           transform: rotate(-180deg);
         }
       }
@@ -1283,11 +1283,11 @@ div.searchList {
     }
     p { margin: 0; }
     i {
-      &.important { margin-left: 10px; }
       &.fa-angle-right {
         margin: 0 0 0 auto;
         font-size: 25px;
       }
+      &.important { margin-left: 20px; }
     }
   }
   div.sort-settings-menu {

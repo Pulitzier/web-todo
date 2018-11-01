@@ -26,7 +26,7 @@ export default class TaskSettings extends Component {
     this.setToggledStep = this.setToggledStep.bind(this);
     this.addCustomToMyDay = this.addCustomToMyDay.bind(this);
     this.handleImportance = this.handleImportance.bind(this);
-    this.taskState = {
+    this.state = {
       showConfirmMessage: false,
       activateStepInput: false,
       toggleStep: false,
@@ -37,48 +37,34 @@ export default class TaskSettings extends Component {
   };
 
   activateStep = () => {
-    this.setState(() => {
-      return this.taskState = {
-        ...this.taskState,
-        activateStepInput: !this.taskState.activateStepInput
-      }
-    });
+    this.setState({ activateStepInput: !this.state.activateStepInput });
   };
 
   typeNewNote(event) {
     const { activeTask: { note }} = this.props;
     if(event) {
       let { target: { value }} = event;
-      this.setState(() => {
-        return this.taskState = {
-          ...this.taskState,
-          newNoteText: value,
-          showNoteControls: true
-        }
+      this.setState({
+        newNoteText: value,
+        showNoteControls: true
       });
       return;
     }
     this.newNote.blur();
-    this.setState(() => {
-      return this.taskState = {
-        ...this.taskState,
-        newNoteText: note,
-        showNoteControls: false
-      }
+    this.setState({
+      newNoteText: note,
+      showNoteControls: false
     });
   };
 
   saveNoteForTask(taskId) {
     const { store } = this.context;
-    const { newNoteText } = this.taskState;
+    const { newNoteText } = this.state;
     store.dispatch(addNoteToTask(taskId, newNoteText));
     this.newNote.blur();
-    this.setState(() => {
-      return this.taskState = {
-        ...this.taskState,
-        newNoteText: '',
-        showNoteControls: false
-      }
+    this.setState({
+      newNoteText: '',
+      showNoteControls: false
     });
   };
 
@@ -115,7 +101,7 @@ export default class TaskSettings extends Component {
   render() {
     const { store } = this.context;
     const { app: { steps } } = store.getState();
-    const { activateStepInput, showNoteControls, newNoteText } = this.taskState;
+    const { activateStepInput, showNoteControls, newNoteText } = this.state;
     const { handleDeleteTask, activeTask, handleDeleteStep } = this.props;
     const { id: activeTaskId, done: doneTask, taskText, createdAt, myDay, note: taskNote } = activeTask;
 

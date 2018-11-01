@@ -20,7 +20,7 @@ export default class ExpandedApp extends Component {
     this.handleDeleteStep = this.handleDeleteStep.bind(this);
     this.handleDecline = this.handleDecline.bind(this);
     this.renderDeleteModal = this.renderDeleteModal.bind(this);
-    this.localState = {
+    this.state = {
       taskToDelete: '',
       todoToDelete: '',
       taskStepToDelete: ''
@@ -39,12 +39,10 @@ export default class ExpandedApp extends Component {
   }
 
   clearLocalAppState() {
-    this.setState(() => {
-      return this.localState = {
-        taskToDelete: '',
-        todoToDelete: '',
-        taskStepToDelete: ''
-      }
+    this.setState({
+      taskToDelete: '',
+      todoToDelete: '',
+      taskStepToDelete: ''
     })
   };
 
@@ -52,12 +50,7 @@ export default class ExpandedApp extends Component {
     const { store } = this.context;
     const { userSettings: { confirmDeletion } } = store.getState();
     if (confirmDeletion) {
-      this.setState(() => {
-        return this.localState = {
-          ...this.localState,
-          taskToDelete: element,
-        }
-      });
+      this.setState({ taskToDelete: element });
     } else {
       store.dispatch(deleteTask(element.id));
     }
@@ -67,12 +60,7 @@ export default class ExpandedApp extends Component {
     const { store } = this.context;
     const { userSettings: { confirmDeletion } } = store.getState();
     if (confirmDeletion) {
-      this.setState(() => {
-        return this.localState = {
-          ...this.localState,
-          todoToDelete: element
-        }
-      });
+      this.setState({ todoToDelete: element });
     } else {
       store.dispatch(deleteTodoList(element.todoListId));
     }
@@ -82,12 +70,7 @@ export default class ExpandedApp extends Component {
     const { store } = this.context;
     const { userSettings: { confirmDeletion } } = store.getState();
     if (confirmDeletion) {
-      this.setState(() => {
-        return this.localState = {
-          ...this.localState,
-          taskStepToDelete: element,
-        }
-      });
+      this.setState({ taskStepToDelete: element });
     } else {
       store.dispatch(deleteStep(element.stepId));
     }
@@ -95,7 +78,7 @@ export default class ExpandedApp extends Component {
 
   handleConfirm(element) {
     const { store } = this.context;
-    const { taskToDelete, todoToDelete, taskStepToDelete } = this.localState;
+    const { taskToDelete, todoToDelete, taskStepToDelete } = this.state;
     if(taskToDelete) {
       store.dispatch(deleteTask(element.id));
       this.clearLocalAppState();
@@ -129,7 +112,7 @@ export default class ExpandedApp extends Component {
     const { store } = this.context;
     const { userSettings: { confirmDeletion, turnOnSound, setDarkTheme, setLightTheme } } = store.getState();
     let { handleCollapse, collapseApp } = this.props;
-    let { taskToDelete, todoToDelete, taskStepToDelete } = this.localState;
+    let { taskToDelete, todoToDelete, taskStepToDelete } = this.state;
     let elementToDelete = taskToDelete || todoToDelete || taskStepToDelete;
 
     const setOpacity = (expandApp) => {

@@ -6,12 +6,15 @@ import {
   setShowFilter
 } from '../actionCreators';
 import TodoTask from "./TodoTask";
+import BasicButton from "./BasicButton";
 
 export default class SearchPanel extends Component {
   constructor(){
     super();
     this.openFilterMenu = this.openFilterMenu.bind(this);
-    this.search = {
+    this.showCompletedTasks = this.showCompletedTasks.bind(this);
+    this.renderFilterMenu = this.renderFilterMenu.bind(this);
+    this.state = {
       word: '',
       openFilterMenu: false
     };
@@ -19,36 +22,33 @@ export default class SearchPanel extends Component {
 
   setSearchWord = (e) => {
     let value = e.target.value;
-    this.setState(() => {
-      return this.search = {
-        word: value
-      }
-    });
+    this.setState({ word: value });
   };
 
   openFilterMenu(bool) {
-    this.setState(() => {
-      return this.search = {
-        ...this.search,
-        openFilterMenu: bool
-      }
-    })
+    this.setState({ openFilterMenu: bool })
+  }
+
+  showCompletedTasks(bool) {
+    const { store } = this.context;
+    store.dispatch(setShowFilter(bool))
+  };
+
+  renderFilterMenu(showCompleted) {
+    return (
+      <div className="filter-menu">
+        <p onClick={() => this.showCompletedTasks(!showCompleted)}>
+          {showCompleted ? "Hide" : "Show"} completed to-dos
+        </p>
+      </div>
+    )
   }
 
   render(){
-    const searchWord = this.search.word;
     const { store } = this.context;
     const state = store.getState();
     const { app: { tasks }, search: { showCompleted } } = state;
-    const { openFilterMenu } = this.search;
-
-    const toggleTodoTask = (taskId) => {
-      store.dispatch(toggleTask(taskId))
-    };
-
-    const showCompletedTasks = (bool) => {
-      store.dispatch(setShowFilter(bool))
-    };
+    const { word: searchWord, openFilterMenu } = this.state;
 
     return (
       <BasicPanel className="search-modal">
@@ -59,39 +59,23 @@ export default class SearchPanel extends Component {
               ref={node => this.searchTaskNode = node}
               onChange={(e) => this.setSearchWord(e)}
             />
-            <button
-              className={"clearSearch " + (searchWord ? 'active' : 'inactive')}
-              onClick={() => {
+            <BasicButton
+              buttonClassName={"clearSearch " + (searchWord ? 'active' : 'inactive')}
+              iconClassName="fas fa-times"
+              buttonOnClickAction={() => {
                 this.searchTaskNode.value = '';
-                this.setState(() => {
-                  return this.search = {
-                    word: ''
-                  }
-                })
+                this.setState({ word: '' })
               }}
-            >x</button>
+            />
           </div>
-          <button
-            className="set-filter"
-            onClick={() => this.openFilterMenu(!openFilterMenu)}
-          >
-            <i className="fas fa-ellipsis-h"></i>
-          </button>
+          <BasicButton
+            buttonClassName="set-filter"
+            iconClassName="fas fa-ellipsis-h"
+            buttonOnClickAction={() => this.openFilterMenu(!openFilterMenu)}
+          />
           {
             openFilterMenu &&
-            (
-              <div className="filter-menu">
-                {
-                  showCompleted ?
-                    (<p onClick={() => showCompletedTasks(false)}>
-                      Hide completed to-dos
-                    </p>) :
-                    (<p onClick={() => showCompletedTasks(true)}>
-                      Show completed to-dos
-                    </p>)
-                }
-              </div>
-            )
+            this.renderFilterMenu(showCompleted)
           }
         </div>
         <hr/>

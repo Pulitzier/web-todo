@@ -9,7 +9,7 @@ export default class SortPopUp extends Component {
     this.handleSortTasks = this.handleSortTasks.bind(this);
     this.setSortMessage = this.setSortMessage.bind(this);
     this.changeSortOrder = this.changeSortOrder.bind(this);
-    this.sortState = {
+    this.state = {
       reverseTasks: false
     }
   };
@@ -42,18 +42,13 @@ export default class SortPopUp extends Component {
 
   changeSortOrder() {
     const { store } = this.context;
-    this.setState(() => {
-      return this.sortState = {
-        ...this.sortState,
-        reverseTasks: !this.sortState.reverseTasks
-      }
-    });
+    this.setState({ reverseTasks: !this.state.reverseTasks });
     store.dispatch(revertTasks());
   };
 
   render() {
     const { bgColor } = this.props;
-    const { reverseTasks } = this.sortState;
+    const { reverseTasks } = this.state;
 
     return(
       <section
@@ -64,7 +59,7 @@ export default class SortPopUp extends Component {
         <BasicButton
           buttonClassName={("change-sort-order " + (reverseTasks ? 'up' : 'down'))}
           buttonOnClickAction={() => this.changeSortOrder()}
-          iconClassName={("fas fa-angle-down " + (reverseTasks && "reverced"))}
+          iconClassName={("fas fa-angle-down " + (reverseTasks && "reversed"))}
         />
         <BasicButton
           buttonClassName="clear-banner-sort"
