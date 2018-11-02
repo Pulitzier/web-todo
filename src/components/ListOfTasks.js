@@ -41,7 +41,7 @@ export default class ListOfTasks extends Component {
 
   addNewTask(activeTodo) {
     const { store } = this.context;
-    let newTask = this.newTaskInput.value;
+    const newTask = this.newTaskInput.value;
     store.dispatch(addNewTaskToList(newTask, activeTodo));
     store.dispatch(typeNewTaskAction(false));
     this.newTaskInput.focus();
@@ -80,7 +80,7 @@ export default class ListOfTasks extends Component {
 
     const addNewTaskOnEnter = (event, todo) => {
       let { key } = event;
-      if (key === 'Enter') {
+      if (key === 'Enter' && this.newTaskInput.value) {
         this.addNewTask(todo);
       }
     };
