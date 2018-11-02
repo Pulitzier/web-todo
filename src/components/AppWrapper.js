@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
-import '../index.css';
+import '../styles/index.css';
 import { handleCollapseApp } from "../actionCreators";
 import CollapsedApp from "./CollapsedApp";
 import ExpandedApp from './ExpandedApp';

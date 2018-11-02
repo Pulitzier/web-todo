@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
-import './index.css';
+import './styles/index.css';
 import AppWrapper from './components/AppWrapper';
 import {
   appReducer,
