@@ -56,8 +56,7 @@ export default class ChildTaskSettings extends Component {
     document.removeEventListener('click', this.handleClick, false);
   };
 
-  handleClick(event) {
-    let { target } = event;
+  handleClick({ target }) {
     if (!this.additionalSet.contains(target)) {
       this.openDueDate(false);
       this.openReminder(false);

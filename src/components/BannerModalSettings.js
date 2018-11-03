@@ -40,9 +40,8 @@ export default class BannerModalSettings extends Component {
     document.removeEventListener('click', this.handleClick, false);
   };
 
-  handleClick(event) {
+  handleClick({ target }) {
     const { showModal } = this.props;
-    let { target } = event;
     if (!this.bannerModal.contains(target)) {
       return showModal();
     }

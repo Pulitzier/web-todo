@@ -1,7 +1,7 @@
 import React from 'react';
 
-const BasicLabel = (props) => {
-  const { labelClassName, labelOnClickAction, iconClassName } = props;
+const BasicLabel = ({ labelClassName, labelOnClickAction, iconClassName }) => {
+
   return (
     <label
       className={labelClassName}

@@ -23,8 +23,7 @@ export default class CustomDayPicker extends Component {
     document.removeEventListener('click', this.handleClick, false);
   };
 
-  handleClick(event) {
-    let { target } = event;
+  handleClick({ target }) {
     if (!this.customDayPicker.contains(target)) {
       this.props.handleClosePicker();
     }

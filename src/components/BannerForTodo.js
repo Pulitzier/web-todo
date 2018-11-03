@@ -2,31 +2,32 @@ import React, {Component} from 'react';
 import PropTypes from 'react-proptypes';
 import {
   getActiveTodoList,
-  checkActiveTodoTitle,
-  setInitialIconWhenRename
+  checkActiveTodoTitle
 } from '../helpers';
 import { shouldShowGreetings } from '../actionCreators';
 import { BANNER_COLOR_SCHEME } from  '../constants';
-import RenameList from './RenameList';
-import IconsMenu from "./IconsMenu";
+import RenameListWrapper from './RenameListWrapper';
+import IconsMenuWrapper from "./IconsMenuWrapper";
 import SortPopUp from "./SortPopUp";
 import BannerModalSettings from "./BannerModalSettings";
 import BasicButton from './BasicButton';
 import BasicPanel from "./BasicPanel";
 import GreetingPopUp from './GreetingPopUp';
+import BannerTitle from './BannerTitle';
 
 export default class BannerForTodo extends Component {
   constructor(props) {
     super(props);
     this.activateModalSettings = this.activateModalSettings.bind(this);
     this.activateRename = this.activateRename.bind(this);
-    this.activateIcon = this.activateIcon.bind(this);
     this.deactivateGreetingPopup = this.deactivateGreetingPopup.bind(this);
     this.renderBannerText = this.renderBannerText.bind(this);
+    this.activateIconsMenu = this.activateIconsMenu.bind(this);
     this.state = {
       shouldRenameList: false,
       shouldChangeIcon: false,
-      showModal: false
+      showModal: false,
+      showIconMenu: false
     }
   };
 
@@ -38,46 +39,33 @@ export default class BannerForTodo extends Component {
     this.setState({ shouldRenameList: bool });
   };
 
-  activateIcon(bool) {
-    this.setState({ shouldChangeIcon: bool })
-  };
+  activateIconsMenu(bool) {
+    this.setState({
+      showIconMenu: bool,
+    })
+  }
 
   deactivateGreetingPopup() {
     const { store } = this.context;
     store.dispatch(shouldShowGreetings(false))
   };
 
-  renderBannerText(activeTodo) {
-    const { title, todoListId: todoId, iconSource: todoIconSrc } = activeTodo;
-    const { shouldRenameList, shouldChangeIcon } = this.state;
+  renderBannerText({ title, iconSource: todoIconSrc }) {
+    const { shouldRenameList } = this.state;
     if (shouldRenameList && checkActiveTodoTitle(title)) {
-      return <RenameList activateRename={(bool) => this.activateRename(bool)}/>
+      return <RenameListWrapper
+        todoTitle={title}
+        shouldRenameList={shouldRenameList}
+        activateIconsMenu={this.activateIconsMenu}
+        activateRename={this.activateRename}
+      />
     }
-    return (
-      <BasicPanel>
-        {
-          todoIconSrc !== "fa-list" &&
-          checkActiveTodoTitle(title) &&
-          (<BasicButton
-            buttonClassName="banner-change-todo-icon"
-            buttonOnClickAction={() => this.activateIcon(true)}
-            iconClassName={("fa " + setInitialIconWhenRename(todoIconSrc))}
-          />)
-        }
-        {
-          shouldChangeIcon &&
-          todoIconSrc !== "fa-list" &&
-          <IconsMenu
-            activateIcon={(bool) => this.activateIcon(bool)}
-            activeTodoId={todoId}
-          />
-        }
-        <h3
-          className={checkActiveTodoTitle(title) ? "non-default-todo" : ''}
-          onClick={() => this.activateRename(true)}
-        >{title}</h3>
-      </BasicPanel>
-    )
+    return <BannerTitle
+      todoTitle={title}
+      todoIconSrc={todoIconSrc}
+      activateIconsMenu={this.activateIconsMenu}
+      activateRename={this.activateRename}
+    />
   };
 
   render(){
@@ -87,7 +75,7 @@ export default class BannerForTodo extends Component {
     const { activeTask, deleteList, activateGreetings, greetingTasks } = this.props;
     const activeTodo = getActiveTodoList(todos);
     const { todoListId: todoId, bgImage, bgColor, sortOrder } = activeTodo;
-    const { showModal, shouldRenameList } = this.state;
+    const { showModal, shouldRenameList, showIconMenu } = this.state;
     let bgColorForBanner =
       'linear-gradient(rgba(' +
       BANNER_COLOR_SCHEME[bgColor] +
@@ -116,6 +104,14 @@ export default class BannerForTodo extends Component {
           >
             {
               this.renderBannerText(activeTodo)
+            }
+            {
+              showIconMenu &&
+              <IconsMenuWrapper
+                activateRename={this.activateRename}
+                activateIconsMenu={this.activateIconsMenu}
+                activeTodoId={activeTodo.todoListId}
+              />
             }
             {
               (todoId === 0) &&

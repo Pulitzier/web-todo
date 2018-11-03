@@ -1,7 +1,7 @@
 import React from 'react';
 
-const BasicPanel = (props) => {
-  const { className, children, style={} } = props;
+const BasicPanel = ({ className, children, style={} }) => {
+
   return (
     <div
       className={className}
