@@ -10,7 +10,6 @@ import {
   handleSetLightTheme,
   handleSetDarkTheme
 } from '../actionCreators';
-import MicrosoftLabel from "./StatusBarPanel";
 import BasicButton from "./BasicButton";
 
 export default class UserSettingsPanel extends Component {
@@ -143,15 +142,15 @@ export default class UserSettingsPanel extends Component {
           <section className="import-todos">
             <h5>Import to-dos</h5>
             <p>Import your lists and to-dos from Wunderlist and start your day right from where you left off.</p>
-            <a href="https://import.todo.microsoft.com/" target="_blank">Start importing now</a>
+            <a href="https://import.todo.microsoft.com/" target="_blank" rel="noopener noreferrer">Start importing now</a>
           </section>
           <hr />
           <section className="help-feedback">
             <h5>Help & Feedback</h5>
             <p>Everything's synced. Let's go!</p>
-            <a href="https://todosupport.helpshift.com/a/microsoft-to-do/?p=winpc" target="_blank">Get support</a>
-            <a href="https://todo.uservoice.com/" target="_blank">Suggest a feature via UserVoice</a>
-            <a href="https://www.microsoft.com/store/productId/9NBLGGH5R558" target="_blank">Rate us</a>
+            <a href="https://todosupport.helpshift.com/a/microsoft-to-do/?p=winpc" target="_blank" rel="noopener noreferrer">Get support</a>
+            <a href="https://todo.uservoice.com/" target="_blank" rel="noopener noreferrer">Suggest a feature via UserVoice</a>
+            <a href="https://www.microsoft.com/store/productId/9NBLGGH5R558" target="_blank" rel="noopener noreferrer">Rate us</a>
           </section>
           <hr />
           <section className="about-section">
@@ -159,9 +158,9 @@ export default class UserSettingsPanel extends Component {
             <p>My personal to-do manager</p>
             <p>2018, From QA to DEV</p>
             <p>1.23.4567.89 Version: 1.36.1807.20001; SessionId: 62435c0e-f24a-471c-8a6d-08025791b0f3.</p>
-            <a href="https://privacy.microsoft.com/en-US/privacystatement" target="_blank">Privacy</a>
-            <a href="https://todosupport.helpshift.com/a/microsoft-to-do/?p=all&s=privacy-and-compliance&f=how-can-i-export-my-lists-and-tasks-from-to-do&l=en" target="_blank">Export your content</a>
-            <a href="https://support.office.com/legal?llcc=en-us&aid=MicrosoftTO-DOWINDOWSAPPS-Standalone(free)UseTerms_en-us.htm" target="_blank">Microsoft Software Licence Terms</a>
+            <a href="https://privacy.microsoft.com/en-US/privacystatement" target="_blank" rel="noopener noreferrer">Privacy</a>
+            <a href="https://todosupport.helpshift.com/a/microsoft-to-do/?p=all&s=privacy-and-compliance&f=how-can-i-export-my-lists-and-tasks-from-to-do&l=en" target="_blank" rel="noopener noreferrer">Export your content</a>
+            <a href="https://support.office.com/legal?llcc=en-us&aid=MicrosoftTO-DOWINDOWSAPPS-Standalone(free)UseTerms_en-us.htm" target="_blank" rel="noopener noreferrer">Microsoft Software Licence Terms</a>
             <a
               href="#"
               data-toggle="modal"

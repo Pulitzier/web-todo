@@ -7,7 +7,7 @@ import {
   chooseList,
   activateTask,
   openSearchPanel,
-  activateTaskSettings, addStep
+  activateTaskSettings
 } from "../actionCreators";
 import {getActiveTask, getTasksForTodo} from '../helpers';
 import UserModalSettings from "./UserModalSettings";
@@ -69,10 +69,10 @@ export default class LeftPanel extends Component {
     let { newListTitle } = this.state;
     todos.map(todo => {
       if (todo.title.indexOf('Untitled Todo') !== -1) {
-        if (isNaN(parseInt(todo.title.replace( /[^\d.]/g, '' )))) {
+        if (isNaN(parseInt(todo.title.replace( /[^\d.]/g, '' ), 10))) {
           newListTitle = 'Untitled Todo ' + 1;
         } else {
-          let index = parseInt(todo.title.replace( /[^\d.]/g, '' )) + 1;
+          let index = parseInt(todo.title.replace( /[^\d.]/g, '' ), 10) + 1;
           newListTitle = 'Untitled Todo ' + index;
         };
       }

@@ -53,17 +53,12 @@ export default class RepeatDatePicker extends Component {
     const { daysPicked } = this.state;
     let newDayPicked;
     if (day) {
-      this.setState(() => {
-        if(daysPicked.find(d => d === day)) {
-          newDayPicked = daysPicked.filter(d => d !== day);
-        } else {
-          newDayPicked = daysPicked.concat(day);
-        }
-        return this.state = {
-          ...this.state,
-          daysPicked: newDayPicked
-        }
-      })
+      if(daysPicked.find(d => d === day)) {
+        newDayPicked = daysPicked.filter(d => d !== day);
+      } else {
+        newDayPicked = daysPicked.concat(day);
+      }
+      this.setState({ daysPicked: newDayPicked })
     }
   };
 

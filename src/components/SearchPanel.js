@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes  from 'react-proptypes';
 import BasicPanel from './BasicPanel';
-import {
-  toggleTask,
-  setShowFilter
-} from '../actionCreators';
+import { setShowFilter } from '../actionCreators';
 import TodoTask from "./TodoTask";
 import BasicButton from "./BasicButton";
 

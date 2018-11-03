@@ -204,7 +204,7 @@ export default class BannerModalSettings extends Component {
                 className={"jumbotron-button "+(bgImage === item ? 'active' : '')}
                 onClick={() => this.changeBannerImage(item, todoListId)}>
                 <span className="bgImage-wrapper">
-                  <img className="theme-image" src={item} alt="Theme Image" />
+                  <img className="theme-image" src={item} alt="Theme Thumbnails for Banner" />
                 </span>
               </button>
             ))}

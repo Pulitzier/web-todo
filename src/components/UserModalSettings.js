@@ -6,7 +6,6 @@ import {
   openSearchPanel
 } from "../actionCreators";
 import BasicPanel from './BasicPanel';
-import MicrosoftLabel from "./StatusBarPanel";
 
 export default class UserModalSettings extends Component {
   constructor(props) {
