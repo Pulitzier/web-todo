@@ -201,7 +201,7 @@ export default class ChildTaskSettings extends Component {
 
   setRepeatType(id, type) {
     const { store } = this.context;
-    this.setDueTomorrow();
+    this.setDueTomorrow(id);
     store.dispatch(setRepeat(id, type));
     this.openRepeatWindow(false);
   };

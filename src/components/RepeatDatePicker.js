@@ -67,7 +67,7 @@ export default class RepeatDatePicker extends Component {
     const { taskId, showCustomRepeat, updateDueDate } = this.props;
     let serializedRepeat = JSON.stringify(this.state);
     store.dispatch(setRepeat(taskId, serializedRepeat));
-    updateDueDate();
+    updateDueDate(taskId);
     showCustomRepeat(false);
   };
 
