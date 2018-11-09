@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
-import BasicPanel from './BasicPanel';
 import Toggle from 'react-toggle';
-import "react-toggle/style.css";
+import BasicPanel from './BasicPanel';
+import 'react-toggle/style.css';
 import {
   openUserSettings,
   confirmBeforeDelete,
   turnCompletionSound,
   handleSetLightTheme,
-  handleSetDarkTheme
+  handleSetDarkTheme,
 } from '../actionCreators';
-import BasicButton from "./BasicButton";
+import BasicButton from './BasicButton';
 
 export default class UserSettingsPanel extends Component {
   constructor(props) {
@@ -20,46 +20,48 @@ export default class UserSettingsPanel extends Component {
     this.closeSettings = this.closeSettings.bind(this);
     this.checkDarkTheme = this.checkDarkTheme.bind(this);
     this.checkLightTheme = this.checkLightTheme.bind(this);
-  };
+  }
 
   closeSettings(bool) {
     const { store } = this.context;
-    store.dispatch(openUserSettings(!bool))
-  };
+    store.dispatch(openUserSettings(!bool));
+  }
 
   confirmDelete(bool) {
     const { store } = this.context;
-    store.dispatch(confirmBeforeDelete(bool))
-  };
+    store.dispatch(confirmBeforeDelete(bool));
+  }
 
   setSound(bool) {
     const { store } = this.context;
-    store.dispatch(turnCompletionSound(bool))
-  };
+    store.dispatch(turnCompletionSound(bool));
+  }
 
   checkLightTheme() {
     const { store } = this.context;
-    store.dispatch(handleSetLightTheme())
-  };
+    store.dispatch(handleSetLightTheme());
+  }
 
   checkDarkTheme() {
     const { store } = this.context;
-    store.dispatch(handleSetDarkTheme())
-  };
+    store.dispatch(handleSetDarkTheme());
+  }
 
   render() {
     const { store } = this.context;
     const state = store.getState();
-    const { userSettings: {
-      openSettings,
-      confirmDeletion,
-      turnOnSound,
-      setLightTheme,
-      setDarkTheme
-    }} = state;
+    const {
+      userSettings: {
+        openSettings,
+        confirmDeletion,
+        turnOnSound,
+        setLightTheme,
+        setDarkTheme,
+      },
+    } = state;
 
     return (
-      <BasicPanel className={"user-settings-page " + (openSettings ? 'active' : 'inactive')}>
+      <BasicPanel className={`user-settings-page ${openSettings ? 'active' : 'inactive'}`}>
         <header className="settings-header">
           <BasicButton
             buttonClassName="close-settings"
@@ -72,7 +74,7 @@ export default class UserSettingsPanel extends Component {
         <section className="settings-general-info">
           <section className="user-manage">
             <span>
-              <i className="fas fa-user-tie"></i>
+              <i className="fas fa-user-tie" />
             </span>
             <div>
               <h2>Yuryi Baravy</h2>
@@ -89,54 +91,56 @@ export default class UserSettingsPanel extends Component {
             <div className="toggle-wrapper">
               <Toggle
                 checked={confirmDeletion}
-                name='confirmDelete'
-                value='yes'
+                name="confirmDelete"
+                value="yes"
                 icons={false}
                 onChange={() => this.confirmDelete(!confirmDeletion)}
               />
               {
-                confirmDeletion ?
-                  <p>On</p> :
-                  <p>Off</p>
+                confirmDeletion
+                  ? <p>On</p>
+                  : <p>Off</p>
               }
             </div>
             <p>Turn on completion sound</p>
             <div className="toggle-wrapper">
               <Toggle
                 checked={turnOnSound}
-                name='turnSound'
-                value='yes'
+                name="turnSound"
+                value="yes"
                 icons={false}
                 onChange={() => this.setSound(!turnOnSound)}
               />
-              <p>{ turnOnSound ? "On" : "Off" }</p>
-              </div>
+              <p>{ turnOnSound ? 'On' : 'Off' }</p>
+            </div>
           </section>
           <hr />
           <section className="theme-sets">
             <h5>Theme</h5>
             <label
               htmlFor="lightTheme"
-              className={"ligthTheme-label " + (setLightTheme ? 'checked' : '')}
+              className={`ligthTheme-label ${setLightTheme ? 'checked' : ''}`}
               onClick={() => this.checkLightTheme()}
             >
               <input
                 id="lightTheme"
                 type="checkbox"
               />
-              <span></span>
-            </label><p>Light Theme</p>
+              <span />
+            </label>
+            <p>Light Theme</p>
             <label
               htmlFor="darkTheme"
-              className={"darkTheme-label " + (setDarkTheme ? 'checked' : '')}
+              className={`darkTheme-label ${setDarkTheme ? 'checked' : ''}`}
               onClick={() => this.checkDarkTheme()}
             >
               <input
                 id="darkTheme"
                 type="checkbox"
               />
-              <span></span>
-            </label><p>Dark Theme</p>
+              <span />
+            </label>
+            <p>Dark Theme</p>
           </section>
           <hr />
           <section className="import-todos">
@@ -165,7 +169,9 @@ export default class UserSettingsPanel extends Component {
               href="#"
               data-toggle="modal"
               data-target="#thirdPartyNotices"
-            >Third Party Notices</a>
+            >
+Third Party Notices
+            </a>
             <a href="#">Copy Session ID</a>
           </section>
         </section>
@@ -212,9 +218,9 @@ export default class UserSettingsPanel extends Component {
           </div>
         </div>
       </BasicPanel>
-    )
+    );
   }
-};
+}
 
 UserSettingsPanel.contextTypes = {
   store: PropTypes.object,

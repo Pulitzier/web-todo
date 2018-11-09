@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
 import { addStep } from '../actionCreators';
-import BasicInput from "./BasicInput";
+import BasicInput from './BasicInput';
 
 export default class StepInput extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.handleStepClick = this.handleStepClick.bind(this);
     this.handleTypingStep = this.handleTypingStep.bind(this);
@@ -13,71 +13,71 @@ export default class StepInput extends Component {
       toggleStep: false,
       typeNewStep: false,
       stepText: '',
-    }
-  };
+    };
+  }
 
   componentDidMount() {
     document.addEventListener('click', this.handleStepClick, false);
     document.getElementById('toggle-step-checkbox-template').focus();
-  };
+  }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this.handleStepClick, false)
-  };
+    document.removeEventListener('click', this.handleStepClick, false);
+  }
 
   handleStepClick(event) {
     event.preventDefault();
     event.stopPropagation();
     const { activateStep } = this.props;
-    let { target } = event;
+    const { target } = event;
     if (
-      this.bannerModal &&
-      this.bannerModal.contains(target)
+      this.bannerModal
+      && this.bannerModal.contains(target)
     ) {
       return;
     }
     return activateStep();
-  };
+  }
 
   handleTypingStep = (event) => {
-    let { target: { value: step }} = event;
+    const { target: { value: step } } = event;
     this.setState({
       typeNewStep: true,
-      stepText: step
-    })
+      stepText: step,
+    });
   };
 
   addNewStepToTask(event) {
     const { store } = this.context;
     const { activateStep, taskId } = this.props;
     const { stepText } = this.state;
-    let { key } = event;
+    const { key } = event;
     if (key === 'Enter' && stepText) {
       store.dispatch(addStep(taskId, stepText));
       activateStep();
     }
-  };
+  }
 
-  render(){
+  render() {
     const { toggleStep } = this.state;
 
     return (
       <BasicInput
         inputType="step"
         labelClassName={
-          "toggle-step-label-template " +
-          (toggleStep ? 'toggled' : 'untoggled')
+          `toggle-step-label-template ${
+            toggleStep ? 'toggled' : 'untoggled'}`
         }
-        iconClassName={"add-new-step-input " + (toggleStep ? "activated" : "inactive")}
+        iconClassName={`add-new-step-input ${toggleStep ? 'activated' : 'inactive'}`}
         inputActions={{
-          onKeyPress: (e) => this.addNewStepToTask(e),
-          onChange: (e) => this.handleTypingStep(e)
+          onKeyPress: e => this.addNewStepToTask(e),
+          onChange: e => this.handleTypingStep(e),
         }}
       />
-    )
+    );
   }
-};
+}
 
 StepInput.contextTypes = {
-  store: PropTypes.object
+  store: PropTypes.object,
 };

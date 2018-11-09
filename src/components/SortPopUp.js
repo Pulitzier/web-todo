@@ -10,19 +10,19 @@ export default class SortPopUp extends Component {
     this.setSortMessage = this.setSortMessage.bind(this);
     this.changeSortOrder = this.changeSortOrder.bind(this);
     this.state = {
-      reverseTasks: false
-    }
-  };
+      reverseTasks: false,
+    };
+  }
 
   handleSortTasks(sortCriteria) {
     const { store } = this.context;
-    let { todoListId } = this.props;
-    store.dispatch(sortTasks(sortCriteria, todoListId))
-  };
+    const { todoListId } = this.props;
+    store.dispatch(sortTasks(sortCriteria, todoListId));
+  }
 
   setSortMessage() {
-    let { sortBy } = this.props;
-    switch(sortBy) {
+    const { sortBy } = this.props;
+    switch (sortBy) {
       case 'ABC':
         return 'Sorted alphabetically';
       case 'DUE_DATE':
@@ -36,30 +36,30 @@ export default class SortPopUp extends Component {
       case 'IMPORTANT':
         return 'Sorted by importance';
       default:
-        return 'Sorted by default'
+        return 'Sorted by default';
     }
-  };
+  }
 
   changeSortOrder() {
     const { store } = this.context;
     this.setState({ reverseTasks: !this.state.reverseTasks });
     store.dispatch(revertTasks());
-  };
+  }
 
   render() {
     const { bgColor } = this.props;
     const { reverseTasks } = this.state;
 
-    return(
+    return (
       <section
         className="banner-sort"
-        style={{backgroundColor: bgColor}}
+        style={{ backgroundColor: bgColor }}
       >
         <p>{this.setSortMessage()}</p>
         <BasicButton
-          buttonClassName={("change-sort-order " + (reverseTasks ? 'up' : 'down'))}
+          buttonClassName={(`change-sort-order ${reverseTasks ? 'up' : 'down'}`)}
           buttonOnClickAction={() => this.changeSortOrder()}
-          iconClassName={("fas fa-angle-down " + (reverseTasks && "reversed"))}
+          iconClassName={(`fas fa-angle-down ${reverseTasks && 'reversed'}`)}
         />
         <BasicButton
           buttonClassName="clear-banner-sort"
@@ -67,10 +67,10 @@ export default class SortPopUp extends Component {
           iconClassName="fas fa-times"
         />
       </section>
-    )
+    );
   }
-};
+}
 
 SortPopUp.contextTypes = {
-  store: PropTypes.object
+  store: PropTypes.object,
 };

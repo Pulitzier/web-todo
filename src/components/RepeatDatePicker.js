@@ -15,37 +15,37 @@ export default class RepeatDatePicker extends Component {
     this.state = {
       numberOfRepeat: 1,
       typeOfRange: 'weeks',
-      daysPicked: [getStringDate((new Date()), {weekday: 'short'}).slice(0,2)]
-    }
-  };
+      daysPicked: [getStringDate((new Date()), { weekday: 'short' }).slice(0, 2)],
+    };
+  }
 
-  componentDidMount(){
+  componentDidMount() {
     document.addEventListener('click', this.handleClick, false);
-  };
+  }
 
   componentWillUnmount() {
     document.removeEventListener('click', this.handleClick, false);
-  };
+  }
 
   handleClick(event) {
     const { showCustomRepeat } = this.props;
-    let { target } = event;
+    const { target } = event;
     if (!this.repeatDayPicker.contains(target)) {
       showCustomRepeat(false);
     }
-  };
+  }
 
   handlePickValue(event) {
-    let value = event.target.value;
+    const value = event.target.value;
     if (value) {
-      this.setState({ numberOfRepeat: value })
+      this.setState({ numberOfRepeat: value });
     }
-  };
+  }
 
   handlePickType(e) {
-    let value = e.target.value;
-    if(value) {
-      this.setState({ typeOfRange: value })
+    const value = e.target.value;
+    if (value) {
+      this.setState({ typeOfRange: value });
     }
   }
 
@@ -53,30 +53,30 @@ export default class RepeatDatePicker extends Component {
     const { daysPicked } = this.state;
     let newDayPicked;
     if (day) {
-      if(daysPicked.find(d => d === day)) {
+      if (daysPicked.find(d => d === day)) {
         newDayPicked = daysPicked.filter(d => d !== day);
       } else {
         newDayPicked = daysPicked.concat(day);
       }
-      this.setState({ daysPicked: newDayPicked })
+      this.setState({ daysPicked: newDayPicked });
     }
-  };
+  }
 
   handleFormSubmit() {
     const { store } = this.context;
     const { taskId, showCustomRepeat, updateDueDate } = this.props;
-    let serializedRepeat = JSON.stringify(this.state);
+    const serializedRepeat = JSON.stringify(this.state);
     store.dispatch(setRepeat(taskId, serializedRepeat));
     updateDueDate(taskId);
     showCustomRepeat(false);
-  };
+  }
 
   handleFormReset() {
     const { store } = this.context;
     const { taskId, showCustomRepeat } = this.props;
     store.dispatch(setRepeat(taskId, ''));
     showCustomRepeat(false);
-  };
+  }
 
   render() {
     const { numberOfRepeat, typeOfRange, daysPicked } = this.state;
@@ -101,15 +101,15 @@ export default class RepeatDatePicker extends Component {
           >
             <input
               className="picker-value"
-              name='picValue'
+              name="picValue"
               defaultValue={numberOfRepeat}
-              onChange={(e) => this.handlePickValue(e)}
+              onChange={e => this.handlePickValue(e)}
             />
             <select
               className="picker-type"
               name="picType"
               defaultValue="weeks"
-              onChange={(e) => this.handlePickType(e)}
+              onChange={e => this.handlePickType(e)}
             >
               <option value="days">days</option>
               <option value="weeks">weeks</option>
@@ -118,26 +118,24 @@ export default class RepeatDatePicker extends Component {
             </select>
             <div className="days-picker">
               {
-                typeOfRange === "weeks" &&
-                ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]
-                  .map((day, i) => {
-                    return (
-                      <span
-                        key={i}
-                        className={
-                          "repeat-day-label" +
-                          (daysPicked.find(d => d === day) ? ' selected' : '')
+                typeOfRange === 'weeks'
+                && ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
+                  .map((day, i) => (
+                    <span
+                      key={i}
+                      className={
+                          `repeat-day-label${
+                            daysPicked.find(d => d === day) ? ' selected' : ''}`
                         }
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          this.handlePickDay(day);
-                        }}
-                      >
-                        <span>{day}</span>
-                      </span>
-                    )
-                  })
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        this.handlePickDay(day);
+                      }}
+                    >
+                      <span>{day}</span>
+                    </span>
+                  ))
               }
             </div>
             <div className="btn-group">
@@ -147,10 +145,10 @@ export default class RepeatDatePicker extends Component {
           </form>
         </div>
       </div>
-    )
+    );
   }
-};
+}
 
 RepeatDatePicker.contextTypes = {
-  store: PropTypes.object
+  store: PropTypes.object,
 };
