@@ -7,8 +7,8 @@ import UserSettingsPanel from './UserSettingsPanel';
 import AudioForCompletion from './AudioForCompletion';
 import DeleteModal from './DeleteModal';
 import BasicPanel from './BasicPanel';
-import { deleteStep, deleteTask, deleteTodoList } from '../actionCreators';
-import { COLLAPSED_APP_STYLES, EXPANDED_APP_STYLES } from '../constants';
+import { deleteStep, deleteTask, deleteTodoList } from '../store/actions/actionCreators';
+import { COLLAPSED_APP_STYLES, EXPANDED_APP_STYLES } from '../store/constants/constants';
 
 export default class ExpandedApp extends Component {
   constructor(props) {

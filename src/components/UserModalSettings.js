@@ -4,7 +4,7 @@ import {
   activateUserSettings,
   openUserSettings,
   openSearchPanel,
-} from '../actionCreators';
+} from '../store/actions/actionCreators';
 import BasicPanel from './BasicPanel';
 
 export default class UserModalSettings extends Component {
@@ -28,6 +28,7 @@ export default class UserModalSettings extends Component {
     const { store } = this.context;
     const { target } = event;
     if (!this.userSettings.contains(target)) {
+      console.log('sasda');
       return store.dispatch(activateUserSettings(false));
     }
     return null;

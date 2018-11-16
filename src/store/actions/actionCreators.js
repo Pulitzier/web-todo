@@ -28,20 +28,6 @@ export function deleteTodoList(todoId) {
   };
 }
 
-export function openSearchPanel(bool) {
-  return {
-    type: 'ACTIVATE_SEARCH_PANEL',
-    activate: bool,
-  };
-}
-
-export function setShowFilter(bool) {
-  return {
-    type: 'SET_SHOW_COMPLETED',
-    show: bool,
-  };
-}
-
 export function filterCompletedTasks(bool) {
   return {
     type: 'SHOW_COMPLETED_FROM_BANNER',
@@ -56,11 +42,26 @@ export function chooseList(todoId) {
   };
 }
 
-export function changeBannerBgColor(color, todoId) {
+export function activateTask(bool) {
   return {
-    type: 'CHANGE_BANNER_BG_COLOR',
-    color,
-    todoId,
+    type: 'ACTIVATE_NEW_TASK',
+    activateNewTask: bool,
+  };
+}
+
+//TODO: Settings
+
+export function openSearchPanel(bool) {
+  return {
+    type: 'ACTIVATE_SEARCH_PANEL',
+    activate: bool,
+  };
+}
+
+export function setShowFilter(bool) {
+  return {
+    type: 'SET_SHOW_COMPLETED',
+    show: bool,
   };
 }
 
@@ -69,13 +70,6 @@ export function changeBannerBgImage(image, todoId) {
     type: 'CHANGE_BANNER_BG_IMAGE',
     image,
     todoId,
-  };
-}
-
-export function activateTask(bool) {
-  return {
-    type: 'ACTIVATE_NEW_TASK',
-    activateNewTask: bool,
   };
 }
 
@@ -98,6 +92,14 @@ export function activateUserSettings(activate) {
   return {
     type: 'ACTIVATE_USER_SETTINGS',
     activate,
+  };
+}
+
+export function changeBannerBgColor(color, todoId) {
+  return {
+    type: 'CHANGE_BANNER_BG_COLOR',
+    color,
+    todoId,
   };
 }
 
@@ -135,6 +137,55 @@ export function handleSetLightTheme() {
     setLightTheme: true,
   };
 }
+
+
+export function setRemindMeDate(taskId, date) {
+  return {
+    type: 'SET_REMIND_ME_DATE',
+    taskId,
+    date,
+  };
+}
+
+export function setDueDate(taskId, date) {
+  return {
+    type: 'SET_DUE_DATE',
+    taskId,
+    date,
+  };
+}
+
+export function setRepeat(taskId, repeatType) {
+  return {
+    type: 'SET_REPEAT',
+    taskId,
+    repeatType,
+  };
+}
+
+export function shouldShowGreetings(bool) {
+  return {
+    type: 'SHOULD_SHOW_GREETINGS',
+    showGreeting: bool,
+  };
+}
+
+export function updateTimestamp(time) {
+  return {
+    type: 'UPDATE_GREETING_TIMESTAMP',
+    greetingTimestamp: time,
+  };
+}
+
+
+export function clearSuggestedField() {
+  return {
+    type: 'DO_NOT_SUGGEST_TASK',
+    suggestion: false,
+  };
+}
+
+//ENDTODO Settings
 
 export function typeNewTaskAction(bool) {
   return {
@@ -202,30 +253,6 @@ export function revertTasks() {
   };
 }
 
-export function setRemindMeDate(taskId, date) {
-  return {
-    type: 'SET_REMIND_ME_DATE',
-    taskId,
-    date,
-  };
-}
-
-export function setDueDate(taskId, date) {
-  return {
-    type: 'SET_DUE_DATE',
-    taskId,
-    date,
-  };
-}
-
-export function setRepeat(taskId, repeatType) {
-  return {
-    type: 'SET_REPEAT',
-    taskId,
-    repeatType,
-  };
-}
-
 export function addStep(taskId, stepText) {
   return {
     type: 'ADD_STEP_TO_TASK',
@@ -245,26 +272,5 @@ export function deleteStep(stepId) {
   return {
     type: 'DELETE_STEP',
     stepId,
-  };
-}
-
-export function clearSuggestedField() {
-  return {
-    type: 'DO_NOT_SUGGEST_TASK',
-    suggestion: false,
-  };
-}
-
-export function shouldShowGreetings(bool) {
-  return {
-    type: 'SHOULD_SHOW_GREETINGS',
-    showGreeting: bool,
-  };
-}
-
-export function updateTimestamp(time) {
-  return {
-    type: 'UPDATE_GREETING_TIMESTAMP',
-    greetingTimestamp: time,
   };
 }

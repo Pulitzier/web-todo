@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
 import BasicPanel from './BasicPanel';
-import { setShowFilter } from '../actionCreators';
+import { setShowFilter } from '../store/actions/actionCreators';
 import TodoTask from './TodoTask';
 import BasicButton from './BasicButton';
 

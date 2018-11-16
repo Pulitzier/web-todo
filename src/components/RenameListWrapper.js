@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
 import { getActiveTodoList } from '../helpers';
-import { changeListTitle } from '../actionCreators';
+import { changeListTitle } from '../store/actions/actionCreators';
 import RenameList from './RenameList';
 
 export default class RenameListWrapper extends Component {
@@ -37,8 +37,8 @@ export default class RenameListWrapper extends Component {
 
   handleInputKeyPress({ key }) {
     const { store } = this.context;
-    const { app: { todos } } = store.getState();
-    const { todoListId } = getActiveTodoList(todos);
+    const { app: { categories } } = store.getState();
+    const { todoListId } = getActiveTodoList(categories);
     const { newListTitle } = this.state;
     const { activateRename } = this.props;
     if (key === 'Enter') {
@@ -50,8 +50,8 @@ export default class RenameListWrapper extends Component {
   handleClick({ target }) {
     const { store } = this.context;
     const state = store.getState();
-    const { app: { todos } } = state;
-    const { title, todoListId } = getActiveTodoList(todos);
+    const { app: { categories } } = state;
+    const { title, todoListId } = getActiveTodoList(categories);
     const { newListTitle } = this.state;
     const { activateRename } = this.props;
     if (
@@ -66,8 +66,8 @@ export default class RenameListWrapper extends Component {
   render() {
     const { store } = this.context;
     const state = store.getState();
-    const { app: { todos } } = state;
-    const { title, iconSource } = getActiveTodoList(todos);
+    const { app: { categories } } = state;
+    const { title, iconSource } = getActiveTodoList(categories);
     const { activateIconsMenu, shouldRenameList } = this.props;
     const { newListTitle } = this.state;
 

@@ -8,7 +8,7 @@ import {
   activateTask,
   openSearchPanel,
   activateTaskSettings,
-} from '../actionCreators';
+} from '../store/actions/actionCreators';
 import { getActiveTask, getTasksForTodo } from '../helpers';
 import UserModalSettings from './UserModalSettings';
 
@@ -64,10 +64,10 @@ export default class LeftPanel extends Component {
 
   addNewList() {
     const { store } = this.context;
-    const { app: { todos } } = store.getState();
+    const { app: { categories } } = store.getState();
     store.dispatch(openSearchPanel(false));
     let { newListTitle } = this.state;
-    todos.map((todo) => {
+    categories.map((todo) => {
       if (todo.title.indexOf('Untitled Todo') !== -1) {
         if (isNaN(parseInt(todo.title.replace(/[^\d.]/g, ''), 10))) {
           newListTitle = `Untitled Todo ${1}`;
@@ -84,7 +84,7 @@ export default class LeftPanel extends Component {
   render() {
     const { store } = this.context;
     const state = store.getState();
-    const { app: { todos, tasks } } = state;
+    const { app: { categories, tasks } } = state;
     const { activateList, newListTitle } = this.state;
 
     const renderTodoIconSrc = (todoTitle) => {
@@ -104,7 +104,7 @@ export default class LeftPanel extends Component {
       <BasicPanel className="col-md-4 leftPanel">
         <UserModalSettings />
         <List className="nav flex-column my-todo-list">
-          {todos.map((todo) => {
+          {categories.map((todo) => {
             if (todo.todoListId < 3) {
               return (
                 <li className={`nav-item ${todo.active ? 'active' : ''}`} key={todo.todoListId}>
@@ -132,7 +132,7 @@ export default class LeftPanel extends Component {
         <hr />
         <BasicPanel className="custom-todo-list-wrapper">
           <List className="nav flex-column todo-list">
-            {todos.map((todo) => {
+            {categories.map((todo) => {
               if (todo.todoListId >= 3) {
                 return (
                   <li

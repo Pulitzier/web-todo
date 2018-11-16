@@ -9,7 +9,7 @@ import {
   turnCompletionSound,
   handleSetLightTheme,
   handleSetDarkTheme,
-} from '../actionCreators';
+} from '../store/actions/actionCreators';
 import BasicButton from './BasicButton';
 
 export default class UserSettingsPanel extends Component {

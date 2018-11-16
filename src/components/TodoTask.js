@@ -9,7 +9,7 @@ import {
 import {
   toggleTask,
   activateTaskSettings, handleTaskImportanance,
-} from '../actionCreators';
+} from '../store/actions/actionCreators';
 import BasicLabel from './BasicLabel';
 import BasicPanel from './BasicPanel';
 
@@ -41,8 +41,8 @@ export default class TodoTask extends Component {
   renderLabel(task) { // eslint-disable-line no-shadow
     const { store } = this.context;
     const state = store.getState();
-    const { app: { todos, steps } } = state;
-    const { todoListId: activeTodoId } = getActiveTodoList(todos);
+    const { app: { categories, steps } } = state;
+    const { todoListId: activeTodoId } = getActiveTodoList(categories);
     const {
       id: taskId, note, remindDate, dueDate, repeat,
     } = task;
@@ -57,7 +57,7 @@ export default class TodoTask extends Component {
             };
           }
           if (task.parentId >= 3) {
-            const taskParent = todos.find(todo => todo.todoListId === task.parentId);
+            const taskParent = categories.find(todo => todo.todoListId === task.parentId);
             return {
               text: taskParent.title,
               iconSrc: (taskParent.iconSource !== 'fa-list' ? taskParent.iconSource : ''),
@@ -78,7 +78,7 @@ export default class TodoTask extends Component {
             };
           }
           if (task.parentId >= 3) {
-            const taskParent = todos.find(todo => todo.todoListId === task.parentId);
+            const taskParent = categories.find(todo => todo.todoListId === task.parentId);
             return {
               text: taskParent.title,
               iconSrc: (taskParent.iconSource !== 'fa-list' ? taskParent.iconSource : ''),

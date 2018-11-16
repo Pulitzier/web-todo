@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
 import '../styles/index.css';
-import { handleCollapseApp } from '../actionCreators';
+import { handleCollapseApp } from '../store/actions/actionCreators';
 import CollapsedApp from './CollapsedApp';
 import ExpandedApp from './ExpandedApp';
 import BasicPanel from './BasicPanel';

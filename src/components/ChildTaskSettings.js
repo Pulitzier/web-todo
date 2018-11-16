@@ -6,8 +6,8 @@ import {
   setRepeat,
   updateTimestamp,
   shouldShowGreetings,
-} from '../actionCreators';
-import { DATE_OPTIONS } from '../constants';
+} from '../store/actions/actionCreators';
+import { DATE_OPTIONS } from '../store/constants/constants';
 import { getStringDate } from '../helpers';
 import RepeatDatePicker from './RepeatDatePicker';
 import CustomDayPicker from './CustomDayPicker';

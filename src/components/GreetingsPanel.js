@@ -6,7 +6,7 @@ import {
   clearSuggestedField,
   toggleTask,
   deleteTask,
-} from '../actionCreators';
+} from '../store/actions/actionCreators';
 import { playSoundWhenDone } from '../helpers';
 import BasicPanel from './BasicPanel';
 import BasicButton from './BasicButton';
@@ -90,7 +90,7 @@ export default class GreetingsPanel extends Component {
 
   render() {
     const { store } = this.context;
-    const { app: { todos, tasks } } = store.getState();
+    const { app: { categories, tasks } } = store.getState();
     const { activateGreetings } = this.props;
     const { collapsedSuggestions, collapsedYesterday } = this.state;
     const suggestedTasks = this.getTaskForSuggest(tasks);
@@ -103,7 +103,7 @@ export default class GreetingsPanel extends Component {
       return 0;
     })();
 
-    const getTaskParent = task => todos.find(todo => todo.todoListId === task.parentId) || '';
+    const getTaskParent = task => categories.find(todo => todo.todoListId === task.parentId) || '';
 
     this.getYesterdayTasks(tasks);
 
@@ -114,7 +114,7 @@ export default class GreetingsPanel extends Component {
           parents.push(task.parentId);
         }
       });
-      return parents.map(parent => todos.find(todo => todo.todoListId === parent));
+      return parents.map(parent => categories.find(todo => todo.todoListId === parent));
     };
 
     return (

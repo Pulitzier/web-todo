@@ -4,8 +4,8 @@ import {
   getActiveTodoList,
   checkActiveTodoTitle,
 } from '../helpers';
-import { shouldShowGreetings } from '../actionCreators';
-import { BANNER_COLOR_SCHEME } from '../constants';
+import { shouldShowGreetings } from '../store/actions/actionCreators';
+import { BANNER_COLOR_SCHEME } from '../store/constants/constants';
 import RenameListWrapper from './RenameListWrapper';
 import IconsMenuWrapper from './IconsMenuWrapper';
 import SortPopUp from './SortPopUp';
@@ -75,11 +75,11 @@ export default class BannerForTodo extends Component {
   render() {
     const { store } = this.context;
     const state = store.getState();
-    const { app: { todos }, taskSettings: { showGreetingPopup } } = state;
+    const { app: { categories }, taskSettings: { showGreetingPopup } } = state;
     const {
       activeTask, deleteList, activateGreetings, greetingTasks,
     } = this.props;
-    const activeTodo = getActiveTodoList(todos);
+    const activeTodo = getActiveTodoList(categories);
     const {
       todoListId: todoId, bgImage, bgColor, sortOrder,
     } = activeTodo;

@@ -4,7 +4,7 @@ import {
   activateTask,
   addNewTaskToList,
   typeNewTaskAction,
-} from '../actionCreators';
+} from '../store/actions/actionCreators';
 import { getTasksForTodo } from '../helpers';
 import TodoTask from './TodoTask';
 import BasicPanel from './BasicPanel';

@@ -46,8 +46,8 @@ export default class RightPanel extends Component {
   render() {
     const { store } = this.context;
     const state = store.getState();
-    const { app: { todos, tasks }, search: { activateSearch } } = state;
-    const activeTodo = getActiveTodoList(todos);
+    const { app: { categories, tasks }, search: { activateSearch } } = state;
+    const activeTodo = getActiveTodoList(categories);
     const { deleteTask, deleteTodo, deleteStep } = this.props;
     const { activateGreetingsPanel } = this.state;
     const activeTask = getActiveTask(tasks);

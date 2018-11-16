@@ -7,11 +7,11 @@ import {
   sortTasks,
   typeNewTaskAction,
   filterCompletedTasks,
-} from '../actionCreators';
+} from '../store/actions/actionCreators';
 import {
   COLOR_SCHEME,
   IMAGE_SCHEME,
-} from '../constants';
+} from '../store/constants/constants';
 import { checkActiveTodoTitle } from '../helpers';
 
 export default class BannerModalSettings extends Component {

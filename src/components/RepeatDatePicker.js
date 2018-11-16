@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
 import { getStringDate } from '../helpers';
-import { setRepeat } from '../actionCreators';
+import { setRepeat } from '../store/actions/actionCreators';
 
 export default class RepeatDatePicker extends Component {
   constructor(props) {

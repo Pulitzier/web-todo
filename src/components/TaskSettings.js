@@ -7,8 +7,8 @@ import {
   addTaskToMyDay,
   addNoteToTask,
   handleTaskImportanance,
-} from '../actionCreators';
-import { DATE_OPTIONS } from '../constants';
+} from '../store/actions/actionCreators';
+import { DATE_OPTIONS } from '../store/constants/constants';
 import { playSoundWhenDone } from '../helpers';
 import ImportanceButton from './ImportanceButton';
 import ChildTaskSettings from './ChildTaskSettings';
@@ -255,5 +255,5 @@ TaskSettings.defaultProps = {
 };
 
 TaskSettings.contextTypes = {
-  store: PropTypes.shpae({}),
+  store: PropTypes.shape({}),
 };
