@@ -27,13 +27,24 @@ export default class TaskSettings extends Component {
     this.addCustomToMyDay = this.addCustomToMyDay.bind(this);
     this.handleImportance = this.handleImportance.bind(this);
     this.state = {
-      showConfirmMessage: false,
       activateStepInput: false,
-      toggleStep: false,
-      newStepText: '',
       newNoteText: activeTask.note,
       showNoteControls: false,
     };
+  }
+
+  setToggledTask(taskId, done) {
+    const { store } = this.context;
+    const { userSettings: { turnOnSound } } = store.getState();
+    turnOnSound && playSoundWhenDone(done, turnOnSound);
+    store.dispatch(toggleTask(taskId));
+  }
+
+  setToggledStep(stepId, done) {
+    const { store } = this.context;
+    const { userSettings: { turnOnSound } } = store.getState();
+    turnOnSound && playSoundWhenDone(done, turnOnSound);
+    return store.dispatch(toggleStep(stepId));
   }
 
   activateStep = () => {
@@ -72,20 +83,6 @@ export default class TaskSettings extends Component {
     const { store } = this.context;
     this.newNote.blur();
     store.dispatch(activateTaskSettings(taskId, false));
-  }
-
-  setToggledTask(taskId, done) {
-    const { store } = this.context;
-    const { userSettings: { turnOnSound } } = store.getState();
-    turnOnSound && playSoundWhenDone(done, turnOnSound);
-    store.dispatch(toggleTask(taskId));
-  }
-
-  setToggledStep(stepId, done) {
-    const { store } = this.context;
-    const { userSettings: { turnOnSound } } = store.getState();
-    turnOnSound && playSoundWhenDone(done, turnOnSound);
-    store.dispatch(toggleStep(stepId));
   }
 
   addCustomToMyDay(taskId, bool) {
@@ -154,6 +151,7 @@ export default class TaskSettings extends Component {
                 )
                 : (
                   <p
+                    role="presentation"
                     className="activateStepInput"
                     onClick={() => this.activateStep()}
                   >
@@ -166,6 +164,7 @@ Add Step
             <div className="task-settings-add-to-my-day">
               <ul>
                 <li
+                  role="presentation"
                   className={`add-to-my-day ${myDay && 'active'}`}
                   onClick={() => this.addCustomToMyDay(activeTaskId, true)}
                 >
@@ -197,7 +196,9 @@ Add Step
               <textarea
                 rows="5"
                 cols="30"
-                ref={node => this.newNote = node}
+                ref={(node) => {
+                  this.newNote = node;
+                }}
                 placeholder="Add a note"
                 value={showNoteControls ? newNoteText : taskNote}
                 onChange={e => this.typeNewNote(e)}
@@ -241,6 +242,18 @@ Add Step
   }
 }
 
+TaskSettings.propTypes = {
+  activeTask: PropTypes.shape({}),
+  handleDeleteTask: PropTypes.func,
+  handleDeleteStep: PropTypes.func,
+};
+
+TaskSettings.defaultProps = {
+  activeTask: {},
+  handleDeleteTask: () => {},
+  handleDeleteStep: () => {},
+};
+
 TaskSettings.contextTypes = {
-  store: PropTypes.object,
+  store: PropTypes.shpae({}),
 };

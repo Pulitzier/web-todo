@@ -21,7 +21,24 @@ export default class TodoTask extends Component {
     this.toggleTodoTask = this.toggleTodoTask.bind(this);
   }
 
-  renderLabel(task) {
+  handleImportance(taskId) {
+    const { store } = this.context;
+    store.dispatch(handleTaskImportanance(taskId));
+  }
+
+  toggleTodoTask(task, turnOnSound) {
+    const { store } = this.context;
+    const { id, done } = task;
+    turnOnSound && playSoundWhenDone(done, turnOnSound);
+    store.dispatch(toggleTask(id));
+  }
+
+  activateSettings(taskId) {
+    const { store } = this.context;
+    store.dispatch(activateTaskSettings(taskId, true));
+  }
+
+  renderLabel(task) { // eslint-disable-line no-shadow
     const { store } = this.context;
     const state = store.getState();
     const { app: { todos, steps } } = state;
@@ -38,7 +55,8 @@ export default class TodoTask extends Component {
               text: 'Tasks',
               iconSrc: '',
             };
-          } if (task.parentId >= 3) {
+          }
+          if (task.parentId >= 3) {
             const taskParent = todos.find(todo => todo.todoListId === task.parentId);
             return {
               text: taskParent.title,
@@ -58,7 +76,8 @@ export default class TodoTask extends Component {
               text: 'Tasks',
               iconSrc: '',
             };
-          } if (task.parentId >= 3) {
+          }
+          if (task.parentId >= 3) {
             const taskParent = todos.find(todo => todo.todoListId === task.parentId);
             return {
               text: taskParent.title,
@@ -109,22 +128,22 @@ export default class TodoTask extends Component {
       if (labelsCategories.length === 1) {
         return object[labelsCategories[0]].map((label, i) => (
           <p key={i} className="label-for-task">
-            { label.iconSrc && <i className={label.iconSrc} /> }
-            { label.text && <span>{label.text}</span> }
+            {label.iconSrc && <i className={label.iconSrc} />}
+            {label.text && <span>{label.text}</span>}
           </p>
         ));
-      } if (labelsCategories.length > 1) {
+      }
+      if (labelsCategories.length > 1) {
         const readyLabels = [];
-
 
         let index = 0;
         for (const labelCategory in object) {
           object[labelCategory].map((label) => {
             readyLabels.push(
               <p key={index} className="label-for-task">
-                { (readyLabels.length !== 0) && <i className="fas fa-circle" /> }
-                { label.iconSrc && <i className={label.iconSrc} /> }
-                { label.text && <span>{label.text}</span> }
+                {(readyLabels.length !== 0) && <i className="fas fa-circle" />}
+                {label.iconSrc && <i className={label.iconSrc} />}
+                {label.text && <span>{label.text}</span>}
               </p>,
             );
             index++;
@@ -143,23 +162,7 @@ export default class TodoTask extends Component {
         </div>
       );
     }
-  }
-
-  toggleTodoTask(task, turnOnSound) {
-    const { store } = this.context;
-    const { id, done } = task;
-    turnOnSound && playSoundWhenDone(done, turnOnSound);
-    store.dispatch(toggleTask(id));
-  }
-
-  activateSettings(taskId) {
-    const { store } = this.context;
-    store.dispatch(activateTaskSettings(taskId, true));
-  }
-
-  handleImportance(taskId) {
-    const { store } = this.context;
-    store.dispatch(handleTaskImportanance(taskId));
+    return null;
   }
 
   render() {
@@ -177,6 +180,7 @@ export default class TodoTask extends Component {
 
     return (
       <div
+        role="presentation"
         className="todo background-wrapper"
         onClick={() => this.activateSettings(id)}
       >
@@ -200,6 +204,10 @@ export default class TodoTask extends Component {
   }
 }
 
+TodoTask.propTypes = {
+  task: PropTypes.shape({}).isRequired,
+};
+
 TodoTask.contextTypes = {
-  store: PropTypes.object,
+  store: PropTypes.shape({}),
 };

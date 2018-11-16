@@ -30,6 +30,7 @@ export default class UserModalSettings extends Component {
     if (!this.userSettings.contains(target)) {
       return store.dispatch(activateUserSettings(false));
     }
+    return null;
   }
 
   expandSettingsButton() {
@@ -60,9 +61,10 @@ export default class UserModalSettings extends Component {
       <BasicPanel className="user-info">
         <div
           className="user-info-buttons"
-          ref={node => this.userSettings = node}
+          ref={(node) => { this.userSettings = node; }}
         >
           <button
+            type="button"
             className="user-settings-button"
             onClick={() => this.expandSettingsButton()}
           >
@@ -71,13 +73,20 @@ export default class UserModalSettings extends Component {
             </span>
             <p>Yuryi Baravy</p>
           </button>
-          <button className="search" onClick={() => this.openSearch(!activateSearch)}>
+          <button
+            type="button"
+            className="search"
+            onClick={() => this.openSearch(!activateSearch)}
+          >
             <i className="fas fa-search" />
           </button>
         </div>
         <div className="user-info-settings">
           <div className={`user-settings ${activateSettings ? 'active' : 'inactive'}`}>
-            <div onClick={() => this.openSettings(true)}>
+            <div
+              role="presentation"
+              onClick={() => this.openSettings(true)}
+            >
               <i className="fa fa-cog" />
               <p>Settings</p>
             </div>
@@ -93,5 +102,5 @@ export default class UserModalSettings extends Component {
 }
 
 UserModalSettings.contextTypes = {
-  store: PropTypes.object,
+  store: PropTypes.shape({}),
 };

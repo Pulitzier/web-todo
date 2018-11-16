@@ -11,7 +11,7 @@ function todosReducer(state = DEFAULT_TODOS, action) {
   let newTodos = [];
   switch (action.type) {
     case 'ADD_NEW_TODO_LIST':
-      return [
+      return [ // eslint-disable-line no-return-assign
         ...state,
         ...[{
           title: action.title,
@@ -106,6 +106,42 @@ function todosReducer(state = DEFAULT_TODOS, action) {
 let taskUniqueId = 0;
 function tasksReducer(state = [], action) {
   const taskId = taskUniqueId;
+  const sortTasks = (sortCriteria, tasks) => {
+    switch (sortCriteria) {
+      case 'ABC':
+        return tasks.sort((a, b) => {
+          const textA = a.taskText.toUpperCase();
+          const textB = b.taskText.toUpperCase();
+          if (textA < textB) return -1;
+          if (textA > textB) return 1;
+          return 0;
+        });
+      case 'DUE_DATE':
+        return tasks.sort((a, b) => (b.dueDate - a.dueDate));
+      case 'CREATED_AT':
+        return tasks.sort((a, b) => (b.createdAt - a.createdAt));
+      case 'COMPLETED':
+        return tasks.sort((a, b) => {
+          if (a.done === b.done) return 0;
+          if (a.done) return 1;
+          return -1;
+        });
+      case 'ADDED_TO_MY_DAY':
+        return tasks.sort((a, b) => {
+          if (a.parentId === b.parentId) return 0;
+          if (a.parentId) return 1;
+          return -1;
+        });
+      case 'IMPORTANT':
+        return tasks.sort((a, b) => {
+          if (a.important === b.important) return 0;
+          if (a.important) return -1;
+          return 1;
+        });
+      default:
+        return tasks;
+    }
+  };
   switch (action.type) {
     case 'ADD_NEW_TASK_TO_LIST':
       taskUniqueId += 1;
@@ -188,31 +224,9 @@ function tasksReducer(state = [], action) {
         };
       });
     case 'SORT_TASKS':
-      const sortTasks = (sortCriteria, tasks) => {
-        switch (sortCriteria) {
-          case 'ABC':
-            return tasks = tasks.sort((a, b) => {
-              const textA = a.taskText.toUpperCase();
-              const textB = b.taskText.toUpperCase();
-              return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-            });
-          case 'DUE_DATE':
-            return tasks = tasks.sort((a, b) => (b.dueDate - a.dueDate));
-          case 'CREATED_AT':
-            return tasks = tasks.sort((a, b) => (b.createdAt - a.createdAt));
-          case 'COMPLETED':
-            return tasks = tasks.sort((a, b) => ((a.done === b.done) ? 0 : a.done ? 1 : -1));
-          case 'ADDED_TO_MY_DAY':
-            return tasks = tasks.sort((a, b) => ((a.parentId === b.parentId) ? 0 : a.parentId ? 1 : -1));
-          case 'IMPORTANT':
-            return tasks = tasks.sort((a, b) => ((a.important === b.important) ? 0 : a.important ? -1 : 1));
-          default:
-            return tasks;
-        }
-      };
       return sortTasks(action.sort, state.filter(task => task.parentId === action.listId));
     case 'REVERT_TASKS':
-      return state = state.reverse();
+      return state.reverse();
     case 'SET_REMIND_ME_DATE':
       return state.map((task) => {
         if (task.id === action.taskId) {

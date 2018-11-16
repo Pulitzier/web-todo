@@ -15,16 +15,16 @@ import BasicButton from './BasicButton';
 export default class UserSettingsPanel extends Component {
   constructor(props) {
     super(props);
-    this.setSound = this.setSound.bind(this);
     this.confirmDelete = this.confirmDelete.bind(this);
     this.closeSettings = this.closeSettings.bind(this);
-    this.checkDarkTheme = this.checkDarkTheme.bind(this);
+    this.setSound = this.setSound.bind(this);
     this.checkLightTheme = this.checkLightTheme.bind(this);
+    this.checkDarkTheme = this.checkDarkTheme.bind(this);
   }
 
-  closeSettings(bool) {
+  setSound(bool) {
     const { store } = this.context;
-    store.dispatch(openUserSettings(!bool));
+    store.dispatch(turnCompletionSound(bool));
   }
 
   confirmDelete(bool) {
@@ -32,9 +32,9 @@ export default class UserSettingsPanel extends Component {
     store.dispatch(confirmBeforeDelete(bool));
   }
 
-  setSound(bool) {
+  closeSettings(bool) {
     const { store } = this.context;
-    store.dispatch(turnCompletionSound(bool));
+    store.dispatch(openUserSettings(!bool));
   }
 
   checkLightTheme() {
@@ -145,34 +145,65 @@ export default class UserSettingsPanel extends Component {
           <hr />
           <section className="import-todos">
             <h5>Import to-dos</h5>
-            <p>Import your lists and to-dos from Wunderlist and start your day right from where you left off.</p>
-            <a href="https://import.todo.microsoft.com/" target="_blank" rel="noopener noreferrer">Start importing now</a>
+            <p>
+Import your lists and to-dos from&nbsp;
+              Wunderlist and start your day right from&nbsp;
+              where you left off.
+            </p>
+            <a
+              href="https://import.todo.microsoft.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Start importing now
+            </a>
           </section>
           <hr />
           <section className="help-feedback">
             <h5>Help & Feedback</h5>
-            <p>Everything's synced. Let's go!</p>
-            <a href="https://todosupport.helpshift.com/a/microsoft-to-do/?p=winpc" target="_blank" rel="noopener noreferrer">Get support</a>
-            <a href="https://todo.uservoice.com/" target="_blank" rel="noopener noreferrer">Suggest a feature via UserVoice</a>
-            <a href="https://www.microsoft.com/store/productId/9NBLGGH5R558" target="_blank" rel="noopener noreferrer">Rate us</a>
+            <p>Everything&apos;s synced. Let&apos;s go!</p>
+            <a
+              href="https://todosupport.helpshift.com/a/microsoft-to-do/?p=winpc"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Get support
+            </a>
+            <a
+              href="https://todo.uservoice.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Suggest a feature via UserVoice
+            </a>
+            <a
+              href="https://www.microsoft.com/store/productId/9NBLGGH5R558"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Rate us
+            </a>
           </section>
           <hr />
           <section className="about-section">
             <h5>About</h5>
             <p>My personal to-do manager</p>
             <p>2018, From QA to DEV</p>
-            <p>1.23.4567.89 Version: 1.36.1807.20001; SessionId: 62435c0e-f24a-471c-8a6d-08025791b0f3.</p>
+            <p>
+1.23.4567.89 Version: 1.36.1807.20001; SessionId:&nbsp;
+              62435c0e-f24a-471c-8a6d-08025791b0f3.
+            </p>
             <a href="https://privacy.microsoft.com/en-US/privacystatement" target="_blank" rel="noopener noreferrer">Privacy</a>
             <a href="https://todosupport.helpshift.com/a/microsoft-to-do/?p=all&s=privacy-and-compliance&f=how-can-i-export-my-lists-and-tasks-from-to-do&l=en" target="_blank" rel="noopener noreferrer">Export your content</a>
             <a href="https://support.office.com/legal?llcc=en-us&aid=MicrosoftTO-DOWINDOWSAPPS-Standalone(free)UseTerms_en-us.htm" target="_blank" rel="noopener noreferrer">Microsoft Software Licence Terms</a>
-            <a
-              href="#"
+            <button
+              type="button"
               data-toggle="modal"
               data-target="#thirdPartyNotices"
             >
 Third Party Notices
-            </a>
-            <a href="#">Copy Session ID</a>
+            </button>
+            <button type="button">Copy Session ID</button>
           </section>
         </section>
         <div
@@ -223,5 +254,5 @@ Third Party Notices
 }
 
 UserSettingsPanel.contextTypes = {
-  store: PropTypes.object,
+  store: PropTypes.shape({}),
 };
