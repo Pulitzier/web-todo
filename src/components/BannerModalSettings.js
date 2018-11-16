@@ -6,12 +6,12 @@ import {
   changeBannerBgImage,
   sortTasks,
   typeNewTaskAction,
-  filterCompletedTasks
-} from "../actionCreators";
+  filterCompletedTasks,
+} from '../actionCreators';
 import {
   COLOR_SCHEME,
-  IMAGE_SCHEME
-} from  '../constants';
+  IMAGE_SCHEME,
+} from '../constants';
 import { checkActiveTodoTitle } from '../helpers';
 
 export default class BannerModalSettings extends Component {
@@ -28,82 +28,86 @@ export default class BannerModalSettings extends Component {
     this.handleHoverSortMenu = this.handleHoverSortMenu.bind(this);
     this.state = {
       hoverSortLink: false,
-      hoverSortMenu: false
-    }
-  };
+      hoverSortMenu: false,
+    };
+  }
 
-  componentDidMount(){
+  componentDidMount() {
     document.addEventListener('click', this.handleClick, false);
-  };
+  }
 
   componentWillUnmount() {
     document.removeEventListener('click', this.handleClick, false);
-  };
+  }
 
   handleClick({ target }) {
     const { showModal } = this.props;
     if (!this.bannerModal.contains(target)) {
       return showModal();
     }
-  };
+  }
 
-  discardNewTask(){
+  discardNewTask() {
     const { store } = this.context;
     store.dispatch(activateTask(false));
     store.dispatch(typeNewTaskAction(false));
-  };
+  }
 
-  handleSortTasks(sortCriteria, todoListId){
+  handleSortTasks(sortCriteria, todoListId) {
     const { store } = this.context;
     const { showModal } = this.props;
     store.dispatch(sortTasks(sortCriteria, todoListId));
     showModal();
-  };
+  }
 
-  changeBannerColor(color, todoListId){
+  changeBannerColor(color, todoListId) {
     const { store } = this.context;
     this.discardNewTask();
-    store.dispatch(changeBannerBgColor(color, todoListId))
-  };
+    store.dispatch(changeBannerBgColor(color, todoListId));
+  }
 
-  changeBannerImage(image, todoListId){
+  changeBannerImage(image, todoListId) {
     const { store } = this.context;
     this.discardNewTask();
-    store.dispatch(changeBannerBgImage(image, todoListId))
-  };
+    store.dispatch(changeBannerBgImage(image, todoListId));
+  }
 
-  showCompletedTasks(bool){
+  showCompletedTasks(bool) {
     const { store } = this.context;
-    store.dispatch(filterCompletedTasks(bool))
-  };
+    store.dispatch(filterCompletedTasks(bool));
+  }
 
   handleHoverSortLink(bool) {
-    this.setState({ hoverSortLink: bool })
-  };
+    this.setState({ hoverSortLink: bool });
+  }
 
   handleMouseEnterSortLink() {
-    this.handleHoverSortLink(true)
-  };
+    this.handleHoverSortLink(true);
+  }
 
   handleMouseLeaveSortLink() {
     if (!this.state.hoverSortMenu) this.handleHoverSortLink(false);
-  };
+  }
 
   handleHoverSortMenu() {
-    this.setState({ hoverSortMenu: !this.state.hoverSortMenu })
-  };
+    this.setState({ hoverSortMenu: !this.state.hoverSortMenu });
+  }
 
-  render(){
+  render() {
     const { store } = this.context;
     const state = store.getState();
     const { taskSettings: { showCompleted } } = state;
-    const { activeTodo, deleteList, activateRename, showModal } = this.props;
-    const { todoListId, bgColor, bgImage, title: todoTitle } = activeTodo;
+    const {
+      activeTodo, deleteList, activateRename, showModal,
+    } = this.props;
+    const {
+      todoListId, bgColor, bgImage, title: todoTitle,
+    } = activeTodo;
     const { hoverSortLink, hoverSortMenu } = this.state;
 
     const setHeight = () => {
-      if(hoverSortLink || hoverSortMenu) {
-        if(todoListId > 1 ) return 264;
+      if (hoverSortLink || hoverSortMenu) {
+        if (todoListId > 1) return 264;
         return 220;
       }
     };
@@ -114,7 +118,8 @@ export default class BannerModalSettings extends Component {
         ref={node => this.bannerModal = node}
       >
         {
-          checkActiveTodoTitle(todoTitle) &&
+          checkActiveTodoTitle(todoTitle)
+          && (
           <div
             className="renameList"
             onClick={() => {
@@ -122,26 +127,26 @@ export default class BannerModalSettings extends Component {
               activateRename(true);
             }}
           >
-            <i className="fas fa-pencil-alt"></i>
+            <i className="fas fa-pencil-alt" />
             <p>Rename List</p>
           </div>
+          )
         }
         <div
-          className={'sort-settings-link ' + (hoverSortMenu ? "grey" : '' )}
+          className={`sort-settings-link ${hoverSortMenu ? 'grey' : ''}`}
           onMouseEnter={() => this.handleMouseEnterSortLink()}
           onMouseLeave={() => this.handleMouseLeaveSortLink()}
         >
-          <i className="fas fa-sort-alpha-down"></i>
+          <i className="fas fa-sort-alpha-down" />
           <p>Sort</p>
-          <i className={"fas fa-angle-right " + (todoListId === 1 ? 'important' : '')}></i>
+          <i className={`fas fa-angle-right ${todoListId === 1 ? 'important' : ''}`} />
         </div>
         <div
-          className={"sort-settings-menu " + (
-            hoverSortLink ||
-            hoverSortMenu ?
-              "active" :
-              ''
-          )}
+          className={`sort-settings-menu ${
+            hoverSortLink
+            || hoverSortMenu
+              ? 'active'
+              : ''}`}
           style={{ height: setHeight() }}
           onMouseEnter={() => this.handleHoverSortMenu()}
           onMouseLeave={() => this.handleHoverSortMenu()}
@@ -149,73 +154,77 @@ export default class BannerModalSettings extends Component {
           {
             (todoListId !== 1) && (
               <div onClick={() => this.handleSortTasks('IMPORTANT', todoListId)}>
-                <i className="far fa-star"></i>
+                <i className="far fa-star" />
                 <p>Importance</p>
               </div>
             )
           }
           <div onClick={() => this.handleSortTasks('DUE_DATE', todoListId)}>
-            <i className="far fa-calendar-alt"></i>
+            <i className="far fa-calendar-alt" />
             <p>Due date</p>
           </div>
           {
             !!todoListId && (
               <div onClick={() => this.handleSortTasks('ADDED_TO_MY_DAY', todoListId)}>
-                <i className="far fa-sun"></i>
+                <i className="far fa-sun" />
                 <p>Added to My Day</p>
               </div>
             )
           }
           <div onClick={() => this.handleSortTasks('COMPLETED', todoListId)}>
-            <i className="far fa-check-circle"></i>
+            <i className="far fa-check-circle" />
             <p>Completed</p>
           </div>
           <div onClick={() => this.handleSortTasks('ABC', todoListId)}>
-            <i className="fas fa-exchange-alt"></i>
+            <i className="fas fa-exchange-alt" />
             <p>Alphabetically</p>
           </div>
           <div onClick={() => this.handleSortTasks('CREATED_AT', todoListId)}>
-            <i className="far fa-plus-square"></i>
+            <i className="far fa-plus-square" />
             <p>Creation date</p>
           </div>
         </div>
         { todoListId !== 1 && <hr /> }
         {
-          todoListId !== 1 &&
+          todoListId !== 1
+          && (
           <div className="banner-theme-settings">
             <p>Theme</p>
-            {COLOR_SCHEME.map((item,index) => {
-              return (<button
+            {COLOR_SCHEME.map((item, index) => (
+              <button
                 key={index}
-                className={"jumbotron-button "+(bgColor === item ? 'active' : '')}
+                className={`jumbotron-button ${bgColor === item ? 'active' : ''}`}
                 onClick={() => {
                   this.changeBannerColor(item, todoListId);
                 }}
               >
-                <span className={item}></span>
-              </button>)}
-            )}
+                <span className={item} />
+              </button>
+            ))}
             <br />
             <br />
-            {IMAGE_SCHEME.map((item,index) => (
+            {IMAGE_SCHEME.map((item, index) => (
               <button
                 key={index}
-                className={"jumbotron-button "+(bgImage === item ? 'active' : '')}
-                onClick={() => this.changeBannerImage(item, todoListId)}>
+                className={`jumbotron-button ${bgImage === item ? 'active' : ''}`}
+                onClick={() => this.changeBannerImage(item, todoListId)}
+              >
                 <span className="bgImage-wrapper">
                   <img className="theme-image" src={item} alt="Theme Thumbnails for Banner" />
                 </span>
               </button>
             ))}
           </div>
+          )
         }
         { todoListId !== 1 && <hr /> }
         {
-          todoListId !== 1 &&
+          todoListId !== 1
+          && (
           <div
             className="show-hide_completed_todos"
             onClick={() => {
-              if(showCompleted) {
+              if (showCompleted) {
                 this.showCompletedTasks(false);
               } else {
                 this.showCompletedTasks(true);
@@ -223,12 +232,17 @@ export default class BannerModalSettings extends Component {
               showModal();
             }}
           >
-            <i className={showCompleted ? "far fa-check-circle" : "fas fa-check-circle"}></i>
-            <p>{showCompleted ? "Hide" : 'Show'} completed to-dos</p>
+            <i className={showCompleted ? 'far fa-check-circle' : 'fas fa-check-circle'} />
+            <p>
+              {showCompleted ? 'Hide' : 'Show'}
+              {' '}
+completed to-dos
+            </p>
           </div>
+          )
         }
-        { checkActiveTodoTitle(todoTitle) &&
-          (
+        { checkActiveTodoTitle(todoTitle)
+          && (
             <div
               className="deleteList"
               onClick={() => {
@@ -236,16 +250,16 @@ export default class BannerModalSettings extends Component {
                 deleteList(activeTodo);
               }}
             >
-              <i className="fas fa-trash-alt"></i>
+              <i className="fas fa-trash-alt" />
               <p>Delete List</p>
             </div>
           )
         }
       </section>
-    )
+    );
   }
-};
+}
 
 BannerModalSettings.contextTypes = {
-  store: PropTypes.object
+  store: PropTypes.object,
 };

@@ -1,16 +1,16 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
 import {
   activateTask,
   addNewTaskToList,
-  typeNewTaskAction
+  typeNewTaskAction,
 } from '../actionCreators';
-import { getTasksForTodo } from "../helpers";
-import TodoTask from "./TodoTask";
-import BasicPanel from "./BasicPanel";
-import BasicInput from "./BasicInput";
+import { getTasksForTodo } from '../helpers';
+import TodoTask from './TodoTask';
+import BasicPanel from './BasicPanel';
+import BasicInput from './BasicInput';
 import EmptyTaskWrapper from './EmptyTaskWrapper';
-import BasicButton from "./BasicButton";
+import BasicButton from './BasicButton';
 
 export default class ListOfTasks extends Component {
   constructor(props) {
@@ -19,9 +19,9 @@ export default class ListOfTasks extends Component {
     this.handleTypeNewTask = this.handleTypeNewTask.bind(this);
     this.addNewTask = this.addNewTask.bind(this);
     this.state = {
-      localToggleTask: false
+      localToggleTask: false,
     };
-  };
+  }
 
   activateToDoTask(bool) {
     const { store } = this.context;
@@ -30,14 +30,14 @@ export default class ListOfTasks extends Component {
       store.dispatch(activateTask(false));
       store.dispatch(typeNewTaskAction(false));
       this.newTaskInput.value = '';
-    })
-  };
+    });
+  }
 
   handleTypeNewTask(bool) {
     const { store } = this.context;
     store.dispatch(typeNewTaskAction(bool));
     !bool ? this.newTaskInput.value = '' : null;
-  };
+  }
 
   addNewTask(activeTodo) {
     const { store } = this.context;
@@ -46,46 +46,46 @@ export default class ListOfTasks extends Component {
     store.dispatch(typeNewTaskAction(false));
     this.newTaskInput.focus();
     this.newTaskInput.value = '';
-  };
+  }
 
   render() {
     const { store } = this.context;
     const state = store.getState();
     const {
       app: { tasks },
-      taskSettings: { activateNewTask, typeNewTask, showCompleted }
+      taskSettings: { activateNewTask, typeNewTask, showCompleted },
     } = state;
     const { activeTodo, activeTask, greetingTasks } = this.props;
     const { localToggleTask } = this.state;
 
     const setHeight = () => {
-      if(activeTask) {
+      if (activeTask) {
         if (activeTodo.sortOrder && (greetingTasks && greetingTasks.length !== 0)) {
           return 322;
-        } else if ((greetingTasks && greetingTasks.length !== 0)) {
+        } if ((greetingTasks && greetingTasks.length !== 0)) {
           return 382;
-        } else if (activeTodo.sortOrder) {
+        } if (activeTodo.sortOrder) {
           return 390;
         }
         return 450;
-      } else {
-        if (activeTodo.sortOrder && (greetingTasks && greetingTasks.length !== 0)) {
-          return 350;
-        } else if (activeTodo.sortOrder || (greetingTasks && greetingTasks.length !== 0)) {
-          return 400;
-        }
       }
+      if (activeTodo.sortOrder && (greetingTasks && greetingTasks.length !== 0)) {
+        return 350;
+      } if (activeTodo.sortOrder || (greetingTasks && greetingTasks.length !== 0)) {
+        return 400;
+      }
+
       return 450;
     };
 
     const addNewTaskOnEnter = (event, todo) => {
-      let { key } = event;
+      const { key } = event;
       if (key === 'Enter' && this.newTaskInput.value) {
         this.addNewTask(todo);
       }
     };
 
-    return(
+    return (
       <BasicPanel
         className="todo-list-wrapper"
         style={{ height: setHeight() }}
@@ -93,49 +93,49 @@ export default class ListOfTasks extends Component {
         <BasicPanel className="todo-list">
           {
             getTasksForTodo(tasks, activeTodo).map((task, index) => {
-              if ( !showCompleted && task.done ) {
+              if (!showCompleted && task.done) {
                 return;
               }
-              return <TodoTask key={index} task={task} />
+              return <TodoTask key={index} task={task} />;
             })
           }
           <BasicInput
             inputType="task"
             labelClassName={
-              "toggle-task-label-template " +
-              (activateNewTask ? 'active ' : 'inactive ') +
-              (activateNewTask && localToggleTask ? 'toggled' : 'untoggled')
+              `toggle-task-label-template ${
+                activateNewTask ? 'active ' : 'inactive '
+              }${activateNewTask && localToggleTask ? 'toggled' : 'untoggled'}`
             }
-            iconClassName={"add-new-task-input " + (activateNewTask ? "activated" : "inactive")}
+            iconClassName={`add-new-task-input ${activateNewTask ? 'activated' : 'inactive'}`}
             inputRef={component => this.newTaskInput = component}
             inputActions={{
-              onKeyPress: (event) => addNewTaskOnEnter(event, activeTodo),
+              onKeyPress: event => addNewTaskOnEnter(event, activeTodo),
               onChange: () => this.handleTypeNewTask(true),
-              onFocus: () => this.activateToDoTask(true)
+              onFocus: () => this.activateToDoTask(true),
             }}
           >
             <BasicButton
-              buttonClassName={"clearInput " +  (typeNewTask ? 'active' : 'inactive')}
+              buttonClassName={`clearInput ${typeNewTask ? 'active' : 'inactive'}`}
               buttonOnClickAction={() => this.handleTypeNewTask(false)}
               iconClassName="fas fa-times"
             />
             <BasicButton
-              buttonClassName={"add-new-todo-button " +  (typeNewTask ? 'active' : 'inactive')}
+              buttonClassName={`add-new-todo-button ${typeNewTask ? 'active' : 'inactive'}`}
               buttonOnClickAction={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                this.addNewTask(activeTodo)
+                this.addNewTask(activeTodo);
               }}
-              buttonText='Add'
+              buttonText="Add"
             />
           </BasicInput>
-          <EmptyTaskWrapper numberOfEmptyTasks={getTasksForTodo(tasks, activeTodo).length}/>
+          <EmptyTaskWrapper numberOfEmptyTasks={getTasksForTodo(tasks, activeTodo).length} />
         </BasicPanel>
       </BasicPanel>
-    )
+    );
   }
-};
+}
 
 ListOfTasks.contextTypes = {
-  store: PropTypes.object
+  store: PropTypes.object,
 };

@@ -7,13 +7,13 @@ import {
   chooseList,
   activateTask,
   openSearchPanel,
-  activateTaskSettings
-} from "../actionCreators";
-import {getActiveTask, getTasksForTodo} from '../helpers';
-import UserModalSettings from "./UserModalSettings";
+  activateTaskSettings,
+} from '../actionCreators';
+import { getActiveTask, getTasksForTodo } from '../helpers';
+import UserModalSettings from './UserModalSettings';
 
 export default class LeftPanel extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.activateNewList = this.activateNewList.bind(this);
     this.pushNewListToState = this.pushNewListToState.bind(this);
@@ -22,80 +22,79 @@ export default class LeftPanel extends Component {
     this.addNewList = this.addNewList.bind(this);
     this.state = {
       activateList: false,
-      newListTitle: 'Untitled Todo'
+      newListTitle: 'Untitled Todo',
     };
-  };
+  }
 
   componentDidMount() {
     const { store } = this.context;
     this.unsubscribe = store.subscribe(() => {
-      this.forceUpdate()
+      this.forceUpdate();
     });
-  };
+  }
 
   componentWillUnmount() {
     this.unsubscribe();
-  };
+  }
 
   activateNewList(bool) {
-    this.setState({ activateList: bool })
-  };
+    this.setState({ activateList: bool });
+  }
 
   setNewListTitle(title) {
-    this.setState({ newListTitle: title })
-  };
+    this.setState({ newListTitle: title });
+  }
 
   pushNewListToState() {
     const { store } = this.context;
     this.activateNewList(false);
     store.dispatch(addNewTodoList(this.state.newListTitle));
     this.setNewListTitle('Untitled Todo');
-  };
+  }
 
   chooseListItem(todoId) {
     const { store } = this.context;
-    const { app: { tasks }} = store.getState();
+    const { app: { tasks } } = store.getState();
     const { id: activeTaskId } = getActiveTask(tasks);
     store.dispatch(openSearchPanel(false));
     store.dispatch(activateTask(false));
     store.dispatch(activateTaskSettings(activeTaskId, false));
-    store.dispatch(chooseList(todoId))
-  };
+    store.dispatch(chooseList(todoId));
+  }
 
   addNewList() {
     const { store } = this.context;
-    const { app: { todos }} = store.getState();
+    const { app: { todos } } = store.getState();
     store.dispatch(openSearchPanel(false));
     let { newListTitle } = this.state;
-    todos.map(todo => {
+    todos.map((todo) => {
       if (todo.title.indexOf('Untitled Todo') !== -1) {
-        if (isNaN(parseInt(todo.title.replace( /[^\d.]/g, '' ), 10))) {
-          newListTitle = 'Untitled Todo ' + 1;
+        if (isNaN(parseInt(todo.title.replace(/[^\d.]/g, ''), 10))) {
+          newListTitle = `Untitled Todo ${1}`;
         } else {
-          let index = parseInt(todo.title.replace( /[^\d.]/g, '' ), 10) + 1;
-          newListTitle = 'Untitled Todo ' + index;
-        };
+          const index = parseInt(todo.title.replace(/[^\d.]/g, ''), 10) + 1;
+          newListTitle = `Untitled Todo ${index}`;
+        }
       }
     });
     this.setNewListTitle(newListTitle);
     this.activateNewList(true);
-  };
+  }
 
-  render(){
+  render() {
     const { store } = this.context;
     const state = store.getState();
     const { app: { todos, tasks } } = state;
     const { activateList, newListTitle } = this.state;
 
     const renderTodoIconSrc = (todoTitle) => {
-      if(todoTitle === 'My Day') return "far fa-sun";
-      if(todoTitle === 'Important') return "far fa-star";
-      if(todoTitle === 'Tasks') return "fas fa-home";
-      return
+      if (todoTitle === 'My Day') return 'far fa-sun';
+      if (todoTitle === 'Important') return 'far fa-star';
+      if (todoTitle === 'Tasks') return 'fas fa-home';
     };
 
     const addNewList = (event) => {
-      let { key } = event;
+      const { key } = event;
       if (key === 'Enter') {
         this.pushNewListToState();
       }
@@ -105,84 +104,90 @@ export default class LeftPanel extends Component {
       <BasicPanel className="col-md-4 leftPanel">
         <UserModalSettings />
         <List className="nav flex-column my-todo-list">
-          {todos.map(todo => {
+          {todos.map((todo) => {
             if (todo.todoListId < 3) {
               return (
-                <li className={"nav-item "+ (todo.active ? 'active' : '')} key={todo.todoListId}>
+                <li className={`nav-item ${todo.active ? 'active' : ''}`} key={todo.todoListId}>
                   <a
-                    className={"nav-link " + (todo.active ? 'active' : '')}
+                    className={`nav-link ${todo.active ? 'active' : ''}`}
                     onClick={() => this.chooseListItem(todo.todoListId)}
                   >
                     {
-                      renderTodoIconSrc(todo.title) &&
-                      <i className={renderTodoIconSrc(todo.title)}></i>
+                      renderTodoIconSrc(todo.title)
+                      && <i className={renderTodoIconSrc(todo.title)} />
                     }
                     <p>{todo.title}</p>
-                    <span>{(() =>
-                      getTasksForTodo(tasks, todo).length ?
-                        getTasksForTodo(tasks, todo).length :
-                        ''
-                    )()}</span>
+                    <span>
+                      {(() => (getTasksForTodo(tasks, todo).length
+                        ? getTasksForTodo(tasks, todo).length
+                        : '')
+                      )()}
+                    </span>
                   </a>
                 </li>
-              )
+              );
             }
           })}
         </List>
         <hr />
         <BasicPanel className="custom-todo-list-wrapper">
           <List className="nav flex-column todo-list">
-            {todos.map(todo => {
+            {todos.map((todo) => {
               if (todo.todoListId >= 3) {
                 return (
                   <li
-                    className={"nav-item "+ (todo.active ? 'active' : '')}
+                    className={`nav-item ${todo.active ? 'active' : ''}`}
                     key={todo.todoListId}
                   >
                     <a
                       className="nav-link"
                       onClick={() => this.chooseListItem(todo.todoListId)}
                     >
-                      <i className={"fa " + todo.iconSource}></i>
+                      <i className={`fa ${todo.iconSource}`} />
                       {todo.title}
-                      <span>{(() =>
-                          getTasksForTodo(tasks, todo).length ?
-                            getTasksForTodo(tasks, todo).length :
-                            ''
-                      )()}</span>
+                      <span>
+                        {(() => (getTasksForTodo(tasks, todo).length
+                          ? getTasksForTodo(tasks, todo).length
+                          : '')
+                        )()}
+                      </span>
                     </a>
                   </li>
-                )
+                );
               }
             })}
           </List>
           <div className="add-new-list" onBlur={() => this.pushNewListToState()}>
             {
-              activateList &&
+              activateList
+              && (
               <label className="add-new-list-label-wrapper">
-                <i className="fas fa-list"></i>
+                <i className="fas fa-list" />
                 <input
                   type="text"
                   className="add-new-list-label"
-                  onChange={(event) => this.setNewListTitle(event.target.value)}
-                  onKeyPress={(event) => addNewList(event)}
+                  onChange={event => this.setNewListTitle(event.target.value)}
+                  onKeyPress={event => addNewList(event)}
                   value={newListTitle}
                   autoFocus={activateList}
                 />
               </label>
+              )
             }
             <a
               className="add-new-list-link"
               onClick={() => this.addNewList()}
             >
-              <span>+</span> New List
+              <span>+</span>
+              {' '}
+New List
             </a>
           </div>
         </BasicPanel>
       </BasicPanel>
     );
   }
-};
+}
 
 LeftPanel.contextTypes = {
   store: PropTypes.object,

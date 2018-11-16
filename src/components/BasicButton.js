@@ -7,15 +7,15 @@ const BasicButton = (props) => {
     buttonText = '',
     iconClassName = '',
     buttonStyle = {},
-    disabled = false
+    disabled = false,
   } = props;
 
   const renderButtonChild = (text) => {
     if (text) return <span>{text}</span>;
-    return <i className={iconClassName}></i>
+    return <i className={iconClassName} />;
   };
 
-  return(
+  return (
     <button
       className={buttonClassName}
       onClick={buttonOnClickAction}
@@ -24,7 +24,7 @@ const BasicButton = (props) => {
     >
       {renderButtonChild(buttonText)}
     </button>
-  )
+  );
 };
 
 export default BasicButton;

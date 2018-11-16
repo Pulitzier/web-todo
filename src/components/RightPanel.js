@@ -5,11 +5,11 @@ import ListOfTasks from './ListOfTasks.js';
 import BasicPanel from './BasicPanel';
 import TaskSettings from './TaskSettings';
 import SearchPanel from './SearchPanel';
-import GreetingsPanel from "./GreetingsPanel";
+import GreetingsPanel from './GreetingsPanel';
 import {
   getActiveTodoList,
-  getActiveTask
-} from "../helpers";
+  getActiveTask,
+} from '../helpers';
 
 export default class RightPanel extends Component {
   constructor(props) {
@@ -18,30 +18,30 @@ export default class RightPanel extends Component {
     this.filterSuggestedTasks = this.filterSuggestedTasks.bind(this);
     this.state = {
       activateGreetingsPanel: false,
-    }
-  };
+    };
+  }
 
   componentDidMount() {
     const { store } = this.context;
     this.unsubscribe = store.subscribe(() => {
-      this.forceUpdate()
+      this.forceUpdate();
     });
-  };
+  }
 
   componentWillUnmount() {
     this.unsubscribe();
-  };
+  }
 
   activateGreetingPanel() {
-    this.setState({ activateGreetingsPanel: !this.state.activateGreetingsPanel })
-  };
+    this.setState({ activateGreetingsPanel: !this.state.activateGreetingsPanel });
+  }
 
   filterSuggestedTasks(tasks) {
-    let arr = tasks.filter((task) => (task.showOnGreeting && task.todoIsParent));
-    if(arr.length !== 0) {
+    const arr = tasks.filter(task => (task.showOnGreeting && task.todoIsParent));
+    if (arr.length !== 0) {
       return arr;
     }
-  };
+  }
 
   render() {
     const { store } = this.context;
@@ -51,7 +51,7 @@ export default class RightPanel extends Component {
     const { deleteTask, deleteTodo, deleteStep } = this.props;
     const { activateGreetingsPanel } = this.state;
     const activeTask = getActiveTask(tasks);
-    let suggestedTasks = this.filterSuggestedTasks(tasks);
+    const suggestedTasks = this.filterSuggestedTasks(tasks);
 
     return (
       <BasicPanel className="col-md-8 rightPanel">
@@ -60,12 +60,14 @@ export default class RightPanel extends Component {
             activateSearch && <SearchPanel />
           }
           {
-            activateGreetingsPanel &&
+            activateGreetingsPanel
+            && (
             <GreetingsPanel
               greetingTasks={suggestedTasks}
               handleDeleteTask={deleteTask}
               activateGreetings={this.activateGreetingPanel}
             />
+            )
           }
           <BannerForTodo
             activeTask={activeTask}
@@ -80,17 +82,19 @@ export default class RightPanel extends Component {
           />
         </BasicPanel>
         {
-          activeTask &&
+          activeTask
+          && (
           <TaskSettings
             handleDeleteTask={deleteTask}
             handleDeleteStep={deleteStep}
             activeTask={activeTask}
           />
+          )
         }
       </BasicPanel>
-    )
+    );
   }
-};
+}
 
 RightPanel.contextTypes = {
   store: PropTypes.object,

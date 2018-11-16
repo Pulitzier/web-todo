@@ -1,6 +1,6 @@
 import React from 'react';
-import BasicButton from "./BasicButton";
-import { setInitialIconWhenRename } from "../helpers";
+import BasicButton from './BasicButton';
+import { setInitialIconWhenRename } from '../helpers';
 
 const RenameList = (props) => {
   const {
@@ -11,7 +11,7 @@ const RenameList = (props) => {
     newListTitle,
     handleInputKeyPress,
     handleChangeInput,
-    shouldRenameList
+    shouldRenameList,
   } = props;
 
   return (
@@ -22,17 +22,17 @@ const RenameList = (props) => {
       <BasicButton
         buttonClassName="change-todo-icon"
         buttonOnClickAction={() => activateIconsMenu(true)}
-        iconClassName={"fa " + setInitialIconWhenRename(iconSource)}
+        iconClassName={`fa ${setInitialIconWhenRename(iconSource)}`}
       />
       <input
         className="rename-list"
-        value={ shouldRenameList ? newListTitle : title }
-        onChange={(event) => handleChangeInput(event)}
-        onKeyPress={(event) => handleInputKeyPress(event)}
-        autoFocus={true}
+        value={shouldRenameList ? newListTitle : title}
+        onChange={event => handleChangeInput(event)}
+        onKeyPress={event => handleInputKeyPress(event)}
+        autoFocus
       />
     </div>
   );
 };
 
-export default RenameList
+export default RenameList;

@@ -4,14 +4,14 @@ import ImportanceButton from './ImportanceButton';
 import {
   getStringDate,
   getActiveTodoList,
-  playSoundWhenDone
+  playSoundWhenDone,
 } from '../helpers';
 import {
   toggleTask,
   activateTaskSettings, handleTaskImportanance,
 } from '../actionCreators';
-import BasicLabel from "./BasicLabel";
-import BasicPanel from "./BasicPanel";
+import BasicLabel from './BasicLabel';
+import BasicPanel from './BasicPanel';
 
 export default class TodoTask extends Component {
   constructor(props) {
@@ -19,152 +19,156 @@ export default class TodoTask extends Component {
     this.handleImportance = this.handleImportance.bind(this);
     this.activateSettings = this.activateSettings.bind(this);
     this.toggleTodoTask = this.toggleTodoTask.bind(this);
-  };
+  }
 
-  renderLabel(task) {
+  handleImportance(taskId) {
     const { store } = this.context;
-    const state = store.getState();
-    const { app: { todos, steps }} = state;
-    const { todoListId: activeTodoId } = getActiveTodoList(todos);
-    const { id: taskId, note, remindDate, dueDate, repeat } = task;
-
-    const setLabelFromTodo = task => {
-      switch (activeTodoId){
-        case 0:
-          if(task.todoIsParent) {
-            return {
-              text: 'Tasks',
-              iconSrc: ''
-            };
-          } else if (task.parentId >= 3) {
-            let taskParent = todos.find(todo => todo.todoListId === task.parentId);
-            return {
-              text: taskParent.title,
-              iconSrc: (taskParent.iconSource !== "fa-list" ? taskParent.iconSource : '')
-            }
-          }
-          return;
-        case 1:
-          if(task.todoIsParent){
-            if(task.myDay) {
-              return {
-                text: 'My Day • Tasks',
-                iconSrc: 'far fa-sun'
-              }
-            } else {
-              return {
-                text: 'Tasks',
-                iconSrc: ''
-              }
-            }
-          } else if (task.parentId >= 3) {
-            let taskParent = todos.find(todo => todo.todoListId === task.parentId);
-            return {
-              text: taskParent.title,
-              iconSrc: (taskParent.iconSource !== "fa-list" ? taskParent.iconSource : '')
-            }
-          }
-          return;
-        default:
-          if(task.myDay) {
-            return {
-              text: 'My Day',
-              iconSrc: 'far fa-sun'
-            };
-          }
-          return;
-      }
-    };
-
-    const countStepsForTask = taskId => {
-      let allTaskSteps = steps.filter(step => step.taskId === taskId);
-      let doneSteps = allTaskSteps.filter(step => step.done);
-      if(allTaskSteps.length !== 0) {
-        return {
-          text: `${doneSteps.length} of ${allTaskSteps.length}`,
-          iconSrc: ''
-        }
-      }
-    };
-
-    const generateLabels = (elem, src) => ({
-      text: elem,
-      iconSrc: src
-    });
-    const setLabelsCategories = (object, key) => {
-      if(!(key in object)) object[key] = [];
-      return (value) => object[key].push(value);
-    };
-
-    let labelsObject = {};
-    setLabelFromTodo(task) && setLabelsCategories(labelsObject, "category")(setLabelFromTodo(task));
-    countStepsForTask(taskId) && setLabelsCategories(labelsObject, "steps")(countStepsForTask(taskId));
-    dueDate && setLabelsCategories(labelsObject, "dueDate")(generateLabels(getStringDate(dueDate), "far fa-calendar-alt"));
-    repeat && setLabelsCategories(labelsObject, "dueDate")(generateLabels("", "fas fa-redo"));
-    remindDate && setLabelsCategories(labelsObject, "remindDate")(generateLabels(getStringDate(remindDate),"far fa-clock"));
-    note && setLabelsCategories(labelsObject, "notes")(generateLabels("","far fa-sticky-note"));
-
-    const generateLabelsLayout = (object) => {
-      let labelsCategories = Object.keys(object);
-      if (labelsCategories.length === 1) {
-        return object[labelsCategories[0]].map((label,i) => (
-          <p key={i} className="label-for-task">
-            { label.iconSrc && <i className={label.iconSrc}></i> }
-            { label.text && <span>{label.text}</span> }
-          </p>
-        ))
-      } else if (labelsCategories.length > 1) {
-        let readyLabels = [],
-          index = 0;
-        for (let labelCategory in object) {
-          object[labelCategory].map(label => {
-            readyLabels.push(
-              <p key={index} className="label-for-task">
-                { (readyLabels.length !== 0) && <i className="fas fa-circle"></i> }
-                { label.iconSrc && <i className={label.iconSrc}></i> }
-                { label.text && <span>{label.text}</span> }
-              </p>
-            );
-            index++;
-          })
-        }
-        return readyLabels;
-      }
-    };
-
-    if(Object.keys(labelsObject).length !== 0) {
-      return (
-        <div className="label-wrapper-for-task">
-          <div className="list-of-labels">
-            {generateLabelsLayout(labelsObject)}
-          </div>
-        </div>
-      )
-    }
-    return;
-  };
+    store.dispatch(handleTaskImportanance(taskId));
+  }
 
   toggleTodoTask(task, turnOnSound) {
     const { store } = this.context;
     const { id, done } = task;
     turnOnSound && playSoundWhenDone(done, turnOnSound);
     store.dispatch(toggleTask(id));
-  };
+  }
 
   activateSettings(taskId) {
     const { store } = this.context;
     store.dispatch(activateTaskSettings(taskId, true));
-  };
+  }
 
-  handleImportance(taskId) {
+  renderLabel(task) { // eslint-disable-line no-shadow
     const { store } = this.context;
-    store.dispatch(handleTaskImportanance(taskId))
-  };
+    const state = store.getState();
+    const { app: { todos, steps } } = state;
+    const { todoListId: activeTodoId } = getActiveTodoList(todos);
+    const {
+      id: taskId, note, remindDate, dueDate, repeat,
+    } = task;
+
+    const setLabelFromTodo = (task) => {
+      switch (activeTodoId) {
+        case 0:
+          if (task.todoIsParent) {
+            return {
+              text: 'Tasks',
+              iconSrc: '',
+            };
+          }
+          if (task.parentId >= 3) {
+            const taskParent = todos.find(todo => todo.todoListId === task.parentId);
+            return {
+              text: taskParent.title,
+              iconSrc: (taskParent.iconSource !== 'fa-list' ? taskParent.iconSource : ''),
+            };
+          }
+          return;
+        case 1:
+          if (task.todoIsParent) {
+            if (task.myDay) {
+              return {
+                text: 'My Day • Tasks',
+                iconSrc: 'far fa-sun',
+              };
+            }
+            return {
+              text: 'Tasks',
+              iconSrc: '',
+            };
+          }
+          if (task.parentId >= 3) {
+            const taskParent = todos.find(todo => todo.todoListId === task.parentId);
+            return {
+              text: taskParent.title,
+              iconSrc: (taskParent.iconSource !== 'fa-list' ? taskParent.iconSource : ''),
+            };
+          }
+          return;
+        default:
+          if (task.myDay) {
+            return {
+              text: 'My Day',
+              iconSrc: 'far fa-sun',
+            };
+          }
+      }
+    };
+
+    const countStepsForTask = (taskId) => {
+      const allTaskSteps = steps.filter(step => step.taskId === taskId);
+      const doneSteps = allTaskSteps.filter(step => step.done);
+      if (allTaskSteps.length !== 0) {
+        return {
+          text: `${doneSteps.length} of ${allTaskSteps.length}`,
+          iconSrc: '',
+        };
+      }
+    };
+
+    const generateLabels = (elem, src) => ({
+      text: elem,
+      iconSrc: src,
+    });
+    const setLabelsCategories = (object, key) => {
+      if (!(key in object)) object[key] = [];
+      return value => object[key].push(value);
+    };
+
+    const labelsObject = {};
+    setLabelFromTodo(task) && setLabelsCategories(labelsObject, 'category')(setLabelFromTodo(task));
+    countStepsForTask(taskId) && setLabelsCategories(labelsObject, 'steps')(countStepsForTask(taskId));
+    dueDate && setLabelsCategories(labelsObject, 'dueDate')(generateLabels(getStringDate(dueDate), 'far fa-calendar-alt'));
+    repeat && setLabelsCategories(labelsObject, 'dueDate')(generateLabels('', 'fas fa-redo'));
+    remindDate && setLabelsCategories(labelsObject, 'remindDate')(generateLabels(getStringDate(remindDate), 'far fa-clock'));
+    note && setLabelsCategories(labelsObject, 'notes')(generateLabels('', 'far fa-sticky-note'));
+
+    const generateLabelsLayout = (object) => {
+      const labelsCategories = Object.keys(object);
+      if (labelsCategories.length === 1) {
+        return object[labelsCategories[0]].map((label, i) => (
+          <p key={i} className="label-for-task">
+            {label.iconSrc && <i className={label.iconSrc} />}
+            {label.text && <span>{label.text}</span>}
+          </p>
+        ));
+      }
+      if (labelsCategories.length > 1) {
+        const readyLabels = [];
+
+        let index = 0;
+        for (const labelCategory in object) {
+          object[labelCategory].map((label) => {
+            readyLabels.push(
+              <p key={index} className="label-for-task">
+                {(readyLabels.length !== 0) && <i className="fas fa-circle" />}
+                {label.iconSrc && <i className={label.iconSrc} />}
+                {label.text && <span>{label.text}</span>}
+              </p>,
+            );
+            index++;
+          });
+        }
+        return readyLabels;
+      }
+    };
+
+    if (Object.keys(labelsObject).length !== 0) {
+      return (
+        <div className="label-wrapper-for-task">
+          <div className="list-of-labels">
+            {generateLabelsLayout(labelsObject)}
+          </div>
+        </div>
+      );
+    }
+    return null;
+  }
 
   render() {
     const { store } = this.context;
     const state = store.getState();
-    const { userSettings: { turnOnSound }} = state;
+    const { userSettings: { turnOnSound } } = state;
     const { task } = this.props;
     const { id, done, taskText } = task;
 
@@ -176,14 +180,15 @@ export default class TodoTask extends Component {
 
     return (
       <div
+        role="presentation"
         className="todo background-wrapper"
         onClick={() => this.activateSettings(id)}
       >
         <BasicPanel className="added-todo">
           <BasicLabel
-            labelClassName={("toggle-todo-label "+(done ? "done" : ''))}
-            iconClassName={(done ? "fas fa-check-circle" : "far fa-check-circle")}
-            labelOnClickAction={(event) => handleToggleLabel(event)}
+            labelClassName={(`toggle-todo-label ${done ? 'done' : ''}`)}
+            iconClassName={(done ? 'fas fa-check-circle' : 'far fa-check-circle')}
+            labelOnClickAction={event => handleToggleLabel(event)}
           />
           <BasicPanel className="task-title-wrapper">
             <p className={done ? 'lineThrough' : null}>{taskText}</p>
@@ -191,14 +196,18 @@ export default class TodoTask extends Component {
           </BasicPanel>
           <ImportanceButton
             task={task}
-            setImportance={(id) => this.handleImportance(id)}
+            setImportance={id => this.handleImportance(id)}
           />
         </BasicPanel>
       </div>
-    )
+    );
   }
+}
+
+TodoTask.propTypes = {
+  task: PropTypes.shape({}).isRequired,
 };
 
 TodoTask.contextTypes = {
-  store: PropTypes.object
+  store: PropTypes.shape({}),
 };

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
-import { getActiveTodoList } from "../helpers";
+import { getActiveTodoList } from '../helpers';
 import { changeListTitle } from '../actionCreators';
-import RenameList from "./RenameList";
+import RenameList from './RenameList';
 
 export default class RenameListWrapper extends Component {
   constructor(props) {
@@ -15,25 +15,25 @@ export default class RenameListWrapper extends Component {
     this.state = {
       newListTitle: todoTitle,
       changeIcon: false,
-    }
-  };
+    };
+  }
 
   componentDidMount() {
-    document.addEventListener('mousedown', this.handleClick, false)
-  };
+    document.addEventListener('mousedown', this.handleClick, false);
+  }
 
   componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClick, false)
-  };
+    document.removeEventListener('mousedown', this.handleClick, false);
+  }
 
   handleChangeInput({ target: { value } }) {
     this.setState({ newListTitle: value });
-  };
+  }
 
   handleChangeListTitle(todoId, title) {
     const { store } = this.context;
     store.dispatch(changeListTitle(todoId, title));
-  };
+  }
 
   handleInputKeyPress({ key }) {
     const { store } = this.context;
@@ -45,7 +45,7 @@ export default class RenameListWrapper extends Component {
       activateRename(false);
       this.handleChangeListTitle(todoListId, newListTitle);
     }
-  };
+  }
 
   handleClick({ target }) {
     const { store } = this.context;
@@ -55,15 +55,15 @@ export default class RenameListWrapper extends Component {
     const { newListTitle } = this.state;
     const { activateRename } = this.props;
     if (
-      this.renameList &&
-      !this.renameList.contains(target)
+      this.renameList
+      && !this.renameList.contains(target)
     ) {
       activateRename(false);
       this.handleChangeListTitle(todoListId, newListTitle || title);
     }
-  };
+  }
 
-  render(){
+  render() {
     const { store } = this.context;
     const state = store.getState();
     const { app: { todos } } = state;
@@ -82,10 +82,10 @@ export default class RenameListWrapper extends Component {
         handleInputKeyPress={this.handleInputKeyPress}
         newListTitle={newListTitle}
       />
-    )
+    );
   }
-};
+}
 
 RenameListWrapper.contextTypes = {
-  store: PropTypes.object
+  store: PropTypes.object,
 };

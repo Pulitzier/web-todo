@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
 import '../styles/index.css';
-import { handleCollapseApp } from "../actionCreators";
-import CollapsedApp from "./CollapsedApp";
+import { handleCollapseApp } from '../actionCreators';
+import CollapsedApp from './CollapsedApp';
 import ExpandedApp from './ExpandedApp';
-import BasicPanel from "./BasicPanel";
+import BasicPanel from './BasicPanel';
 
 export default class AppWrapper extends Component {
   constructor(props) {
@@ -15,9 +15,9 @@ export default class AppWrapper extends Component {
   componentDidMount() {
     const { store } = this.context;
     this.unsubscribe = store.subscribe(() => {
-      this.forceUpdate()
+      this.forceUpdate();
     });
-  };
+  }
 
   componentWillUnmount() {
     this.unsubscribe();
@@ -25,7 +25,7 @@ export default class AppWrapper extends Component {
 
   handleCollapse(bool) {
     const { store } = this.context;
-    store.dispatch(handleCollapseApp(bool))
+    store.dispatch(handleCollapseApp(bool));
   }
 
   render() {
@@ -36,16 +36,16 @@ export default class AppWrapper extends Component {
       <BasicPanel className="container">
         <CollapsedApp
           collapseApp={collapseApp}
-          handleCollapse={(bool) => this.handleCollapse(bool)}
+          handleCollapse={bool => this.handleCollapse(bool)}
         />
         <ExpandedApp
-          handleCollapse={(bool) => this.handleCollapse(bool)}
+          handleCollapse={bool => this.handleCollapse(bool)}
           collapseApp={collapseApp}
         />
       </BasicPanel>
     );
   }
-};
+}
 
 AppWrapper.contextTypes = {
   store: PropTypes.object,

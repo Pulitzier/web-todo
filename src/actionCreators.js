@@ -1,270 +1,270 @@
 export function addNewTodoList(title) {
   return {
-    type: "ADD_NEW_TODO_LIST",
-    title
-  }
+    type: 'ADD_NEW_TODO_LIST',
+    title,
+  };
 }
 
 export function changeListTitle(todoId, title) {
   return {
     type: 'CHANGE_TODO_TITLE',
     todoId,
-    title
-  }
+    title,
+  };
 }
 
 export function setIconForTodo(todoId, iconSrc) {
   return {
     type: 'SET_ICON_FOR_TODO',
     todoId,
-    iconSrc
-  }
+    iconSrc,
+  };
 }
 
 export function deleteTodoList(todoId) {
   return {
     type: 'DELETE_TODO_LIST',
-    todoId
-  }
+    todoId,
+  };
 }
 
 export function openSearchPanel(bool) {
   return {
-    type: "ACTIVATE_SEARCH_PANEL",
+    type: 'ACTIVATE_SEARCH_PANEL',
     activate: bool,
-  }
+  };
 }
 
 export function setShowFilter(bool) {
   return {
-    type: "SET_SHOW_COMPLETED",
+    type: 'SET_SHOW_COMPLETED',
     show: bool,
-  }
+  };
 }
 
 export function filterCompletedTasks(bool) {
   return {
-    type: "SHOW_COMPLETED_FROM_BANNER",
+    type: 'SHOW_COMPLETED_FROM_BANNER',
     show: bool,
-  }
+  };
 }
 
 export function chooseList(todoId) {
   return {
-    type: "CHOOSE_LIST",
-    todoId
-  }
+    type: 'CHOOSE_LIST',
+    todoId,
+  };
 }
 
 export function changeBannerBgColor(color, todoId) {
   return {
     type: 'CHANGE_BANNER_BG_COLOR',
     color,
-    todoId
-  }
+    todoId,
+  };
 }
 
 export function changeBannerBgImage(image, todoId) {
   return {
     type: 'CHANGE_BANNER_BG_IMAGE',
     image,
-    todoId
-  }
+    todoId,
+  };
 }
 
 export function activateTask(bool) {
   return {
-    type: "ACTIVATE_NEW_TASK",
+    type: 'ACTIVATE_NEW_TASK',
     activateNewTask: bool,
-  }
+  };
 }
 
 export function activateTaskSettings(taskId, activate) {
   return {
-    type: "ACTIVATE_TASK_SETTINGS",
+    type: 'ACTIVATE_TASK_SETTINGS',
     taskId,
-    activate
-  }
+    activate,
+  };
 }
 
 export function handleCollapseApp(bool) {
   return {
-    type: "SET_COLLAPSE_APP",
-    collapse: bool
-  }
+    type: 'SET_COLLAPSE_APP',
+    collapse: bool,
+  };
 }
 
 export function activateUserSettings(activate) {
   return {
-    type: "ACTIVATE_USER_SETTINGS",
-    activate
-  }
+    type: 'ACTIVATE_USER_SETTINGS',
+    activate,
+  };
 }
 
 export function openUserSettings(bool) {
   return {
     type: 'OPEN_USER_SETTINGS',
     open: bool,
-  }
+  };
 }
 
 export function confirmBeforeDelete(confirmDelete) {
-  return{
+  return {
     type: 'CONFIRM_BEFORE_DELETE',
-    confirmDelete
-  }
+    confirmDelete,
+  };
 }
 
 export function turnCompletionSound(turn) {
   return {
     type: 'TURN_SOUND',
-    turn
-  }
+    turn,
+  };
 }
 
 export function handleSetDarkTheme() {
   return {
     type: 'SET_DARK_THEME',
-    setDarkTheme: true
-  }
+    setDarkTheme: true,
+  };
 }
 
 export function handleSetLightTheme() {
   return {
     type: 'SET_LIGHT_THEME',
-    setLightTheme: true
-  }
+    setLightTheme: true,
+  };
 }
 
 export function typeNewTaskAction(bool) {
   return {
-    type: "TYPE_NEW_TASK",
+    type: 'TYPE_NEW_TASK',
     typeNewTask: bool,
-  }
+  };
 }
 
 export function addNewTaskToList(task, list) {
   return {
     type: 'ADD_NEW_TASK_TO_LIST',
     task,
-    list
-  }
+    list,
+  };
 }
 
 export function handleTaskImportanance(taskId) {
   return {
     type: 'ADD_TASK_TO_IMPORTANT',
-    taskId
-  }
+    taskId,
+  };
 }
 
 export function addTaskToMyDay(taskId, bool) {
   return {
     type: 'ADD_TASK_TO_MY_DAY',
     taskId,
-    addToMyDay: bool
-  }
+    addToMyDay: bool,
+  };
 }
 
 export function addNoteToTask(taskId, note) {
   return {
     type: 'ADD_NOTE_TO_TASK',
     taskId,
-    note
-  }
+    note,
+  };
 }
 
 export function deleteTask(taskId) {
   return {
     type: 'DELETE_TASK',
-    taskId
-  }
+    taskId,
+  };
 }
 
 export function toggleTask(taskId) {
   return {
     type: 'TOGGLE_TASK',
-    taskId
-  }
+    taskId,
+  };
 }
 
 export function sortTasks(sortCriteria, activeTodoId) {
   return {
-    type: "SORT_TASKS",
+    type: 'SORT_TASKS',
     sort: sortCriteria,
-    listId: activeTodoId
-  }
+    listId: activeTodoId,
+  };
 }
 
 export function revertTasks() {
   return {
     type: 'REVERT_TASKS',
-  }
+  };
 }
 
 export function setRemindMeDate(taskId, date) {
   return {
     type: 'SET_REMIND_ME_DATE',
     taskId,
-    date
-  }
+    date,
+  };
 }
 
 export function setDueDate(taskId, date) {
   return {
     type: 'SET_DUE_DATE',
     taskId,
-    date
-  }
+    date,
+  };
 }
 
 export function setRepeat(taskId, repeatType) {
   return {
     type: 'SET_REPEAT',
     taskId,
-    repeatType
-  }
+    repeatType,
+  };
 }
 
 export function addStep(taskId, stepText) {
   return {
     type: 'ADD_STEP_TO_TASK',
     taskId,
-    stepText
-  }
+    stepText,
+  };
 }
 
 export function toggleStep(stepId) {
   return {
     type: 'TOGGLE_STEP',
-    stepId
-  }
+    stepId,
+  };
 }
 
 export function deleteStep(stepId) {
   return {
     type: 'DELETE_STEP',
-    stepId
-  }
+    stepId,
+  };
 }
 
 export function clearSuggestedField() {
   return {
     type: 'DO_NOT_SUGGEST_TASK',
-    suggestion: false
-  }
+    suggestion: false,
+  };
 }
 
 export function shouldShowGreetings(bool) {
   return {
     type: 'SHOULD_SHOW_GREETINGS',
     showGreeting: bool,
-  }
+  };
 }
 
 export function updateTimestamp(time) {
   return {
     type: 'UPDATE_GREETING_TIMESTAMP',
-    greetingTimestamp: time
-  }
+    greetingTimestamp: time,
+  };
 }

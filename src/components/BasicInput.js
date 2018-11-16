@@ -6,8 +6,8 @@ const BasicInput = (props) => {
     labelClassName,
     iconClassName,
     inputRef,
-    inputActions: { onKeyPress = (() => {}), onChange = (() => {}), onFocus = (() => {})},
-    children: baseClassChildren
+    inputActions: { onKeyPress = (() => {}), onChange = (() => {}), onFocus = (() => {}) },
+    children: baseClassChildren,
   } = props;
 
   return (
@@ -16,13 +16,13 @@ const BasicInput = (props) => {
         htmlFor={`toggle-${inputType}-checkbox-template`}
         className={labelClassName}
       >
-        <span></span>
+        <span />
       </label>
       <input
         type="text"
         name={`add-new-${inputType}`}
         id={`toggle-${inputType}-checkbox-template`}
-        placeholder={inputType === "task" ? `Add a ${inputType}` : `Next ${inputType}`}
+        placeholder={inputType === 'task' ? `Add a ${inputType}` : `Next ${inputType}`}
         ref={inputRef}
         className={iconClassName}
         onKeyPress={onKeyPress}
@@ -31,7 +31,7 @@ const BasicInput = (props) => {
       />
       {baseClassChildren}
     </div>
-  )
+  );
 };
 
 export default BasicInput;

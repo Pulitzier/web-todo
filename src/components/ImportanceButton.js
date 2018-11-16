@@ -13,10 +13,10 @@ const ImportanceButton = (props) => {
   return (
     <BasicButton
       buttonClassName="important-icon"
-      buttonOnClickAction={(event) => handleButtonClick(event)}
-      iconClassName={(important ? "fas fa-star" : "far fa-star")}
+      buttonOnClickAction={event => handleButtonClick(event)}
+      iconClassName={(important ? 'fas fa-star' : 'far fa-star')}
     />
-  )
+  );
 };
 
 export default ImportanceButton;
