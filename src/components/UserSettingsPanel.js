@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
 import Toggle from 'react-toggle';
-import BasicPanel from './BasicPanel';
 import 'react-toggle/style.css';
 import {
   openUserSettings,
@@ -9,8 +8,9 @@ import {
   turnCompletionSound,
   handleSetLightTheme,
   handleSetDarkTheme,
-} from '../store/actions/actionCreators';
-import BasicButton from './BasicButton';
+} from '../store/actions/index';
+import BasicButton from './BaseComponents/BasicButton';
+import BasicPanel from './BaseComponents/BasicPanel';
 
 export default class UserSettingsPanel extends Component {
   constructor(props) {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
 import BannerForTodo from './BannerForTodo.js';
 import ListOfTasks from './ListOfTasks.js';
-import BasicPanel from './BasicPanel';
+import BasicPanel from './BaseComponents/BasicPanel';
 import TaskSettings from './TaskSettings';
 import SearchPanel from './SearchPanel';
 import GreetingsPanel from './GreetingsPanel';

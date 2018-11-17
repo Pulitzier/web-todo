@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
-import { setIconForTodo } from '../store/actions/actionCreators';
+import { setIconForTodo } from '../store/actions/index';
 import IconsMenu from './IconsMenu';
 
 export default class IconsMenuWrapper extends Component {

@@ -8,10 +8,11 @@ import {
 } from '../helpers';
 import {
   toggleTask,
-  activateTaskSettings, handleTaskImportanance,
-} from '../store/actions/actionCreators';
-import BasicLabel from './BasicLabel';
-import BasicPanel from './BasicPanel';
+  activateTaskSettings,
+  handleTaskImportanance,
+} from '../store/actions/index';
+import BasicLabel from './BaseComponents/BasicLabel';
+import BasicPanel from './BaseComponents/BasicPanel';
 
 export default class TodoTask extends Component {
   constructor(props) {

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
-import BasicPanel from './BasicPanel';
-import { setShowFilter } from '../store/actions/actionCreators';
+import BasicPanel from './BaseComponents/BasicPanel';
+import { setShowFilter } from '../store/actions/index';
 import TodoTask from './TodoTask';
-import BasicButton from './BasicButton';
+import BasicButton from './BaseComponents/BasicButton';
 
 export default class SearchPanel extends Component {
   constructor() {

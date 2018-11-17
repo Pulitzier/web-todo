@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
-import { revertTasks, sortTasks } from '../store/actions/actionCreators';
-import BasicButton from './BasicButton';
+import { revertTasks, sortTasks } from '../store/actions/index';
+import BasicButton from './BaseComponents/BasicButton';
 
 export default class SortPopUp extends Component {
   constructor(props) {

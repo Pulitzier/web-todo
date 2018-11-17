@@ -4,8 +4,8 @@ import {
   activateUserSettings,
   openUserSettings,
   openSearchPanel,
-} from '../store/actions/actionCreators';
-import BasicPanel from './BasicPanel';
+} from '../store/actions/index';
+import BasicPanel from './BaseComponents/BasicPanel';
 
 export default class UserModalSettings extends Component {
   constructor(props) {

@@ -6,10 +6,10 @@ import {
   clearSuggestedField,
   toggleTask,
   deleteTask,
-} from '../store/actions/actionCreators';
+} from '../store/actions/index';
 import { playSoundWhenDone } from '../helpers';
-import BasicPanel from './BasicPanel';
-import BasicButton from './BasicButton';
+import BasicPanel from './BaseComponents/BasicPanel';
+import BasicButton from './BaseComponents/BasicButton';
 import SuggestedTask from './SuggestedTask';
 
 export default class GreetingsPanel extends Component {

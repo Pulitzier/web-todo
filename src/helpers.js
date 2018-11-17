@@ -20,8 +20,7 @@ export function saveState(state) {
   return undefined;
 }
 
-export function getTasksForTodo(tasks, todo) {
-  const { todoListId: todoId } = todo;
+export function getTasksForTodo(tasks, todoId) {
   switch (todoId) {
     case 0:
       return tasks.filter(task => task.myDay);

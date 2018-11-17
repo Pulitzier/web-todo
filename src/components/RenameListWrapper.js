@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
 import { getActiveTodoList } from '../helpers';
-import { changeListTitle } from '../store/actions/actionCreators';
+import { changeListTitle } from '../store/actions/index';
 import RenameList from './RenameList';
 
 export default class RenameListWrapper extends Component {

@@ -4,14 +4,14 @@ import {
   getActiveTodoList,
   checkActiveTodoTitle,
 } from '../helpers';
-import { shouldShowGreetings } from '../store/actions/actionCreators';
-import { BANNER_COLOR_SCHEME } from '../store/constants/constants';
+import { shouldShowGreetings } from '../store/actions/index';
+import { BANNER_COLOR_SCHEME } from '../store/constants/index';
 import RenameListWrapper from './RenameListWrapper';
 import IconsMenuWrapper from './IconsMenuWrapper';
 import SortPopUp from './SortPopUp';
 import BannerModalSettings from './BannerModalSettings';
-import BasicButton from './BasicButton';
-import BasicPanel from './BasicPanel';
+import BasicButton from './BaseComponents/BasicButton';
+import BasicPanel from './BaseComponents/BasicPanel';
 import GreetingPopUp from './GreetingPopUp';
 import BannerTitle from './BannerTitle';
 

@@ -1,4 +1,4 @@
-import { DEFAULT_TODOS } from '../constants/constants';
+import { DEFAULT_TODOS } from '../constants/index';
 
 let todoId = 3;
 export default function categoriesReducer(state = DEFAULT_TODOS, action) {

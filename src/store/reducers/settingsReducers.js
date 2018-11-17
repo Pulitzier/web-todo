@@ -2,7 +2,7 @@ import {
   DEFAULT_SEARCH,
   DEFAULT_TASK_SETTINGS,
   DEFAULT_USER_SETTINGS,
-} from '../constants/constants';
+} from '../constants/index';
 
 export function setSearchState(state = DEFAULT_SEARCH, action) {
   switch (action.type) {

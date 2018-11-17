@@ -4,13 +4,13 @@ import {
   activateTask,
   addNewTaskToList,
   typeNewTaskAction,
-} from '../store/actions/actionCreators';
+} from '../store/actions/index';
 import { getTasksForTodo } from '../helpers';
 import TodoTask from './TodoTask';
-import BasicPanel from './BasicPanel';
-import BasicInput from './BasicInput';
+import BasicPanel from './BaseComponents/BasicPanel';
+import BasicInput from './BaseComponents/BasicInput';
+import BasicButton from './BaseComponents/BasicButton';
 import EmptyTaskWrapper from './EmptyTaskWrapper';
-import BasicButton from './BasicButton';
 
 export default class ListOfTasks extends Component {
   constructor(props) {
@@ -92,7 +92,7 @@ export default class ListOfTasks extends Component {
       >
         <BasicPanel className="todo-list">
           {
-            getTasksForTodo(tasks, activeTodo).map((task, index) => {
+            getTasksForTodo(tasks, activeTodo.todoListId).map((task, index) => {
               if (!showCompleted && task.done) {
                 return;
               }
@@ -129,7 +129,7 @@ export default class ListOfTasks extends Component {
               buttonText="Add"
             />
           </BasicInput>
-          <EmptyTaskWrapper numberOfEmptyTasks={getTasksForTodo(tasks, activeTodo).length} />
+          <EmptyTaskWrapper numberOfEmptyTasks={getTasksForTodo(tasks, activeTodo.todoListId).length} />
         </BasicPanel>
       </BasicPanel>
     );

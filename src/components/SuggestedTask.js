@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import BasicButton from './BasicButton';
-import BasicPanel from './BasicPanel';
+import BasicButton from './BaseComponents/BasicButton';
+import BasicPanel from './BaseComponents/BasicPanel';
 
 export default class SuggestedTask extends Component {
   constructor(props) {

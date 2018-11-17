@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
-import { addStep } from '../store/actions/actionCreators';
-import BasicInput from './BasicInput';
+import { addStep } from '../store/actions/index';
+import BasicInput from './BaseComponents/BasicInput';
 
 export default class StepInput extends Component {
   constructor(props) {

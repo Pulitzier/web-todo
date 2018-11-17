@@ -1,5 +1,5 @@
 import React from 'react';
-import BasicButton from './BasicButton';
+import BasicButton from './BaseComponents/BasicButton';
 
 const IconsMenu = ({ iconsRef }) => (
   <div className="icons-menu-wrapper" ref={node => iconsRef(node)}>

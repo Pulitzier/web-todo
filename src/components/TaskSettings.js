@@ -7,15 +7,15 @@ import {
   addTaskToMyDay,
   addNoteToTask,
   handleTaskImportanance,
-} from '../store/actions/actionCreators';
-import { DATE_OPTIONS } from '../store/constants/constants';
+} from '../store/actions/index';
+import { DATE_OPTIONS } from '../store/constants/index';
 import { playSoundWhenDone } from '../helpers';
 import ImportanceButton from './ImportanceButton';
 import ChildTaskSettings from './ChildTaskSettings';
 import StepInput from './StepInput';
-import BasicLabel from './BasicLabel';
-import BasicButton from './BasicButton';
-import BasicPanel from './BasicPanel';
+import BasicLabel from './BaseComponents/BasicLabel';
+import BasicButton from './BaseComponents/BasicButton';
+import BasicPanel from './BaseComponents/BasicPanel';
 
 export default class TaskSettings extends Component {
   constructor(props) {

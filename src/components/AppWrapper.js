@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
 import '../styles/index.css';
-import { handleCollapseApp } from '../store/actions/actionCreators';
+import { handleCollapseApp } from '../store/actions/index';
 import CollapsedApp from './CollapsedApp';
 import ExpandedApp from './ExpandedApp';
-import BasicPanel from './BasicPanel';
+import BasicPanel from './BaseComponents/BasicPanel';
 
 export default class AppWrapper extends Component {
   constructor(props) {

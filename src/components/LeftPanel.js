@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
-import BasicPanel from './BasicPanel';
+import BasicPanel from './BaseComponents/BasicPanel';
 import List from './List';
 import {
   addNewTodoList,
@@ -8,7 +8,7 @@ import {
   activateTask,
   openSearchPanel,
   activateTaskSettings,
-} from '../store/actions/actionCreators';
+} from '../store/actions/index';
 import { getActiveTask, getTasksForTodo } from '../helpers';
 import UserModalSettings from './UserModalSettings';
 
@@ -87,12 +87,6 @@ export default class LeftPanel extends Component {
     const { app: { categories, tasks } } = state;
     const { activateList, newListTitle } = this.state;
 
-    const renderTodoIconSrc = (todoTitle) => {
-      if (todoTitle === 'My Day') return 'far fa-sun';
-      if (todoTitle === 'Important') return 'far fa-star';
-      if (todoTitle === 'Tasks') return 'fas fa-home';
-    };
-
     const addNewList = (event) => {
       const { key } = event;
       if (key === 'Enter') {
@@ -100,28 +94,27 @@ export default class LeftPanel extends Component {
       }
     };
 
+    const renderTodoTaskNumber = (tasks, todoListId) => {
+      if (getTasksForTodo(tasks, todoListId).length === 0) return;
+      return getTasksForTodo(tasks, todoListId).length;
+    };
+
     return (
       <BasicPanel className="col-md-4 leftPanel">
         <UserModalSettings />
         <List className="nav flex-column my-todo-list">
-          {categories.map((todo) => {
-            if (todo.todoListId < 3) {
+          {categories.map(({ title, todoListId, active, iconSource }) => {
+            if (todoListId < 3) {
               return (
-                <li className={`nav-item ${todo.active ? 'active' : ''}`} key={todo.todoListId}>
+                <li className={`nav-item ${active ? 'active' : ''}`} key={todoListId}>
                   <a
-                    className={`nav-link ${todo.active ? 'active' : ''}`}
-                    onClick={() => this.chooseListItem(todo.todoListId)}
+                    className={`nav-link ${active ? 'active' : ''}`}
+                    onClick={() => this.chooseListItem(todoListId)}
                   >
-                    {
-                      renderTodoIconSrc(todo.title)
-                      && <i className={renderTodoIconSrc(todo.title)} />
-                    }
-                    <p>{todo.title}</p>
+                    <i className={iconSource} />
+                    <p>{title}</p>
                     <span>
-                      {(() => (getTasksForTodo(tasks, todo).length
-                        ? getTasksForTodo(tasks, todo).length
-                        : '')
-                      )()}
+                      {renderTodoTaskNumber(tasks, todoListId)}
                     </span>
                   </a>
                 </li>
@@ -132,24 +125,21 @@ export default class LeftPanel extends Component {
         <hr />
         <BasicPanel className="custom-todo-list-wrapper">
           <List className="nav flex-column todo-list">
-            {categories.map((todo) => {
-              if (todo.todoListId >= 3) {
+            {categories.map(({ title, todoListId, active, iconSource }) => {
+              if (todoListId >= 3) {
                 return (
                   <li
-                    className={`nav-item ${todo.active ? 'active' : ''}`}
-                    key={todo.todoListId}
+                    className={`nav-item ${active ? 'active' : ''}`}
+                    key={todoListId}
                   >
                     <a
                       className="nav-link"
-                      onClick={() => this.chooseListItem(todo.todoListId)}
+                      onClick={() => this.chooseListItem(todoListId)}
                     >
-                      <i className={`fa ${todo.iconSource}`} />
-                      {todo.title}
+                      <i className={`fa ${iconSource}`} />
+                      {title}
                       <span>
-                        {(() => (getTasksForTodo(tasks, todo).length
-                          ? getTasksForTodo(tasks, todo).length
-                          : '')
-                        )()}
+                        {renderTodoTaskNumber(tasks, todoListId)}
                       </span>
                     </a>
                   </li>

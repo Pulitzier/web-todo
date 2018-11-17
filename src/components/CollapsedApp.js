@@ -1,5 +1,5 @@
 import React from 'react';
-import BasicPanel from './BasicPanel';
+import BasicPanel from './BaseComponents/BasicPanel';
 import StatusBarPanel from './StatusBarPanel';
 
 const CollapsedApp = ({ collapseApp, handleCollapse }) => {

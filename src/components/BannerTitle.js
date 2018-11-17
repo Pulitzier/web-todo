@@ -3,8 +3,8 @@ import {
   checkActiveTodoTitle,
   setInitialIconWhenRename,
 } from '../helpers';
-import BasicButton from './BasicButton';
-import BasicPanel from './BasicPanel';
+import BasicButton from './BaseComponents/BasicButton';
+import BasicPanel from './BaseComponents/BasicPanel';
 
 const BannerTitle = ({
   todoTitle, todoIconSrc, activateIconsMenu, activateRename,

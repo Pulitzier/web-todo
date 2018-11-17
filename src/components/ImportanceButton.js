@@ -1,5 +1,5 @@
 import React from 'react';
-import BasicButton from './BasicButton';
+import BasicButton from './BaseComponents/BasicButton';
 
 const ImportanceButton = (props) => {
   const { task: { id, important }, setImportance } = props;

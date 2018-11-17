@@ -1,6 +1,6 @@
 import React from 'react';
-import BasicPanel from './BasicPanel';
-import BasicButton from './BasicButton';
+import BasicPanel from './BaseComponents/BasicPanel';
+import BasicButton from './BaseComponents/BasicButton';
 
 const StatusBarPanel = (props) => {
   const { barType, collapseApp, handleCollapseApp } = props;
