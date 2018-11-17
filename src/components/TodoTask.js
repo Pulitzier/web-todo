@@ -30,7 +30,7 @@ export default class TodoTask extends Component {
   toggleTodoTask(task, turnOnSound) {
     const { store } = this.context;
     const { id, done } = task;
-    turnOnSound && playSoundWhenDone(done, turnOnSound);
+    if (turnOnSound) playSoundWhenDone(done, turnOnSound);
     store.dispatch(toggleTask(id));
   }
 
@@ -48,26 +48,26 @@ export default class TodoTask extends Component {
       id: taskId, note, remindDate, dueDate, repeat,
     } = task;
 
-    const setLabelFromTodo = (task) => {
+    const setLabelFromTodo = ({ myDay, parentId, todoIsParent }) => {
       switch (activeTodoId) {
         case 0:
-          if (task.todoIsParent) {
+          if (todoIsParent) {
             return {
               text: 'Tasks',
               iconSrc: '',
             };
           }
-          if (task.parentId >= 3) {
-            const taskParent = categories.find(todo => todo.todoListId === task.parentId);
+          if (parentId >= 3) {
+            const taskParent = categories.find(todo => todo.todoListId === parentId);
             return {
               text: taskParent.title,
               iconSrc: (taskParent.iconSource !== 'fa-list' ? taskParent.iconSource : ''),
             };
           }
-          return;
+          return null;
         case 1:
-          if (task.todoIsParent) {
-            if (task.myDay) {
+          if (todoIsParent) {
+            if (myDay) {
               return {
                 text: 'My Day • Tasks',
                 iconSrc: 'far fa-sun',
@@ -78,26 +78,27 @@ export default class TodoTask extends Component {
               iconSrc: '',
             };
           }
-          if (task.parentId >= 3) {
-            const taskParent = categories.find(todo => todo.todoListId === task.parentId);
+          if (parentId >= 3) {
+            const taskParent = categories.find(todo => todo.todoListId === parentId);
             return {
               text: taskParent.title,
               iconSrc: (taskParent.iconSource !== 'fa-list' ? taskParent.iconSource : ''),
             };
           }
-          return;
+          return null;
         default:
-          if (task.myDay) {
+          if (myDay) {
             return {
               text: 'My Day',
               iconSrc: 'far fa-sun',
             };
           }
       }
+      return null;
     };
 
-    const countStepsForTask = (taskId) => {
-      const allTaskSteps = steps.filter(step => step.taskId === taskId);
+    const countStepsForTask = (parentId) => {
+      const allTaskSteps = steps.filter(step => step.taskId === parentId);
       const doneSteps = allTaskSteps.filter(step => step.done);
       if (allTaskSteps.length !== 0) {
         return {
@@ -105,25 +106,27 @@ export default class TodoTask extends Component {
           iconSrc: '',
         };
       }
+      return null;
     };
 
     const generateLabels = (elem, src) => ({
       text: elem,
       iconSrc: src,
     });
+    /* eslint-disable */
     const setLabelsCategories = (object, key) => {
-      if (!(key in object)) object[key] = [];
+      if (!(key in object)) return object[key] = [];
       return value => object[key].push(value);
     };
 
-    const labelsObject = {};
+    const labelsObject = Object.create(null);
+
     setLabelFromTodo(task) && setLabelsCategories(labelsObject, 'category')(setLabelFromTodo(task));
     countStepsForTask(taskId) && setLabelsCategories(labelsObject, 'steps')(countStepsForTask(taskId));
     dueDate && setLabelsCategories(labelsObject, 'dueDate')(generateLabels(getStringDate(dueDate), 'far fa-calendar-alt'));
     repeat && setLabelsCategories(labelsObject, 'dueDate')(generateLabels('', 'fas fa-redo'));
     remindDate && setLabelsCategories(labelsObject, 'remindDate')(generateLabels(getStringDate(remindDate), 'far fa-clock'));
     note && setLabelsCategories(labelsObject, 'notes')(generateLabels('', 'far fa-sticky-note'));
-
     const generateLabelsLayout = (object) => {
       const labelsCategories = Object.keys(object);
       if (labelsCategories.length === 1) {
@@ -136,7 +139,6 @@ export default class TodoTask extends Component {
       }
       if (labelsCategories.length > 1) {
         const readyLabels = [];
-
         let index = 0;
         for (const labelCategory in object) {
           object[labelCategory].map((label) => {
@@ -149,9 +151,11 @@ export default class TodoTask extends Component {
             );
             index++;
           });
+          /* eslint-enable */
         }
         return readyLabels;
       }
+      return null;
     };
 
     if (Object.keys(labelsObject).length !== 0) {
@@ -197,7 +201,7 @@ export default class TodoTask extends Component {
           </BasicPanel>
           <ImportanceButton
             task={task}
-            setImportance={id => this.handleImportance(id)}
+            setImportance={this.handleImportance}
           />
         </BasicPanel>
       </div>

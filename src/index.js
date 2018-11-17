@@ -11,11 +11,13 @@ import registerServiceWorker from './registerServiceWorker';
 
 const persistedState = loadState();
 
+/* eslint-disable no-underscore-dangle */
 const store = createStore(
   globalReducer,
   persistedState,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 );
+/* eslint-enable no-underscore-dangle */
 
 store.subscribe(throttle(() => {
   saveState(store.getState());

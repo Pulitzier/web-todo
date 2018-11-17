@@ -103,7 +103,9 @@ export default class LeftPanel extends Component {
       <BasicPanel className="col-md-4 leftPanel">
         <UserModalSettings />
         <List className="nav flex-column my-todo-list">
-          {categories.map(({ title, todoListId, active, iconSource }) => {
+          {categories.map(({
+            title, todoListId, active, iconSource,
+          }) => {
             if (todoListId < 3) {
               return (
                 <li className={`nav-item ${active ? 'active' : ''}`} key={todoListId}>
@@ -125,7 +127,9 @@ export default class LeftPanel extends Component {
         <hr />
         <BasicPanel className="custom-todo-list-wrapper">
           <List className="nav flex-column todo-list">
-            {categories.map(({ title, todoListId, active, iconSource }) => {
+            {categories.map(({
+              title, todoListId, active, iconSource,
+            }) => {
               if (todoListId >= 3) {
                 return (
                   <li

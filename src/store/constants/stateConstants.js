@@ -1,3 +1,4 @@
+/* eslint-disable */
 export const DEFAULT_TODOS = [
   {
     title: 'My Day',
