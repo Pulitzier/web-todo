@@ -5,9 +5,9 @@ export function addNewTodoList(title) {
   };
 }
 
-export function deleteTodoList(todoId) {
+export function deleteCategory(todoId) {
   return {
-    type: 'DELETE_TODO_LIST',
+    type: 'DELETE_CATEGORY',
     todoId,
   };
 }

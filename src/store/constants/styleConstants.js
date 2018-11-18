@@ -1,18 +1,3 @@
-export const EXPANDED_APP_STYLES = {
-  opacity: 1,
-  top: 0,
-  transition: 'all 0.5s ease',
-};
-
-export const COLLAPSED_APP_STYLES = {
-  opacity: 0,
-  width: 250,
-  height: 30,
-  margin: 0,
-  top: 2000,
-  transition: 'all 0.5s ease',
-};
-
 export const IMAGE_SCHEME = [
   './assets/retro.jpg',
   './assets/museum.jpg',

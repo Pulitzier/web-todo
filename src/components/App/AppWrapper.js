@@ -1,21 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
-import StatusBarPanel from './StatusBarPanel';
-import LeftPanel from './LeftPanel';
-import RightPanel from './RightPanel';
-import UserSettingsPanel from './UserSettingsPanel';
-import AudioForCompletion from './AudioForCompletion';
-import DeleteModal from './DeleteModal';
-import BasicPanel from './BaseComponents/BasicPanel';
-import { deleteStep, deleteTask, deleteTodoList } from '../store/actions/index';
-import { COLLAPSED_APP_STYLES, EXPANDED_APP_STYLES } from '../store/constants/index';
+import '../../styles/index.css';
+import LeftPanel from './../LeftPanel';
+import RightPanel from './../RightPanel';
+import UserSettingsPanel from './../UserSettingsPanel';
+import AudioForCompletion from './../AudioForCompletion';
+import DeleteModal from './../DeleteModal';
+import BasicPanel from './../BaseComponents/BasicPanel';
 
-export default class ExpandedApp extends Component {
+export default class AppWrapper extends Component {
   constructor(props) {
     super(props);
     this.handleConfirm = this.handleConfirm.bind(this);
     this.handleDeleteTask = this.handleDeleteTask.bind(this);
-    this.handleDeleteTodo = this.handleDeleteTodo.bind(this);
+    this.handleDeleteCategory = this.handleDeleteCategory.bind(this);
     this.clearLocalAppState = this.clearLocalAppState.bind(this);
     this.handleDeleteStep = this.handleDeleteStep.bind(this);
     this.handleDecline = this.handleDecline.bind(this);
@@ -27,17 +25,6 @@ export default class ExpandedApp extends Component {
     };
   }
 
-  componentDidMount() {
-    const { store } = this.context;
-    this.unsubscribe = store.subscribe(() => {
-      this.forceUpdate();
-    });
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
   clearLocalAppState() {
     this.setState({
       taskToDelete: '',
@@ -47,46 +34,50 @@ export default class ExpandedApp extends Component {
   }
 
   handleDeleteTask(element) {
-    const { store } = this.context;
-    const { userSettings: { confirmDeletion } } = store.getState();
+    const { deleteTaskElement } = this.props;
+    const { userSettings: { confirmDeletion } } = this.props;
     if (confirmDeletion) {
       this.setState({ taskToDelete: element });
     } else {
-      store.dispatch(deleteTask(element.id));
+      deleteTaskElement(element.id);
     }
   }
 
-  handleDeleteTodo(element) {
-    const { store } = this.context;
-    const { userSettings: { confirmDeletion } } = store.getState();
+  handleDeleteCategory(element) {
+    const { deleteCategoryElement } = this.props;
+    const { userSettings: { confirmDeletion } } = this.props;
     if (confirmDeletion) {
       this.setState({ todoToDelete: element });
     } else {
-      store.dispatch(deleteTodoList(element.todoListId));
+      deleteCategoryElement(element.todoListId);
     }
   }
 
   handleDeleteStep(element) {
-    const { store } = this.context;
-    const { userSettings: { confirmDeletion } } = store.getState();
+    const { deleteStepElement } = this.props;
+    const { userSettings: { confirmDeletion } } = this.props;
     if (confirmDeletion) {
       this.setState({ taskStepToDelete: element });
     } else {
-      store.dispatch(deleteStep(element.stepId));
+      deleteStepElement(element.stepId);
     }
   }
 
   handleConfirm(element) {
-    const { store } = this.context;
+    const {
+      deleteStepElement,
+      deleteCategoryElement,
+      deleteTaskElement
+    } = this.props;
     const { taskToDelete, todoToDelete, taskStepToDelete } = this.state;
     if (taskToDelete) {
-      store.dispatch(deleteTask(element.id));
+      deleteTaskElement(element.id);
       this.clearLocalAppState();
     } else if (todoToDelete) {
-      store.dispatch(deleteTodoList(element.todoListId));
+      deleteCategoryElement(element.todoListId);
       this.clearLocalAppState();
     } else if (taskStepToDelete) {
-      store.dispatch(deleteStep(element.stepId));
+      deleteStepElement(element.stepId);
       this.clearLocalAppState();
     }
   }
@@ -111,31 +102,22 @@ export default class ExpandedApp extends Component {
   }
 
   render() {
-    const { store } = this.context;
     const {
       userSettings: {
         confirmDeletion, turnOnSound, setDarkTheme, setLightTheme,
       },
-    } = store.getState();
-    const { handleCollapse, collapseApp } = this.props;
+    } = this.props;
     const { taskToDelete, todoToDelete, taskStepToDelete } = this.state;
     const elementToDelete = taskToDelete || todoToDelete || taskStepToDelete;
 
-    const setOpacity = expandApp => (expandApp ? EXPANDED_APP_STYLES : COLLAPSED_APP_STYLES);
-
     return (
       <BasicPanel
-        className={`expanded-app ${setLightTheme ? 'light' : setDarkTheme && 'dark'}`}
-        style={setOpacity(!collapseApp)}
+        className={`app-container ${setLightTheme ? 'light' : setDarkTheme && 'dark'}`}
       >
-        <StatusBarPanel
-          collapseApp={collapseApp}
-          handleCollapseApp={bool => handleCollapse(bool)}
-        />
         <LeftPanel />
         <RightPanel
           deleteTask={this.handleDeleteTask}
-          deleteTodo={this.handleDeleteTodo}
+          deleteTodo={this.handleDeleteCategory}
           deleteStep={this.handleDeleteStep}
         />
         <UserSettingsPanel />
@@ -151,6 +133,8 @@ export default class ExpandedApp extends Component {
   }
 }
 
-ExpandedApp.contextTypes = {
-  store: PropTypes.object,
+AppWrapper.propTypes = {
+  deleteTaskElement: PropTypes.func.isRequired,
+  deleteCategoryElement: PropTypes.func.isRequired,
+  deleteStepElement: PropTypes.func.isRequired,
 };

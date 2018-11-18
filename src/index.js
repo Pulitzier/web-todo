@@ -4,7 +4,7 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import './styles/index.css';
 import throttle from 'lodash/throttle';
-import AppWrapper from './components/AppWrapper';
+import App from './components/App/index';
 import globalReducer from './store/reducers/index';
 import { loadState, saveState } from './helpers';
 import registerServiceWorker from './registerServiceWorker';
@@ -27,7 +27,7 @@ localStorage.clear();
 
 ReactDOM.render(
   <Provider store={store}>
-    <AppWrapper />
+    <App />
   </Provider>,
   document.getElementById('root'),
 );

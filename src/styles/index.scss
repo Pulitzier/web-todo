@@ -24,43 +24,6 @@ body {
     height: 100%;
     min-height: 100vh;
     background-color: grey;
-    padding: 5px 0;
-    .container {
-      max-width: 920px;
-      .expanded-app {
-        display: flex;
-        flex-wrap: wrap;
-        cursor: default;
-        position: relative;
-        height: 650px;
-        max-width: 920px;
-        margin: auto;
-        input, input:active { outline: 0; };
-        a,
-        a:hover,
-        button,
-        button:active {
-          outline: 0;
-          cursor: pointer;
-        };
-      }
-      .collapsed-app {
-        position: fixed;
-        bottom: 0;
-        background-color: #fff;
-        width: 250px;
-        height: 30px;
-        .status-bar {
-          height: 100%;
-          justify-content: flex-end;
-          button,
-          button:hover {
-            outline: 0;
-            cursor: pointer;
-          }
-        }
-      }
-    }
   }
 }
 
@@ -110,7 +73,12 @@ audio { visibility: hidden; }
 
 .leftPanel {
   padding: 0;
-  margin-top: 26px;
+  .microsoft-label {
+    width: 100%;
+    margin: 5px 10px;
+    color: lightslategray;
+    font-size: 13px;
+  }
   hr {
     margin: 8px auto;
     width: 90%;
@@ -154,24 +122,6 @@ audio { visibility: hidden; }
   display: flex;
   border-left: 1px solid grey;
   & > div { width: 100%; }
-}
-
-.status-bar {
-  width: 100%;
-  position: absolute;
-  display: flex;
-  z-index: 2;
-  .microsoft-label {
-    width: 100%;
-    margin: 5px 10px;
-    align-self: flex-start;
-    color: lightslategray;
-    font-size: 13px;
-  }
-  button {
-    padding: 0 10px;
-    font-size: 13px;
-  }
 }
 
 .user-settings-page.active {

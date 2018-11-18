@@ -28,13 +28,6 @@ export function activateTaskSettings(taskId, activate) {
   };
 }
 
-export function handleCollapseApp(bool) {
-  return {
-    type: 'SET_COLLAPSE_APP',
-    collapse: bool,
-  };
-}
-
 export function activateUserSettings(activate) {
   return {
     type: 'ACTIVATE_USER_SETTINGS',

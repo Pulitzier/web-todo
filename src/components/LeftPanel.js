@@ -101,6 +101,7 @@ export default class LeftPanel extends Component {
 
     return (
       <BasicPanel className="col-md-4 leftPanel">
+        <p className="microsoft-label">Microsoft To-Do</p>
         <UserModalSettings />
         <List className="nav flex-column my-todo-list">
           {categories.map(({

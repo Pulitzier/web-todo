@@ -38,7 +38,7 @@ export default function categoriesReducer(state = DEFAULT_TODOS, action) {
         }
         return todo;
       });
-    case 'DELETE_TODO_LIST':
+    case 'DELETE_CATEGORY':
       newTodos = state.map((todo) => {
         if (todo.todoListId === 2) {
           return {

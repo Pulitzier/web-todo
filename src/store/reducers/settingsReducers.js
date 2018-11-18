@@ -55,11 +55,6 @@ export function setTaskSettings(state = DEFAULT_TASK_SETTINGS, action) {
 
 export function handleUserSettings(state = DEFAULT_USER_SETTINGS, action) {
   switch (action.type) {
-    case 'SET_COLLAPSE_APP':
-      return {
-        ...state,
-        collapseApp: action.collapse,
-      };
     case 'ACTIVATE_USER_SETTINGS':
       return {
         ...state,
