@@ -4,7 +4,7 @@ import '../../styles/index.css';
 import LeftPanel from './../LeftPanel';
 import RightPanel from './../RightPanel';
 import UserSettingsPanel from './../UserSettingsPanel';
-import AudioForCompletion from './../AudioForCompletion';
+import AudioForCompletion from './AudioForCompletion';
 import DeleteModal from './../DeleteModal';
 import BasicPanel from './../BaseComponents/BasicPanel';
 
@@ -72,14 +72,12 @@ export default class AppWrapper extends Component {
     const { taskToDelete, todoToDelete, taskStepToDelete } = this.state;
     if (taskToDelete) {
       deleteTaskElement(element.id);
-      this.clearLocalAppState();
     } else if (todoToDelete) {
       deleteCategoryElement(element.todoListId);
-      this.clearLocalAppState();
     } else if (taskStepToDelete) {
       deleteStepElement(element.stepId);
-      this.clearLocalAppState();
     }
+    this.clearLocalAppState();
   }
 
   handleDecline() {
