@@ -1,3 +1,3 @@
-export * from './styleConstants';
-export * from './stateConstants';
-export * from './settingsConstants';
+export * from './style';
+export * from './state';
+export * from './settings';

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
-import { getTasksForTodo } from '../../../helpers';
-import Task from '../../Task/index';
-import BasicPanel from '../../BaseComponents/BasicPanel';
-import BasicInput from '../../BaseComponents/BasicInput';
-import BasicButton from '../../BaseComponents/BasicButton';
-import EmptyTasks from '../EmptyTasks/index';
+import { getTasksForTodo } from '../../helpers';
+import Task from '../Task/index';
+import BasicPanel from '../BaseComponents/BasicPanel';
+import BasicInput from '../BaseComponents/BasicInput';
+import BasicButton from '../BaseComponents/BasicButton';
+import EmptyTasks from './EmptyTasksWrapper';
 
 export default class ListOfTasksWrapper extends Component {
   constructor(props) {

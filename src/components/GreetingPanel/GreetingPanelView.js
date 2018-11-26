@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
-import { playSoundWhenDone } from '../../../helpers';
-import BasicPanel from '../../BaseComponents/BasicPanel';
-import BasicButton from '../../BaseComponents/BasicButton';
-import SuggestedTask from '../SuggestedTask/index';
+import { playSoundWhenDone } from '../../helpers';
+import BasicPanel from '../BaseComponents/BasicPanel';
+import BasicButton from '../BaseComponents/BasicButton';
+import SuggestedTask from './SuggestedTaskWrapper';
 
 export default class GreetingsPanel extends Component {
   static getDayPeriod() {

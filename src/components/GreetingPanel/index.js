@@ -6,7 +6,7 @@ import {
   deleteTask,
   toggleTask,
 } from '../../store/actions';
-import GreetingsPanel from './GreetingPanelView/index';
+import GreetingsPanel from './GreetingPanelView';
 
 const mapStateToProps = ({ app, userSettings }) => ({
   categories: app.categories,
