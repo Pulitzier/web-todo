@@ -20,8 +20,7 @@ export function saveState(state) {
   return undefined;
 }
 
-export function getTasksForTodo(tasks, todo) {
-  const { todoListId: todoId } = todo;
+export function getTasksForTodo(tasks, todoId) {
   switch (todoId) {
     case 0:
       return tasks.filter(task => task.myDay);
@@ -47,14 +46,15 @@ export function checkActiveTodoTitle(title) {
 }
 
 export function getActiveTask(tasks) {
-  return tasks.length !== 0 ? (tasks.find(task => task.active === true) || '') : '';
+  if (tasks.length === 0) return undefined;
+  return tasks.find(task => task.active === true);
 }
 
 export function setInitialIconWhenRename(iconSource) {
   return iconSource === 'fa-list' ? 'fa-plus-circle' : iconSource;
 }
 
-export function playSoundWhenDone(taskDone, turnOnSound) {
+export function playSoundWhenDone() {
   const audio = document.getElementById('soundOnComplete');
-  if (turnOnSound && !taskDone) audio.play();
+  audio.play();
 }

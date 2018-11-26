@@ -1,32 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, combineReducers } from 'redux';
+import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import './styles/index.css';
 import throttle from 'lodash/throttle';
-import AppWrapper from './components/AppWrapper';
-import {
-  appReducer,
-  setSearchState,
-  setTaskSettings,
-  handleUserSettings,
-} from './reducers';
+import App from './components/App/index';
+import globalReducer from './store/reducers/index';
 import { loadState, saveState } from './helpers';
 import registerServiceWorker from './registerServiceWorker';
 
 const persistedState = loadState();
 
-const globalReducer = combineReducers({
-  app: appReducer,
-  search: setSearchState,
-  taskSettings: setTaskSettings,
-  userSettings: handleUserSettings,
-});
-
+/* eslint-disable no-underscore-dangle */
 const store = createStore(
   globalReducer,
   persistedState,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 );
+/* eslint-enable no-underscore-dangle */
 
 store.subscribe(throttle(() => {
   saveState(store.getState());
@@ -36,7 +27,7 @@ localStorage.clear();
 
 ReactDOM.render(
   <Provider store={store}>
-    <AppWrapper />
+    <App />
   </Provider>,
   document.getElementById('root'),
 );

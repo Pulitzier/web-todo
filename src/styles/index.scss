@@ -24,43 +24,6 @@ body {
     height: 100%;
     min-height: 100vh;
     background-color: grey;
-    padding: 5px 0;
-    .container {
-      max-width: 920px;
-      .expanded-app {
-        display: flex;
-        flex-wrap: wrap;
-        cursor: default;
-        position: relative;
-        height: 650px;
-        max-width: 920px;
-        margin: auto;
-        input, input:active { outline: 0; };
-        a,
-        a:hover,
-        button,
-        button:active {
-          outline: 0;
-          cursor: pointer;
-        };
-      }
-      .collapsed-app {
-        position: fixed;
-        bottom: 0;
-        background-color: #fff;
-        width: 250px;
-        height: 30px;
-        .status-bar {
-          height: 100%;
-          justify-content: flex-end;
-          button,
-          button:hover {
-            outline: 0;
-            cursor: pointer;
-          }
-        }
-      }
-    }
   }
 }
 
@@ -108,76 +71,10 @@ audio { visibility: hidden; }
   }
 }
 
-.leftPanel {
-  padding: 0;
-  margin-top: 26px;
-  hr {
-    margin: 8px auto;
-    width: 90%;
-  }
-  ul {
-    max-width: 100%;
-    margin: 0;
-    li {
-      text-align: left;
-      padding: 4px 8px 4px 10px;
-      border-left: 5px solid transparent;
-      &.active {
-        border-left: 5px solid blue;
-        background-color: lightgray;
-      }
-      &:not(.active):hover { background-color: #f4f6f7; }
-    }
-  }
-  .nav-link {
-    @include flex;
-    padding: 6px 2px;
-    span {
-      margin: 0 10px 0 auto;
-      font-size: 13px;
-    }
-    p { margin: 0; }
-    i {
-      width: 18px;
-      margin-right: 10px;
-      color: cornflowerblue;
-    }
-  }
-  .custom-todo-list-wrapper {
-    max-height: 415px;
-    overflow: auto;
-  }
-}
-
-.rightPanel {
-  padding: 0;
-  display: flex;
-  border-left: 1px solid grey;
-  & > div { width: 100%; }
-}
-
-.status-bar {
-  width: 100%;
-  position: absolute;
-  display: flex;
-  z-index: 2;
-  .microsoft-label {
-    width: 100%;
-    margin: 5px 10px;
-    align-self: flex-start;
-    color: lightslategray;
-    font-size: 13px;
-  }
-  button {
-    padding: 0 10px;
-    font-size: 13px;
-  }
-}
-
 .user-settings-page.active {
   position: absolute;
-  max-height: 650px;
-  max-width: 920px;
+  //max-height: 650px;
+  //max-width: 920px;
   width: 100%;
   height: 100%;
   section { section { margin: 20px 0 10px; } };
@@ -276,7 +173,7 @@ audio { visibility: hidden; }
     }
     .theme-sets {
       p { margin-bottom: 15px; }
-      label.ligthTheme-label,
+      label.lightTheme-label,
       label.darkTheme-label {
         position: relative;
         float: left;
@@ -328,118 +225,6 @@ audio { visibility: hidden; }
     max-height: 410px;
   }
   .modal-body { overflow-y: auto; }
-}
-
-.panelBanner {
-  display: flex;
-  min-height: 200px;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: flex-end;
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  background-size: 100%;
-  &.with-sort { min-height: 250px; }
-  .banner-main-section {
-    display: flex;
-    align-items: flex-end;
-    height: 200px;
-    justify-content: space-between;
-    .panelBanner-text {
-      width: 100%;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      color: #fff;
-      font-weight: 900;
-      text-align: left;
-      max-width: 390px;
-      margin: 15px 0;
-      &:not(.renamed){
-        margin-left: 8px;
-        padding: 8px;
-      }
-      h3 {
-        font-size: 28px;
-        margin: 0;
-        &.non-default-todo { cursor: pointer; }
-      }
-      .date-time { margin-left: 40px; }
-      & > div {
-        & > h3 { @extend .date-time }
-        & > button + h3 { margin-left: 3px; }
-        & > .icons-menu-wrapper + h3 { margin-left: 3px; }
-        &:first-of-type { @include flex; }
-        button.banner-change-todo-icon {
-          i {
-            width: 18px;
-            color: cornflowerblue;
-            &.fa-plus-circle { visibility: hidden; }
-          }
-        }
-      }
-    }
-    .banner-button-group {
-      margin-bottom: 8px;
-    }
-  }
-  .banner-sort {
-    @include flex;
-    position: relative;
-    min-height: 50px;
-    padding: 10px 10px 10px 50px;
-    color: #ffffff;
-    .change-sort-order {
-      i.fa-angle-down{
-        &.reversed{
-          transform: rotate(-180deg);
-        }
-      }
-    }
-    button {
-      color: #ffffff;
-      position: relative;
-      padding: 0 15px;
-      &.clear-banner-sort { margin-left: auto; }
-      &.change-sort-order {
-        padding-left: 10px;
-        padding-right: 10px;
-        margin: 0 10px;
-      }
-      &:hover { background-color: rgba(0, 0, 0, 0.4); }
-    }
-  }
-  .greeting-pop-up-wrapper {
-    @extend .banner-sort;
-    @include flex;
-    padding-right: 15px;
-    & > div {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .greeting-pop-up p > span { font-size: 12px; color: darkgrey }
-    .greeting-btn-group {
-      display: flex;
-      button { margin-left: 10px}
-      &.responsive { flex-direction: column; }
-    }
-    &.responsive { span { min-width: 0px; }}
-    & > span { min-width: 140px; }
-    p { display: inline-block; }
-    button { border: 0; }
-  }
-  &.responsive {
-    background-size: auto 100%;
-    #bannerSettings { right: 200px; }
-    .banner-sort { padding-top: 6px; padding-bottom: 6px; }
-    .change-sort-order { margin: 0 5px; }
-    .clear-banner-sort { padding: 0 10px; }
-    .panelBanner-text.renamed {
-      max-width: 220px;
-    }
-  }
 }
 
 button.dots-menu {
@@ -920,8 +705,8 @@ p.lineThrough { text-decoration: line-through; }
     & > button:hover { background-color: #f4f6f7; }
   }
   .user-info-settings {
-    position: relative;
-    width: 300px;
+    //position: relative;
+    //width: 300px;
     .user-settings {
       &.active {
         position: absolute;
@@ -1263,114 +1048,6 @@ div.searchList {
     border: 0;
     resize: none;
     &::placeholder { color: cornflowerblue; }
-  }
-}
-
-#bannerSettings {
-  position: absolute;
-  top: 187px;
-  right: 0;
-  background-color: #ffffff;
-  z-index: 1;
-  border: 1px solid #5c6066;
-  hr { margin: 10px auto; }
-  i {
-    color: lightslategray;
-    margin-right: 20px;
-  }
-  p { display: inline-block; }
-  & > div { padding: 10px; }
-  div.renameList:hover {
-    cursor: pointer;
-    background-color: lightgray;
-  }
-  div.sort-settings-link {
-    @include flex;
-    padding: 6px 10px;
-    &:hover,
-    &.grey {
-      cursor: pointer;
-      background-color: lightgray;
-    }
-    p { margin: 0; }
-    i {
-      &.fa-angle-right {
-        margin: 0 0 0 auto;
-        font-size: 25px;
-      }
-      &.important { margin-left: 20px; }
-    }
-  }
-  div.sort-settings-menu {
-    position: absolute;
-    overflow: hidden;
-    height: 0;
-    min-width: 210px;
-    transition: height 1s ease;
-    background-color: #ffffff;
-    left: -205px;
-    top: 1px;
-    padding: 0;
-    border: 0;
-    &.active {
-      transition: height 1s ease;
-      border: 1px solid rgba(0, 0, 0, .2);
-    }
-    & > div {
-      @include flex;
-      padding: 10px;
-      &:hover {
-        cursor: pointer;
-        background-color: lightgray;
-      }
-      & > p { margin: 0; }
-    }
-  }
-  div.banner-theme-settings p { display: block; }
-  div.show-hide_completed_todos {
-    @include flex;
-    p { display: flex; }
-    &:hover {
-      cursor: pointer;
-      background-color: lightgray;
-    }
-  }
-  div.deleteList {
-    &:hover {
-      cursor: pointer;
-      background-color: lightgray;
-    }
-    i, p { color: red; }
-  }
-  .jumbotron-button {
-    height: 50px;
-    border-radius: 0;
-    padding: 3px;
-    margin: 2px;
-    &.active {
-      display: inline-block;
-      border: 2px solid blue;
-    }
-    &:hover {
-      cursor: pointer;
-      border: 2px solid #dddddd;
-    }
-    & > span {
-      display: inline-block;
-      width: 40px;
-      height: 40px;
-      &.orange { background-color: orange; }
-      &.green { background-color: green; }
-      &.red { background-color: red; }
-      &.blueviolet { background-color: blueviolet; }
-      &.blue { background-color: blue; }
-      &.bgImage-wrapper {
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        .theme-image { height: 40px; }
-      }
-    }
   }
 }
 
