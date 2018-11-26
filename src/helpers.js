@@ -1,6 +1,5 @@
 export function getActiveTodoList(todos) {
-  let activeArray = todos.find(element => element.active);
-  if (activeArray) return activeArray;
+  return todos.find(element => element.active);
 }
 
 export function loadState() {
@@ -16,16 +15,12 @@ export function loadState() {
 }
 
 export function saveState(state) {
-  try {
-    const serializedState = JSON.stringify(state);
-    localStorage.setItem('state', serializedState)
-  } catch(err) {
-    return new Error(err.message);
-  }
+  const serializedState = JSON.stringify(state);
+  localStorage.setItem('state', serializedState);
+  return undefined;
 }
 
-export function getTasksForTodo(tasks, todo) {
-  let { todoListId: todoId } = todo;
+export function getTasksForTodo(tasks, todoId) {
   switch (todoId) {
     case 0:
       return tasks.filter(task => task.myDay);
@@ -38,14 +33,28 @@ export function getTasksForTodo(tasks, todo) {
   }
 }
 
-export function getStringDate(date, options = {weekday: 'short', hour: 'numeric'}) {
+export function getStringDate(date, options = { weekday: 'short', hour: 'numeric' }) {
   return (new Date(date)).toLocaleString('en-us', options);
 }
 
 export function checkActiveTodoTitle(title) {
   return (
-    title !== 'My Day' &&
-    title !== 'Important' &&
-    title !== 'To-Do'
-  )
+    title !== 'My Day'
+    && title !== 'Important'
+    && title !== 'Tasks'
+  );
+}
+
+export function getActiveTask(tasks) {
+  if (tasks.length === 0) return undefined;
+  return tasks.find(task => task.active === true);
+}
+
+export function setInitialIconWhenRename(iconSource) {
+  return iconSource === 'fa-list' ? 'fa-plus-circle' : iconSource;
+}
+
+export function playSoundWhenDone() {
+  const audio = document.getElementById('soundOnComplete');
+  audio.play();
 }
