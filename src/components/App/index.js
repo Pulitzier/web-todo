@@ -17,10 +17,10 @@ const mapDispatchToProps = dispatch => ({
   },
   deleteStepElement: (id) => {
     dispatch(deleteStep(id));
-  }
+  },
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(AppWrapper);

@@ -1,6 +1,5 @@
 export const DEFAULT_SEARCH = {
   activateSearch: false,
-  showCompleted: true,
 };
 
 export const DEFAULT_TASK_SETTINGS = {
@@ -14,8 +13,8 @@ export const DEFAULT_USER_SETTINGS = {
   openSettings: false,
   confirmDeletion: true,
   turnOnSound: true,
-  setLightTheme: true,
-  setDarkTheme: false,
+  lightTheme: true,
+  darkTheme: false,
 };
 
 export const DATE_OPTIONS = {

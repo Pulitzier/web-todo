@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
 import '../../styles/index.css';
-import LeftPanel from './../LeftPanel';
-import RightPanel from './../RightPanel';
-import UserSettingsPanel from './../UserSettingsPanel';
+import LeftPanel from '../LeftPanel/index';
+import RightPanel from '../RightPanel/index';
+import UserSettingsPanel from '../UserSettingsPanel/index';
 import AudioForCompletion from './AudioForCompletion';
-import DeleteModal from './../DeleteModal';
-import BasicPanel from './../BaseComponents/BasicPanel';
+import DeleteModal from './DeleteModal';
+import BasicPanel from '../BaseComponents/BasicPanel';
 
 export default class AppWrapper extends Component {
   constructor(props) {
@@ -67,7 +67,7 @@ export default class AppWrapper extends Component {
     const {
       deleteStepElement,
       deleteCategoryElement,
-      deleteTaskElement
+      deleteTaskElement,
     } = this.props;
     const { taskToDelete, todoToDelete, taskStepToDelete } = this.state;
     if (taskToDelete) {
@@ -102,7 +102,7 @@ export default class AppWrapper extends Component {
   render() {
     const {
       userSettings: {
-        confirmDeletion, turnOnSound, setDarkTheme, setLightTheme,
+        confirmDeletion, turnOnSound, darkTheme, lightTheme,
       },
     } = this.props;
     const { taskToDelete, todoToDelete, taskStepToDelete } = this.state;
@@ -110,7 +110,7 @@ export default class AppWrapper extends Component {
 
     return (
       <BasicPanel
-        className={`app-container ${setLightTheme ? 'light' : setDarkTheme && 'dark'}`}
+        className={`app-container ${lightTheme ? 'light' : darkTheme && 'dark'}`}
       >
         <LeftPanel />
         <RightPanel

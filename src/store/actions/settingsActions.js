@@ -5,13 +5,6 @@ export function openSearchPanel(bool) {
   };
 }
 
-export function setShowFilter(bool) {
-  return {
-    type: 'SET_SHOW_COMPLETED',
-    show: bool,
-  };
-}
-
 export function changeBannerBgImage(image, todoId) {
   return {
     type: 'CHANGE_BANNER_BG_IMAGE',
@@ -67,14 +60,14 @@ export function turnCompletionSound(turn) {
 export function handleSetDarkTheme() {
   return {
     type: 'SET_DARK_THEME',
-    setDarkTheme: true,
+    darkTheme: true,
   };
 }
 
 export function handleSetLightTheme() {
   return {
     type: 'SET_LIGHT_THEME',
-    setLightTheme: true,
+    lightTheme: true,
   };
 }
 

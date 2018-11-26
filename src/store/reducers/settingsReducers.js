@@ -11,11 +11,6 @@ export function setSearchState(state = DEFAULT_SEARCH, action) {
         ...state,
         activateSearch: action.activate,
       };
-    case 'SET_SHOW_COMPLETED':
-      return {
-        ...state,
-        showCompleted: action.show,
-      };
     default:
       return state;
   }
@@ -78,14 +73,14 @@ export function handleUserSettings(state = DEFAULT_USER_SETTINGS, action) {
     case 'SET_DARK_THEME':
       return {
         ...state,
-        setDarkTheme: action.setDarkTheme,
-        setLightTheme: !action.setDarkTheme,
+        darkTheme: action.darkTheme,
+        lightTheme: !action.darkTheme,
       };
     case 'SET_LIGHT_THEME':
       return {
         ...state,
-        setDarkTheme: !action.setLightTheme,
-        setLightTheme: action.setLightTheme,
+        darkTheme: !action.lightTheme,
+        lightTheme: action.lightTheme,
       };
     default:
       return state;
