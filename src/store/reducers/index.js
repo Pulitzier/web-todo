@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import { handleUserSettings, setSearchState, setTaskSettings } from './settingsReducers';
-import categories from './categoriesReducer';
-import tasks from './tasksReducer';
-import steps from './stepsReducer';
+import { handleUserSettings, setSearchState, setTaskSettings } from './settings';
+import categories from './categories';
+import tasks from './tasks';
+import steps from './steps';
 
 export default combineReducers({
   app: combineReducers({

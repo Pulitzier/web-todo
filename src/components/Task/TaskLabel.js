@@ -147,8 +147,8 @@ class TaskLabelView extends Component {
 }
 
 TaskLabelView.propTypes = {
-  categories: PropTypes.arrayOf(PropTypes.shape({})),
-  steps: PropTypes.arrayOf(PropTypes.shape({})),
+  categories: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  steps: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   task: PropTypes.shape({}).isRequired,
 };
 

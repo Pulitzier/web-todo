@@ -1,23 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
-import { revertTasks, sortTasks } from '../../store/actions/index';
-import BasicButton from '../BaseComponents/BasicButton';
+import BasicButton from '../../BaseComponents/BasicButton';
 
 export default class SortPopUp extends Component {
   constructor(props) {
     super(props);
-    this.handleSortTasks = this.handleSortTasks.bind(this);
     this.setSortMessage = this.setSortMessage.bind(this);
     this.changeSortOrder = this.changeSortOrder.bind(this);
     this.state = {
       reverseTasks: false,
     };
-  }
-
-  handleSortTasks(sortCriteria) {
-    const { store } = this.context;
-    const { todoListId } = this.props;
-    store.dispatch(sortTasks(sortCriteria, todoListId));
   }
 
   setSortMessage() {
@@ -41,13 +33,14 @@ export default class SortPopUp extends Component {
   }
 
   changeSortOrder() {
-    const { store } = this.context;
-    this.setState({ reverseTasks: !this.state.reverseTasks });
-    store.dispatch(revertTasks());
+    const { handleRevertTasks } = this.props;
+    const { reverseTasks: oldRevert } = this.state;
+    this.setState({ reverseTasks: !oldRevert });
+    handleRevertTasks();
   }
 
   render() {
-    const { bgColor } = this.props;
+    const { bgColor, handleSortTasks } = this.props;
     const { reverseTasks } = this.state;
 
     return (
@@ -63,7 +56,7 @@ export default class SortPopUp extends Component {
         />
         <BasicButton
           buttonClassName="clear-banner-sort"
-          buttonOnClickAction={() => this.handleSortTasks('')}
+          buttonOnClickAction={() => handleSortTasks('')}
           iconClassName="fas fa-times"
         />
       </section>
@@ -71,6 +64,16 @@ export default class SortPopUp extends Component {
   }
 }
 
-SortPopUp.contextTypes = {
-  store: PropTypes.object,
+SortPopUp.propTypes = {
+  bgColor: PropTypes.string,
+  sortBy: PropTypes.string,
+  handleSortTasks: PropTypes.func,
+  handleRevertTasks: PropTypes.func,
+};
+
+SortPopUp.defaultProps = {
+  bgColor: '',
+  sortBy: '',
+  handleSortTasks: () => {},
+  handleRevertTasks: () => {},
 };

@@ -17,6 +17,7 @@ export default class RightPanel extends Component {
     if (arr.length !== 0) {
       return arr;
     }
+    return undefined;
   }
 
   constructor(props) {

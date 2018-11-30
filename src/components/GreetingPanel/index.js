@@ -6,7 +6,8 @@ import {
   deleteTask,
   toggleTask,
 } from '../../store/actions';
-import GreetingsPanel from './GreetingPanelView/index';
+import GreetingsPanel from './GreetingPanelView';
+import { playSoundWhenDone } from '../../helpers';
 
 const mapStateToProps = ({ app, userSettings }) => ({
   categories: app.categories,
@@ -30,4 +31,16 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(GreetingsPanel);
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...stateProps,
+  ...dispatchProps,
+  ...ownProps,
+  setToggledTask(taskId, done) {
+    const { userSettings: { turnOnSound: playSound } } = stateProps;
+    const { handleToggleTask } = dispatchProps;
+    if (playSound && done) playSoundWhenDone();
+    handleToggleTask(taskId);
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(GreetingsPanel);

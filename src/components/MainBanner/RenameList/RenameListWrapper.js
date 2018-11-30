@@ -13,7 +13,6 @@ export default class RenameListWrapper extends Component {
     this.handleInputKeyPress = this.handleInputKeyPress.bind(this);
     this.state = {
       newListTitle: todoTitle,
-      changeIcon: false,
     };
   }
 
@@ -64,7 +63,7 @@ export default class RenameListWrapper extends Component {
 
     return (
       <RenameListView
-        renameRef={node => this.renameList = node}
+        renameRef={(node) => { this.renameList = node; }}
         title={title}
         shouldRenameList={shouldRenameList}
         iconSource={iconSource}
@@ -77,15 +76,19 @@ export default class RenameListWrapper extends Component {
   }
 }
 
-PropTypes.propTypes = {
-  categories: PropTypes.array,
+RenameListWrapper.propTypes = {
+  categories: PropTypes.arrayOf(PropTypes.shape({})),
+  todoTitle: PropTypes.string,
+  activateRename: PropTypes.func,
   shouldRenameList: PropTypes.bool,
   activateIconsMenu: PropTypes.func,
   handleChangeTitle: PropTypes.func,
 };
 
-PropTypes.defaultProps = {
+RenameListWrapper.defaultProps = {
   categories: [],
+  todoTitle: '',
+  activateRename: () => {},
   shouldRenameList: false,
   activateIconsMenu: () => {},
   handleChangeTitle: () => {},

@@ -1,2 +1,2 @@
-export * from './settingsActions';
-export * from './stateActions';
+export * from './settings';
+export * from './state';
