@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'react-proptypes';
 import {
   checkActiveTodoTitle,
   setInitialIconWhenRename,
@@ -22,6 +23,7 @@ const BannerTitle = ({
         )
       }
     <h3
+      role="presentation"
       className={checkActiveTodoTitle(todoTitle) ? 'non-default-todo' : ''}
       onClick={() => activateRename(true)}
     >
@@ -29,5 +31,12 @@ const BannerTitle = ({
     </h3>
   </BasicPanel>
 );
+
+BannerTitle.propTypes = {
+  todoTitle: PropTypes.string.isRequired,
+  todoIconSrc: PropTypes.string.isRequired,
+  activateIconsMenu: PropTypes.func.isRequired,
+  activateRename: PropTypes.func.isRequired,
+};
 
 export default BannerTitle;

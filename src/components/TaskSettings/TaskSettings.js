@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
 import { DATE_OPTIONS } from '../../store/constants/index';
 import ImportanceButton from '../ImportanceButton/index';
-import ChildTaskSettings from './ChildTaskSettings';
+import ChildTaskSettings from './ChildTaskSettings/index';
 import StepInput from './StepInput/index';
 import BasicLabel from '../BaseComponents/BasicLabel';
 import BasicButton from '../BaseComponents/BasicButton';
@@ -99,8 +99,8 @@ export default class TaskSettings extends Component {
         <BasicPanel className="task-middle-settings-wrapper">
           <BasicPanel>
             {
-              getStepsForTask().map((step, i) => (
-                <BasicPanel key={i} className="step-title">
+              getStepsForTask().map(step => (
+                <BasicPanel key={step.stepId} className="step-title">
                   <BasicLabel
                     labelClassName={(`toggle-step-label ${step.done ? 'done' : ''}`)}
                     iconClassName={(step.done ? 'fas fa-check-circle' : 'far fa-check-circle')}

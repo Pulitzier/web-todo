@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'react-proptypes';
 
 const BasicInput = (props) => {
   const {
@@ -32,6 +33,23 @@ const BasicInput = (props) => {
       {baseClassChildren}
     </div>
   );
+};
+
+BasicInput.propTypes = {
+  inputType: PropTypes.string,
+  labelClassName: PropTypes.string,
+  iconClassName: PropTypes.string,
+  inputRef: PropTypes.func,
+  inputActions: PropTypes.shape({}),
+  children: PropTypes.any.isRequired,
+};
+
+BasicInput.defaultProps = {
+  inputType: '',
+  labelClassName: '',
+  iconClassName: '',
+  inputRef: () => {},
+  inputActions: {},
 };
 
 export default BasicInput;

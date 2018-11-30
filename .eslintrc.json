@@ -12,6 +12,13 @@
   },
   "rules": {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "no-plusplus": [0, 1]
+    "no-plusplus": [0, 1],
+    "react/button-has-type": ["error", { "reset": true }],
+    "jsx-a11y/no-autofocus": [ 0, {}],
+    "react/prefer-stateless-function": [0, {}],
+    "react/forbid-prop-types": [2, { "forbid": ["array", "object"] }],
+    "consistent-return": [0, {}],
+    "no-return-assign": [0],
+    "array-callback-return": [0]
   }
 }

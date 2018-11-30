@@ -37,6 +37,7 @@ export default class ModalSettings extends Component {
     if (!this.bannerModal.contains(target)) {
       return showModal();
     }
+    return undefined;
   }
 
   discardNewTask() {
@@ -77,11 +78,13 @@ export default class ModalSettings extends Component {
   }
 
   handleMouseLeaveSortLink() {
-    if (!this.state.hoverSortMenu) this.handleHoverSortLink(false);
+    const { hoverSortMenu } = this.state;
+    if (!hoverSortMenu) this.handleHoverSortLink(false);
   }
 
   handleHoverSortMenu() {
-    this.setState({ hoverSortMenu: !this.state.hoverSortMenu });
+    const { hoverSortMenu: oldSort } = this.state;
+    this.setState({ hoverSortMenu: !oldSort });
   }
 
   render() {
@@ -107,12 +110,13 @@ export default class ModalSettings extends Component {
     return (
       <section
         id="bannerSettings"
-        ref={node => this.bannerModal = node}
+        ref={(node) => { this.bannerModal = node; }}
       >
         {
           checkActiveTodoTitle(todoTitle)
           && (
           <div
+            role="presentation"
             className="renameList"
             onClick={() => {
               showModal();
@@ -145,33 +149,51 @@ export default class ModalSettings extends Component {
         >
           {
             (todoListId !== 1) && (
-              <div onClick={() => this.handleSortTasks('IMPORTANT', todoListId)}>
+              <div
+                role="presentation"
+                onClick={() => this.handleSortTasks('IMPORTANT', todoListId)}
+              >
                 <i className="far fa-star" />
                 <p>Importance</p>
               </div>
             )
           }
-          <div onClick={() => this.handleSortTasks('DUE_DATE', todoListId)}>
+          <div
+            role="presentation"
+            onClick={() => this.handleSortTasks('DUE_DATE', todoListId)}
+          >
             <i className="far fa-calendar-alt" />
             <p>Due date</p>
           </div>
           {
             !!todoListId && (
-              <div onClick={() => this.handleSortTasks('ADDED_TO_MY_DAY', todoListId)}>
+              <div
+                role="presentation"
+                onClick={() => this.handleSortTasks('ADDED_TO_MY_DAY', todoListId)}
+              >
                 <i className="far fa-sun" />
                 <p>Added to My Day</p>
               </div>
             )
           }
-          <div onClick={() => this.handleSortTasks('COMPLETED', todoListId)}>
+          <div
+            role="presentation"
+            onClick={() => this.handleSortTasks('COMPLETED', todoListId)}
+          >
             <i className="far fa-check-circle" />
             <p>Completed</p>
           </div>
-          <div onClick={() => this.handleSortTasks('ABC', todoListId)}>
+          <div
+            role="presentation"
+            onClick={() => this.handleSortTasks('ABC', todoListId)}
+          >
             <i className="fas fa-exchange-alt" />
             <p>Alphabetically</p>
           </div>
-          <div onClick={() => this.handleSortTasks('CREATED_AT', todoListId)}>
+          <div
+            role="presentation"
+            onClick={() => this.handleSortTasks('CREATED_AT', todoListId)}
+          >
             <i className="far fa-plus-square" />
             <p>Creation date</p>
           </div>
@@ -182,9 +204,10 @@ export default class ModalSettings extends Component {
           && (
           <div className="banner-theme-settings">
             <p>Theme</p>
-            {COLOR_SCHEME.map((item, index) => (
+            {COLOR_SCHEME.map(item => (
               <button
-                key={index}
+                type="button"
+                key={item}
                 className={`jumbotron-button ${bgColor === item ? 'active' : ''}`}
                 onClick={() => {
                   this.changeBannerColor(item, todoListId);
@@ -195,9 +218,10 @@ export default class ModalSettings extends Component {
             ))}
             <br />
             <br />
-            {IMAGE_SCHEME.map((item, index) => (
+            {IMAGE_SCHEME.map(item => (
               <button
-                key={index}
+                type="button"
+                key={item}
                 className={`jumbotron-button ${bgImage === item ? 'active' : ''}`}
                 onClick={() => this.changeBannerImage(item, todoListId)}
               >
@@ -214,6 +238,7 @@ export default class ModalSettings extends Component {
           todoListId !== 1
           && (
           <div
+            role="presentation"
             className="show-hide_completed_todos"
             onClick={() => {
               if (showCompleted) {
@@ -236,6 +261,7 @@ completed to-dos
         { checkActiveTodoTitle(todoTitle)
           && (
             <div
+              role="presentation"
               className="deleteList"
               onClick={() => {
                 showModal();
@@ -258,6 +284,7 @@ ModalSettings.propTypes = {
   activateRename: PropTypes.func,
   showModal: PropTypes.func,
   taskSettings: PropTypes.shape({}),
+  handleActivateTask: PropTypes.func,
   handleTypeNewTask: PropTypes.func,
   handleSortTask: PropTypes.func,
   handleChangeColor: PropTypes.func,
@@ -271,6 +298,7 @@ ModalSettings.defaultProps = {
   activateRename: () => {},
   showModal: () => {},
   taskSettings: {},
+  handleActivateTask: () => {},
   handleTypeNewTask: () => {},
   handleSortTask: () => {},
   handleChangeColor: () => {},

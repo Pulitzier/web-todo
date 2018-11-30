@@ -18,7 +18,7 @@ export default class SearchPanelView extends Component {
   }
 
   setSearchWord = (e) => {
-    const value = e.target.value;
+    const value = e.target.value; // eslint-disable-line prefer-destructuring
     this.setState({ word: value });
   };
 
@@ -82,12 +82,15 @@ completed to-dos
           <img className={searchWord ? 'inactive' : 'active'} src="./assets/ufo.jpg" alt="Nothing to Search" />
           <div className={`searchList ${searchWord ? 'active' : 'inactive'}`}>
             {
-              tasks.map((task) => {
+              tasks.map((task) => { // eslint-disable-line array-callback-return
                 if (task.taskText.indexOf(searchWord) !== -1) {
                   if (!showCompleted && task.done) {
                     return;
                   }
-                  return <Task key={task.id} task={task} />;
+                  /* eslint-disable-next-line consistent-return */
+                  return (
+                    <Task key={task.id} task={task} />
+                  );
                 }
               })
             }
@@ -98,6 +101,6 @@ completed to-dos
   }
 }
 
-SearchPanelView.protoTypes = {
+SearchPanelView.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };

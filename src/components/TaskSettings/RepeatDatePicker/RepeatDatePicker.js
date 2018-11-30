@@ -33,14 +33,14 @@ export default class RepeatDatePicker extends Component {
   }
 
   handlePickValue(event) {
-    const value = event.target.value;
+    const value = event.target.value; // eslint-disable-line prefer-destructuring
     if (value) {
       this.setState({ numberOfRepeat: value });
     }
   }
 
   handlePickType(event) {
-    const value = event.target.value;
+    const value = event.target.value; // eslint-disable-line prefer-destructuring
     if (value) {
       this.setState({ typeOfRange: value });
     }
@@ -68,7 +68,7 @@ export default class RepeatDatePicker extends Component {
       <div className="repeat-date-picker-wrapper">
         <div
           className="repeat-date-picker"
-          ref={node => this.repeatDayPicker = node}
+          ref={(node) => { this.repeatDayPicker = node; }}
         >
           <p>Repeat every ...</p>
           <form
@@ -104,9 +104,10 @@ export default class RepeatDatePicker extends Component {
               {
                 typeOfRange === 'weeks'
                 && ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
-                  .map((day, i) => (
+                  .map(day => (
                     <span
-                      key={i}
+                      key={day}
+                      role="presentation"
                       className={
                           `repeat-day-label${
                             daysPicked.find(d => d === day) ? ' selected' : ''}`
@@ -134,6 +135,11 @@ export default class RepeatDatePicker extends Component {
 }
 
 RepeatDatePicker.propTypes = {
+  showCustomRepeat: PropTypes.func,
   handleFormSubmit: PropTypes.func.isRequired,
   handleFormReset: PropTypes.func.isRequired,
+};
+
+RepeatDatePicker.defaultProps = {
+  showCustomRepeat: () => {},
 };

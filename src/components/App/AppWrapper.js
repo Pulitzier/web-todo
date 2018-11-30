@@ -132,7 +132,12 @@ export default class AppWrapper extends Component {
 }
 
 AppWrapper.propTypes = {
+  userSettings: PropTypes.shape({}),
   deleteTaskElement: PropTypes.func.isRequired,
   deleteCategoryElement: PropTypes.func.isRequired,
   deleteStepElement: PropTypes.func.isRequired,
+};
+
+AppWrapper.defaultProps = {
+  userSettings: {},
 };
