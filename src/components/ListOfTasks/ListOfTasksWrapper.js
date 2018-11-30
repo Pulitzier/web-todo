@@ -35,7 +35,7 @@ export default class ListOfTasksWrapper extends Component {
   handleTypeNewTask(bool) {
     const { handleTypeNewTask } = this.props;
     handleTypeNewTask(bool);
-    !bool ? this.newTaskInput.value = '' : null;
+    return !bool ? this.newTaskInput.value = '' : null;
   }
 
   addNewTask(activeTodo) {
@@ -91,12 +91,9 @@ export default class ListOfTasksWrapper extends Component {
       >
         <BasicPanel className="todo-list">
           {
-            getTasksForTodo(tasks, activeTodo.todoListId).map((task, index) => {
-              if (!showCompleted && task.done) {
-                return;
-              }
-              return <Task key={index} task={task} />;
-            })
+            getTasksForTodo(tasks, activeTodo.todoListId).map(
+              task => (showCompleted && !task.done) && <Task key={task.id} task={task} />,
+            )
           }
           <BasicInput
             inputType="task"
@@ -106,7 +103,7 @@ export default class ListOfTasksWrapper extends Component {
               }${activateNewTask && localToggleTask ? 'toggled' : 'untoggled'}`
             }
             iconClassName={`add-new-task-input ${activateNewTask ? 'activated' : 'inactive'}`}
-            inputRef={component => this.newTaskInput = component}
+            inputRef={(component) => { this.newTaskInput = component; }}
             inputActions={{
               onKeyPress: event => addNewTaskOnEnter(event, activeTodo),
               onChange: () => this.handleTypeNewTask(true),
@@ -136,11 +133,11 @@ export default class ListOfTasksWrapper extends Component {
 }
 
 ListOfTasksWrapper.propTypes = {
-  tasks: PropTypes.array,
+  tasks: PropTypes.arrayOf(PropTypes.shape({})),
   taskSettings: PropTypes.shape({}),
   activeTodo: PropTypes.shape({}),
   activeTask: PropTypes.shape({}),
-  greetingTasks: PropTypes.shape({}),
+  greetingTasks: PropTypes.arrayOf(PropTypes.shape({})),
   handleActivateTaskInput: PropTypes.func,
   handleDeactivateTaskInput: PropTypes.func,
   handleTypeNewTask: PropTypes.func,
@@ -152,7 +149,7 @@ ListOfTasksWrapper.defaultProps = {
   taskSettings: {},
   activeTodo: {},
   activeTask: {},
-  greetingTasks: {},
+  greetingTasks: [],
   handleActivateTaskInput: () => {},
   handleDeactivateTaskInput: () => {},
   handleTypeNewTask: () => {},

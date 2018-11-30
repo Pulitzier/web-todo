@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'react-proptypes';
 import BasicButton from '../BaseComponents/BasicButton';
 import BasicPanel from '../BaseComponents/BasicPanel';
 
@@ -12,7 +13,8 @@ export default class SuggestedTask extends Component {
   }
 
   showSuggestedTasksMenu() {
-    this.setState({ showTaskOptions: !this.state.showTaskOptions });
+    const { showTaskOptions: oldShowOptions } = this.state;
+    this.setState({ showTaskOptions: !oldShowOptions });
   }
 
   render() {
@@ -43,11 +45,17 @@ export default class SuggestedTask extends Component {
           showTaskOptions
           && (
           <BasicPanel className="suggested-tasks-settings">
-            <div onClick={() => setToggledTask(task.id, task.done)}>
+            <div
+              role="presentation"
+              onClick={() => setToggledTask(task.id, task.done)}
+            >
               <i className="far fa-check-circle" />
               <p>Mark as completed</p>
             </div>
-            <div onClick={() => handleDeleteTask(task.id)}>
+            <div
+              role="presentation"
+              onClick={() => handleDeleteTask(task.id)}
+            >
               <i className="far fa-trash-alt" />
               <p>Delete task</p>
             </div>
@@ -63,3 +71,19 @@ export default class SuggestedTask extends Component {
     );
   }
 }
+
+SuggestedTask.propTypes = {
+  task: PropTypes.shape({}),
+  taskParent: PropTypes.shape({}),
+  addTaskToMyDay: PropTypes.func,
+  handleDeleteTask: PropTypes.func,
+  setToggledTask: PropTypes.func,
+};
+
+SuggestedTask.defaultProps = {
+  task: {},
+  taskParent: {},
+  addTaskToMyDay: () => {},
+  handleDeleteTask: () => {},
+  setToggledTask: () => {},
+};

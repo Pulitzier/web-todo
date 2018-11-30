@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'react-proptypes';
 import BasicButton from '../../BaseComponents/BasicButton';
 
 const IconsMenuView = ({ iconsRef }) => (
@@ -26,5 +27,9 @@ const IconsMenuView = ({ iconsRef }) => (
     />
   </div>
 );
+
+IconsMenuView.propTypes = {
+  iconsRef: PropTypes.shape({}).isRequired,
+};
 
 export default IconsMenuView;

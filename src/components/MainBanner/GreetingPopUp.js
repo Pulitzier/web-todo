@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'react-proptypes';
 import BasicButton from '../BaseComponents/BasicButton';
 import BasicPanel from '../BaseComponents/BasicPanel';
 
@@ -16,10 +17,15 @@ const GreetingPopUp = (props) => {
   const getTimeOfLastTask = (tasks) => {
     let dateString;
     if (tasks.length !== 0) {
-      if (tasks[tasks.length - 1].dueDate) dateString = new Date(tasks[tasks.length - 1].dueDate);
-      if (tasks[tasks.length - 1].createdAt) dateString = new Date(tasks[tasks.length - 1].createdAt);
+      if (tasks[tasks.length - 1].dueDate) {
+        dateString = new Date(tasks[tasks.length - 1].dueDate);
+      }
+      if (tasks[tasks.length - 1].createdAt) {
+        dateString = new Date(tasks[tasks.length - 1].createdAt);
+      }
       return dateString.toDateString();
     }
+    return undefined;
   };
 
   const showGreetingsPanel = () => {
@@ -58,6 +64,22 @@ of
       </BasicPanel>
     </BasicPanel>
   );
+};
+
+GreetingPopUp.propTypes = {
+  activeTask: PropTypes.shape({}),
+  bgColor: PropTypes.string,
+  activateGreetingPanel: PropTypes.func,
+  deactivateGreetingSuggestions: PropTypes.func,
+  latestTasks: PropTypes.arrayOf(PropTypes.shape({})),
+};
+
+GreetingPopUp.defaultProps = {
+  activeTask: {},
+  bgColor: '',
+  activateGreetingPanel: () => {},
+  deactivateGreetingSuggestions: () => {},
+  latestTasks: [],
 };
 
 export default GreetingPopUp;

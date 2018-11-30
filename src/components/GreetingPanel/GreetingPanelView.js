@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
-import { playSoundWhenDone } from '../../helpers';
 import BasicPanel from '../BaseComponents/BasicPanel';
 import BasicButton from '../BaseComponents/BasicButton';
 import SuggestedTask from './SuggestedTaskWrapper';
@@ -8,33 +7,23 @@ import SuggestedTask from './SuggestedTaskWrapper';
 export default class GreetingsPanel extends Component {
   static getDayPeriod() {
     const today = new Date();
-    return today.getHours() < 11
-      ? 'Good Morning'
-      : today.getHours() < 18
-        ? 'Hi'
-        : today.getHours() < 23
-          ? 'Good Evening'
-          : 'Hello';
+    if (today.getHours() < 11) {
+      return 'Good Morning';
+    }
+    if (today.getHours() < 18) {
+      return 'Hi';
+    }
+    if (today.getHours() < 23) {
+      return 'Good Evening';
+    }
+    return 'Hello';
   }
 
   static getTaskForSuggest(tasks) {
     return tasks.filter(task => task.suggestForMyDay === true);
   }
 
-  constructor(props) {
-    super(props);
-    this.setToggledTask = this.setToggledTask.bind(this);
-    this.collapseYesterday = this.collapseYesterday.bind(this);
-    this.getYesterdayTasks = this.getYesterdayTasks.bind(this);
-    this.collapseSuggestion = this.collapseSuggestion.bind(this);
-    this.state = {
-      collapsedSuggestions: true,
-      collapsedYesterday: true,
-      showTaskOptions: false,
-    };
-  }
-
-  getYesterdayTasks(tasks) {
+  static getYesterdayTasks(tasks) {
     const suggest = [];
     const today = new Date();
     tasks.map((task) => {
@@ -45,18 +34,25 @@ export default class GreetingsPanel extends Component {
     return suggest;
   }
 
+  constructor(props) {
+    super(props);
+    this.setToggledTask = this.setToggledTask.bind(this);
+    this.collapseYesterday = this.collapseYesterday.bind(this);
+    this.collapseSuggestion = this.collapseSuggestion.bind(this);
+    this.state = {
+      collapsedSuggestions: true,
+      collapsedYesterday: true,
+    };
+  }
+
   collapseSuggestion() {
-    this.setState({ collapsedSuggestions: !this.state.collapsedSuggestions });
+    const { collapsedSuggestions: oldSuggestions } = this.state;
+    this.setState({ collapsedSuggestions: !oldSuggestions });
   }
 
   collapseYesterday() {
-    this.setState({ collapsedYesterday: !this.state.collapsedYesterday });
-  }
-
-  setToggledTask(taskId, done) {
-    const { playSound, handleToggleTask } = this.props;
-    if (playSound && done) playSoundWhenDone();
-    handleToggleTask(taskId);
+    const { collapsedYesterday: oldCollapsed } = this.state;
+    this.setState({ collapsedYesterday: !oldCollapsed });
   }
 
   render() {
@@ -69,7 +65,7 @@ export default class GreetingsPanel extends Component {
     } = this.props;
     const { collapsedSuggestions, collapsedYesterday } = this.state;
     const suggestedTasks = GreetingsPanel.getTaskForSuggest(tasks);
-    const yesterdayTasks = this.getYesterdayTasks(tasks);
+    const yesterdayTasks = GreetingsPanel.getYesterdayTasks(tasks);
     const yesterdayWidth = (() => {
       if (yesterdayTasks.length !== 0) {
         return (100 * yesterdayTasks.map(task => task.done === true).length)
@@ -80,11 +76,11 @@ export default class GreetingsPanel extends Component {
 
     const getTaskParent = task => categories.find(todo => todo.todoListId === task.parentId) || '';
 
-    this.getYesterdayTasks(tasks);
+    GreetingsPanel.getYesterdayTasks(tasks);
 
-    const getUniqueParentsTasks = (tasks) => {
+    const getUniqueParentsTasks = (uniqueTasks) => {
       const parents = [];
-      tasks.map((task) => {
+      uniqueTasks.map((task) => {
         if (parents.indexOf(task.parentId) === -1) {
           parents.push(task.parentId);
         }
@@ -114,7 +110,10 @@ export default class GreetingsPanel extends Component {
           {
             (yesterdayTasks.length !== 0)
             && (
-            <header onClick={() => this.collapseYesterday()}>
+            <header
+              role="presentation"
+              onClick={() => this.collapseYesterday()}
+            >
               <div>
                 <h5>Yesterday</h5>
                 {
@@ -137,9 +136,9 @@ of
           }
           {
             collapsedYesterday
-            && yesterdayTasks.map((task, i) => (
+            && yesterdayTasks.map(task => (
               <SuggestedTask
-                key={i}
+                key={task.id}
                 task={task}
                 taskParent={getTaskParent(task)}
                 addTaskToMyDay={handleAddTaskToMyDay}
@@ -153,12 +152,15 @@ of
           {
             (suggestedTasks.length !== 0)
             && (
-            <header onClick={() => this.collapseSuggestion()}>
+            <header
+              role="presentation"
+              onClick={() => this.collapseSuggestion()}
+            >
               <div>
                 <h5>Suggested for you</h5>
                 {
-                  getUniqueParentsTasks(suggestedTasks).map((parent, i) => (
-                    <p key={i} className="suggested-task-parent">
+                  getUniqueParentsTasks(suggestedTasks).map(parent => (
+                    <p key={parent.todoListId} className="suggested-task-parent">
                       <i className={(parent.iconSource !== 'fa-list') ? parent.iconSource : ''} />
                       {parent.title}
                     </p>
@@ -174,9 +176,9 @@ of
           }
           {
             collapsedSuggestions
-            && suggestedTasks.map((task, i) => (
+            && suggestedTasks.map(task => (
               <SuggestedTask
-                key={i}
+                key={task.id}
                 task={task}
                 taskParent={getTaskParent(task)}
                 addTaskToMyDay={handleAddTaskToMyDay}
@@ -192,8 +194,8 @@ of
 }
 
 GreetingsPanel.propTypes = {
-  tasks: PropTypes.array,
-  categories: PropTypes.array,
+  tasks: PropTypes.arrayOf(PropTypes.shape({})),
+  categories: PropTypes.arrayOf(PropTypes.shape({})),
   activateGreetings: PropTypes.func,
   handleDeleteTask: PropTypes.func,
   handleAddTaskToMyDay: PropTypes.func,

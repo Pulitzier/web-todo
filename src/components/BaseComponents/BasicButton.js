@@ -1,13 +1,14 @@
 import React from 'react';
+import PropTypes from 'react-proptypes';
 
 const BasicButton = (props) => {
   const {
-    buttonClassName = '',
-    buttonOnClickAction = (() => {}),
-    buttonText = '',
-    iconClassName = '',
-    buttonStyle = {},
-    disabled = false,
+    buttonClassName,
+    buttonOnClickAction,
+    buttonText,
+    iconClassName,
+    buttonStyle,
+    disabled,
   } = props;
 
   const renderButtonChild = (text) => {
@@ -17,6 +18,7 @@ const BasicButton = (props) => {
 
   return (
     <button
+      type="button"
       className={buttonClassName}
       onClick={buttonOnClickAction}
       style={buttonStyle}
@@ -25,6 +27,24 @@ const BasicButton = (props) => {
       {renderButtonChild(buttonText)}
     </button>
   );
+};
+
+BasicButton.propTypes = {
+  buttonClassName: PropTypes.string,
+  buttonOnClickAction: PropTypes.func,
+  buttonText: PropTypes.string,
+  iconClassName: PropTypes.string,
+  buttonStyle: PropTypes.shape({}),
+  disabled: PropTypes.bool,
+};
+
+BasicButton.defaultProps = {
+  buttonClassName: '',
+  buttonOnClickAction: () => {},
+  buttonText: '',
+  iconClassName: '',
+  buttonStyle: {},
+  disabled: false,
 };
 
 export default BasicButton;

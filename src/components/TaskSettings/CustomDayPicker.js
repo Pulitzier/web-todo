@@ -5,6 +5,7 @@ import 'react-day-picker/lib/style.css';
 
 export default class CustomDayPicker extends Component {
   static propTypes = {
+    taskId: PropTypes.number.isRequired,
     pickerClassName: PropTypes.string.isRequired,
     handleDateClick: PropTypes.func.isRequired,
     handleClosePicker: PropTypes.func.isRequired,
@@ -16,16 +17,17 @@ export default class CustomDayPicker extends Component {
   }
 
   componentDidMount() {
-    document.addEventListener('click', this.handleClick, false);
+    document.addEventListener('click', this.handleClick);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this.handleClick, false);
+    document.removeEventListener('click', this.handleClick);
   }
 
   handleClick({ target }) {
+    const { handleClosePicker } = this.props;
     if (!this.customDayPicker.contains(target)) {
-      this.props.handleClosePicker();
+      handleClosePicker();
     }
   }
 

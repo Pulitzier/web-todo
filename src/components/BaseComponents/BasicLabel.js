@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'react-proptypes';
 
 const BasicLabel = ({ labelClassName, labelOnClickAction, iconClassName }) => (
   <label
@@ -8,5 +9,17 @@ const BasicLabel = ({ labelClassName, labelOnClickAction, iconClassName }) => (
     <i className={iconClassName} />
   </label>
 );
+
+BasicLabel.propTypes = {
+  labelClassName: PropTypes.string,
+  labelOnClickAction: PropTypes.func,
+  iconClassName: PropTypes.string,
+};
+
+BasicLabel.defaultProps = {
+  labelClassName: '',
+  labelOnClickAction: () => {},
+  iconClassName: '',
+};
 
 export default BasicLabel;

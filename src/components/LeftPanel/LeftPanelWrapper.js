@@ -17,12 +17,12 @@ export default class LeftPanelWrapper extends Component {
     };
   }
 
-  activateNewList(bool) {
-    this.setState({ activateList: bool });
-  }
-
   setNewListTitle(title) {
     this.setState({ newListTitle: title });
+  }
+
+  activateNewList(bool) {
+    this.setState({ activateList: bool });
   }
 
   pushNewListToState() {
@@ -67,7 +67,7 @@ export default class LeftPanelWrapper extends Component {
       }
     };
 
-    const renderTodoTaskNumber = (tasks, todoListId) => {
+    const renderTodoTaskNumber = (todoListId) => {
       if (getTasksForTodo(tasks, todoListId).length === 0) return;
       return getTasksForTodo(tasks, todoListId).length;
     };
@@ -158,8 +158,10 @@ New List
 }
 
 LeftPanelWrapper.propTypes = {
-  categories: PropTypes.array,
-  tasks: PropTypes.array,
+  categories: PropTypes.arrayOf(PropTypes.shape({})),
+  tasks: PropTypes.arrayOf(PropTypes.shape({})),
+  handleCloseSearchPanel: PropTypes.func,
+  handleCreateNewCategory: PropTypes.func,
   handleChooseCategory: PropTypes.func,
 };
 
@@ -167,4 +169,6 @@ LeftPanelWrapper.defaultProps = {
   categories: [],
   tasks: [],
   handleChooseCategory: () => {},
+  handleCreateNewCategory: () => {},
+  handleCloseSearchPanel: () => {},
 };

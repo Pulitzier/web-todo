@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'react-proptypes';
 import BasicButton from '../BaseComponents/BasicButton';
 
 const ImportanceButton = (props) => {
@@ -17,6 +18,11 @@ const ImportanceButton = (props) => {
       iconClassName={(important ? 'fas fa-star' : 'far fa-star')}
     />
   );
+};
+
+ImportanceButton.propTypes = {
+  task: PropTypes.shape({}).isRequired,
+  setImportance: PropTypes.func.isRequired,
 };
 
 export default ImportanceButton;

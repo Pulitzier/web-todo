@@ -7,7 +7,7 @@ import {
 import { BANNER_COLOR_SCHEME } from '../../store/constants/index';
 import RenameList from './RenameList/index';
 import IconsMenuWrapper from './IconsMenu/index';
-import SortPopUp from './SortPopUp';
+import SortPopUp from './SortPopUp/index';
 import ModalSettings from './ModalSettings/index';
 import BasicButton from '../BaseComponents/BasicButton';
 import BasicPanel from '../BaseComponents/BasicPanel';
@@ -24,14 +24,14 @@ export default class Banner extends Component {
     this.activateIconsMenu = this.activateIconsMenu.bind(this);
     this.state = {
       shouldRenameList: false,
-      shouldChangeIcon: false,
       showModal: false,
       showIconMenu: false,
     };
   }
 
   activateModalSettings() {
-    this.setState({ showModal: !this.state.showModal });
+    const { showModal: oldShowModal } = this.state;
+    this.setState({ showModal: !oldShowModal });
   }
 
   activateRename(bool) {
@@ -188,16 +188,18 @@ Banner.propTypes = {
   app: PropTypes.shape({}),
   taskSettings: PropTypes.shape({}),
   activeTask: PropTypes.shape({}),
+  handleShowGreeting: PropTypes.func,
   deleteList: PropTypes.func,
   activateGreetings: PropTypes.func,
-  greetingTasks: PropTypes.shape({}),
+  greetingTasks: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
 Banner.defaultProps = {
   app: {},
   taskSettings: {},
   activeTask: {},
+  handleShowGreeting: () => {},
   deleteList: () => {},
   activateGreetings: () => {},
-  greetingTasks: {},
+  greetingTasks: [],
 };

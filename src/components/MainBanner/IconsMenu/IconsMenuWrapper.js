@@ -26,9 +26,9 @@ export default class IconsMenuWrapper extends Component {
   handleClick({ target }) {
     const { activeTodoId, handleSetIcon } = this.props;
     if (this.iconMenu && this.iconMenu.contains(target)) {
+      const { classList } = target;
       switch (target.localName) {
         case 'i':
-          const { classList } = target;
           handleSetIcon(activeTodoId, classList[1]);
           return this.handleDeactivateIconMenu();
         default:
@@ -41,7 +41,7 @@ export default class IconsMenuWrapper extends Component {
 
   render() {
     return (
-      <IconsMenuView iconsRef={node => this.iconMenu = node} />
+      <IconsMenuView iconsRef={(node) => { this.iconMenu = node; }} />
     );
   }
 }
