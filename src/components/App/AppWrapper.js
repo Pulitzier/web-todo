@@ -86,7 +86,16 @@ export default class AppWrapper extends Component {
 
   renderDeleteModal(element) {
     const elementText = element.title || element.taskText || element.stepText || '';
-    const elementType = element.title ? 'todo' : element.taskText ? 'task' : element.stepText ? 'step' : '';
+    let elementType;
+    if (element.title) {
+      elementType = 'todo';
+    }
+    if (element.taskText) {
+      elementType = 'task';
+    }
+    if (element.stepText) {
+      elementType = 'step';
+    }
     if (element) {
       return (
         <DeleteModal
