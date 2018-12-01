@@ -7,6 +7,7 @@ import {
   turnCompletionSound,
 } from '../../store/actions';
 import UserSettingsPanel from './UserSettingsPanel';
+import './style.css';
 
 const mapStateToProps = state => ({
   userSettings: state.userSettings,
