@@ -8,6 +8,7 @@ import App from './components/App/index';
 import globalReducer from './store/reducers/index';
 import { loadState, saveState } from './helpers';
 import registerServiceWorker from './registerServiceWorker';
+import { AppContainer } from 'react-hot-loader';
 
 const persistedState = loadState();
 
@@ -25,10 +26,23 @@ store.subscribe(throttle(() => {
 
 localStorage.clear();
 
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root'),
-);
+const render = () => {
+  ReactDOM.render(
+    <Provider store={store}>
+      <AppContainer>
+        <App />
+      </AppContainer>
+    </Provider>,
+    document.getElementById('root'),
+  );
+};
+
 registerServiceWorker();
+
+render();
+
+if (module.hot) {
+  module.hot.accept('./components/App/index', () => {
+    render();
+  });
+}
