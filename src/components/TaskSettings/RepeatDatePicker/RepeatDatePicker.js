@@ -9,6 +9,8 @@ export default class RepeatDatePicker extends Component {
     this.handlePickDay = this.handlePickDay.bind(this);
     this.handlePickType = this.handlePickType.bind(this);
     this.handlePickValue = this.handlePickValue.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleReset = this.handleReset.bind(this);
     this.state = {
       numberOfRepeat: 1,
       typeOfRange: 'weeks',
@@ -59,10 +61,23 @@ export default class RepeatDatePicker extends Component {
     }
   }
 
+  handleSubmit(event) {
+    const { handleFormSubmit } = this.props;
+    const serializedDate = JSON.stringify(this.state);
+    event.preventDefault();
+    event.stopPropagation();
+    handleFormSubmit(serializedDate);
+  };
+
+  handleReset(event) {
+    const { handleFormReset } = this.props;
+    event.preventDefault();
+    event.stopPropagation();
+    handleFormReset('');
+  };
+
   render() {
     const { numberOfRepeat, typeOfRange, daysPicked } = this.state;
-    const { handleFormSubmit, handleFormReset } = this.props;
-    const serializedDate = JSON.stringify(this.state);
 
     return (
       <div className="repeat-date-picker-wrapper">
@@ -72,16 +87,8 @@ export default class RepeatDatePicker extends Component {
         >
           <p>Repeat every ...</p>
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              handleFormSubmit(serializedDate);
-            }}
-            onReset={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              handleFormReset('');
-            }}
+            onSubmit={this.handleSubmit}
+            onReset={this.handleReset}
           >
             <input
               className="picker-value"
