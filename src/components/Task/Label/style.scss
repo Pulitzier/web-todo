@@ -1,0 +1,37 @@
+@mixin flex {
+  display: flex;
+  align-items: center;
+}
+
+.label-wrapper-for-task {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  height: 20px;
+  & > div {
+    position: absolute;
+    flex-flow: row;
+    width: 570px;
+    display: flex;
+  }
+  & p.label-for-task {
+    @include flex;
+    font-size: 12px;
+    i {
+      margin-right: 5px;
+      &.fas.fa-circle {
+        margin-left: 5px;
+        font-size: 4px;
+      }
+      &.far.fa-sun {
+        color: cornflowerblue;
+        & + span { color: cornflowerblue; }
+      }
+      &.fa-redo { margin-left: 5px }
+    }
+  }
+  i.fa-circle {
+    font-size: 4px;
+    margin: auto 4px;
+  }
+}
