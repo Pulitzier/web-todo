@@ -68,6 +68,7 @@ export default class LeftPanelWrapper extends Component {
     };
 
     const renderTodoTaskNumber = (todoListId) => {
+      console.log(todoListId);
       if (getTasksForTodo(tasks, todoListId).length === 0) return;
       return getTasksForTodo(tasks, todoListId).length;
     };
@@ -92,7 +93,7 @@ export default class LeftPanelWrapper extends Component {
                     <i className={iconSource} />
                     <p>{title}</p>
                     <span>
-                      {renderTodoTaskNumber(tasks, todoListId)}
+                      {renderTodoTaskNumber(todoListId)}
                     </span>
                   </button>
                 </li>
@@ -121,7 +122,7 @@ export default class LeftPanelWrapper extends Component {
                       <i className={`fa ${iconSource}`} />
                       {title}
                       <span>
-                        {renderTodoTaskNumber(tasks, todoListId)}
+                        {renderTodoTaskNumber(todoListId)}
                       </span>
                     </button>
                   </li>
