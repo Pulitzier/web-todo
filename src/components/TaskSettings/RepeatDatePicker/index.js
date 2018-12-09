@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import RepeatDatePicker from './RepeatDatePicker';
-import { setRepeat } from '../../../store/actions';
+import { setRepeat } from '../../../store/actions/index';
+import './style.css';
 
 const mapDispatchToProps = dispatch => ({
   setRepeatDate: (taskId, date) => {

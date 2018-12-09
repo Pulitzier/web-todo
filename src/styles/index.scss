@@ -742,44 +742,6 @@ button.change-todo-icon {
       }
     }
   }
-  .repeat-date-picker {
-    position: absolute;
-    display: flex;
-    flex-flow: column nowrap;
-    padding: 10px;
-    width: 250px;
-    height: fit-content;
-    background-color: #ffffff;
-    border: 1px solid #888888;
-    p { padding: 0 0 10px 0; }
-    .days-picker { margin: 7px 0; }
-    .picker-value { max-width: 80px; }
-    .picker-type {
-      height: 30px;
-      width: 100%;
-      max-width: 142px;
-      display: inline-block;
-      float: right;
-    }
-    .btn-group { display: flex; }
-    button {
-      border: 0;
-      width: 50%;
-      &:first-of-type { margin-right: 2px; }
-      &:last-of-type { margin-left: 2px; }
-    }
-  }
-  span.repeat-day-label {
-    margin: 4px;
-    line-height: 1.1;
-    display: inline-block;
-    background-color: lightgrey;
-    padding: 7px;
-    &.selected {
-      background-color: cornflowerblue;
-      color: #ffffff;
-    }
-  }
   .activeOption { color: cornflowerblue; }
   .remind-me {
     line-height: 25px;
@@ -824,7 +786,7 @@ button.change-todo-icon {
   .reminder-window {
     ul {
       position: absolute;
-      right: 5px;
+      right: 80px;
       max-width: 250px;
       border: 1px solid #888888;
       background-color: #ffffff;
@@ -832,6 +794,11 @@ button.change-todo-icon {
     }
   }
   .repeat-window { @extend .reminder-window }
+}
+
+@media (max-width: 1365px) {
+  .task-settings-additional .reminder-window ul,
+  .task-settings-additional .repeat-window ul { right: 16px }
 }
 
 div.searchList {
