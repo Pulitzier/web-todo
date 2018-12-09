@@ -40,12 +40,20 @@
       }
     }
   }
-  .btn-group { display: flex; }
-  button {
-    border: 0;
-    width: 50%;
-    &:first-of-type { margin-right: 2px; }
-    &:last-of-type { margin-left: 2px; }
+  .btn-group {
+    display: flex;
+    margin-top: 10px !important;
+  }
+  button.btn {
+    border: 0 !important;
+    border-radius: 0 !important;
+    width: 50% !important;
+    padding: 0 !important;
+    &:first-of-type {
+      margin-right: 2px !important;
+      background-color: $hover-bg-color !important;
+    }
+    &:last-of-type { margin-left: 2px !important; }
   }
 }
 span.repeat-day-label {

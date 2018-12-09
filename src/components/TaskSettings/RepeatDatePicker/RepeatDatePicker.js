@@ -39,6 +39,7 @@ export default class RepeatDatePicker extends Component {
   };
 
   render() {
+    const { form } = this.props;
     return (
       <div className="repeat-date-picker-wrapper">
         <div
@@ -47,6 +48,7 @@ export default class RepeatDatePicker extends Component {
         >
           <p>Repeat every ...</p>
           <FormElement
+            formState={form}
             onSubmit={this.handleOnSubmit}
             formReset={this.handleOnReset}
           />

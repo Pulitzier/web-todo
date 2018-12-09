@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
+import { Button } from 'react-bootstrap';
 import CheckboxGroup from './CheckboxGroup';
 import { getActiveTask, getStringDate } from '../../../helpers';
 
@@ -10,23 +11,34 @@ const getRepeatDay = (date) => {
 };
 
 const mapStateToProps = (state) => {
-  const { app: { tasks }} = state;
+  const { app: { tasks } } = state;
   const activeTask = getActiveTask(tasks);
   return {
     initialValues: {
       repeatValue: 1,
-      repeatType: 'weeks',
+      repeatType: 'days',
       repeatDay: getRepeatDay(activeTask.repeat)
     }
   }
 };
 
 class FormElement extends Component {
+  constructor(props) {
+    super(props);
+    this.handleChooseType = this.handleChooseType.bind(this),
+    this.state = {
+      repeatType: '',
+    };
+  }
+
+  handleChooseType(event) {
+    const { target: { value }} = event;
+    if(value) this.setState({ repeatType: value })
+  }
+
   render() {
-    const {
-      formReset,
-      handleSubmit,
-    } = this.props;
+    const { formReset, handleSubmit } = this.props;
+    const { repeatType } = this.state;
 
     const weekDays = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
     const repeatTypes = ['days', 'weeks', 'months', 'years'];
@@ -45,6 +57,7 @@ class FormElement extends Component {
           name="repeatType"
           component="select"
           className="picker-type"
+          onChange={this.handleChooseType}
         >
           {
             repeatTypes.map(type => {
@@ -52,25 +65,30 @@ class FormElement extends Component {
             })
           }
         </Field>
-        <div className="days-picker">
-          <label
-            htmlFor="repeatDay"
-            className="repeat-day-label-wrapper"
-          >
-            <Field
-              name="repeatDay"
-              component={CheckboxGroup}
-              options={weekDays}
-            />
-          </label>
-        </div>
+        {
+          repeatType === 'weeks'
+          && (
+            <div className="days-picker">
+              <label
+                htmlFor="repeatDay"
+                className="repeat-day-label-wrapper"
+              >
+                <Field
+                  name="repeatDay"
+                  component={CheckboxGroup}
+                  options={weekDays}
+                />
+              </label>
+            </div>
+          )
+        }
         <div className="btn-group">
-          <button
-            className="btn-default"
+          <Button
+            bsStyle="default"
             type="button"
             onClick={formReset}
-          >Cancel</button>
-          <button className="btn-primary" type="submit">Save</button>
+          >Cancel</Button>
+          <Button bsStyle="primary" type="submit">Save</Button>
         </div>
       </form>
     )
