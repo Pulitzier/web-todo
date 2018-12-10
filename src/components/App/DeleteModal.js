@@ -12,9 +12,9 @@ Delete
 ?
       </h3>
       <p>
-"
+        &quot;
         {messageOfItem}
-" will be deleted forever.
+        &quot; will be deleted forever.
       </p>
       <div className="button-group">
         <button

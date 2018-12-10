@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
+import { Button } from 'react-bootstrap';
 import { DATE_OPTIONS } from '../../store/constants/index';
 import ImportanceButton from '../ImportanceButton/index';
 import ChildTaskSettings from './ChildTaskSettings/index';
@@ -23,9 +24,9 @@ export default class TaskSettings extends Component {
     };
   }
 
-  activateStep = () => {
+  activateStep() {
     const { activateStepInput: oldActivate } = this.state;
-    this.setState({ activateStepInput: oldActivate });
+    this.setState({ activateStepInput: !oldActivate });
   };
 
   typeNewNote(event) {
@@ -119,20 +120,20 @@ export default class TaskSettings extends Component {
               activateStepInput
                 ? (
                   <StepInput
-                    activateStep={this.activateStep}
+                    activateStep={() => this.activateStep}
                     taskId={activeTaskId}
                   />
                 )
                 : (
-                  <p
-                    role="presentation"
+                  <Button
+                    type="button"
                     className="activateStepInput"
                     onClick={() => this.activateStep()}
                   >
                     <span>+</span>
                     {' '}
 Add Step
-                  </p>
+                  </Button>
                 )
             }
             <div className="task-settings-add-to-my-day">

@@ -1,9 +1,6 @@
 @import "./variables";
-@import "../../node_modules/bootstrap/scss/bootstrap";
-@import "./fontawesome/scss/solid.scss";
-@import "./fontawesome/scss/regular.scss";
-@import "./fontawesome/scss/brands.scss";
-@import "./fontawesome/scss/fontawesome.scss";
+@import "../../node_modules/bootstrap/dist/css/bootstrap.css";
+@import "../../node_modules/@fortawesome/fontawesome-free/css/all.css";
 
 @mixin flex {
   display: flex;
@@ -14,7 +11,6 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  .modal-backdrop.show { opacity: 0; }
   p { margin: 0; }
   button {
     background-color: transparent;
@@ -24,6 +20,22 @@ body {
     height: 100%;
     min-height: 100vh;
     background-color: grey;
+  }
+  .modal-header {
+    border: 0;
+    button.close {
+      position: absolute;
+      right: 25px;
+      top: 25px;
+      font-size: 20px;
+      line-height: .8;
+      padding: 10px;
+      border-radius: 0;
+      text-shadow: none;
+      &:hover {
+        background-color: $hover-bg-color;
+      }
+    }
   }
 }
 
@@ -69,162 +81,6 @@ audio { visibility: hidden; }
       }
     }
   }
-}
-
-.user-settings-page.active {
-  position: absolute;
-  //max-height: 650px;
-  //max-width: 920px;
-  width: 100%;
-  height: 100%;
-  section { section { margin: 20px 0 10px; } };
-  h5 { margin-bottom: 20px; }
-  .settings-header {
-    @include flex;
-    margin: 30px 15px 20px;
-    button.close-settings {
-      color: cornflowerblue;
-      display: inline-block;
-      padding: 6px 12px;
-      font-size: 20px;
-      &:hover { background-color: lightgrey; }
-    }
-    h2 { margin: 0 0 0 20px; }
-  };
-  .settings-general-info {
-    overflow-y: auto;
-    max-height: 525px;
-    padding: 30px 50px 10px 150px;
-    & > * { width: 100%; };
-    section {
-      a {
-        margin-top: 5px;
-        color: cornflowerblue;
-        text-decoration: underline;
-      }
-    }
-    .help-feedback {
-      a {
-        display: block;
-        width: fit-content;
-      }
-    }
-    .about-section {
-      @extend .help-feedback;
-      p:nth-child(3),
-      p:nth-child(4) { color: #555555; }
-    }
-    .user-manage {
-      @include flex;
-      & > div {
-        * { margin: 0 0 0 20px; }
-        p { color: #a0a2a5; }
-      }
-      a {
-        margin: 0 0 0 auto;
-        padding: 6px 10px;
-        font-weight: bolder;
-        text-decoration: none;
-        border: 2px solid transparent;
-        &:active {
-          background-color: slategray;
-          color: black;
-        }
-        &:hover { border: 2px solid slategray; }
-      }
-      span {
-        width: 70px;
-        height: 70px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: lightgray;
-        border-radius: 50%;
-        font-size: 10px;
-      }
-    }
-    .general-sets {
-      flex-flow: column wrap;
-      align-items: flex-start;
-      div.toggle-wrapper {
-        align-items: center;
-        display: flex;
-        height: 24px;
-        margin: 5px 0;
-        p {
-          line-height: normal;
-          margin-left: 10px;
-        }
-      }
-      .react-toggle-track {
-        width: 40px;
-        height: 18px;
-      }
-      .react-toggle-thumb {
-        width: 12px;
-        height: 12px;
-        top: 3px;
-        left: 3px;
-      }
-      .react-toggle--checked {
-        .react-toggle-track { background-color: royalblue; }
-        .react-toggle-thumb { left: 24px; }
-      }
-    }
-    .theme-sets {
-      p { margin-bottom: 15px; }
-      label.lightTheme-label,
-      label.darkTheme-label {
-        position: relative;
-        float: left;
-        margin-right: 10px;
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-        & > span {
-          @include flex;
-          background-color: #ffffff;
-          width: 20px;
-          height: 100%;
-          justify-content: center;
-          border: 1px solid darkgray;
-          border-radius: 50%;
-          color: white;
-        }
-        &.checked > span {
-          background-color: royalblue;
-          &:after {
-            content: '\2022';
-            font-size: 32px;
-            position: absolute;
-          }
-        }
-      }
-    }
-    .import-todos {
-      p { margin-bottom: 8px; }
-    }
-  }
-}
-
-#thirdPartyNotices {
-  background-color: rgba(0, 0, 0, 0.5);
-  .modal-header {
-    border: 0;
-    min-height: 50px;
-    .close {
-      padding: 10px;
-      margin: -10px -10px -10px auto;
-      &:hover { background-color: lightgrey; }
-    }
-  }
-  .modal-content {
-    border-radius: 0;
-    max-width: 340px;
-    margin: 0 auto;
-    max-height: 410px;
-  }
-  .modal-body { overflow-y: auto; }
 }
 
 button.dots-menu {
@@ -287,8 +143,8 @@ div.todo {
     border-bottom: 0;
     margin: 0;
     &:hover {
-      background-color: #f4f6f7;
-      span { background-color: #f4f6f7; }
+      background-color: $hover-bg-color;
+      span { background-color: $hover-bg-color; }
     }
   }
   .added-todo {
@@ -301,35 +157,6 @@ div.todo {
     .task-title-wrapper {
       width: 100%;
       margin-left: 10px;
-      .label-wrapper-for-task {
-        display: flex;
-        position: relative;
-        overflow: hidden;
-        height: 20px;
-        & > div {
-          position: absolute;
-          flex-flow: row;
-          width: 570px;
-          display: flex;
-        }
-        & p.label-for-task {
-          @include flex;
-          font-size: 12px;
-          i {
-            margin-right: 5px;
-            &.fas.fa-circle {
-              margin-left: 5px;
-              font-size: 4px;
-            }
-            &.far.fa-sun,
-            &.fa-calendar-alt {
-              color: cornflowerblue;
-              & + span { color: cornflowerblue; }
-            }
-            &.fa-redo { margin-left: 5px }
-          }
-        }
-      }
     }
   }
 }
@@ -600,7 +427,7 @@ p.lineThrough { text-decoration: line-through; }
       color: cornflowerblue;
       width: 38px;
       padding: 10px;
-      &:hover { background-color: #f4f6f7; }
+      &:hover { background-color: $hover-bg-color; }
     }
   }
   & .clear-icon {
@@ -608,7 +435,7 @@ p.lineThrough { text-decoration: line-through; }
     font-size: 13px;
     text-align: center;
     width: 100%;
-    &:hover { background-color: #f4f6f7; }
+    &:hover { background-color: $hover-bg-color; }
   }
 }
 
@@ -647,18 +474,19 @@ p.lineThrough { text-decoration: line-through; }
   background-color: #ffffff;
   padding: 5px;
   button {
-    &.task-settings-trash {
-      @extend button.close-settings;
+    .task-settings-trash,
+    .task-settings-arrow-right {
+      color: cornflowerblue;
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 20px;
       margin-right: 10px;
-    }
-    &.task-settings-arrow-right {
-      @extend button.close-settings;
-      display: flex;
       i { font-size: 25px; }
+      &:hover { background-color: lightgrey; }
     }
     &:hover {
       cursor: pointer;
-      background-color: #f4f6f7;
+      background-color: $hover-bg-color;
     }
   }
   p {
@@ -702,7 +530,7 @@ p.lineThrough { text-decoration: line-through; }
         border-radius: 50%;
       }
     }
-    & > button:hover { background-color: #f4f6f7; }
+    & > button:hover { background-color: $hover-bg-color; }
   }
   .user-info-settings {
     //position: relative;
@@ -740,123 +568,6 @@ button.change-todo-icon {
   .fa-plus-circle { color: cornflowerblue; }
 }
 
-.add-new-list {
-  text-align: left;
-  padding: 0 15px;
-  label.add-new-list-label-wrapper {
-    @include flex;
-    height: 44px;
-    margin: 0 0 0 2px;
-    i {
-      color: cornflowerblue;
-      margin-right: 10px;
-    }
-    input.add-new-list-label {
-      padding: 10px 0;
-      border: 0;
-    }
-  }
-  a.add-new-list-link {
-    @include flex;
-    & > span {
-      font-size: 30px;
-      margin: 0 10px 0 3px;
-    }
-  }
-}
-
-.task-settings {
-  background-color: lightgray;
-  height: 100%;
-  position: relative;
-  width: 450px;
-  & > div { display: flex; }
-  i { color: cornflowerblue; }
-  .step-title {
-    @include flex;
-    background-color: #ffffff;
-    padding: 5px 10px;
-    .steps-trash { display: none; }
-    p { padding: 5px; }
-    &:hover .steps-trash {
-      display: inline-flex;
-      margin: 0 5px 0 auto;
-      background-color: transparent;
-      border: 0;
-      font-size: 16px;
-    }
-  }
-  label.toggle-step-label,
-  label.toggle-step-label-template {
-    width: 14px;
-    height: 14px;
-    margin-left: 3px;
-    i { font-size: 14px; }
-  }
-  ul {
-    li {
-      @include flex;
-      p {
-        width: 100%;
-        &.added { color: cornflowerblue; }
-      }
-      button.clear-from-my-day {
-        width: 50px;
-        height: 44px;
-        border: 0px;
-        background-color: inherit;
-        p { padding: 2px 4px; }
-        &:hover { background-color: rgb(221, 221, 221); }
-      }
-    }
-  }
-  .activateStepInput {
-    padding: 10px 10px 10px 14px;
-    font-size: 14px;
-    background-color: #ffffff;
-    color: cornflowerblue;
-    cursor: pointer;
-    span {
-      margin-right: 5px;
-      font-size: 13px;
-      line-height: normal;
-    }
-  }
-  .add-new-step-wrapper {
-    @include flex;
-    padding: 10px;
-    background-color: #ffffff;
-    position: relative;
-    width: 100%;
-    line-height: 1.1;
-    .add-new-step-input {
-      display: block;
-      border: 0;
-      margin: 0 0 2px 5px;
-      &::placeholder {
-        font-size: 14px;
-        padding-left: 0;
-        color: darkslateblue;
-      }
-    }
-  }
-  .task-settings-title {
-    @include flex;
-    padding: 35px 10px 20px;
-    line-height: 1;
-    font-size: 20px;
-    font-weight: bolder;
-    background-color: #ffffff;
-    p { margin: 0 auto 0 10px; }
-    .important-icon { font-size: 18px; }
-  }
-  .task-middle-settings-wrapper {
-    flex-flow: column;
-    max-height: 520px;
-    overflow-y: auto;
-  }
-}
-
 .important-icon {
   i { color: cornflowerblue; }
 }
@@ -881,7 +592,7 @@ button.change-todo-icon {
       padding-left: 10px;
       &:hover {
         cursor: pointer;
-        background-color: #f4f6f7;
+        background-color: $hover-bg-color;
       }
       p {
         padding: 10px;
@@ -912,44 +623,6 @@ button.change-todo-icon {
         border: 0;
         padding-left: 10px;
       }
-    }
-  }
-  .repeat-date-picker {
-    position: absolute;
-    display: flex;
-    flex-flow: column nowrap;
-    padding: 10px;
-    width: 250px;
-    height: fit-content;
-    background-color: #ffffff;
-    border: 1px solid #888888;
-    p { padding: 0 0 10px 0; }
-    .days-picker { margin: 7px 0; }
-    .picker-value { max-width: 80px; }
-    .picker-type {
-      height: 30px;
-      width: 100%;
-      max-width: 142px;
-      display: inline-block;
-      float: right;
-    }
-    .btn-group { display: flex; }
-    button {
-      border: 0;
-      width: 50%;
-      &:first-of-type { margin-right: 2px; }
-      &:last-of-type { margin-left: 2px; }
-    }
-  }
-  span.repeat-day-label {
-    margin: 4px;
-    line-height: 1.1;
-    display: inline-block;
-    background-color: lightgrey;
-    padding: 7px;
-    &.selected {
-      background-color: cornflowerblue;
-      color: #ffffff;
     }
   }
   .activeOption { color: cornflowerblue; }
@@ -996,7 +669,7 @@ button.change-todo-icon {
   .reminder-window {
     ul {
       position: absolute;
-      right: 5px;
+      right: 80px;
       max-width: 250px;
       border: 1px solid #888888;
       background-color: #ffffff;
@@ -1004,6 +677,11 @@ button.change-todo-icon {
     }
   }
   .repeat-window { @extend .reminder-window }
+}
+
+@media (max-width: 1365px) {
+  .task-settings-additional .reminder-window ul,
+  .task-settings-additional .repeat-window ul { right: 16px }
 }
 
 div.searchList {
@@ -1024,7 +702,7 @@ div.searchList {
     width: 100%;
     &:hover {
       cursor: pointer;
-      background-color: #f4f6f7;
+      background-color: $hover-bg-color;
     }
     li p { padding: 10px; }
   }

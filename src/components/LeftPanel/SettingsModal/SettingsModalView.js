@@ -17,10 +17,10 @@ export default class SettingsModalView extends Component {
   }
 
   handleClick(event) {
-    const { handleCollapseSettings } = this.props;
+    const { activateSettings, handleCollapseSettings } = this.props;
     const { target } = event;
-    if (!this.userSettings.contains(target)) {
-      return handleCollapseSettings();
+    if (!this.userSettings.contains(target) && activateSettings) {
+      handleCollapseSettings();
     }
     return null;
   }

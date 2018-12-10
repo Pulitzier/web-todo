@@ -3,7 +3,7 @@ import PropTypes from 'react-proptypes';
 import ImportanceButton from '../ImportanceButton/index';
 import BasicLabel from '../BaseComponents/BasicLabel';
 import BasicPanel from '../BaseComponents/BasicPanel';
-import TaskLabel from './TaskLabel';
+import Label from './Label/index';
 
 export default class Task extends Component {
   render() {
@@ -33,7 +33,7 @@ export default class Task extends Component {
           />
           <BasicPanel className="task-title-wrapper">
             <p className={done ? 'lineThrough' : null}>{taskText}</p>
-            <TaskLabel task={task} />
+            <Label task={task} />
           </BasicPanel>
           <ImportanceButton
             task={task}

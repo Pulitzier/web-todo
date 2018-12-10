@@ -92,7 +92,7 @@ export default class ListOfTasksWrapper extends Component {
         <BasicPanel className="todo-list">
           {
             getTasksForTodo(tasks, activeTodo.todoListId).map(
-              task => (showCompleted && !task.done) && <Task key={task.id} task={task} />,
+              task => showCompleted && <Task key={task.id} task={task} />,
             )
           }
           <BasicInput

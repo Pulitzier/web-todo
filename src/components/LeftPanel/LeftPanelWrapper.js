@@ -83,16 +83,18 @@ export default class LeftPanelWrapper extends Component {
             if (todoListId < 3) {
               return (
                 <li className={`nav-item ${active ? 'active' : ''}`} key={todoListId}>
-                  <a
+                  {/* eslint-disable-next-line react/button-has-type */}
+                  <button
+                    type="button"
                     className={`nav-link ${active ? 'active' : ''}`}
                     onClick={() => handleChooseCategory(todoListId, activeTaskId)}
                   >
                     <i className={iconSource} />
                     <p>{title}</p>
                     <span>
-                      {renderTodoTaskNumber(tasks, todoListId)}
+                      {renderTodoTaskNumber(todoListId)}
                     </span>
-                  </a>
+                  </button>
                 </li>
               );
             }
@@ -110,16 +112,18 @@ export default class LeftPanelWrapper extends Component {
                     className={`nav-item ${active ? 'active' : ''}`}
                     key={todoListId}
                   >
-                    <a
+                    {/* eslint-disable-next-line react/button-has-type */}
+                    <button
+                      type="button"
                       className="nav-link"
                       onClick={() => handleChooseCategory(todoListId, activeTaskId)}
                     >
                       <i className={`fa ${iconSource}`} />
                       {title}
                       <span>
-                        {renderTodoTaskNumber(tasks, todoListId)}
+                        {renderTodoTaskNumber(todoListId)}
                       </span>
-                    </a>
+                    </button>
                   </li>
                 );
               }
@@ -142,14 +146,15 @@ export default class LeftPanelWrapper extends Component {
               </label>
               )
             }
-            <a
+            <button
+              type="button"
               className="add-new-list-link"
               onClick={() => this.addNewList()}
             >
               <span>+</span>
               {' '}
 New List
-            </a>
+            </button>
           </div>
         </BasicPanel>
       </BasicPanel>

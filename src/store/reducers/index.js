@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { reducer as formReducer } from 'redux-form';
 import { handleUserSettings, setSearchState, setTaskSettings } from './settings';
 import categories from './categories';
 import tasks from './tasks';
@@ -13,4 +14,5 @@ export default combineReducers({
   search: setSearchState,
   taskSettings: setTaskSettings,
   userSettings: handleUserSettings,
+  form: formReducer,
 });
