@@ -92,7 +92,7 @@ export default class LeftPanelWrapper extends Component {
                     <i className={iconSource} />
                     <p>{title}</p>
                     <span>
-                      {renderTodoTaskNumber(tasks, todoListId)}
+                      {renderTodoTaskNumber(todoListId)}
                     </span>
                   </button>
                 </li>
@@ -121,7 +121,7 @@ export default class LeftPanelWrapper extends Component {
                       <i className={`fa ${iconSource}`} />
                       {title}
                       <span>
-                        {renderTodoTaskNumber(tasks, todoListId)}
+                        {renderTodoTaskNumber(todoListId)}
                       </span>
                     </button>
                   </li>

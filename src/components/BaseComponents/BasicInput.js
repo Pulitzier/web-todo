@@ -41,7 +41,7 @@ BasicInput.propTypes = {
   iconClassName: PropTypes.string,
   inputRef: PropTypes.func,
   inputActions: PropTypes.shape({}),
-  children: PropTypes.any.isRequired,
+  children: PropTypes.any,
 };
 
 BasicInput.defaultProps = {
@@ -50,6 +50,7 @@ BasicInput.defaultProps = {
   iconClassName: '',
   inputRef: () => {},
   inputActions: {},
+  children: '',
 };
 
 export default BasicInput;
