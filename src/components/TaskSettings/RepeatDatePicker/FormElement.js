@@ -13,6 +13,7 @@ const getRepeatDay = (date) => {
 const mapStateToProps = (state) => {
   const { app: { tasks } } = state;
   const activeTask = getActiveTask(tasks);
+  if (typeof activeTask.repeat === 'object') return { initialValues: activeTask.repeat };
   return {
     initialValues: {
       repeatValue: 1,
@@ -25,9 +26,10 @@ const mapStateToProps = (state) => {
 class FormElement extends Component {
   constructor(props) {
     super(props);
-    this.handleChooseType = this.handleChooseType.bind(this),
+    this.handleChooseType = this.handleChooseType.bind(this);
+    const { initialValues: { repeatType: initialRepeatType }} = this.props;
     this.state = {
-      repeatType: '',
+      repeatType: initialRepeatType,
     };
   }
 
