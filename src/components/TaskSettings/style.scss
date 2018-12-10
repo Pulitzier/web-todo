@@ -1,0 +1,99 @@
+@mixin flex {
+  display: flex;
+  align-items: center;
+}
+
+.task-settings {
+  background-color: lightgray;
+  height: 100%;
+  position: relative;
+  width: 450px;
+  & > div { display: flex; }
+  i { color: cornflowerblue; }
+  .step-title {
+    @include flex;
+    background-color: #ffffff;
+    padding: 5px 10px;
+    .steps-trash { display: none; }
+    p { padding: 5px; }
+    &:hover .steps-trash {
+      display: inline-flex;
+      margin: 0 5px 0 auto;
+      background-color: transparent;
+      border: 0;
+      font-size: 16px;
+    }
+  }
+  label.toggle-step-label,
+  label.toggle-step-label-template {
+    width: 14px;
+    height: 14px;
+    margin-left: 3px;
+    i { font-size: 14px; }
+  }
+  ul {
+    li {
+      @include flex;
+      p {
+        width: 100%;
+        &.added { color: cornflowerblue; }
+      }
+      button.clear-from-my-day {
+        width: 50px;
+        height: 44px;
+        border: 0px;
+        background-color: inherit;
+        p { padding: 2px 4px; }
+        &:hover { background-color: rgb(221, 221, 221); }
+      }
+    }
+  }
+  .activateStepInput {
+    border-radius: 0;
+    width: 100%;
+    padding: 10px 10px 10px 14px;
+    font-size: 14px;
+    background-color: #ffffff;
+    color: cornflowerblue;
+    cursor: pointer;
+    text-align: initial;
+    span {
+      margin-right: 5px;
+      font-size: 13px;
+      line-height: normal;
+    }
+  }
+  .add-new-step-wrapper {
+    @include flex;
+    padding: 10px;
+    background-color: #ffffff;
+    position: relative;
+    width: 100%;
+    line-height: 1.1;
+    .add-new-step-input {
+      display: block;
+      border: 0;
+      margin: 0 0 2px 5px;
+      &::placeholder {
+        font-size: 14px;
+        padding-left: 0;
+        color: darkslateblue;
+      }
+    }
+  }
+  .task-settings-title {
+    @include flex;
+    padding: 35px 10px 20px;
+    line-height: 1;
+    font-size: 20px;
+    font-weight: bolder;
+    background-color: #ffffff;
+    p { margin: 0 auto 0 10px; }
+    .important-icon { font-size: 18px; }
+  }
+  .task-middle-settings-wrapper {
+    flex-flow: column;
+    max-height: 520px;
+    overflow-y: auto;
+  }
+}

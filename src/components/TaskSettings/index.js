@@ -9,6 +9,7 @@ import {
 } from '../../store/actions';
 import TaskSettings from './TaskSettings';
 import { playSoundWhenDone } from '../../helpers';
+import './style.css';
 
 const mapStateToProps = ({ userSettings: { turnOnSound }, app: { steps } }) => ({
   playSound: turnOnSound,

@@ -68,7 +68,6 @@ export default class LeftPanelWrapper extends Component {
     };
 
     const renderTodoTaskNumber = (todoListId) => {
-      console.log(todoListId);
       if (getTasksForTodo(tasks, todoListId).length === 0) return;
       return getTasksForTodo(tasks, todoListId).length;
     };
