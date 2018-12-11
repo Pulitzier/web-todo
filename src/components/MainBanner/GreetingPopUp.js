@@ -32,35 +32,33 @@ const GreetingPopUp = (props) => {
     deactivateGreetingSuggestions();
     activateGreetingPanel();
   };
+  console.log(activeTask);
 
   return (
-    <BasicPanel
-      className={`greeting-pop-up-wrapper ${activeTask && 'responsive'}`}
-      style={{ backgroundColor: bgColor }}
-    >
-      <span>{getTimeOfLastTask(latestTasks)}</span>
-      <BasicPanel className={`greeting-pop-up ${activeTask && 'responsive'}`}>
-        <p>
-          <span>
-            {getCompletedTasks(latestTasks).length}
-            {' '}
-of
-            {' '}
-            {latestTasks.length}
-          </span>
+    <BasicPanel className={`greeting-pop-up-wrapper ${activeTask.active ? 'responsive' : ''}`} >
+      <BasicPanel className={`greeting-pop-up ${activeTask.active ? 'responsive' : ''}`}>
+        <p>{getTimeOfLastTask(latestTasks)}</p>
+        <p className="greeting-tasks">
+          {getCompletedTasks(latestTasks).length}
+          {' '}
+          of
+          {' '}
+          {latestTasks.length}
+          {' '}
+          completed
         </p>
-        <BasicPanel className={`greeting-btn-group ${activeTask && 'responsive'}`}>
-          <BasicButton
-            buttonClassName="greeting-not-now-btn btn-default"
-            buttonOnClickAction={() => deactivateGreetingSuggestions()}
-            buttonText="Not now"
-          />
-          <BasicButton
-            buttonClassName="greeting-review-btn btn-primary"
-            buttonOnClickAction={showGreetingsPanel}
-            buttonText="Review"
-          />
-        </BasicPanel>
+      </BasicPanel>
+      <BasicPanel className={`greeting-btn-group ${activeTask.active ? 'responsive' : ''}`}>
+        <BasicButton
+          buttonClassName="greeting-not-now-btn btn-default"
+          buttonOnClickAction={() => deactivateGreetingSuggestions()}
+          buttonText="Not now"
+        />
+        <BasicButton
+          buttonClassName="greeting-review-btn btn-primary"
+          buttonOnClickAction={showGreetingsPanel}
+          buttonText="Review"
+        />
       </BasicPanel>
     </BasicPanel>
   );

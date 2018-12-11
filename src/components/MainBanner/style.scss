@@ -1,3 +1,8 @@
+@mixin flex {
+  display: flex;
+  align-items: center;
+}
+
 .panelBanner {
   display: flex;
   min-height: 200px;
@@ -38,8 +43,7 @@
         & > button + h3 { margin-left: 3px; }
         & > .icons-menu-wrapper + h3 { margin-left: 3px; }
         &:first-of-type {
-          display: flex;
-          align-items: center;
+          @include flex;
         }
         button.banner-change-todo-icon {
           i {
@@ -55,8 +59,7 @@
     }
   }
   .banner-sort {
-    display: flex;
-    align-items: center;
+    @include flex;
     position: relative;
     min-height: 50px;
     padding: 10px 10px 10px 50px;
@@ -82,25 +85,32 @@
     }
   }
   .greeting-pop-up-wrapper {
-    @extend .banner-sort;
-    display: flex;
-    align-items: center;
-    padding-right: 15px;
-    & > div {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    @include flex;
+    margin: 0 20px 20px;
+    padding: 15px;
+    background-color: #fff;
+    p { color: #1a1b1c; }
+    .greeting-pop-up {
+      @include flex;
+      p.greeting-tasks {
+        margin-left: 10px;
+        font-size: 12px;
+        color: darkgrey;
+      }
+      &.responsive {
+        flex-direction: column;
+        align-items: flex-start;
+        p.greeting-tasks { margin-left: 0; }
+      }
     }
-    .greeting-pop-up p > span { font-size: 12px; color: darkgrey }
     .greeting-btn-group {
       display: flex;
+      margin-left: auto;
       button { margin-left: 10px}
       &.responsive { flex-direction: column; }
     }
     &.responsive { span { min-width: 0px; }}
     & > span { min-width: 140px; }
-    p { display: inline-block; }
     button { border: 0; }
   }
   &.responsive {
@@ -131,8 +141,7 @@
       background-color: lightgray;
     }
     div.sort-settings-link {
-      display: flex;
-      align-items: center;
+      @include flex;
       padding: 6px 10px;
       &:hover,
       &.grey {
@@ -164,8 +173,7 @@
         border: 1px solid rgba(0, 0, 0, .2);
       }
       & > div {
-        display: flex;
-        align-items: center;
+        @include flex;
         padding: 10px;
         &:hover {
           cursor: pointer;
@@ -176,8 +184,7 @@
     }
     div.banner-theme-settings p { display: block; }
     div.show-hide_completed_todos {
-      display: flex;
-      align-items: center;
+      @include flex;
       p { display: flex; }
       &:hover {
         cursor: pointer;
