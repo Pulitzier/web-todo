@@ -32,7 +32,6 @@ const GreetingPopUp = (props) => {
     deactivateGreetingSuggestions();
     activateGreetingPanel();
   };
-  console.log(activeTask);
 
   return (
     <BasicPanel className={`greeting-pop-up-wrapper ${activeTask.active ? 'responsive' : ''}`} >
