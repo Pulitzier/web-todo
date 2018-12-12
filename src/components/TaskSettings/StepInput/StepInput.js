@@ -46,6 +46,7 @@ export default class StepInput extends Component {
     const { key } = event;
     if (key === 'Enter' && stepText) {
       handleAddNewStep(stepText);
+      this.newStepInput.value = '';
     }
   }
 
@@ -60,6 +61,7 @@ export default class StepInput extends Component {
             toggleStep ? 'toggled' : 'untoggled'}`
         }
         iconClassName={`add-new-step-input ${toggleStep ? 'activated' : 'inactive'}`}
+        inputRef={(component) => { this.newStepInput = component; }}
         inputActions={{
           onKeyPress: e => this.addNewStepToTask(e),
           onChange: e => this.handleTypingStep(e),
