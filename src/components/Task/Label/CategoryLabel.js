@@ -27,7 +27,7 @@ export default class CategoryLabel extends BaseLabel {
     if ( parentId >= 3 ) {
       return this.generateChildLabel(
         taskParent.title,
-        CategoryLabel.renderIconForLabel(taskParent.iconSource)
+        CategoryLabel.renderIconForLabel(`fa ${taskParent.iconSource}`)
       );
     }
     if ( myDay ) {

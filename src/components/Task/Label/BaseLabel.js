@@ -13,7 +13,7 @@ export default class BaseLabel extends Component {
   generateDueRepeatLabel(text, iconSrc) {
     return (
       <p className="label-for-task">
-        { iconSrc && <i className={iconSrc} /> }
+        { iconSrc && <i className={iconSrc}/> }
         <span>{text}</span>
         <i className={this.repeatIcon} />
       </p>
@@ -23,7 +23,7 @@ export default class BaseLabel extends Component {
   generateChildLabel(text, iconSrc) {
     return (
       <p className="label-for-task">
-        { iconSrc && <i className={iconSrc} /> }
+        { iconSrc && <i className={iconSrc}/> }
         <span>{text}</span>
       </p>
     );
