@@ -60,7 +60,7 @@ export default class LeftPanelWrapper extends Component {
     const { activateList, newListTitle } = this.state;
     const activeTaskId = getActiveTask(tasks) ? getActiveTask(tasks).id : '';
 
-    const addNewList = (event) => {
+    const addNewListOnEnter = (event) => {
       const { key } = event;
       if (key === 'Enter') {
         this.pushNewListToState();
@@ -129,7 +129,10 @@ export default class LeftPanelWrapper extends Component {
               }
             })}
           </ul>
-          <div className="add-new-list" onBlur={() => this.pushNewListToState()}>
+          <div
+            className="add-new-list"
+            onBlur={() => this.pushNewListToState()}
+          >
             {
               activateList
               && (
@@ -139,22 +142,21 @@ export default class LeftPanelWrapper extends Component {
                   type="text"
                   className="add-new-list-label"
                   onChange={event => this.setNewListTitle(event.target.value)}
-                  onKeyPress={event => addNewList(event)}
+                  onKeyPress={event => addNewListOnEnter(event)}
                   value={newListTitle}
                   autoFocus={activateList}
                 />
               </label>
               )
             }
-            <button
-              type="button"
+            <a
               className="add-new-list-link"
               onClick={() => this.addNewList()}
             >
               <span>+</span>
               {' '}
 New List
-            </button>
+            </a>
           </div>
         </BasicPanel>
       </BasicPanel>

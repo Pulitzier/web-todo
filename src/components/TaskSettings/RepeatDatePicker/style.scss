@@ -10,7 +10,24 @@
   background-color: #ffffff;
   border: 1px solid #888888;
   p { padding: 0 0 10px 0 !important; }
-  .days-picker { margin: 7px 0; }
+  .days-picker {
+    width: 100%;
+    display: inline-block;
+    margin: 7px 0;
+    border: 0;
+    outline: none;
+    option {
+      min-width: 35px;
+      float: left;
+      padding: 5px;
+      display: inline-block;
+      text-align: center;
+      margin: 4px;
+      &.selected {
+        background-color: red;
+      }
+    }
+  }
   .picker-value {
     height: 30px;
     max-width: 80px;
