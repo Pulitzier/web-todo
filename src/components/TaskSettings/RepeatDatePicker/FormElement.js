@@ -18,7 +18,7 @@ const mapStateToProps = (state) => {
     initialValues: {
       repeatValue: 1,
       repeatType: 'days',
-      repeatDay: getRepeatDay(activeTask.repeat)
+      repeatDays: getRepeatDay(activeTask.repeat)
     }
   }
 };
@@ -61,27 +61,20 @@ class FormElement extends Component {
           className="picker-type"
           onChange={this.handleChooseType}
         >
-          {
-            repeatTypes.map(type => {
-              return <option key={type} value={type}>{type}</option>
-            })
-          }
+          {repeatTypes.map(type => <option key={type} value={type}>{type}</option>)}
         </Field>
         {
           repeatType === 'weeks'
           && (
-            <div className="days-picker">
-              <label
-                htmlFor="repeatDay"
-                className="repeat-day-label-wrapper"
-              >
-                <Field
-                  name="repeatDay"
-                  component={CheckboxGroup}
-                  options={weekDays}
-                />
-              </label>
-            </div>
+            <Field
+              name="repeatDays"
+              className="days-picker"
+              component="select"
+              multiple
+              size={3}
+            >
+              {weekDays.map(day => <option key={day} value={day}>{day}</option>)}
+            </Field>
           )
         }
         <div className="btn-group">
