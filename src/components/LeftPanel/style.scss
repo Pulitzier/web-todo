@@ -28,6 +28,10 @@
       &:not(.active):hover { background-color: #f4f6f7; }
     }
   }
+  button:active {
+    transform: scale(0.97);
+    transition: 0.1s ease-in-out transform;
+  }
   .nav-link {
     border: 0;
     width: 100%;
