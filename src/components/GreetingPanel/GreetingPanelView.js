@@ -50,6 +50,10 @@ export default class GreetingsPanel extends Component {
     this.setState({ collapsedSuggestions: !oldSuggestions });
   }
 
+  setToggledTask () {
+    alert("toggle");
+  }
+
   collapseYesterday() {
     const { collapsedYesterday: oldCollapsed } = this.state;
     this.setState({ collapsedYesterday: !oldCollapsed });
