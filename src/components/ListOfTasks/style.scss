@@ -1,8 +1,5 @@
 @import "../../styles/variables";
-@mixin flex {
-  display: flex;
-  align-items: center;
-}
+@import "../../styles/_mixins.scss";
 
 .todo-list-wrapper {
   position: relative;
