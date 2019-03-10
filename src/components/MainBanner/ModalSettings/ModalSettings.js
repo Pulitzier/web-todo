@@ -5,6 +5,7 @@ import {
   IMAGE_SCHEME,
 } from '../../../store/constants/index';
 import { checkActiveTodoTitle } from '../../../helpers';
+import { Transition } from 'react-transition-group';
 
 export default class ModalSettings extends Component {
   constructor(props) {
@@ -18,78 +19,18 @@ export default class ModalSettings extends Component {
     this.handleMouseEnterSortLink = this.handleMouseEnterSortLink.bind(this);
     this.handleMouseLeaveSortLink = this.handleMouseLeaveSortLink.bind(this);
     this.handleHoverSortMenu = this.handleHoverSortMenu.bind(this);
-    this.mountStyle = this.mountStyle.bind(this);
-    this.unMountStyle = this.unMountStyle.bind(this);
-    this.setModalHeight = this.setModalHeight.bind(this);
-    this.transitionEnd = this.transitionEnd.bind(this);
     this.state = {
       hoverSortLink: false,
       hoverSortMenu: false,
-      showModalMenu: true,
-      style: {
-        height: 0,
-        opacity: 1,
-        overflow: 'auto',
-      }
     };
   }
 
   componentDidMount() {
     document.addEventListener('click', this.handleClick, false);
-    setTimeout(this.mountStyle, 2);
   }
 
   componentWillUnmount() {
     document.removeEventListener('click', this.handleClick, false);
-  }
-
-  componentWillReceiveProps(newProps) {
-    if(!newProps.mounted) {
-      return this.unMountStyle();
-    }
-    this.setState({
-      showModalMenu: true
-    });
-    setTimeout(this.mountStyle, 2);
-  }
-
-  setModalHeight() {
-    const { todoListId } = this.props.activeTodo;
-    if (todoListId === 0 || todoListId === 2) return 301;
-    if (todoListId === 1) return 37;
-    return 389;
-  }
-
-  unMountStyle() {
-    this.setState({
-      style: {
-        opacity: 0,
-        transition: 'opacity ease 0.2s',
-        overflow: 'auto',
-      }
-    })
-  }
-
-  mountStyle() {
-    this.setState({
-      style: {
-        height: this.setModalHeight(),
-        transition: 'all 1s ease',
-        overflow: 'hidden',
-        opacity: 1,
-      }
-    })
-  }
-
-  transitionEnd(){
-    if(!this.props.mounted){
-      this.setState({
-        showModalMenu: false,
-        style: {
-          height: this.setModalHeight(),
-        }
-      })
-    }
   }
 
   handleClick({ target }) {
@@ -153,12 +94,13 @@ export default class ModalSettings extends Component {
       deleteList,
       activateRename,
       showModal,
+      modalStyle,
       taskSettings: { showCompleted },
     } = this.props;
     const {
       todoListId, bgColor, bgImage, title: todoTitle,
     } = activeTodo;
-    const { hoverSortLink, hoverSortMenu, style } = this.state;
+    const { hoverSortLink, hoverSortMenu } = this.state;
 
     const setHeight = () => {
       if (hoverSortLink || hoverSortMenu) {
@@ -171,23 +113,22 @@ export default class ModalSettings extends Component {
       <section
         id="bannerSettings"
         ref={(node) => { this.bannerModal = node; }}
-        style={style}
-        onTransitionEnd={this.transitionEnd}
+        style={modalStyle}
       >
         {
           checkActiveTodoTitle(todoTitle)
           && (
-          <div
-            role="presentation"
-            className="renameList"
-            onClick={() => {
-              showModal();
-              activateRename(true);
-            }}
-          >
-            <i className="fas fa-pencil-alt" />
-            <p>Rename List</p>
-          </div>
+            <div
+              role="presentation"
+              className="renameList"
+              onClick={() => {
+                showModal();
+                activateRename(true);
+              }}
+            >
+              <i className="fas fa-pencil-alt" />
+              <p>Rename List</p>
+            </div>
           )
         }
         <div
@@ -264,76 +205,76 @@ export default class ModalSettings extends Component {
         {
           todoListId !== 1
           && (
-          <div className="banner-theme-settings">
-            <p>Theme</p>
-            {COLOR_SCHEME.map(item => (
-              <button
-                type="button"
-                key={item}
-                className={`jumbotron-button ${bgColor === item ? 'active' : ''}`}
-                onClick={() => {
-                  this.changeBannerColor(item, todoListId);
-                }}
-              >
-                <span className={item} />
-              </button>
-            ))}
-            <br />
-            <br />
-            {IMAGE_SCHEME.map(item => (
-              <button
-                type="button"
-                key={item}
-                className={`jumbotron-button ${bgImage === item ? 'active' : ''}`}
-                onClick={() => this.changeBannerImage(item, todoListId)}
-              >
-                <span className="bgImage-wrapper">
-                  <img className="theme-image" src={item} alt="Theme Thumbnails for Banner" />
-                </span>
-              </button>
-            ))}
-          </div>
+            <div className="banner-theme-settings">
+              <p>Theme</p>
+              {COLOR_SCHEME.map(item => (
+                <button
+                  type="button"
+                  key={item}
+                  className={`jumbotron-button ${bgColor === item ? 'active' : ''}`}
+                  onClick={() => {
+                    this.changeBannerColor(item, todoListId);
+                  }}
+                >
+                  <span className={item} />
+                </button>
+              ))}
+              <br />
+              <br />
+              {IMAGE_SCHEME.map(item => (
+                <button
+                  type="button"
+                  key={item}
+                  className={`jumbotron-button ${bgImage === item ? 'active' : ''}`}
+                  onClick={() => this.changeBannerImage(item, todoListId)}
+                >
+                  <span className="bgImage-wrapper">
+                    <img className="theme-image" src={item} alt="Theme Thumbnails for Banner" />
+                  </span>
+                </button>
+              ))}
+            </div>
           )
         }
         { todoListId !== 1 && <hr /> }
         {
           todoListId !== 1
           && (
-          <div
-            role="presentation"
-            className="show-hide_completed_todos"
-            onClick={() => {
-              if (showCompleted) {
-                this.showCompletedTasks(false);
-              } else {
-                this.showCompletedTasks(true);
-              }
-              showModal();
-            }}
-          >
-            <i className={showCompleted ? 'far fa-check-circle' : 'fas fa-check-circle'} />
-            <p>
-              {showCompleted ? 'Hide' : 'Show'}
-              {' '}
-completed to-dos
-            </p>
-          </div>
+            <div
+              role="presentation"
+              className="show-hide_completed_todos"
+              onClick={() => {
+                if (showCompleted) {
+                  this.showCompletedTasks(false);
+                } else {
+                  this.showCompletedTasks(true);
+                }
+                showModal();
+              }}
+            >
+              <i className={showCompleted ? 'far fa-check-circle' : 'fas fa-check-circle'} />
+              <p>
+                {showCompleted ? 'Hide' : 'Show'}
+                {' '}
+                completed to-dos
+              </p>
+            </div>
           )
         }
         { checkActiveTodoTitle(todoTitle)
-          && (
-            <div
-              role="presentation"
-              className="deleteList"
-              onClick={() => {
-                showModal();
-                deleteList(activeTodo);
-              }}
-            >
-              <i className="fas fa-trash-alt" />
-              <p>Delete List</p>
-            </div>
-          )
+        && (
+          <div
+            role="presentation"
+            className="deleteList"
+            onClick={() => {
+              showModal();
+              deleteList(activeTodo);
+            }}
+          >
+            <i className="fas fa-trash-alt" />
+            <p>Delete List</p>
+          </div>
+        )
         }
       </section>
     );

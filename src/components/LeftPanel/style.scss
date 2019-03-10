@@ -28,6 +28,7 @@
       &:not(.active):hover { background-color: #f4f6f7; }
     }
   }
+  .user-settings.active { z-index: 1; }
   .nav-item {
     transform: scale(1);
     transition: 0.35s ease-out transform;
