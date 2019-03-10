@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { activateTask, addNewTaskToList, typeNewTaskAction } from '../../store/actions';
 import ListOfTasks from './ListOfTasksWrapper';
+import './style.css';
 
 const mapStateToProps = ({ app, taskSettings }) => ({
   tasks: app.tasks,
