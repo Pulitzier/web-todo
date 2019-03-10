@@ -1,3 +1,4 @@
+@import "../../styles/variables";
 @mixin flex {
   display: flex;
   align-items: center;
@@ -28,7 +29,74 @@
       &:not(.active):hover { background-color: #f4f6f7; }
     }
   }
-  .user-settings.active { z-index: 1; }
+  .user-info {
+    @include flex;
+    position: relative;
+    width: 100%;
+    flex-flow: column wrap;
+    margin: 5px 0 10px 0;
+    .user-info-buttons {
+      @include flex;
+      width: 100%;
+      button.search {
+        padding: 10px 10px;
+        border: 0;
+        cursor: pointer;
+        i { font-size: 20px; }
+        p:first-of-type {
+          display: inline-block;
+          margin: 0 10px;
+        }
+      }
+      .user-settings-button {
+        @extend button.search;
+        @include flex;
+        width: 100%;
+        padding: 6px 10px;
+        i { font-size: 14px; }
+        span {
+          width: 30px;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: lightgray;
+          border-radius: 50%;
+        }
+      }
+      & > button:hover { background-color: $hover-bg-color; }
+    }
+    .user-info-settings {
+      overflow: hidden;
+      position: absolute;
+      z-index: 1;
+      top: 44px;
+      left: 18px;
+      width: 260px;
+      &.full { height: 92px; }
+      &.less { height: 0; }
+      .user-settings {
+        &.active {
+          margin-top: 0;
+          transition: margin-top 0.2s ease-out;
+        }
+        margin-top: -92px;
+        display: flex;
+        flex-flow: column;
+        height: 92px;
+        div {
+          @include flex;
+          cursor: pointer;
+        }
+        div:first-of-type { border-bottom: 1px solid rgba(0, 0, 0, 0.1) }
+        p { margin: 10px; }
+        div:last-of-type {
+          i.fa:last-of-type, p:last-of-type { color: red; }
+        }
+        i { padding: 10px; }
+      }
+    }
+  }
   .nav-item {
     transform: scale(1);
     transition: 0.35s ease-out transform;
