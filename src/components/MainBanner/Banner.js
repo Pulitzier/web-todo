@@ -138,7 +138,7 @@ export default class Banner extends Component {
               )
             }
             <BasicButton
-              buttonClassName="btn btn-primary dots-menu"
+              buttonClassName="dots-menu"
               buttonOnClickAction={() => this.activateModalSettings()}
               buttonStyle={{ backgroundColor: bgColor }}
               iconClassName="fas fa-ellipsis-h"
