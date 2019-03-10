@@ -667,6 +667,7 @@ div.searchList {
 .light {
   background-color: #ffffff;
   color: #2e2f30;
+  transition: background-color 0.35s ease-out, color 0.35s ease-out;
   .user-settings-page { @extend .light }
   .settings-general-info .user-manage a {
     color: slategray;
@@ -682,6 +683,7 @@ div.searchList {
 .dark {
   background-color: #2e2f30;
   color: #ffffff;
+  transition: background-color 0.35s ease-out, color 0.35s ease-out;
   .user-settings-page { @extend .dark }
   .user-settings {
     border: 1px solid rgba(255,255,255,.5);
