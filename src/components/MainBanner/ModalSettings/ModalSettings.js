@@ -55,8 +55,9 @@ export default class ModalSettings extends Component {
 
   setModalHeight() {
     const { todoListId } = this.props.activeTodo;
-    if (todoListId > 1) return 264;
-    return 301;
+    if (todoListId === 0 || todoListId === 2) return 301;
+    if (todoListId === 1) return 37;
+    return 389;
   }
 
   unMountStyle() {
