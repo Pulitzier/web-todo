@@ -18,18 +18,77 @@ export default class ModalSettings extends Component {
     this.handleMouseEnterSortLink = this.handleMouseEnterSortLink.bind(this);
     this.handleMouseLeaveSortLink = this.handleMouseLeaveSortLink.bind(this);
     this.handleHoverSortMenu = this.handleHoverSortMenu.bind(this);
+    this.mountStyle = this.mountStyle.bind(this);
+    this.unMountStyle = this.unMountStyle.bind(this);
+    this.setModalHeight = this.setModalHeight.bind(this);
+    this.transitionEnd = this.transitionEnd.bind(this);
     this.state = {
       hoverSortLink: false,
       hoverSortMenu: false,
+      showModalMenu: true,
+      style: {
+        height: 0,
+        opacity: 1,
+        overflow: 'auto',
+      }
     };
   }
 
   componentDidMount() {
     document.addEventListener('click', this.handleClick, false);
+    setTimeout(this.mountStyle, 2);
   }
 
   componentWillUnmount() {
     document.removeEventListener('click', this.handleClick, false);
+  }
+
+  componentWillReceiveProps(newProps) {
+    if(!newProps.mounted) {
+      return this.unMountStyle();
+    }
+    this.setState({
+      showModalMenu: true
+    });
+    setTimeout(this.mountStyle, 2);
+  }
+
+  setModalHeight() {
+    const { todoListId } = this.props.activeTodo;
+    if (todoListId > 1) return 264;
+    return 301;
+  }
+
+  unMountStyle() {
+    this.setState({
+      style: {
+        opacity: 0,
+        transition: 'opacity ease 0.2s',
+        overflow: 'auto',
+      }
+    })
+  }
+
+  mountStyle() {
+    this.setState({
+      style: {
+        height: this.setModalHeight(),
+        transition: 'all 1s ease',
+        overflow: 'hidden',
+        opacity: 1,
+      }
+    })
+  }
+
+  transitionEnd(){
+    if(!this.props.mounted){
+      this.setState({
+        showModalMenu: false,
+        style: {
+          height: this.setModalHeight(),
+        }
+      })
+    }
   }
 
   handleClick({ target }) {
@@ -98,7 +157,7 @@ export default class ModalSettings extends Component {
     const {
       todoListId, bgColor, bgImage, title: todoTitle,
     } = activeTodo;
-    const { hoverSortLink, hoverSortMenu } = this.state;
+    const { hoverSortLink, hoverSortMenu, style } = this.state;
 
     const setHeight = () => {
       if (hoverSortLink || hoverSortMenu) {
@@ -111,6 +170,8 @@ export default class ModalSettings extends Component {
       <section
         id="bannerSettings"
         ref={(node) => { this.bannerModal = node; }}
+        style={style}
+        onTransitionEnd={this.transitionEnd}
       >
         {
           checkActiveTodoTitle(todoTitle)
