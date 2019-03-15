@@ -347,54 +347,55 @@ at
                 )
               }
             </div>
+            <div className={`reminder-window ${(openDueDateWindow || showDueCalendar) ? 'active' : '' }`}>
             {
-              openDueDateWindow && (
-              <div className="reminder-window">
-                <ul>
-                  <li role="presentation" onClick={() => this.setDueTodayDate()}>
-                    <i className="far fa-clock" />
-                    <p>Today</p>
-                    <span>{getStringDate((new Date()), { weekday: 'short' })}</span>
-                  </li>
-                  <li role="presentation" onClick={() => this.setDueTomorrow()}>
-                    <i className="far fa-arrow-alt-circle-right" />
-                    <p>Tomorrow</p>
-                    <span>
-                      {(() => {
-                        const time = ChildTaskSettings.getTomorrowDate();
-                        return getStringDate(time, { weekday: 'short' });
-                      })()}
-                    </span>
-                  </li>
-                  <li role="presentation" onClick={() => this.setDueNextWeek()}>
-                    <i className="fas fa-angle-double-right" />
-                    <p>Next Week</p>
-                    <span>
-                      {(() => {
-                        const time = ChildTaskSettings.getNextWeekDate();
-                        return getStringDate(time, { weekday: 'short' });
-                      })()}
-                    </span>
-                  </li>
-                  <li role="presentation" onClick={() => this.showDueDateCalendar(true)}>
-                    <i className="fas fa-calculator" />
-                    <p>Pick a date</p>
-                  </li>
-                </ul>
+              openDueDateWindow &&
+                <SlideOutDiv>
+                  <ul>
+                    <li role="presentation" onClick={() => this.setDueTodayDate()}>
+                      <i className="far fa-clock" />
+                      <p>Today</p>
+                      <span>{getStringDate((new Date()), { weekday: 'short' })}</span>
+                    </li>
+                    <li role="presentation" onClick={() => this.setDueTomorrow()}>
+                      <i className="far fa-arrow-alt-circle-right" />
+                      <p>Tomorrow</p>
+                      <span>
+                        {(() => {
+                          const time = ChildTaskSettings.getTomorrowDate();
+                          return getStringDate(time, { weekday: 'short' });
+                        })()}
+                      </span>
+                    </li>
+                    <li role="presentation" onClick={() => this.setDueNextWeek()}>
+                      <i className="fas fa-angle-double-right" />
+                      <p>Next Week</p>
+                      <span>
+                        {(() => {
+                          const time = ChildTaskSettings.getNextWeekDate();
+                          return getStringDate(time, { weekday: 'short' });
+                        })()}
+                      </span>
+                    </li>
+                    <li role="presentation" onClick={() => this.showDueDateCalendar(true)}>
+                      <i className="fas fa-calculator" />
+                      <p>Pick a date</p>
+                    </li>
+                  </ul>
+                </SlideOutDiv>
+              }
+              {
+                showDueCalendar
+                && (
+                <CustomDayPicker
+                  taskId={activeTaskId}
+                  pickerClassName="pick-date-calendar"
+                  handleDateClick={this.selectCustomDueDate}
+                  handleClosePicker={() => this.showDueDateCalendar(false)}
+                />
+                )
+              }
               </div>
-              )
-            }
-            {
-              showDueCalendar
-              && (
-              <CustomDayPicker
-                taskId={activeTaskId}
-                pickerClassName="pick-date-calendar"
-                handleDateClick={this.selectCustomDueDate}
-                handleClosePicker={() => this.showDueDateCalendar(false)}
-              />
-              )
-            }
           </li>
           <li className={`repeat${repeat && ' activeOption'}`}>
             <div role="presentation" onClick={() => this.openRepeatWindow(true)}>
