@@ -348,8 +348,8 @@ at
               }
             </div>
             <div className={`reminder-window ${(openDueDateWindow || showDueCalendar) ? 'active' : '' }`}>
-            {
-              openDueDateWindow &&
+              {
+                openDueDateWindow &&
                 <SlideOutDiv>
                   <ul>
                     <li role="presentation" onClick={() => this.setDueTodayDate()}>
@@ -395,7 +395,7 @@ at
                 />
                 )
               }
-              </div>
+            </div>
           </li>
           <li className={`repeat${repeat && ' activeOption'}`}>
             <div role="presentation" onClick={() => this.openRepeatWindow(true)}>
@@ -443,44 +443,45 @@ Weekly
                 )
               }
             </div>
-            {
-              openRepeat && (
-              <div className="repeat-window">
-                <ul>
-                  <li role="presentation" onClick={() => this.setRepeatType('daily')}>
-                    <i className="fas fa-braille" />
-                    <p>Daily</p>
-                  </li>
-                  <li role="presentation" onClick={() => this.setRepeatType('weekdays')}>
-                    <i className="fas fa-grip-horizontal" />
-                    <p>Weekdays</p>
-                  </li>
-                  <li role="presentation" onClick={() => this.setRepeatType('weekly')}>
-                    <i className="fas fa-grip-vertical" />
-                    <p>Weekly</p>
-                  </li>
-                  <li role="presentation" onClick={() => this.setRepeatType('monthly')}>
-                    <i className="fab fa-blackberry" />
-                    <p>Monthly</p>
-                  </li>
-                  <li role="presentation" onClick={() => this.showCustomRepeat(true)}>
-                    <i className="fas fa-chess-board" />
-                    <p>Custom</p>
-                  </li>
-                </ul>
-              </div>
-              )
-            }
-            {
-              showRepeat
-              && (
-              <RepeatDatePicker
-                taskId={activeTaskId}
-                updateDueDate={this.setDueTomorrow}
-                showCustomRepeat={bool => this.showCustomRepeat(bool)}
-              />
-              )
-            }
+            <div className={`repeat-window ${(openRepeat || showRepeat) ? 'active' : ''}`}>
+              {
+                openRepeat &&
+                <SlideOutDiv>
+                  <ul>
+                    <li role="presentation" onClick={() => this.setRepeatType('daily')}>
+                      <i className="fas fa-braille" />
+                      <p>Daily</p>
+                    </li>
+                    <li role="presentation" onClick={() => this.setRepeatType('weekdays')}>
+                      <i className="fas fa-grip-horizontal" />
+                      <p>Weekdays</p>
+                    </li>
+                    <li role="presentation" onClick={() => this.setRepeatType('weekly')}>
+                      <i className="fas fa-grip-vertical" />
+                      <p>Weekly</p>
+                    </li>
+                    <li role="presentation" onClick={() => this.setRepeatType('monthly')}>
+                      <i className="fab fa-blackberry" />
+                      <p>Monthly</p>
+                    </li>
+                    <li role="presentation" onClick={() => this.showCustomRepeat(true)}>
+                      <i className="fas fa-chess-board" />
+                      <p>Custom</p>
+                    </li>
+                  </ul>
+                </SlideOutDiv>
+              }
+              {
+                showRepeat
+                && (
+                <RepeatDatePicker
+                  taskId={activeTaskId}
+                  updateDueDate={this.setDueTomorrow}
+                  showCustomRepeat={bool => this.showCustomRepeat(bool)}
+                />
+                )
+              }
+            </div>
           </li>
         </ul>
       </div>

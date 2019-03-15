@@ -133,7 +133,7 @@
       &.active {
         height: 353px;
       }
-      & > div:not(.custom-day-picker) {
+      & > div:not(.custom-day-picker):not(.repeat-date-picker-wrapper) {
         width: 100%;
         border: 1px solid #888888;
         background-color: #ffffff;
