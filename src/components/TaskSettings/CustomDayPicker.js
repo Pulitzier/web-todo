@@ -36,6 +36,7 @@ export default class CustomDayPicker extends Component {
     return (
       <div
         ref={(node) => { this.customDayPicker = node; }}
+        className="custom-day-picker"
       >
         <DayPicker
           className={pickerClassName}

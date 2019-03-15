@@ -4,6 +4,13 @@ import { DATE_OPTIONS } from '../../../store/constants/index';
 import { getStringDate } from '../../../helpers';
 import RepeatDatePicker from '../RepeatDatePicker/index';
 import CustomDayPicker from '../CustomDayPicker';
+import styled, { keyframes } from 'styled-components';
+import { slideInDown } from 'react-animations';
+
+const slideInDownAnimation = keyframes`${slideInDown}`;
+const SlideOutDiv = styled.div`
+  animation: .5s ${slideInDownAnimation};
+`;
 
 export default class ChildTaskSettings extends Component {
   static getLaterTodayDate() {
@@ -251,59 +258,61 @@ at
                 )
               }
             </div>
+            <div className={`reminder-window ${(openReminderWindow || showCalendar) ? 'active' : ''}`}>
             {
               openReminderWindow && (
-              <div className="reminder-window">
-                <ul>
-                  <li role="presentation" onClick={() => this.setLaterTodayDate()}>
-                    <i className="far fa-clock" />
-                    <p>Later Today</p>
-                    <span>
+                <SlideOutDiv>
+                  <ul>
+                      <li role="presentation" onClick={() => this.setLaterTodayDate()}>
+                        <i className="far fa-clock" />
+                        <p>Later Today</p>
+                        <span>
                       {(() => {
                         const time = ChildTaskSettings.getLaterTodayDate();
                         return getStringDate(time, { hour: 'numeric' });
                       })()}
                     </span>
-                  </li>
-                  <li role="presentation" onClick={() => this.setTomorrowDate()}>
-                    <i className="far fa-arrow-alt-circle-right" />
-                    <p>Tomorrow</p>
-                    <span>
+                      </li>
+                      <li role="presentation" onClick={() => this.setTomorrowDate()}>
+                        <i className="far fa-arrow-alt-circle-right" />
+                        <p>Tomorrow</p>
+                        <span>
                       {(() => {
                         const time = ChildTaskSettings.getTomorrowDate();
                         return getStringDate(time);
                       })()}
                     </span>
-                  </li>
-                  <li role="presentation" onClick={() => this.setNextWeekDate()}>
-                    <i className="fas fa-angle-double-right" />
-                    <p>Next Week</p>
-                    <span>
+                      </li>
+                      <li role="presentation" onClick={() => this.setNextWeekDate()}>
+                        <i className="fas fa-angle-double-right" />
+                        <p>Next Week</p>
+                        <span>
                       {(() => {
                         const time = ChildTaskSettings.getNextWeekDate();
                         return getStringDate(time);
                       })()}
                     </span>
-                  </li>
-                  <li role="presentation" onClick={() => this.showCustomCalendar(true)}>
-                    <i className="fas fa-calculator" />
-                    <p>Pick a date & time</p>
-                  </li>
-                </ul>
-              </div>
+                      </li>
+                      <li role="presentation" onClick={() => this.showCustomCalendar(true)}>
+                        <i className="fas fa-calculator" />
+                        <p>Pick a date & time</p>
+                      </li>
+                    </ul>
+                </SlideOutDiv>
               )
             }
             {
               showCalendar
-                && (
+              && (
                 <CustomDayPicker
                   taskId={activeTaskId}
                   pickerClassName="pick-date-calendar"
                   handleDateClick={this.selectCustomDate}
                   handleClosePicker={() => this.showCustomCalendar(false)}
                 />
-                )
+              )
             }
+            </div>
           </li>
           <li className={`due-date${dueDate && ' activeOption'}`}>
             <div role="presentation" onClick={() => this.openDueDate(true)}>
