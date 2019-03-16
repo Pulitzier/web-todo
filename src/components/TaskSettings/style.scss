@@ -130,9 +130,7 @@
       height: 0;
       position: absolute;
       right: 20px;
-      &.active {
-        height: 353px;
-      }
+      &.active { height: 353px; }
       & > div:not(.custom-day-picker):not(.repeat-date-picker-wrapper) {
         width: 100%;
         border: 1px solid #888888;
@@ -154,6 +152,10 @@
     }
     .repeat-window {
       @extend .reminder-window;
+      &.active {
+        @include flex;
+        height: 242px;
+      }
       ul {
         li {
           border: 0;
