@@ -4,13 +4,7 @@ import { DATE_OPTIONS } from '../../../store/constants/index';
 import { getStringDate } from '../../../helpers';
 import RepeatDatePicker from '../RepeatDatePicker/index';
 import CustomDayPicker from '../CustomDayPicker';
-import styled, { keyframes } from 'styled-components';
-import { slideInDown } from 'react-animations';
-
-const slideInDownAnimation = keyframes`${slideInDown}`;
-const SlideOutDiv = styled.div`
-  animation: .5s ${slideInDownAnimation};
-`;
+import { SlideOutAnimation } from './SlideOutAnimation';
 
 export default class ChildTaskSettings extends Component {
   static getLaterTodayDate() {
@@ -261,7 +255,7 @@ at
             <div className={`reminder-window ${(openReminderWindow || showCalendar) ? 'active' : ''}`}>
             {
               openReminderWindow && (
-                <SlideOutDiv>
+                <SlideOutAnimation>
                   <ul>
                       <li role="presentation" onClick={() => this.setLaterTodayDate()}>
                         <i className="far fa-clock" />
@@ -298,7 +292,7 @@ at
                         <p>Pick a date & time</p>
                       </li>
                     </ul>
-                </SlideOutDiv>
+                </SlideOutAnimation>
               )
             }
             {
@@ -350,7 +344,7 @@ at
             <div className={`reminder-window ${(openDueDateWindow || showDueCalendar) ? 'active' : '' }`}>
               {
                 openDueDateWindow &&
-                <SlideOutDiv>
+                <SlideOutAnimation>
                   <ul>
                     <li role="presentation" onClick={() => this.setDueTodayDate()}>
                       <i className="far fa-clock" />
@@ -382,7 +376,7 @@ at
                       <p>Pick a date</p>
                     </li>
                   </ul>
-                </SlideOutDiv>
+                </SlideOutAnimation>
               }
               {
                 showDueCalendar
@@ -446,7 +440,7 @@ Weekly
             <div className={`repeat-window ${(openRepeat || showRepeat) ? 'active' : ''}`}>
               {
                 openRepeat &&
-                <SlideOutDiv>
+                <SlideOutAnimation>
                   <ul>
                     <li role="presentation" onClick={() => this.setRepeatType('daily')}>
                       <i className="fas fa-braille" />
@@ -469,7 +463,7 @@ Weekly
                       <p>Custom</p>
                     </li>
                   </ul>
-                </SlideOutDiv>
+                </SlideOutAnimation>
               }
               {
                 showRepeat
