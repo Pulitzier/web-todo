@@ -6,6 +6,16 @@ import BasicPanel from '../BaseComponents/BasicPanel';
 import BasicInput from '../BaseComponents/BasicInput';
 import BasicButton from '../BaseComponents/BasicButton';
 import EmptyTasks from './EmptyTasksWrapper';
+import { Transition } from 'react-transition-group';
+
+const defaultStyle = {
+  opacity: 0,
+};
+
+const transitionStyles = {
+  entering: { opacity: 0 },
+  entered:  { opacity: 1, transition: 'all 0.1s ease-out' },
+};
 
 export default class ListOfTasksWrapper extends Component {
   constructor(props) {
@@ -15,7 +25,15 @@ export default class ListOfTasksWrapper extends Component {
     this.addNewTask = this.addNewTask.bind(this);
     this.state = {
       localToggleTask: false,
+      animateTasks: true
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(this.props.activeTodo.title !== nextProps.activeTodo.title) {
+      this.setState({ animateTasks: false });
+      setTimeout(() => this.setState({ animateTasks: true }), 100);
+    }
   }
 
   activateToDoTask() {
@@ -55,7 +73,7 @@ export default class ListOfTasksWrapper extends Component {
       greetingTasks,
       taskSettings: { activateNewTask, typeNewTask, showCompleted },
     } = this.props;
-    const { localToggleTask } = this.state;
+    const { localToggleTask, animateTasks } = this.state;
 
     const setHeight = () => {
       if (activeTask) {
@@ -90,11 +108,24 @@ export default class ListOfTasksWrapper extends Component {
         style={{ height: setHeight() }}
       >
         <BasicPanel className="todo-list">
-          {
-            getTasksForTodo(tasks, activeTodo.todoListId).map(
-              task => showCompleted && <Task key={task.id} task={task} />,
-            )
-          }
+          <Transition
+            in={animateTasks}
+            timeout={50}
+            mountOnEnter
+          >
+            {state =>
+              <BasicPanel style={{
+                ...defaultStyle,
+                ...transitionStyles[state]
+              }}>
+                {
+                  getTasksForTodo(tasks, activeTodo.todoListId).map(
+                    task => (showCompleted && <Task key={task.id} task={task}/>)
+                  )
+                }
+              </BasicPanel>
+            }
+          </Transition>
           <BasicInput
             inputType="task"
             labelClassName={
