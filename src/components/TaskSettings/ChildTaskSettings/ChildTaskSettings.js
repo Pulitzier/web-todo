@@ -252,7 +252,7 @@ at
                 )
               }
             </div>
-            <div className={`reminder-window ${(openReminderWindow || showCalendar) ? 'active' : ''}`}>
+            <div className={`reminder-window ${openReminderWindow ? 'active' : showCalendar ? 'show-remind-calendar' : ''}`}>
             {
               openReminderWindow && (
                 <SlideOutAnimation>
@@ -341,7 +341,7 @@ at
                 )
               }
             </div>
-            <div className={`reminder-window ${(openDueDateWindow || showDueCalendar) ? 'active' : '' }`}>
+            <div className={`reminder-window ${openDueDateWindow ? 'active' : showDueCalendar ? 'show-due-calendar' : '' }`}>
               {
                 openDueDateWindow &&
                 <SlideOutAnimation>

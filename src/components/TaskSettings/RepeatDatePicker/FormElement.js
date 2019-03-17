@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
-import CheckboxGroup from './CheckboxGroup';
 import { getActiveTask, getStringDate } from '../../../helpers';
+import { REPEATTYPES, WEEKDAYS } from '../../../store/constants/index';
 
 const getRepeatDay = (date) => {
   if (typeof date === 'object' && date['repeatDay']) return date['repeatDay'];
@@ -42,9 +42,6 @@ class FormElement extends Component {
     const { formReset, handleSubmit } = this.props;
     const { repeatType } = this.state;
 
-    const weekDays = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
-    const repeatTypes = ['days', 'weeks', 'months', 'years'];
-
     return (
       <form
         onSubmit={handleSubmit}
@@ -61,7 +58,7 @@ class FormElement extends Component {
           className="picker-type"
           onChange={this.handleChooseType}
         >
-          {repeatTypes.map(type => <option key={type} value={type}>{type}</option>)}
+          {REPEATTYPES.map(type => <option key={type} value={type}>{type}</option>)}
         </Field>
         {
           repeatType === 'weeks'
@@ -73,7 +70,7 @@ class FormElement extends Component {
               multiple
               size={3}
             >
-              {weekDays.map(day => <option key={day} value={day}>{day}</option>)}
+              {WEEKDAYS.map(day => <option key={day} value={day}>{day}</option>)}
             </Field>
           )
         }

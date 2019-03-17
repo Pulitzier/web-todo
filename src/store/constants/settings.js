@@ -22,3 +22,7 @@ export const DATE_OPTIONS = {
   month: 'short',
   day: 'numeric',
 };
+
+export const WEEKDAYS = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+
+export const REPEATTYPES = ['days', 'weeks', 'months', 'years'];
