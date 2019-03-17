@@ -4,6 +4,7 @@ import { DATE_OPTIONS } from '../../../store/constants/index';
 import { getStringDate } from '../../../helpers';
 import RepeatDatePicker from '../RepeatDatePicker/index';
 import CustomDayPicker from '../CustomDayPicker';
+import { SlideOutAnimation } from './SlideOutAnimation';
 
 export default class ChildTaskSettings extends Component {
   static getLaterTodayDate() {
@@ -251,59 +252,61 @@ at
                 )
               }
             </div>
+            <div className={`reminder-window ${(openReminderWindow || showCalendar) ? 'active' : ''}`}>
             {
               openReminderWindow && (
-              <div className="reminder-window">
-                <ul>
-                  <li role="presentation" onClick={() => this.setLaterTodayDate()}>
-                    <i className="far fa-clock" />
-                    <p>Later Today</p>
-                    <span>
+                <SlideOutAnimation>
+                  <ul>
+                      <li role="presentation" onClick={() => this.setLaterTodayDate()}>
+                        <i className="far fa-clock" />
+                        <p>Later Today</p>
+                        <span>
                       {(() => {
                         const time = ChildTaskSettings.getLaterTodayDate();
                         return getStringDate(time, { hour: 'numeric' });
                       })()}
                     </span>
-                  </li>
-                  <li role="presentation" onClick={() => this.setTomorrowDate()}>
-                    <i className="far fa-arrow-alt-circle-right" />
-                    <p>Tomorrow</p>
-                    <span>
+                      </li>
+                      <li role="presentation" onClick={() => this.setTomorrowDate()}>
+                        <i className="far fa-arrow-alt-circle-right" />
+                        <p>Tomorrow</p>
+                        <span>
                       {(() => {
                         const time = ChildTaskSettings.getTomorrowDate();
                         return getStringDate(time);
                       })()}
                     </span>
-                  </li>
-                  <li role="presentation" onClick={() => this.setNextWeekDate()}>
-                    <i className="fas fa-angle-double-right" />
-                    <p>Next Week</p>
-                    <span>
+                      </li>
+                      <li role="presentation" onClick={() => this.setNextWeekDate()}>
+                        <i className="fas fa-angle-double-right" />
+                        <p>Next Week</p>
+                        <span>
                       {(() => {
                         const time = ChildTaskSettings.getNextWeekDate();
                         return getStringDate(time);
                       })()}
                     </span>
-                  </li>
-                  <li role="presentation" onClick={() => this.showCustomCalendar(true)}>
-                    <i className="fas fa-calculator" />
-                    <p>Pick a date & time</p>
-                  </li>
-                </ul>
-              </div>
+                      </li>
+                      <li role="presentation" onClick={() => this.showCustomCalendar(true)}>
+                        <i className="fas fa-calculator" />
+                        <p>Pick a date & time</p>
+                      </li>
+                    </ul>
+                </SlideOutAnimation>
               )
             }
             {
               showCalendar
-                && (
+              && (
                 <CustomDayPicker
                   taskId={activeTaskId}
                   pickerClassName="pick-date-calendar"
                   handleDateClick={this.selectCustomDate}
                   handleClosePicker={() => this.showCustomCalendar(false)}
                 />
-                )
+              )
             }
+            </div>
           </li>
           <li className={`due-date${dueDate && ' activeOption'}`}>
             <div role="presentation" onClick={() => this.openDueDate(true)}>
@@ -338,54 +341,55 @@ at
                 )
               }
             </div>
-            {
-              openDueDateWindow && (
-              <div className="reminder-window">
-                <ul>
-                  <li role="presentation" onClick={() => this.setDueTodayDate()}>
-                    <i className="far fa-clock" />
-                    <p>Today</p>
-                    <span>{getStringDate((new Date()), { weekday: 'short' })}</span>
-                  </li>
-                  <li role="presentation" onClick={() => this.setDueTomorrow()}>
-                    <i className="far fa-arrow-alt-circle-right" />
-                    <p>Tomorrow</p>
-                    <span>
-                      {(() => {
-                        const time = ChildTaskSettings.getTomorrowDate();
-                        return getStringDate(time, { weekday: 'short' });
-                      })()}
-                    </span>
-                  </li>
-                  <li role="presentation" onClick={() => this.setDueNextWeek()}>
-                    <i className="fas fa-angle-double-right" />
-                    <p>Next Week</p>
-                    <span>
-                      {(() => {
-                        const time = ChildTaskSettings.getNextWeekDate();
-                        return getStringDate(time, { weekday: 'short' });
-                      })()}
-                    </span>
-                  </li>
-                  <li role="presentation" onClick={() => this.showDueDateCalendar(true)}>
-                    <i className="fas fa-calculator" />
-                    <p>Pick a date</p>
-                  </li>
-                </ul>
-              </div>
-              )
-            }
-            {
-              showDueCalendar
-              && (
-              <CustomDayPicker
-                taskId={activeTaskId}
-                pickerClassName="pick-date-calendar"
-                handleDateClick={this.selectCustomDueDate}
-                handleClosePicker={() => this.showDueDateCalendar(false)}
-              />
-              )
-            }
+            <div className={`reminder-window ${(openDueDateWindow || showDueCalendar) ? 'active' : '' }`}>
+              {
+                openDueDateWindow &&
+                <SlideOutAnimation>
+                  <ul>
+                    <li role="presentation" onClick={() => this.setDueTodayDate()}>
+                      <i className="far fa-clock" />
+                      <p>Today</p>
+                      <span>{getStringDate((new Date()), { weekday: 'short' })}</span>
+                    </li>
+                    <li role="presentation" onClick={() => this.setDueTomorrow()}>
+                      <i className="far fa-arrow-alt-circle-right" />
+                      <p>Tomorrow</p>
+                      <span>
+                        {(() => {
+                          const time = ChildTaskSettings.getTomorrowDate();
+                          return getStringDate(time, { weekday: 'short' });
+                        })()}
+                      </span>
+                    </li>
+                    <li role="presentation" onClick={() => this.setDueNextWeek()}>
+                      <i className="fas fa-angle-double-right" />
+                      <p>Next Week</p>
+                      <span>
+                        {(() => {
+                          const time = ChildTaskSettings.getNextWeekDate();
+                          return getStringDate(time, { weekday: 'short' });
+                        })()}
+                      </span>
+                    </li>
+                    <li role="presentation" onClick={() => this.showDueDateCalendar(true)}>
+                      <i className="fas fa-calculator" />
+                      <p>Pick a date</p>
+                    </li>
+                  </ul>
+                </SlideOutAnimation>
+              }
+              {
+                showDueCalendar
+                && (
+                <CustomDayPicker
+                  taskId={activeTaskId}
+                  pickerClassName="pick-date-calendar"
+                  handleDateClick={this.selectCustomDueDate}
+                  handleClosePicker={() => this.showDueDateCalendar(false)}
+                />
+                )
+              }
+            </div>
           </li>
           <li className={`repeat${repeat && ' activeOption'}`}>
             <div role="presentation" onClick={() => this.openRepeatWindow(true)}>
@@ -433,44 +437,45 @@ Weekly
                 )
               }
             </div>
-            {
-              openRepeat && (
-              <div className="repeat-window">
-                <ul>
-                  <li role="presentation" onClick={() => this.setRepeatType('daily')}>
-                    <i className="fas fa-braille" />
-                    <p>Daily</p>
-                  </li>
-                  <li role="presentation" onClick={() => this.setRepeatType('weekdays')}>
-                    <i className="fas fa-grip-horizontal" />
-                    <p>Weekdays</p>
-                  </li>
-                  <li role="presentation" onClick={() => this.setRepeatType('weekly')}>
-                    <i className="fas fa-grip-vertical" />
-                    <p>Weekly</p>
-                  </li>
-                  <li role="presentation" onClick={() => this.setRepeatType('monthly')}>
-                    <i className="fab fa-blackberry" />
-                    <p>Monthly</p>
-                  </li>
-                  <li role="presentation" onClick={() => this.showCustomRepeat(true)}>
-                    <i className="fas fa-chess-board" />
-                    <p>Custom</p>
-                  </li>
-                </ul>
-              </div>
-              )
-            }
-            {
-              showRepeat
-              && (
-              <RepeatDatePicker
-                taskId={activeTaskId}
-                updateDueDate={this.setDueTomorrow}
-                showCustomRepeat={bool => this.showCustomRepeat(bool)}
-              />
-              )
-            }
+            <div className={`repeat-window ${(openRepeat || showRepeat) ? 'active' : ''}`}>
+              {
+                openRepeat &&
+                <SlideOutAnimation>
+                  <ul>
+                    <li role="presentation" onClick={() => this.setRepeatType('daily')}>
+                      <i className="fas fa-braille" />
+                      <p>Daily</p>
+                    </li>
+                    <li role="presentation" onClick={() => this.setRepeatType('weekdays')}>
+                      <i className="fas fa-grip-horizontal" />
+                      <p>Weekdays</p>
+                    </li>
+                    <li role="presentation" onClick={() => this.setRepeatType('weekly')}>
+                      <i className="fas fa-grip-vertical" />
+                      <p>Weekly</p>
+                    </li>
+                    <li role="presentation" onClick={() => this.setRepeatType('monthly')}>
+                      <i className="fab fa-blackberry" />
+                      <p>Monthly</p>
+                    </li>
+                    <li role="presentation" onClick={() => this.showCustomRepeat(true)}>
+                      <i className="fas fa-chess-board" />
+                      <p>Custom</p>
+                    </li>
+                  </ul>
+                </SlideOutAnimation>
+              }
+              {
+                showRepeat
+                && (
+                <RepeatDatePicker
+                  taskId={activeTaskId}
+                  updateDueDate={this.setDueTomorrow}
+                  showCustomRepeat={bool => this.showCustomRepeat(bool)}
+                />
+                )
+              }
+            </div>
           </li>
         </ul>
       </div>

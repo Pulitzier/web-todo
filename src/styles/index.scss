@@ -100,67 +100,6 @@ button.open-greeting {
   .fa-lightbulb { color: #fff; }
 }
 
-.todo-list-wrapper {
-  position: relative;
-  overflow: auto;
-  .clearInput {
-    padding: 1px 6px;
-    border: 2px solid transparent;
-    top: 0;
-    right: 0;
-    color: cornflowerblue;
-    background-color: transparent;
-  }
-  .add-new-todo { width: 100%; }
-  button.add-new-todo-button {
-    color: cornflowerblue;
-    font-size: 13px;
-    &.active {
-      padding-top: 4px;
-      font-size: 14.5px;
-      display: inline-block;
-    }
-  }
-}
-
-div.todo-list {
-  text-align: left;
-  width: 100%;
-  height: 100%;
-  padding: 0 10px;
-  overflow: auto;
-}
-
-div.todo {
-  @include flex;
-  max-height: 50px;
-  height: 100%;
-  &:not(.add-new-todo) {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    margin: 0 10px;
-  }
-  &.background-wrapper {
-    border-bottom: 0;
-    margin: 0;
-    &:hover {
-      background-color: $hover-bg-color;
-      span { background-color: $hover-bg-color; }
-    }
-  }
-  .added-todo {
-    @include flex;
-    width: 100%;
-    height: 100%;
-    margin: 0 10px;
-    padding: 8px 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    .task-title-wrapper {
-      width: 100%;
-      margin-left: 10px;
-    }
-  }
-}
-
 label.toggleTaskLabel,
 label.toggle-step-label-template,
 label.toggle-step-label,
@@ -181,64 +120,6 @@ label.toggle-todo-label {
   &.done {
     border-color: limegreen;
     i { color: limegreen; }
-  }
-}
-
-.add-new-task-wrapper {
-  @include flex;
-  position: relative;
-  max-height: 50px;
-  height: 100%;
-  margin: 0 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  & > * { cursor: pointer; }
-  label.toggle-task-label-template {
-    width: 20px;
-    height: 20px;
-    margin: 0;
-    &.inactive {
-      @include flex;
-      justify-content: center;
-      & > span {
-        border: 0;
-        font-size: 30px;
-        &:after {
-          content: '+';
-          color: cornflowerblue;
-        }
-      }
-    }
-    &.toggled > span {
-      background-color: limegreen;
-      &:after {
-        content: '\2713';
-        position: absolute;
-      }
-    }
-    &.active > span {
-      @include flex;
-      background-color: #ffffff;
-      width: 20px;
-      height: 100%;
-      justify-content: center;
-      border: 1px solid darkgray;
-      border-radius: 50%;
-      color: white;
-    }
-  }
-  .add-new-task-input {
-    width: 100%;
-    border-color: transparent;
-    display: block;
-    &.inactive::placeholder {
-      color: cornflowerblue;
-      padding-left: 10px;
-    }
-    &.activated {
-      cursor: text;
-      margin-left: 10px
-    }
-    &.activated::placeholder { color: darkslateblue; }
   }
 }
 
@@ -495,71 +376,6 @@ p.lineThrough { text-decoration: line-through; }
   }
 }
 
-.user-info {
-  @include flex;
-  position: relative;
-  width: 100%;
-  flex-flow: column wrap;
-  margin: 5px 0 10px 0;
-  .user-info-buttons {
-    @include flex;
-    width: 100%;
-    button.search {
-      padding: 10px 10px;
-      border: 0;
-      cursor: pointer;
-      i { font-size: 20px; }
-      p:first-of-type {
-        display: inline-block;
-        margin: 0 10px;
-      }
-    }
-    .user-settings-button {
-      @extend button.search;
-      @include flex;
-      width: 100%;
-      padding: 6px 10px;
-      i { font-size: 14px; }
-      span {
-        width: 30px;
-        height: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: lightgray;
-        border-radius: 50%;
-      }
-    }
-    & > button:hover { background-color: $hover-bg-color; }
-  }
-  .user-info-settings {
-    //position: relative;
-    //width: 300px;
-    .user-settings {
-      &.active {
-        position: absolute;
-        display: flex;
-        flex-flow: column;
-        justify-content: center;
-        width: 260px;
-        height: 92px;
-        margin: 3px auto 0;
-        left: 5px;
-        div {
-          @include flex;
-          cursor: pointer;
-        }
-        div:first-of-type { border-bottom: 1px solid rgba(0, 0, 0, 0.1) }
-        p { margin: 10px; }
-        div:last-of-type {
-          i.fa:last-of-type, p:last-of-type { color: red; }
-        }
-        i { padding: 10px; }
-      }
-    }
-  }
-}
-
 button.change-todo-icon {
   @include flex;
   margin: 0 0 0 auto;
@@ -570,118 +386,6 @@ button.change-todo-icon {
 
 .important-icon {
   i { color: cornflowerblue; }
-}
-
-.DayPicker.pick-date-calendar .DayPicker-wrapper,
-.task-settings-additional .rc-calendar-panel {
-  position: absolute;
-  border: 1px solid #888888;
-  background-color: #ffffff;
-  text-align: center;
-}
-
-.task-settings-additional {
-  background-color: #ffffff;
-  margin: 10px;
-  ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    li {
-      padding-left: 10px;
-      &:hover {
-        cursor: pointer;
-        background-color: $hover-bg-color;
-      }
-      p {
-        padding: 10px;
-        border-bottom: 1px solid lightgray;
-        &:last-of-type p {
-          border: 0;
-        }
-      }
-    }
-  }
-  .reminder-window {
-    ul {
-      li {
-        border: 0;
-        padding-left: 10px;
-        span { margin: 0 5px 0 auto; }
-        p {
-          border: 0;
-          width: auto;
-        }
-        &:last-of-type { border-top: 1px solid lightgray; }
-      }
-    }
-  }
-  .repeat-window {
-    ul {
-      li {
-        border: 0;
-        padding-left: 10px;
-      }
-    }
-  }
-  .activeOption { color: cornflowerblue; }
-  .remind-me {
-    line-height: 25px;
-    & > div,
-    & .pick-date-calendar {
-      display: contents;
-      width: 100%;
-    }
-    &.activeOption {
-      line-height: 20px;
-      & > div {
-        & > p { padding-top: 3px; padding-bottom: 3px; }
-        & > span { color: #000000; }
-      }
-    }
-  }
-  .due-date, .repeat { @extend .remind-me }
-  .due-date.activeOption > div > p {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    line-height: 25px;
-  }
-  .repeat {
-    div {
-      p:last-of-type,
-      span:last-of-type { border-bottom: 0; }
-    }
-  }
-  span {
-    &.clear-due-date {
-      line-height: 46px;
-      padding: 0 15px;
-      border-bottom: 1px solid lightgray;
-      &:hover { background-color: rgb(221, 221, 221); }
-    }
-    &.clear-repeat, &.clear-remind-date { @extend .clear-due-date; }
-    &.date-label {
-      display: block;
-      font-size: 13px;
-    }
-  }
-  .reminder-window {
-    ul {
-      position: absolute;
-      right: 80px;
-      max-width: 250px;
-      border: 1px solid #888888;
-      background-color: #ffffff;
-      padding: 0;
-    }
-  }
-  .repeat-window { @extend .reminder-window }
-}
-
-@media (max-width: 1365px) {
-  .task-settings-additional .reminder-window ul,
-  .task-settings-additional .repeat-window ul { right: 16px }
 }
 
 div.searchList {
@@ -732,6 +436,7 @@ div.searchList {
 .light {
   background-color: #ffffff;
   color: #2e2f30;
+  transition: background-color 0.35s ease-out, color 0.35s ease-out;
   .user-settings-page { @extend .light }
   .settings-general-info .user-manage a {
     color: slategray;
@@ -747,6 +452,7 @@ div.searchList {
 .dark {
   background-color: #2e2f30;
   color: #ffffff;
+  transition: background-color 0.35s ease-out, color 0.35s ease-out;
   .user-settings-page { @extend .dark }
   .user-settings {
     border: 1px solid rgba(255,255,255,.5);

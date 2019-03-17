@@ -59,7 +59,7 @@ export default class SettingsModalView extends Component {
           </button>
         </div>
         <div className="user-info-settings">
-          <div className={`user-settings ${activateSettings ? 'active' : 'inactive'}`}>
+          <div className={`user-settings ${activateSettings ? 'active' : ''}`}>
             <div
               role="presentation"
               onClick={handleExpandSettings}

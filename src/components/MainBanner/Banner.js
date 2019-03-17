@@ -13,8 +13,15 @@ import BasicButton from '../BaseComponents/BasicButton';
 import BasicPanel from '../BaseComponents/BasicPanel';
 import GreetingPopUp from './GreetingPopUp';
 import BannerTitle from './BannerTitle';
+import { Transition } from 'react-transition-group';
 
 export default class Banner extends Component {
+  static setModalHeight(todoListId) {
+    if (todoListId === 0 || todoListId === 2) return 301;
+    if (todoListId === 1) return 37;
+    return 389;
+  }
+
   constructor(props) {
     super(props);
     this.activateModalSettings = this.activateModalSettings.bind(this);
@@ -26,6 +33,12 @@ export default class Banner extends Component {
       shouldRenameList: false,
       showModal: false,
       showIconMenu: false,
+      transitionStyles: {
+        entering: { opacity: 0, transition: 'all 0.5s ease-out' },
+        entered:  { opacity: 1, transition: 'all 0.5s ease-out' },
+        exiting: { opacity: 0, transition: 'all 0.5s ease-out' },
+        exited: { opacity: 0, transition: 'all 0.5s ease-out' }
+      }
     };
   }
 
@@ -82,7 +95,12 @@ export default class Banner extends Component {
     const {
       todoListId: todoId, bgImage, bgColor, sortOrder,
     } = activeTodo;
-    const { showModal, shouldRenameList, showIconMenu } = this.state;
+    const {
+      showModal,
+      shouldRenameList,
+      showIconMenu,
+      transitionStyles
+    } = this.state;
     const bgColorForBanner = `linear-gradient(rgba(${
       BANNER_COLOR_SCHEME[bgColor]
     },0.65), rgba(${
@@ -138,22 +156,27 @@ export default class Banner extends Component {
               )
             }
             <BasicButton
-              buttonClassName="btn btn-primary dots-menu"
+              buttonClassName="dots-menu"
               buttonOnClickAction={() => this.activateModalSettings()}
               buttonStyle={{ backgroundColor: bgColor }}
               iconClassName="fas fa-ellipsis-h"
             />
-            {
-              showModal
-              && (
-              <ModalSettings
-                activeTodo={activeTodo}
-                deleteList={deleteList}
-                activateRename={bool => this.activateRename(bool)}
-                showModal={this.activateModalSettings}
-              />
-              )
-            }
+            <Transition
+              in={showModal}
+              timeout={100}
+              mountOnEnter
+              unmountOnExit
+            >
+              {(transitionState) => (
+                <ModalSettings
+                  animationStart={showModal}
+                  activeTodo={activeTodo}
+                  deleteList={deleteList}
+                  activateRename={bool => this.activateRename(bool)}
+                  modalStyle={transitionStyles[transitionState]}
+                />
+              )}
+            </Transition>
           </BasicPanel>
         </BasicPanel>
         {

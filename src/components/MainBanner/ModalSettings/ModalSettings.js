@@ -5,6 +5,7 @@ import {
   IMAGE_SCHEME,
 } from '../../../store/constants/index';
 import { checkActiveTodoTitle } from '../../../helpers';
+import { Transition } from 'react-transition-group';
 
 export default class ModalSettings extends Component {
   constructor(props) {
@@ -93,6 +94,7 @@ export default class ModalSettings extends Component {
       deleteList,
       activateRename,
       showModal,
+      modalStyle,
       taskSettings: { showCompleted },
     } = this.props;
     const {
@@ -111,21 +113,22 @@ export default class ModalSettings extends Component {
       <section
         id="bannerSettings"
         ref={(node) => { this.bannerModal = node; }}
+        style={modalStyle}
       >
         {
           checkActiveTodoTitle(todoTitle)
           && (
-          <div
-            role="presentation"
-            className="renameList"
-            onClick={() => {
-              showModal();
-              activateRename(true);
-            }}
-          >
-            <i className="fas fa-pencil-alt" />
-            <p>Rename List</p>
-          </div>
+            <div
+              role="presentation"
+              className="renameList"
+              onClick={() => {
+                showModal();
+                activateRename(true);
+              }}
+            >
+              <i className="fas fa-pencil-alt" />
+              <p>Rename List</p>
+            </div>
           )
         }
         <div
@@ -202,76 +205,76 @@ export default class ModalSettings extends Component {
         {
           todoListId !== 1
           && (
-          <div className="banner-theme-settings">
-            <p>Theme</p>
-            {COLOR_SCHEME.map(item => (
-              <button
-                type="button"
-                key={item}
-                className={`jumbotron-button ${bgColor === item ? 'active' : ''}`}
-                onClick={() => {
-                  this.changeBannerColor(item, todoListId);
-                }}
-              >
-                <span className={item} />
-              </button>
-            ))}
-            <br />
-            <br />
-            {IMAGE_SCHEME.map(item => (
-              <button
-                type="button"
-                key={item}
-                className={`jumbotron-button ${bgImage === item ? 'active' : ''}`}
-                onClick={() => this.changeBannerImage(item, todoListId)}
-              >
-                <span className="bgImage-wrapper">
-                  <img className="theme-image" src={item} alt="Theme Thumbnails for Banner" />
-                </span>
-              </button>
-            ))}
-          </div>
+            <div className="banner-theme-settings">
+              <p>Theme</p>
+              {COLOR_SCHEME.map(item => (
+                <button
+                  type="button"
+                  key={item}
+                  className={`jumbotron-button ${bgColor === item ? 'active' : ''}`}
+                  onClick={() => {
+                    this.changeBannerColor(item, todoListId);
+                  }}
+                >
+                  <span className={item} />
+                </button>
+              ))}
+              <br />
+              <br />
+              {IMAGE_SCHEME.map(item => (
+                <button
+                  type="button"
+                  key={item}
+                  className={`jumbotron-button ${bgImage === item ? 'active' : ''}`}
+                  onClick={() => this.changeBannerImage(item, todoListId)}
+                >
+                  <span className="bgImage-wrapper">
+                    <img className="theme-image" src={item} alt="Theme Thumbnails for Banner" />
+                  </span>
+                </button>
+              ))}
+            </div>
           )
         }
         { todoListId !== 1 && <hr /> }
         {
           todoListId !== 1
           && (
-          <div
-            role="presentation"
-            className="show-hide_completed_todos"
-            onClick={() => {
-              if (showCompleted) {
-                this.showCompletedTasks(false);
-              } else {
-                this.showCompletedTasks(true);
-              }
-              showModal();
-            }}
-          >
-            <i className={showCompleted ? 'far fa-check-circle' : 'fas fa-check-circle'} />
-            <p>
-              {showCompleted ? 'Hide' : 'Show'}
-              {' '}
-completed to-dos
-            </p>
-          </div>
+            <div
+              role="presentation"
+              className="show-hide_completed_todos"
+              onClick={() => {
+                if (showCompleted) {
+                  this.showCompletedTasks(false);
+                } else {
+                  this.showCompletedTasks(true);
+                }
+                showModal();
+              }}
+            >
+              <i className={showCompleted ? 'far fa-check-circle' : 'fas fa-check-circle'} />
+              <p>
+                {showCompleted ? 'Hide' : 'Show'}
+                {' '}
+                completed to-dos
+              </p>
+            </div>
           )
         }
         { checkActiveTodoTitle(todoTitle)
-          && (
-            <div
-              role="presentation"
-              className="deleteList"
-              onClick={() => {
-                showModal();
-                deleteList(activeTodo);
-              }}
-            >
-              <i className="fas fa-trash-alt" />
-              <p>Delete List</p>
-            </div>
-          )
+        && (
+          <div
+            role="presentation"
+            className="deleteList"
+            onClick={() => {
+              showModal();
+              deleteList(activeTodo);
+            }}
+          >
+            <i className="fas fa-trash-alt" />
+            <p>Delete List</p>
+          </div>
+        )
         }
       </section>
     );

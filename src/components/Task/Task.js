@@ -4,6 +4,7 @@ import ImportanceButton from '../ImportanceButton/index';
 import BasicLabel from '../BaseComponents/BasicLabel';
 import BasicPanel from '../BaseComponents/BasicPanel';
 import Label from './Label/index';
+import './style.css';
 
 export default class Task extends Component {
   render() {

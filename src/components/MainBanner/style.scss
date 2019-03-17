@@ -1,7 +1,4 @@
-@mixin flex {
-  display: flex;
-  align-items: center;
-}
+@import "../../styles/_mixins.scss";
 
 .panelBanner {
   display: flex;
@@ -56,6 +53,19 @@
     }
     .banner-button-group {
       margin-bottom: 8px;
+      & > button {
+        outline: none;
+        outline-width: 0;
+        filter: opacity(1);
+        color: #ffffff;
+        &:hover {
+          width: 36px;
+          height: 32px;
+          padding: 4px 10px;
+          border: 2px solid rgba(0, 0, 0, 0.3);
+        }
+        &:active { filter: grayscale(0.3); }
+      }
     }
   }
   .banner-sort {

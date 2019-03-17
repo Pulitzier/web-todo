@@ -1,7 +1,5 @@
-@mixin flex {
-  display: flex;
-  align-items: center;
-}
+@import "../../styles/_mixins.scss";
+@import "../../styles/variables";
 
 .task-settings {
   background-color: lightgray;
@@ -96,4 +94,123 @@
     max-height: 520px;
     overflow-y: auto;
   }
+  .DayPicker.pick-date-calendar .DayPicker-wrapper,
+  .task-settings-additional .rc-calendar-panel {
+    position: absolute;
+    border: 1px solid #888888;
+    background-color: #ffffff;
+    text-align: center;
+  }
+  .task-settings-additional {
+    background-color: #ffffff;
+    margin: 10px;
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      li {
+        padding-left: 10px;
+        &:hover {
+          cursor: pointer;
+          background-color: $hover-bg-color;
+        }
+        p {
+          padding: 10px;
+          border-bottom: 1px solid lightgray;
+          &:last-of-type p {
+            border: 0;
+          }
+        }
+      }
+    }
+    .reminder-window {
+      overflow: hidden;
+      width: 274px;
+      height: 0;
+      position: absolute;
+      right: 20px;
+      &.active { height: 353px; }
+      & > div:not(.custom-day-picker):not(.repeat-date-picker-wrapper) {
+        width: 100%;
+        border: 1px solid #888888;
+        background-color: #ffffff;
+        padding: 0;
+      }
+      ul {
+        li {
+          border: 0;
+          padding-left: 10px;
+          span { margin: 0 5px 0 auto; }
+          p {
+            border: 0;
+            width: auto;
+          }
+          &:last-of-type { border-top: 1px solid lightgray; }
+        }
+      }
+    }
+    .repeat-window {
+      @extend .reminder-window;
+      &.active {
+        @include flex;
+        height: 242px;
+      }
+      ul {
+        li {
+          border: 0;
+          padding-left: 10px;
+        }
+      }
+    }
+    .activeOption { color: cornflowerblue; }
+    .remind-me {
+      & > div:first-of-type {
+        @include flex;
+        width: 100%;
+      }
+      line-height: 25px;
+      & .pick-date-calendar {
+        display: contents;
+        width: 100%;
+      }
+      &.activeOption {
+        line-height: 20px;
+        & > div {
+          & > p { padding-top: 3px; padding-bottom: 3px; }
+          & > span { color: #000000; }
+        }
+      }
+    }
+    .due-date, .repeat { @extend .remind-me }
+    .due-date.activeOption > div > p {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      line-height: 25px;
+    }
+    .repeat {
+      div {
+        p:last-of-type,
+        span:last-of-type { border-bottom: 0; }
+      }
+    }
+    span {
+      &.clear-due-date {
+        line-height: 46px;
+        padding: 0 15px;
+        border-bottom: 1px solid lightgray;
+        &:hover { background-color: rgb(221, 221, 221); }
+      }
+      &.clear-repeat, &.clear-remind-date { @extend .clear-due-date; }
+      &.date-label {
+        display: block;
+        font-size: 13px;
+      }
+    }
+  }
+}
+
+@media (max-width: 1365px) {
+  .task-settings-additional .reminder-window ul,
+  .task-settings-additional .repeat-window ul { right: 16px }
 }

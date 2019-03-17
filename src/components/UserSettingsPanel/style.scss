@@ -1,7 +1,4 @@
-@mixin flex {
-  display: flex;
-  align-items: center;
-}
+@import "../../styles/_mixins.scss";
 
 .user-settings-page.active {
   position: absolute;
@@ -133,6 +130,7 @@
             content: '\2022';
             font-size: 32px;
             position: absolute;
+            top: -14px;
           }
         }
       }
