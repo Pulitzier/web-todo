@@ -1,5 +1,3 @@
-import { DEFAULT_TODOS } from './store/constants';
-
 export function getActiveTodoList(todos) {
   return todos.find(element => element.active);
 }
