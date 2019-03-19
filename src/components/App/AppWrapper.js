@@ -19,64 +19,66 @@ export default class AppWrapper extends Component {
     this.handleDecline = this.handleDecline.bind(this);
     this.renderDeleteModal = this.renderDeleteModal.bind(this);
     this.state = {
-      taskToDelete: '',
-      todoToDelete: '',
-      taskStepToDelete: '',
+      elementId: '',
+      elementText: '',
+      elementTypeToDelete: '',
     };
   }
 
   clearLocalAppState() {
     this.setState({
-      taskToDelete: '',
-      todoToDelete: '',
-      taskStepToDelete: '',
+      elementId: '',
+      elementText: '',
+      elementTypeToDelete: ''
     });
   }
 
   handleDeleteTask(element) {
-    const { deleteTaskElement } = this.props;
+    const { deleteElement } = this.props;
     const { userSettings: { confirmDeletion } } = this.props;
     if (confirmDeletion) {
-      this.setState({ taskToDelete: element });
+      this.setState({
+        elementId: element.id,
+        elementText: element.taskText,
+        elementTypeToDelete: 'task',
+      });
     } else {
-      deleteTaskElement(element.id);
+      deleteElement('task', element.id);
     }
   }
 
   handleDeleteCategory(element) {
-    const { deleteCategoryElement } = this.props;
+    const { deleteElement } = this.props;
     const { userSettings: { confirmDeletion } } = this.props;
     if (confirmDeletion) {
-      this.setState({ todoToDelete: element });
+      this.setState({
+        elementId: element.id,
+        elementText: element.title,
+        elementTypeToDelete: 'todo',
+      });
     } else {
-      deleteCategoryElement(element.id);
+      deleteElement('todo', element.id);
     }
   }
 
   handleDeleteStep(element) {
-    const { deleteStepElement } = this.props;
+    const { deleteElement } = this.props;
     const { userSettings: { confirmDeletion } } = this.props;
     if (confirmDeletion) {
-      this.setState({ taskStepToDelete: element });
+      this.setState({
+        elementId: element.id,
+        elementText: element.stepText,
+        elementTypeToDelete: 'step',
+      });
     } else {
-      deleteStepElement(element.id);
+      deleteElement('step', element.id);
     }
   }
 
-  handleConfirm(element) {
-    const {
-      deleteStepElement,
-      deleteCategoryElement,
-      deleteTaskElement,
-    } = this.props;
-    const { taskToDelete, todoToDelete, taskStepToDelete } = this.state;
-    if (taskToDelete) {
-      deleteTaskElement(element.id);
-    } else if (todoToDelete) {
-      deleteCategoryElement(element.id);
-    } else if (taskStepToDelete) {
-      deleteStepElement(element.id);
-    }
+  handleConfirm(elementId) {
+    const { deleteElement } = this.props;
+    const { elementTypeToDelete } = this.state;
+    deleteElement(elementTypeToDelete, elementId);
     this.clearLocalAppState();
   }
 
@@ -84,28 +86,16 @@ export default class AppWrapper extends Component {
     return this.clearLocalAppState();
   }
 
-  renderDeleteModal(element) {
-    const elementText = element.title || element.taskText || element.stepText || '';
-    let elementType;
-    if (element.title) {
-      elementType = 'todo';
-    }
-    if (element.taskText) {
-      elementType = 'task';
-    }
-    if (element.stepText) {
-      elementType = 'step';
-    }
-    if (element) {
-      return (
-        <DeleteModal
-          nameOfItem={elementType}
-          messageOfItem={elementText}
-          onDelete={() => this.handleConfirm(element)}
-          onCancel={this.handleDecline}
-        />
-      );
-    }
+  renderDeleteModal() {
+    const { elementId, elementTypeToDelete, elementText } = this.state;
+    return (
+      <DeleteModal
+        nameOfItem={elementTypeToDelete}
+        messageOfItem={elementText}
+        onDelete={() => this.handleConfirm(elementId)}
+        onCancel={this.handleDecline}
+      />
+    )
   }
 
   render() {
@@ -114,8 +104,7 @@ export default class AppWrapper extends Component {
         confirmDeletion, turnOnSound, darkTheme, lightTheme,
       },
     } = this.props;
-    const { taskToDelete, todoToDelete, taskStepToDelete } = this.state;
-    const elementToDelete = taskToDelete || todoToDelete || taskStepToDelete;
+    const { elementTypeToDelete } = this.state;
 
     return (
       <BasicPanel
@@ -133,7 +122,8 @@ export default class AppWrapper extends Component {
         }
         {
           confirmDeletion
-          && this.renderDeleteModal(elementToDelete)
+          && elementTypeToDelete
+          && this.renderDeleteModal()
         }
       </BasicPanel>
     );
@@ -142,9 +132,7 @@ export default class AppWrapper extends Component {
 
 AppWrapper.propTypes = {
   userSettings: PropTypes.shape({}),
-  deleteTaskElement: PropTypes.func.isRequired,
-  deleteCategoryElement: PropTypes.func.isRequired,
-  deleteStepElement: PropTypes.func.isRequired,
+  deleteElement: PropTypes.func.isRequired,
 };
 
 AppWrapper.defaultProps = {

@@ -11,7 +11,7 @@ const mapDispatchToProps = dispatch => ({
   deleteTaskElement: (id) => {
     dispatch(deleteTask(id));
   },
-  deleteCategoryElement: (id) => {
+  deleteTodoElement: (id) => {
     dispatch(deleteCategory(id));
   },
   deleteStepElement: (id) => {
@@ -19,7 +19,27 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...stateProps,
+  ...dispatchProps,
+  ...ownProps,
+  deleteElement: (type, id) => {
+    const { deleteTaskElement, deleteTodoElement, deleteStepElement } = dispatchProps;
+    switch (type) {
+      case 'task':
+        return deleteTaskElement(id);
+      case 'todo':
+        return deleteTodoElement(id);
+      case 'step':
+        return deleteStepElement(id);
+      default:
+        return;
+    }
+  }
+});
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
+  mergeProps
 )(AppWrapper);
