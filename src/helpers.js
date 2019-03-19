@@ -15,7 +15,6 @@ export function loadState() {
 }
 
 export function saveState(state) {
-  localStorage.clear();
   const serializedState = JSON.stringify(state);
   localStorage.setItem('state', serializedState);
   return undefined;
