@@ -16,12 +16,6 @@ import BannerTitle from './BannerTitle';
 import { Transition } from 'react-transition-group';
 
 export default class Banner extends Component {
-  static setModalHeight(todoListId) {
-    if (todoListId === 0 || todoListId === 2) return 301;
-    if (todoListId === 1) return 37;
-    return 389;
-  }
-
   constructor(props) {
     super(props);
     this.activateModalSettings = this.activateModalSettings.bind(this);
@@ -93,7 +87,7 @@ export default class Banner extends Component {
     } = this.props;
     const activeTodo = getActiveTodoList(categories);
     const {
-      todoListId: todoId, bgImage, bgColor, sortOrder,
+      id: todoId, bgImage, bgColor, sortOrder,
     } = activeTodo;
     const {
       showModal,
@@ -134,7 +128,7 @@ export default class Banner extends Component {
               <IconsMenuWrapper
                 activateRename={this.activateRename}
                 activateIconsMenu={this.activateIconsMenu}
-                activeTodoId={activeTodo.todoListId}
+                activeTodoId={todoId}
               />
               )
             }
@@ -180,7 +174,7 @@ export default class Banner extends Component {
           </BasicPanel>
         </BasicPanel>
         {
-          activeTodo.todoListId === 0
+          todoId === 0
           && showGreetingPopup
           && (
           <GreetingPopUp

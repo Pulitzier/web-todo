@@ -15,8 +15,8 @@ export default class CategoryLabel extends BaseLabel {
 
   setLabel() {
     const { parentId, myDay, todoIsParent } = this.task;
-    const { todoListId: activeTodoId } = getActiveTodoList(this.categories);
-    const taskParent = this.categories.find(todo => todo.todoListId === parentId);
+    const { id: activeTodoId } = getActiveTodoList(this.categories);
+    const taskParent = this.categories.find(todo => todo.id === parentId);
 
     if ( (activeTodoId === 1) && todoIsParent && myDay ) {
       return this.generateChildLabel("My Day • Tasks", "far fa-sun");

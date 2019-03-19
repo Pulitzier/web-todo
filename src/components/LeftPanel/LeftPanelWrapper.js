@@ -78,7 +78,7 @@ export default class LeftPanelWrapper extends Component {
         <SettingsModal />
         <ul className="nav flex-column my-todo-list">
           {categories.map(({
-            title, todoListId, active, iconSource,
+            title, id: todoListId, active, iconSource,
           }) => {
             if (todoListId < 3) {
               return (
@@ -104,7 +104,7 @@ export default class LeftPanelWrapper extends Component {
         <BasicPanel className="custom-todo-list-wrapper">
           <ul className="nav flex-column todo-list">
             {categories.map(({
-              title, todoListId, active, iconSource,
+              title, id: todoListId, active, iconSource,
             }) => {
               if (todoListId >= 3) {
                 return (

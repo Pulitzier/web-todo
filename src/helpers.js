@@ -58,3 +58,8 @@ export function playSoundWhenDone() {
   const audio = document.getElementById('soundOnComplete');
   audio.play();
 }
+
+export function getLatestId(state) {
+  if (state.length !== 0) return state[ (state.length - 1) ].id;
+  return 0;
+}

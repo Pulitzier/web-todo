@@ -119,7 +119,7 @@ export default class ListOfTasksWrapper extends Component {
                 ...transitionStyles[state]
               }}>
                 {
-                  getTasksForTodo(tasks, activeTodo.todoListId).map(
+                  getTasksForTodo(tasks, activeTodo.id).map(
                     task => (showCompleted && <Task key={task.id} task={task}/>)
                   )
                 }
@@ -156,7 +156,7 @@ export default class ListOfTasksWrapper extends Component {
               buttonText="Add"
             />
           </BasicInput>
-          <EmptyTasks numberOfTasks={getTasksForTodo(tasks, activeTodo.todoListId).length} />
+          <EmptyTasks numberOfTasks={getTasksForTodo(tasks, activeTodo.id).length} />
         </BasicPanel>
       </BasicPanel>
     );

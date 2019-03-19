@@ -56,11 +56,11 @@ export function typeNewTaskAction(bool) {
   };
 }
 
-export function addNewTaskToList(task, list) {
+export function addNewTaskToList(task, todoList) {
   return {
     type: 'ADD_NEW_TASK_TO_LIST',
     task,
-    list,
+    todoList,
   };
 }
 

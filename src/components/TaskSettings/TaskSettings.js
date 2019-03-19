@@ -101,11 +101,11 @@ export default class TaskSettings extends Component {
           <BasicPanel>
             {
               getStepsForTask().map(step => (
-                <BasicPanel key={step.stepId} className="step-title">
+                <BasicPanel key={step.id} className="step-title">
                   <BasicLabel
                     labelClassName={(`toggle-step-label ${step.done ? 'done' : ''}`)}
                     iconClassName={(step.done ? 'fas fa-check-circle' : 'far fa-check-circle')}
-                    labelOnClickAction={() => setToggledStep(step.stepId, step.done)}
+                    labelOnClickAction={() => setToggledStep(step.id, step.done)}
                   />
                   <p>{step.stepText}</p>
                   <BasicButton

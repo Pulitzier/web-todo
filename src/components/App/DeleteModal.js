@@ -6,11 +6,7 @@ const DeleteModal = ({
 }) => (
   <div className="confirmDeleteModal">
     <div className="confirmDeleteModal-child">
-      <h3>
-Delete
-        {nameOfItem}
-?
-      </h3>
+      <h3>Delete {nameOfItem}?</h3>
       <p>
         &quot;
         {messageOfItem}
