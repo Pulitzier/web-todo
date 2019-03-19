@@ -78,7 +78,7 @@ export default class GreetingsPanel extends Component {
       return 0;
     })();
 
-    const getTaskParent = task => categories.find(todo => todo.todoListId === task.parentId) || '';
+    const getTaskParent = task => categories.find(todo => todo.id === task.parentId) || '';
 
     GreetingsPanel.getYesterdayTasks(tasks);
 
@@ -89,7 +89,7 @@ export default class GreetingsPanel extends Component {
           parents.push(task.parentId);
         }
       });
-      return parents.map(parent => categories.find(todo => todo.todoListId === parent));
+      return parents.map(parent => categories.find(todo => todo.id === parent));
     };
 
     return (
@@ -164,7 +164,7 @@ of
                 <h5>Suggested for you</h5>
                 {
                   getUniqueParentsTasks(suggestedTasks).map(parent => (
-                    <p key={parent.todoListId} className="suggested-task-parent">
+                    <p key={parent.id} className="suggested-task-parent">
                       <i className={(parent.iconSource !== 'fa-list') ? parent.iconSource : ''} />
                       {parent.title}
                     </p>

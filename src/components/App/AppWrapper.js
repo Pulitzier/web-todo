@@ -49,7 +49,7 @@ export default class AppWrapper extends Component {
     if (confirmDeletion) {
       this.setState({ todoToDelete: element });
     } else {
-      deleteCategoryElement(element.todoListId);
+      deleteCategoryElement(element.id);
     }
   }
 
@@ -59,7 +59,7 @@ export default class AppWrapper extends Component {
     if (confirmDeletion) {
       this.setState({ taskStepToDelete: element });
     } else {
-      deleteStepElement(element.stepId);
+      deleteStepElement(element.id);
     }
   }
 
@@ -73,9 +73,9 @@ export default class AppWrapper extends Component {
     if (taskToDelete) {
       deleteTaskElement(element.id);
     } else if (todoToDelete) {
-      deleteCategoryElement(element.todoListId);
+      deleteCategoryElement(element.id);
     } else if (taskStepToDelete) {
-      deleteStepElement(element.stepId);
+      deleteStepElement(element.id);
     }
     this.clearLocalAppState();
   }

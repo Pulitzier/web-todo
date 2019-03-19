@@ -1,17 +1,18 @@
 import { DEFAULT_TODOS } from '../constants/index';
+import { getLatestId } from '../../helpers';
 
-let todoId = 3;
+let newTodos = [];
+
 export default function categoriesReducer(state = DEFAULT_TODOS, action) {
-  let newTodos = [];
   switch (action.type) {
     case 'ADD_NEW_TODO_LIST':
       return [ // eslint-disable-line no-return-assign
         ...state,
         ...[{
+          id: (getLatestId(state)+1),
           title: action.title,
           category: 'custom',
           active: false,
-          todoListId: todoId += 1,
           sortOrder: '',
           iconSource: 'fa-list',
           bgImage: './assets/retro.jpg',
@@ -20,7 +21,7 @@ export default function categoriesReducer(state = DEFAULT_TODOS, action) {
       ];
     case 'CHANGE_TODO_TITLE':
       return state.map((todo) => {
-        if (todo.todoListId === action.todoId) {
+        if (todo.id === action.todoId) {
           return {
             ...todo,
             title: action.title,
@@ -30,7 +31,7 @@ export default function categoriesReducer(state = DEFAULT_TODOS, action) {
       });
     case 'SET_ICON_FOR_TODO':
       return state.map((todo) => {
-        if (todo.todoListId === action.todoId) {
+        if (todo.id === action.todoId) {
           return {
             ...todo,
             iconSource: action.iconSrc,
@@ -40,7 +41,7 @@ export default function categoriesReducer(state = DEFAULT_TODOS, action) {
       });
     case 'DELETE_CATEGORY':
       newTodos = state.map((todo) => {
-        if (todo.todoListId === 2) {
+        if (todo.id === 2) {
           return {
             ...todo,
             active: true,
@@ -48,10 +49,10 @@ export default function categoriesReducer(state = DEFAULT_TODOS, action) {
         }
         return todo;
       });
-      return newTodos.filter(todo => todo.todoListId !== action.todoId);
+      return newTodos.filter(todo => todo.id !== action.todoId);
     case 'CHOOSE_LIST':
       return state.map((item) => {
-        if (item.todoListId === action.todoId) {
+        if (item.id === action.todoId) {
           return {
             ...item,
             active: true,
@@ -64,7 +65,7 @@ export default function categoriesReducer(state = DEFAULT_TODOS, action) {
       });
     case 'CHANGE_BANNER_BG_COLOR':
       return state.map((todo) => {
-        if (todo.todoListId === action.todoId) {
+        if (todo.id === action.todoId) {
           return {
             ...todo,
             bgColor: action.color,
@@ -74,7 +75,7 @@ export default function categoriesReducer(state = DEFAULT_TODOS, action) {
       });
     case 'CHANGE_BANNER_BG_IMAGE':
       return state.map((todo) => {
-        if (todo.todoListId === action.todoId) {
+        if (todo.id === action.todoId) {
           return {
             ...todo,
             bgImage: action.image,
@@ -84,7 +85,7 @@ export default function categoriesReducer(state = DEFAULT_TODOS, action) {
       });
     case 'SORT_TASKS':
       return state.map((todo) => {
-        if (todo.todoListId === action.listId) {
+        if (todo.id === action.listId) {
           return {
             ...todo,
             sortOrder: action.sort,

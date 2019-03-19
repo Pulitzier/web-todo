@@ -1,13 +1,12 @@
-let stepUniqueId = 0;
+import { getLatestId } from '../../helpers';
+
 export default function stepsReducer(state = [], action) {
-  const stepId = stepUniqueId;
   switch (action.type) {
     case 'ADD_STEP_TO_TASK':
-      stepUniqueId += 1;
       return [
         ...state,
         {
-          stepId,
+          id: (getLatestId(state)+1),
           taskId: action.taskId,
           done: false,
           stepText: action.stepText,
@@ -15,7 +14,7 @@ export default function stepsReducer(state = [], action) {
       ];
     case 'TOGGLE_STEP':
       return state.map((step) => {
-        if (step.stepId === action.stepId) {
+        if (step.id === action.stepId) {
           return {
             ...step,
             done: !step.done,
@@ -24,7 +23,7 @@ export default function stepsReducer(state = [], action) {
         return step;
       });
     case 'DELETE_STEP':
-      return state.filter(step => step.stepId !== action.stepId);
+      return state.filter(step => step.id !== action.stepId);
     case 'DELETE_TASK':
       return state.filter(step => step.taskId !== action.taskId);
     default:

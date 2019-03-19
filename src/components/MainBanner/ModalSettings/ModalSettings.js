@@ -98,7 +98,7 @@ export default class ModalSettings extends Component {
       taskSettings: { showCompleted },
     } = this.props;
     const {
-      todoListId, bgColor, bgImage, title: todoTitle,
+      id: todoListId, bgColor, bgImage, title: todoTitle,
     } = activeTodo;
     const { hoverSortLink, hoverSortMenu } = this.state;
 

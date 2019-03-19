@@ -1,3 +1,5 @@
+import { DEFAULT_TODOS } from './store/constants';
+
 export function getActiveTodoList(todos) {
   return todos.find(element => element.active);
 }
@@ -15,6 +17,7 @@ export function loadState() {
 }
 
 export function saveState(state) {
+  localStorage.clear();
   const serializedState = JSON.stringify(state);
   localStorage.setItem('state', serializedState);
   return undefined;
@@ -57,4 +60,9 @@ export function setInitialIconWhenRename(iconSource) {
 export function playSoundWhenDone() {
   const audio = document.getElementById('soundOnComplete');
   audio.play();
+}
+
+export function getLatestId(state) {
+  if (state.length !== 0) return state[ (state.length - 1) ].id;
+  return 0;
 }

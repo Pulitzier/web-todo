@@ -1,6 +1,6 @@
-let taskUniqueId = 0;
+import { getLatestId } from '../../helpers';
+
 export default function tasksReducer(state = [], action) {
-  const taskId = taskUniqueId;
   const sortTasks = (sortCriteria, tasks) => {
     switch (sortCriteria) {
       case 'ABC':
@@ -39,18 +39,17 @@ export default function tasksReducer(state = [], action) {
   };
   switch (action.type) {
     case 'ADD_NEW_TASK_TO_LIST':
-      taskUniqueId += 1;
       return [
         ...state,
         {
-          id: taskId,
-          parentId: action.list.todoListId,
+          id: (getLatestId(state)+1),
+          parentId: action.todoList.id,
           done: false,
           active: false,
-          myDay: action.list.todoListId === 0,
-          important: action.list.todoListId === 1,
-          todoIsParent: (action.list.todoListId < 3),
-          suggestForMyDay: (action.list.todoListId >= 3),
+          myDay: action.todoList.id === 0,
+          important: action.todoList.id === 1,
+          todoIsParent: (action.todoList.id < 3),
+          suggestForMyDay: (action.todoList.id >= 3),
           taskText: action.task,
           createdAt: Date.now(),
           note: '',

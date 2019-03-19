@@ -35,7 +35,7 @@ export default class RenameListWrapper extends Component {
 
   handleInputKeyPress({ key }) {
     const { categories, activateRename } = this.props;
-    const { todoListId } = getActiveTodoList(categories);
+    const { id: todoListId } = getActiveTodoList(categories);
     const { newListTitle } = this.state;
     if (key === 'Enter') {
       activateRename(false);
@@ -45,7 +45,7 @@ export default class RenameListWrapper extends Component {
 
   handleClick({ target }) {
     const { categories, activateRename } = this.props;
-    const { title, todoListId } = getActiveTodoList(categories);
+    const { title, id: todoListId } = getActiveTodoList(categories);
     const { newListTitle } = this.state;
     if (
       this.renameList
