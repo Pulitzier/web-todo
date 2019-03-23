@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import MainLabel from './MainLabel';
+import LabelWrapper from './LabelWrapper';
 import './style.css';
 
 const mapStateToProps = ({ app }) => ({
@@ -7,4 +7,4 @@ const mapStateToProps = ({ app }) => ({
   steps: app.steps,
 });
 
-export default connect(mapStateToProps, null)(MainLabel);
+export default connect(mapStateToProps, null)(LabelWrapper);
