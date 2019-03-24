@@ -7,7 +7,6 @@ export default class DueDate extends Template {
   constructor(task) {
     super();
     this.task = task;
-    this.shouldBeRendered() && this.generateLabelData();
   }
 
   shouldBeRendered() {
@@ -40,6 +39,7 @@ export default class DueDate extends Template {
   }
 
   render() {
+    this.shouldBeRendered() && this.generateLabelData();
     return (
       <p className="label-for-task">
         { this._iconSrc && <i className={this._iconSrc}/> }

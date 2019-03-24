@@ -9,47 +9,48 @@ export default class Category extends Template {
 
   constructor(categories, task) {
     super();
-    this.categories = categories;
-    this.task = task;
+    this.taskParentId = task.parentId;
+    this.myDayTask = task.myDay;
+    this.todoIsParent = task.todoIsParent;
+    this.activeTodoId = getActiveTodoList(categories).id;
+    this.taskParent = categories.find(todo => todo.id === this.taskParentId);
     this.shouldBeRendered() && this.generateLabelData();
   }
 
   shouldBeRendered() {
-    const { parentId, myDay } = this.task;
-    const { id: activeTodoId } = getActiveTodoList(this.categories);
-    const taskParent = this.categories.find(todo => todo.id === parentId);
     return !!(
-      activeTodoId < 2
-      || ( (parentId >= 3) && (taskParent.iconSource !== 'fa-list') )
-      || ( (parentId >= 3) && myDay )
+      this.activeTodoId < 2
+      || ( (this.taskParentId >= 3) && ( (this.taskParent.iconSource !== 'fa-list') || this.myDayTask ))
     );
   }
 
   generateLabelData() {
-    const { parentId, myDay, todoIsParent } = this.task;
-    const { id: activeTodoId } = getActiveTodoList(this.categories);
-    const taskParent = this.categories.find(todo => todo.id === parentId);
-
-    if (activeTodoId === 1) {
-      if (todoIsParent && myDay) {
+    if (this.activeTodoId === 1) {
+      if (this.todoIsParent && this.myDayTask) {
         this.setText("My Day • Tasks");
         this.setIconSrc("far fa-sun");
         return;
       } else {
-        this.setText(taskParent.title);
-        this.setIconSrc(Category.renderIconForLabel('fa', taskParent.iconSource));
+        this.setText(this.taskParent.title);
+        this.setIconSrc(Category.renderIconForLabel('fa', this.taskParent.iconSource));
         return;
       }
     }
-    if ( (activeTodoId <= 1 ) && todoIsParent ) {
-      return this.setText("Tasks");
+    if ( (this.activeTodoId <= 1 )) {
+      if (this.todoIsParent) {
+        return this.setText("Tasks")
+      } else {
+        this.setText(this.taskParent.title);
+        this.setIconSrc(Category.renderIconForLabel('fa', this.taskParent.iconSource));
+        return;
+      }
     }
-    if ( (parentId >= 3) && (taskParent.iconSource !== 'fa-list') ) {
-      this.setText(taskParent.title);
-      this.setIconSrc(`fa ${taskParent.iconSource}`);
+    if ( (this.taskParentId >= 3) && (this.taskParent.iconSource !== 'fa-list') ) {
+      this.setText(this.taskParent.title);
+      this.setIconSrc(`fa ${this.taskParent.iconSource}`);
       return;
     }
-    if ( myDay ) {
+    if ( this.myDayTask ) {
       this.setText("My Day");
       this.setIconSrc("far fa-sun");
       return;
