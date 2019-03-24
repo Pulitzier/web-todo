@@ -6,12 +6,15 @@ export default class DueDate extends Template {
   _repeatIcon = "";
   constructor(task) {
     super();
-    this.task = task;
+    this.shouldBeRendered = this.shouldBeRendered.bind(this);
+    this.setRepeatIcon = this.setRepeatIcon.bind(this);
+    this.generateLabelData = this.generateLabelData.bind(this);
+    this.dueDate = task.dueDate;
+    this.repeatDate = task.repeat;
   }
 
   shouldBeRendered() {
-    const { dueDate, repeat } = this.task;
-    return !!(dueDate || repeat)
+    return !!(this.dueDate || this.repeatDate)
   }
 
   setRepeatIcon(src) {
@@ -19,19 +22,18 @@ export default class DueDate extends Template {
   }
 
   generateLabelData() {
-    const { dueDate, repeat } = this.task;
-    if (dueDate && repeat) {
+    if (this.dueDate && this.repeatDate) {
       this.setIconSrc("far fa-calendar-alt");
-      this.setText(getStringDate(dueDate));
+      this.setText(getStringDate(this.dueDate));
       this.setRepeatIcon("fas fa-redo");
       return;
     }
-    if (dueDate) {
+    if (this.dueDate) {
       this.setIconSrc("far fa-calendar-alt");
-      this.setText(getStringDate(dueDate));
+      this.setText(getStringDate(this.dueDate));
       return;
     }
-    if (repeat) {
+    if (this.repeatDate) {
       this.setIconSrc("fas fa-redo");
       return;
     }
@@ -39,7 +41,7 @@ export default class DueDate extends Template {
   }
 
   render() {
-    this.shouldBeRendered() && this.generateLabelData();
+    this.generateLabelData();
     return (
       <p className="label-for-task">
         { this._iconSrc && <i className={this._iconSrc}/> }

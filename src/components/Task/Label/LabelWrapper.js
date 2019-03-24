@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'react-proptypes';
 import Category from './Category';
-import StepsSubLabel from './StepsSubLabel';
+import Steps from './Steps';
 import DueDate from './DueDate';
 import RemindSubLabel from './RemindMe';
 import Notes from './Notes';
@@ -21,7 +21,7 @@ export default class LabelWrapper extends Component {
   getAllSubLabels() {
     const { categories, task, steps } = this.props;
     const categoryLabel = new Category(categories, task);
-    const stepsLabel = new StepsSubLabel(steps, task);
+    const stepsLabel = new Steps(steps, task);
     const dueDateLabel = new DueDate(task);
     const notesLabel = new Notes(task);
     const remindLabel = new RemindSubLabel(task);

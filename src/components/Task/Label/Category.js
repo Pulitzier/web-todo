@@ -9,6 +9,9 @@ export default class Category extends Template {
 
   constructor(categories, task) {
     super();
+    this.shouldBeRendered = this.shouldBeRendered.bind(this);
+    this.setLabelData = this.setLabelData.bind(this);
+    this.generateLabelData = this.generateLabelData.bind(this);
     this.taskParentId = task.parentId;
     this.myDayTask = task.myDay;
     this.todoIsParent = task.todoIsParent;
