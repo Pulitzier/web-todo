@@ -24,36 +24,37 @@ export default class Category extends Template {
     );
   }
 
+  setLabelData(text, src) {
+    this.setText(text);
+    this.setIconSrc(src);
+  }
+
   generateLabelData() {
     if (this.activeTodoId === 1) {
       if (this.todoIsParent && this.myDayTask) {
-        this.setText("My Day • Tasks");
-        this.setIconSrc("far fa-sun");
-        return;
+        return this.setLabelData("My Day • Tasks", "far fa-sun");
       } else {
-        this.setText(this.taskParent.title);
-        this.setIconSrc(Category.renderIconForLabel('fa', this.taskParent.iconSource));
-        return;
+        return this.setLabelData(
+          this.taskParent.title,
+          Category.renderIconForLabel('fa', this.taskParent.iconSource)
+        );
       }
     }
     if ( (this.activeTodoId <= 1 )) {
       if (this.todoIsParent) {
         return this.setText("Tasks")
       } else {
-        this.setText(this.taskParent.title);
-        this.setIconSrc(Category.renderIconForLabel('fa', this.taskParent.iconSource));
-        return;
+        return this.setLabelData(
+          this.taskParent.title,
+          Category.renderIconForLabel('fa', this.taskParent.iconSource)
+        );
       }
     }
     if ( (this.taskParentId >= 3) && (this.taskParent.iconSource !== 'fa-list') ) {
-      this.setText(this.taskParent.title);
-      this.setIconSrc(`fa ${this.taskParent.iconSource}`);
-      return;
+      return this.setLabelData(this.taskParent.title, `fa ${this.taskParent.iconSource}`);
     }
     if ( this.myDayTask ) {
-      this.setText("My Day");
-      this.setIconSrc("far fa-sun");
-      return;
+      return this.setLabelData("My Day", "far fa-sun");
     }
     return undefined;
   }
