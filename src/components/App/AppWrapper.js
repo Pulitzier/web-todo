@@ -7,6 +7,7 @@ import UserSettingsPanel from '../UserSettingsPanel/index';
 import AudioForCompletion from './AudioForCompletion';
 import DeleteModal from './DeleteModal';
 import BasicPanel from '../BaseComponents/BasicPanel';
+import { activateUserSettings, openSearchPanel, openUserSettings } from '../../store/actions';
 
 export default class AppWrapper extends Component {
   constructor(props) {
@@ -18,6 +19,7 @@ export default class AppWrapper extends Component {
     this.handleDeleteStep = this.handleDeleteStep.bind(this);
     this.handleDecline = this.handleDecline.bind(this);
     this.renderDeleteModal = this.renderDeleteModal.bind(this);
+    this.clickOnUserSettings = this.clickOnUserSettings.bind(this);
     this.state = {
       elementId: '',
       elementText: '',
@@ -86,6 +88,15 @@ export default class AppWrapper extends Component {
     return this.clearLocalAppState();
   }
 
+  clickOnUserSettings({ target }){
+    const { handleCollapseSettings } = this.props;
+    const userInfo = document.getElementById("userInfoButtons");
+    if (!userInfo.contains(target)) {
+      return handleCollapseSettings();
+    }
+    return null;
+  }
+
   renderDeleteModal() {
     const { elementId, elementTypeToDelete, elementText } = this.state;
     return (
@@ -109,6 +120,7 @@ export default class AppWrapper extends Component {
     return (
       <BasicPanel
         className={`app-container ${lightTheme ? 'light' : darkTheme && 'dark'}`}
+        propsClick={(event) => this.clickOnUserSettings(event)}
       >
         <LeftPanel />
         <RightPanel
