@@ -16,6 +16,6 @@ export default class Steps extends Template {
   }
 
   shouldBeRendered() {
-    return !!(this.allTaskSteps.length !== 0);
+    return this.allTaskSteps.length !== 0;
   }
 };
