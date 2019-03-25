@@ -1,17 +1,16 @@
-import Template from './Template';
 import { getActiveTodoList } from '../../../helpers';
+import Template from './Template';
 
-export default class MyDayCategory extends Template {
+export default class TasksCategory extends Template {
   constructor(categories, task) {
     super();
     this.shouldBeRendered = this.shouldBeRendered.bind(this);
-    this.myDayTask = task.myDay;
+    this.todoIsParent = task.todoIsParent;
     this.activeTodoId = getActiveTodoList(categories).id;
-    this.setText("My Day");
-    this.setIconSrc("far fa-sun");
+    this.setText("Tasks");
   }
 
   shouldBeRendered() {
-    return (this.activeTodoId !== 0) && this.myDayTask;
+    return (this.activeTodoId <= 1) && this.todoIsParent;
   }
 }

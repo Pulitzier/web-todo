@@ -17,13 +17,6 @@ export default class Template extends Component {
     this._iconSrc = src;
   }
 
-  getLabelData() {
-    return {
-      text: this._text,
-      iconSrc: this._iconSrc,
-    }
-  }
-
   shouldBeRendered() {
     return false;
   }
@@ -31,8 +24,8 @@ export default class Template extends Component {
   render() {
     return (
       <p className="label-for-task">
-        { this.getLabelData().iconSrc && <i className={this.getLabelData().iconSrc}/> }
-        <span>{this.getLabelData().text}</span>
+        { this._iconSrc && <i className={this._iconSrc}/> }
+        <span>{this._text}</span>
       </p>
     );
   }
