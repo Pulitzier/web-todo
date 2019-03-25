@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'react-proptypes';
-import Category from './Category';
+import OtherCategories from './OtherCategories';
 import Steps from './Steps';
 import DueDate from './DueDate';
-import RemindSubLabel from './RemindMe';
+import RemindMe from './RemindMe';
 import Notes from './Notes';
+import MyDayCategory from './MyDayCategory';
 
 export default class LabelWrapper extends Component {
   static showDelimiter(index) {
@@ -20,13 +21,15 @@ export default class LabelWrapper extends Component {
 
   getAllSubLabels() {
     const { categories, task, steps } = this.props;
-    const categoryLabel = new Category(categories, task);
+    const myDayCategoryLabel = new MyDayCategory(categories, task);
+    const categoryLabel = new OtherCategories(categories, task);
     const stepsLabel = new Steps(steps, task);
     const dueDateLabel = new DueDate(task);
     const notesLabel = new Notes(task);
-    const remindLabel = new RemindSubLabel(task);
+    const remindLabel = new RemindMe(task);
 
     let labels = [];
+    labels.push(myDayCategoryLabel);
     labels.push(categoryLabel);
     labels.push(stepsLabel);
     labels.push(dueDateLabel);
