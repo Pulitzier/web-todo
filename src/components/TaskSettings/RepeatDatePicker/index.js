@@ -28,8 +28,4 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   },
 });
 
-export default connect(
-  null,
-  mapDispatchToProps,
-  mergeProps
-)(RepeatDatePicker);
+export default connect( null, mapDispatchToProps, mergeProps )(RepeatDatePicker);
