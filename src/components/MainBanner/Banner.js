@@ -76,7 +76,7 @@ export default class Banner extends Component {
     if (shouldRenameList && checkActiveTodoTitle(activeTodoTitle)) {
       return (
         <RenameList
-          todoTitle={title}
+          todoTitle={activeTodoTitle}
           shouldRenameList={shouldRenameList}
           activateIconsMenu={this.activateIconsMenu}
           activateRename={this.activateRename}
