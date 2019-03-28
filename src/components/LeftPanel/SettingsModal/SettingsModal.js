@@ -1,14 +1,14 @@
 import React from 'react';
 import BasicPanel from '../../BaseComponents/BasicPanel';
 
-function SettingsModalView() {
+function SettingsModal(props) {
   const {
     activateSettings,
     activateSearch,
     handleExpandSettings,
     handleExpandSearch,
     handleActivateSettings,
-  } = this.props;
+  } = props;
 
   return (
     <BasicPanel className="user-info">
@@ -53,4 +53,4 @@ function SettingsModalView() {
   );
 }
 
-export default SettingsModalView;
+export default SettingsModal;
