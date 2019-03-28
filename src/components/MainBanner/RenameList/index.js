@@ -1,9 +1,12 @@
 import connect from 'react-redux/es/connect/connect';
 import { changeListTitle } from '../../../store/actions';
-import RenameListWrapper from './RenameListWrapper';
+import RenameList from './RenameList';
+import { getActiveTodoList } from '../../../helpers';
 
 const mapStateToProps = ({ app: { categories } }) => ({
-  categories,
+  activeTodoId: getActiveTodoList(categories).id,
+  title: getActiveTodoList(categories).title,
+  iconSource: getActiveTodoList(categories).iconSource,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -12,4 +15,19 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(RenameListWrapper);
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const { activeTodoId } = stateProps;
+  const { handleChangeTitle } = dispatchProps;
+  const handleChangeListTitle = (str) => {
+    handleChangeTitle(activeTodoId, str);
+  };
+
+  return {
+    ...stateProps,
+    ...dispatchProps,
+    ...ownProps,
+    handleChangeListTitle
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(RenameList);

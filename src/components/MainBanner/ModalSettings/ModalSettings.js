@@ -5,7 +5,6 @@ import {
   IMAGE_SCHEME,
 } from '../../../store/constants/index';
 import { checkActiveTodoTitle } from '../../../helpers';
-import { Transition } from 'react-transition-group';
 
 export default class ModalSettings extends Component {
   constructor(props) {
