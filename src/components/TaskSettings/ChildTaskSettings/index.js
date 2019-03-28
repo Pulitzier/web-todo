@@ -31,34 +31,28 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-const mergeProps = (stateProps, dispatchProps, ownProps) => ({
-  ...stateProps,
-  ...dispatchProps,
-  ...ownProps,
-  clearDueDate: () => {
-    const { activeTask: { id } } = ownProps;
-    const {
-      handleSetRepeat,
-      handleSetDueDate,
-    } = dispatchProps;
-    handleSetRepeat(id, '');
-    handleSetDueDate(id, '');
-  },
-  setRemindMeDate: (date) => {
-    const { activeTask: { id } } = ownProps;
-    const { handleSetRemindMeDate } = dispatchProps;
-    handleSetRemindMeDate(id, date);
-  },
-  setDueDate: (date) => {
-    const { activeTask: { id } } = ownProps;
-    const { handleSetDueDate } = dispatchProps;
-    handleSetDueDate(id, date);
-  },
-  setRepeat: (date) => {
-    const { activeTask: { id } } = ownProps;
-    const { handleSetRepeat } = dispatchProps;
-    handleSetRepeat(id, date);
-  },
-});
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const { activeTask: { id } } = ownProps;
+  const { handleSetRepeat, handleSetDueDate, handleSetRemindMeDate } = dispatchProps;
+
+  return {
+    ...stateProps,
+    ...dispatchProps,
+    ...ownProps,
+    clearDueDate: () => {
+      handleSetRepeat(id, '');
+      handleSetDueDate(id, '');
+    },
+      setRemindMeDate: (date) => {
+      handleSetRemindMeDate(id, date);
+    },
+      setDueDate: (date) => {
+      handleSetDueDate(id, date);
+    },
+      setRepeat: (date) => {
+      handleSetRepeat(id, date);
+    },
+  }
+};
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(ChildTaskSettings);
