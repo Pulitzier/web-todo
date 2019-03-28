@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { shouldShowGreetings } from '../../store/actions';
+import { changeListTitle, shouldShowGreetings } from '../../store/actions';
 import Banner from './Banner';
 import './style.css';
 
@@ -11,6 +11,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   handleShowGreeting(bool) {
     dispatch(shouldShowGreetings(bool));
+  },
+  handleChangeTitle(todoId, title) {
+    dispatch(changeListTitle(todoId, title));
   },
 });
 

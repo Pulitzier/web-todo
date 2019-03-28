@@ -294,32 +294,6 @@ label.toggle-todo-label {
 
 p.lineThrough { text-decoration: line-through; }
 
-.icons-menu-wrapper {
-  top: 100%;
-  width: 192px;
-  position: absolute;
-  z-index: 1;
-  background-color: #ffffff;
-  border-width: 1px;
-  border-style: solid;
-  border-color: #1a1b1c;
-  .icons-menu {
-    i.fa {
-      color: cornflowerblue;
-      width: 38px;
-      padding: 10px;
-      &:hover { background-color: $hover-bg-color; }
-    }
-  }
-  & .clear-icon {
-    color: royalblue;
-    font-size: 13px;
-    text-align: center;
-    width: 100%;
-    &:hover { background-color: $hover-bg-color; }
-  }
-}
-
 .rename-list-wrapper {
   width: 100%;
   margin-left: 8px;

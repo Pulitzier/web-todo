@@ -7,21 +7,12 @@ export default class RenameListWrapper extends Component {
   constructor(props) {
     super(props);
     const { todoTitle } = props;
-    this.handleClick = this.handleClick.bind(this);
     this.handleChangeInput = this.handleChangeInput.bind(this);
     this.handleChangeListTitle = this.handleChangeListTitle.bind(this);
     this.handleInputKeyPress = this.handleInputKeyPress.bind(this);
     this.state = {
       newListTitle: todoTitle,
     };
-  }
-
-  componentDidMount() {
-    document.addEventListener('mousedown', this.handleClick, false);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClick, false);
   }
 
   handleChangeInput({ target: { value } }) {
@@ -43,27 +34,14 @@ export default class RenameListWrapper extends Component {
     }
   }
 
-  handleClick({ target }) {
-    const { categories, activateRename } = this.props;
-    const { title, id: todoListId } = getActiveTodoList(categories);
-    const { newListTitle } = this.state;
-    if (
-      this.renameList
-      && !this.renameList.contains(target)
-    ) {
-      activateRename(false);
-      this.handleChangeListTitle(todoListId, newListTitle || title);
-    }
-  }
-
   render() {
-    const { categories, activateIconsMenu, shouldRenameList } = this.props;
+    const { renameRef, categories, activateIconsMenu, shouldRenameList } = this.props;
     const { title, iconSource } = getActiveTodoList(categories);
     const { newListTitle } = this.state;
 
     return (
       <RenameListView
-        renameRef={(node) => { this.renameList = node; }}
+        wrapperRef={(node) => renameRef(node)}
         title={title}
         shouldRenameList={shouldRenameList}
         iconSource={iconSource}

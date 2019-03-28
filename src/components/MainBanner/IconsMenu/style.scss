@@ -1,0 +1,54 @@
+@import "../../../styles/variables";
+@import "../../../styles/mixins";
+
+.icons-menu-wrapper {
+  top: 100%;
+  width: 200px;
+  position: absolute;
+  z-index: 1;
+  background-color: #ffffff;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #1a1b1c;
+  .icons-menu {
+    z-index: 2;
+    span.fa {
+      color: cornflowerblue;
+      width: 38px;
+      padding: 10px;
+      &:hover { background-color: $hover-bg-color; }
+    }
+    & > div:first-of-type { display: none; }
+    & > div:nth-child(2) {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      position: relative;
+      box-shadow: none;
+      border-bottom: 1px solid gray;
+      border-radius: 0;
+      & > div {
+        width: 200px;
+        height: 108px;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-flow: row wrap;
+        & > div {
+          width: fit-content;
+          padding: 0;
+          &:hover { padding: 0; }
+        }
+      }
+    }
+  }
+  & .clear-icon {
+    color: royalblue;
+    font-size: 13px;
+    text-align: center;
+    width: 100%;
+    &:hover { background-color: $hover-bg-color; }
+  }
+}

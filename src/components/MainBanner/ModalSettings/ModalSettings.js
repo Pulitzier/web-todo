@@ -35,7 +35,8 @@ export default class ModalSettings extends Component {
 
   handleClick({ target }) {
     const { showModal } = this.props;
-    if (!this.bannerModal.contains(target)) {
+    const bannerModal = document.getElementById("bannerSettings");
+    if (!bannerModal.contains(target)) {
       return showModal();
     }
     return undefined;
@@ -112,7 +113,6 @@ export default class ModalSettings extends Component {
     return (
       <section
         id="bannerSettings"
-        ref={(node) => { this.bannerModal = node; }}
         style={modalStyle}
       >
         {

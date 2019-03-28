@@ -5,7 +5,6 @@ import BasicPanel from '../../BaseComponents/BasicPanel';
 export default class SettingsModalView extends Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -14,15 +13,6 @@ export default class SettingsModalView extends Component {
 
   componentWillUnmount() {
     document.removeEventListener('click', this.handleClick);
-  }
-
-  handleClick(event) {
-    const { activateSettings, handleCollapseSettings } = this.props;
-    const { target } = event;
-    if (!this.userSettings.contains(target) && activateSettings) {
-      handleCollapseSettings();
-    }
-    return null;
   }
 
   render() {
@@ -37,8 +27,8 @@ export default class SettingsModalView extends Component {
     return (
       <BasicPanel className="user-info">
         <div
+          id="userInfoButtons"
           className="user-info-buttons"
-          ref={(node) => { this.userSettings = node; }}
         >
           <button
             type="button"

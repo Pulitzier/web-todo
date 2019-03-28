@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
-import {
-  getActiveTodoList,
-  checkActiveTodoTitle,
-} from '../../helpers';
+import { getActiveTodoList, checkActiveTodoTitle } from '../../helpers';
 import { BANNER_COLOR_SCHEME } from '../../store/constants/index';
 import RenameList from './RenameList/index';
 import IconsMenuWrapper from './IconsMenu/index';
@@ -15,6 +12,13 @@ import GreetingPopUp from './GreetingPopUp';
 import BannerTitle from './BannerTitle';
 import { Transition } from 'react-transition-group';
 
+function setMyDayTime() {
+  const today = new Date();
+  return (`${today.toLocaleString('en-us', { weekday: 'long' })}, ${
+    today.toLocaleString('en-us', { month: 'long' })} ${
+    today.toLocaleString('en-us', { day: 'numeric' })}`);
+};
+
 export default class Banner extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +27,7 @@ export default class Banner extends Component {
     this.deactivateGreetingPopup = this.deactivateGreetingPopup.bind(this);
     this.renderBannerText = this.renderBannerText.bind(this);
     this.activateIconsMenu = this.activateIconsMenu.bind(this);
+    this.handleClick = this.handleClick.bind(this);
     this.state = {
       shouldRenameList: false,
       showModal: false,
@@ -34,6 +39,14 @@ export default class Banner extends Component {
         exited: { opacity: 0, transition: 'all 0.5s ease-out' }
       }
     };
+  }
+
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClick, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClick, false);
   }
 
   activateModalSettings() {
@@ -52,6 +65,17 @@ export default class Banner extends Component {
   deactivateGreetingPopup() {
     const { handleShowGreeting } = this.props;
     handleShowGreeting(false);
+  }
+
+  handleClick({ target }) {
+    const { app: { categories }, handleChangeTitle } = this.props;
+    const { title, id: todoListId } = getActiveTodoList(categories);
+    const { newListTitle } = this.state;
+    if(this.panelBanner && !this.panelBanner.contains(target)) {
+      handleChangeTitle(todoListId, newListTitle || title);
+      this.activateRename(false);
+      this.activateIconsMenu(false);
+    }
   }
 
   renderBannerText({ title, iconSource: todoIconSrc }) {
@@ -102,22 +126,15 @@ export default class Banner extends Component {
     }, 0.35))`;
     const bgColorForSort = `rgba(${BANNER_COLOR_SCHEME[bgColor]},0.45)`;
 
-    const setMyDayTime = () => {
-      const today = new Date();
-      return (`${today.toLocaleString('en-us', { weekday: 'long' })}, ${
-        today.toLocaleString('en-us', { month: 'long' })} ${
-        today.toLocaleString('en-us', { day: 'numeric' })}`);
-    };
-
     return (
       <BasicPanel
         className={(`panelBanner ${activeTask.active ? 'responsive ' : ''}${sortOrder ? 'with-sort' : ''}`)}
         style={{ backgroundImage: `${bgColorForBanner}, url(${bgImage})` }}
       >
         <BasicPanel className="banner-main-section">
-          <BasicPanel
+          <div
             className={`panelBanner-text ${shouldRenameList ? 'renamed' : ''}`}
-            onBlur={() => this.activateRename(false)}
+            ref={node => {this.panelBanner = node}}
           >
             {
               this.renderBannerText(activeTodo)
@@ -126,6 +143,7 @@ export default class Banner extends Component {
               showIconMenu
               && (
               <IconsMenuWrapper
+                showMenu={showIconMenu}
                 activateRename={this.activateRename}
                 activateIconsMenu={this.activateIconsMenu}
                 activeTodoId={todoId}
@@ -136,7 +154,7 @@ export default class Banner extends Component {
               (todoId === 0)
               && <p className="date-time">{setMyDayTime()}</p>
             }
-          </BasicPanel>
+          </div>
           <BasicPanel className="banner-button-group">
             {
               (todoId === 0)
