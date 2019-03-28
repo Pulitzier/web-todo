@@ -110,10 +110,7 @@ export default class ModalSettings extends Component {
     };
 
     return (
-      <section
-        id="bannerSettings"
-        style={modalStyle}
-      >
+      <section id="bannerSettings" style={modalStyle}>
         {
           checkActiveTodoTitle(activeTodoTitle)
           && (
@@ -150,7 +147,7 @@ export default class ModalSettings extends Component {
           onMouseLeave={() => this.handleHoverSortMenu()}
         >
           {
-            (todoListId !== 1) && (
+            (activeTodoId !== 1) && (
               <div
                 role="presentation"
                 onClick={() => this.handleSortTasks('IMPORTANT', activeTodoId)}
@@ -168,7 +165,7 @@ export default class ModalSettings extends Component {
             <p>Due date</p>
           </div>
           {
-            !!todoListId && (
+            !!activeTodoId && (
               <div
                 role="presentation"
                 onClick={() => this.handleSortTasks('ADDED_TO_MY_DAY', activeTodoId)}

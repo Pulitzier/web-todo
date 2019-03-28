@@ -188,7 +188,6 @@ export default class Banner extends Component {
           <GreetingPopUp
             activeTask={activeTask}
             latestTasks={greetingTasks}
-            bgColor={bgColorForSort}
             deactivateGreetingSuggestions={deactivateGreetingPopup}
             activateGreetingPanel={() => activateGreetings()}
           />
