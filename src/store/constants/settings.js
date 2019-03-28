@@ -26,3 +26,21 @@ export const DATE_OPTIONS = {
 export const WEEKDAYS = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
 
 export const REPEATTYPES = ['days', 'weeks', 'months', 'years'];
+
+export const ICONSMENU= [
+  "fa fa-sort-amount-down",
+  "fa fa-home",
+  "fa fa-calendar-alt",
+  "fa fa-archive",
+  "fa fa-wrench",
+  "fa fa-plane",
+  "fa fa-magic",
+  "fa fa-address-book",
+  "fa fa-award",
+  "fa fa-balance-scale",
+  "fa fa-book",
+  "fa fa-cogs",
+  "fa fa-comment-dollar",
+  "fa fa-cookie-bite",
+  "fa fa-bug",
+];

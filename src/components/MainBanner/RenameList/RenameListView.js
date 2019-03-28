@@ -6,7 +6,7 @@ import { setInitialIconWhenRename } from '../../../helpers';
 export default class RenameListView extends Component {
   render() {
     const {
-      renameRef,
+      wrapperRef,
       title,
       iconSource,
       activateIconsMenu,
@@ -18,7 +18,7 @@ export default class RenameListView extends Component {
 
     return (
       <div
-        ref={node => renameRef(node)}
+        ref={node => wrapperRef(node)}
         className="rename-list-wrapper"
       >
         <BasicButton
