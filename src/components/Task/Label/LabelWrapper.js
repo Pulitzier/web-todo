@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'react-proptypes';
 import MyDayCategory from './MyDayCategory';
 import TasksCategory from './TasksCategory';
@@ -10,7 +10,7 @@ import Notes from './Notes';
 
 export default class LabelWrapper extends Component {
   static showDelimiter(index) {
-    if (index !== 0) return <i className="fas fa-circle" />;
+    if (index !== 0) return <i className="fas fa-circle" key={index}/>;
     return null;
   }
 
@@ -45,7 +45,7 @@ export default class LabelWrapper extends Component {
     return (
     <div className="label-wrapper-for-task">
       <div className="list-of-labels">
-        { this.getAllSubLabels().map( (label, index) => [ LabelWrapper.showDelimiter(index), label.render() ] ) }
+        { this.getAllSubLabels().map( (label, index) => [ LabelWrapper.showDelimiter(index), label.render(index)] )}
       </div>
     </div>
     )
