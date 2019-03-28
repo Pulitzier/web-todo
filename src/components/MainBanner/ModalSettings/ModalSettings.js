@@ -98,13 +98,13 @@ export default class ModalSettings extends Component {
       taskSettings: { showCompleted },
     } = this.props;
     const {
-      id: todoListId, bgColor, bgImage, title: todoTitle,
+      activeTodoId, bgColor, bgImage, activeTodoTitle
     } = activeTodo;
     const { hoverSortLink, hoverSortMenu } = this.state;
 
     const setHeight = () => {
       if (hoverSortLink || hoverSortMenu) {
-        if (todoListId > 1) return 264;
+        if (activeTodoId > 1) return 264;
         return 220;
       }
     };
@@ -115,7 +115,7 @@ export default class ModalSettings extends Component {
         style={modalStyle}
       >
         {
-          checkActiveTodoTitle(todoTitle)
+          checkActiveTodoTitle(activeTodoTitle)
           && (
             <div
               role="presentation"
@@ -137,7 +137,7 @@ export default class ModalSettings extends Component {
         >
           <i className="fas fa-sort-alpha-down" />
           <p>Sort</p>
-          <i className={`fas fa-angle-right ${todoListId === 1 ? 'important' : ''}`} />
+          <i className={`fas fa-angle-right ${activeTodoId === 1 ? 'important' : ''}`} />
         </div>
         <div
           className={`sort-settings-menu ${
@@ -153,7 +153,7 @@ export default class ModalSettings extends Component {
             (todoListId !== 1) && (
               <div
                 role="presentation"
-                onClick={() => this.handleSortTasks('IMPORTANT', todoListId)}
+                onClick={() => this.handleSortTasks('IMPORTANT', activeTodoId)}
               >
                 <i className="far fa-star" />
                 <p>Importance</p>
@@ -162,7 +162,7 @@ export default class ModalSettings extends Component {
           }
           <div
             role="presentation"
-            onClick={() => this.handleSortTasks('DUE_DATE', todoListId)}
+            onClick={() => this.handleSortTasks('DUE_DATE', activeTodoId)}
           >
             <i className="far fa-calendar-alt" />
             <p>Due date</p>
@@ -171,7 +171,7 @@ export default class ModalSettings extends Component {
             !!todoListId && (
               <div
                 role="presentation"
-                onClick={() => this.handleSortTasks('ADDED_TO_MY_DAY', todoListId)}
+                onClick={() => this.handleSortTasks('ADDED_TO_MY_DAY', activeTodoId)}
               >
                 <i className="far fa-sun" />
                 <p>Added to My Day</p>
@@ -180,29 +180,29 @@ export default class ModalSettings extends Component {
           }
           <div
             role="presentation"
-            onClick={() => this.handleSortTasks('COMPLETED', todoListId)}
+            onClick={() => this.handleSortTasks('COMPLETED', activeTodoId)}
           >
             <i className="far fa-check-circle" />
             <p>Completed</p>
           </div>
           <div
             role="presentation"
-            onClick={() => this.handleSortTasks('ABC', todoListId)}
+            onClick={() => this.handleSortTasks('ABC', activeTodoId)}
           >
             <i className="fas fa-exchange-alt" />
             <p>Alphabetically</p>
           </div>
           <div
             role="presentation"
-            onClick={() => this.handleSortTasks('CREATED_AT', todoListId)}
+            onClick={() => this.handleSortTasks('CREATED_AT', activeTodoId)}
           >
             <i className="far fa-plus-square" />
             <p>Creation date</p>
           </div>
         </div>
-        { todoListId !== 1 && <hr /> }
+        { activeTodoId !== 1 && <hr /> }
         {
-          todoListId !== 1
+          activeTodoId !== 1
           && (
             <div className="banner-theme-settings">
               <p>Theme</p>
@@ -212,7 +212,7 @@ export default class ModalSettings extends Component {
                   key={item}
                   className={`jumbotron-button ${bgColor === item ? 'active' : ''}`}
                   onClick={() => {
-                    this.changeBannerColor(item, todoListId);
+                    this.changeBannerColor(item, activeTodoId);
                   }}
                 >
                   <span className={item} />
@@ -225,7 +225,7 @@ export default class ModalSettings extends Component {
                   type="button"
                   key={item}
                   className={`jumbotron-button ${bgImage === item ? 'active' : ''}`}
-                  onClick={() => this.changeBannerImage(item, todoListId)}
+                  onClick={() => this.changeBannerImage(item, activeTodoId)}
                 >
                   <span className="bgImage-wrapper">
                     <img className="theme-image" src={item} alt="Theme Thumbnails for Banner" />
@@ -235,9 +235,9 @@ export default class ModalSettings extends Component {
             </div>
           )
         }
-        { todoListId !== 1 && <hr /> }
+        { activeTodoId !== 1 && <hr /> }
         {
-          todoListId !== 1
+          activeTodoId !== 1
           && (
             <div
               role="presentation"
@@ -260,7 +260,7 @@ export default class ModalSettings extends Component {
             </div>
           )
         }
-        { checkActiveTodoTitle(todoTitle)
+        { checkActiveTodoTitle(activeTodoTitle)
         && (
           <div
             role="presentation"
