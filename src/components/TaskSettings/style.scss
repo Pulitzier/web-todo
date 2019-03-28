@@ -90,7 +90,8 @@
     .important-icon { font-size: 18px; }
   }
   .task-middle-settings-wrapper {
-    flex-flow: column;
+    ::-webkit-scrollbar { width: 0; }
+      flex-flow: column;
     height: 85vh;
     overflow-y: auto;
   }
