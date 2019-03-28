@@ -37,22 +37,23 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-const mergeProps = (stateProps, dispatchProps, ownProps) => ({
-  ...stateProps,
-  ...dispatchProps,
-  ...ownProps,
-  setToggledTask: (taskId, done) => {
-    const { playSound } = stateProps;
-    const { handleToggleTask } = dispatchProps;
-    if (playSound && !done) playSoundWhenDone();
-    handleToggleTask(taskId);
-  },
-  setToggledStep: (stepId, done) => {
-    const { playSound } = stateProps;
-    const { handleToggleStep } = dispatchProps;
-    if (playSound && !done) playSoundWhenDone();
-    handleToggleStep(stepId);
-  },
-});
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const { playSound } = stateProps;
+  const { handleToggleTask, handleToggleStep } = dispatchProps;
+
+  return {
+    ...stateProps,
+    ...dispatchProps,
+    ...ownProps,
+    setToggledTask: (taskId, done) => {
+      if (playSound && !done) playSoundWhenDone();
+      handleToggleTask(taskId);
+    },
+    setToggledStep: (stepId, done) => {
+      if (playSound && !done) playSoundWhenDone();
+      handleToggleStep(stepId);
+    },
+  }
+};
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(TaskSettings);
