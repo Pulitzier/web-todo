@@ -7,7 +7,6 @@ import UserSettingsPanel from '../UserSettingsPanel/index';
 import AudioForCompletion from './AudioForCompletion';
 import DeleteModal from './DeleteModal';
 import BasicPanel from '../BaseComponents/BasicPanel';
-import { activateUserSettings, openSearchPanel, openUserSettings } from '../../store/actions';
 
 export default class AppWrapper extends Component {
   constructor(props) {

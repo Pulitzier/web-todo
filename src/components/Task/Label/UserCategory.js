@@ -17,6 +17,6 @@ export default class UserCategory extends Template {
   }
 
   shouldBeRendered() {
-    return this.activeTodoId <= 1;
+    return (this.activeTodoId <= 1 && this.taskParent.id !== 0) || (this.taskParent.id > 2 && this.taskParent.iconSource !== 'fa-list');
   }
 }

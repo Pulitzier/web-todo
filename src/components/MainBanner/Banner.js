@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
-import { getActiveTodoList, checkActiveTodoTitle } from '../../helpers';
-import { BANNER_COLOR_SCHEME } from '../../store/constants/index';
+import { checkActiveTodoTitle } from '../../helpers';
 import RenameList from './RenameList/index';
 import IconsMenuWrapper from './IconsMenu/index';
 import SortPopUp from './SortPopUp/index';
@@ -24,7 +23,6 @@ export default class Banner extends Component {
     super(props);
     this.activateModalSettings = this.activateModalSettings.bind(this);
     this.activateRename = this.activateRename.bind(this);
-    this.deactivateGreetingPopup = this.deactivateGreetingPopup.bind(this);
     this.renderBannerText = this.renderBannerText.bind(this);
     this.activateIconsMenu = this.activateIconsMenu.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -62,28 +60,23 @@ export default class Banner extends Component {
     this.setState({ showIconMenu: bool });
   }
 
-  deactivateGreetingPopup() {
-    const { handleShowGreeting } = this.props;
-    handleShowGreeting(false);
-  }
-
   handleClick({ target }) {
-    const { app: { categories }, handleChangeTitle } = this.props;
-    const { title, id: todoListId } = getActiveTodoList(categories);
+    const { activeTodoTitle, activeTodoId, handleChangeTitle } = this.props;
     const { newListTitle } = this.state;
     if(this.panelBanner && !this.panelBanner.contains(target)) {
-      handleChangeTitle(todoListId, newListTitle || title);
+      handleChangeTitle(activeTodoId, newListTitle || activeTodoTitle);
       this.activateRename(false);
       this.activateIconsMenu(false);
     }
   }
 
-  renderBannerText({ title, iconSource: todoIconSrc }) {
+  renderBannerText() {
+    const { activeTodoTitle, iconSource } = this.props;
     const { shouldRenameList } = this.state;
-    if (shouldRenameList && checkActiveTodoTitle(title)) {
+    if (shouldRenameList && checkActiveTodoTitle(activeTodoTitle)) {
       return (
         <RenameList
-          todoTitle={title}
+          todoTitle={activeTodoTitle}
           shouldRenameList={shouldRenameList}
           activateIconsMenu={this.activateIconsMenu}
           activateRename={this.activateRename}
@@ -92,8 +85,8 @@ export default class Banner extends Component {
     }
     return (
       <BannerTitle
-        todoTitle={title}
-        todoIconSrc={todoIconSrc}
+        todoTitle={activeTodoTitle}
+        todoIconSrc={iconSource}
         activateIconsMenu={this.activateIconsMenu}
         activateRename={this.activateRename}
       />
@@ -102,29 +95,26 @@ export default class Banner extends Component {
 
   render() {
     const {
-      app: { categories },
+      activeTodoId,
+      activeTodoTitle,
+      bgImage,
+      bgColor,
+      bgColorForSort,
+      bgColorForBanner,
+      sortOrder,
       taskSettings: { showGreetingPopup },
       activeTask,
       deleteList,
       activateGreetings,
       greetingTasks,
+      deactivateGreetingPopup
     } = this.props;
-    const activeTodo = getActiveTodoList(categories);
-    const {
-      id: todoId, bgImage, bgColor, sortOrder,
-    } = activeTodo;
     const {
       showModal,
       shouldRenameList,
       showIconMenu,
       transitionStyles
     } = this.state;
-    const bgColorForBanner = `linear-gradient(rgba(${
-      BANNER_COLOR_SCHEME[bgColor]
-    },0.65), rgba(${
-      BANNER_COLOR_SCHEME[bgColor]
-    }, 0.35))`;
-    const bgColorForSort = `rgba(${BANNER_COLOR_SCHEME[bgColor]},0.45)`;
 
     return (
       <BasicPanel
@@ -137,7 +127,7 @@ export default class Banner extends Component {
             ref={node => {this.panelBanner = node}}
           >
             {
-              this.renderBannerText(activeTodo)
+              this.renderBannerText()
             }
             {
               showIconMenu
@@ -146,18 +136,18 @@ export default class Banner extends Component {
                 showMenu={showIconMenu}
                 activateRename={this.activateRename}
                 activateIconsMenu={this.activateIconsMenu}
-                activeTodoId={todoId}
+                activeTodoId={activeTodoId}
               />
               )
             }
             {
-              (todoId === 0)
+              (activeTodoId === 0)
               && <p className="date-time">{setMyDayTime()}</p>
             }
           </div>
           <BasicPanel className="banner-button-group">
             {
-              (todoId === 0)
+              (activeTodoId === 0)
               && (
               <BasicButton
                 buttonClassName="open-greeting"
@@ -182,7 +172,7 @@ export default class Banner extends Component {
               {(transitionState) => (
                 <ModalSettings
                   animationStart={showModal}
-                  activeTodo={activeTodo}
+                  activeTodo={{ activeTodoId, bgColor, bgImage, activeTodoTitle }}
                   deleteList={deleteList}
                   activateRename={bool => this.activateRename(bool)}
                   modalStyle={transitionStyles[transitionState]}
@@ -192,14 +182,13 @@ export default class Banner extends Component {
           </BasicPanel>
         </BasicPanel>
         {
-          todoId === 0
+          activeTodoId === 0
           && showGreetingPopup
           && (
           <GreetingPopUp
             activeTask={activeTask}
             latestTasks={greetingTasks}
-            bgColor={bgColorForSort}
-            deactivateGreetingSuggestions={this.deactivateGreetingPopup}
+            deactivateGreetingSuggestions={deactivateGreetingPopup}
             activateGreetingPanel={() => activateGreetings()}
           />
           )
@@ -209,7 +198,7 @@ export default class Banner extends Component {
           && (
           <SortPopUp
             sortBy={sortOrder}
-            todoListId={todoId}
+            todoListId={activeTodoId}
             bgColor={bgColorForSort}
           />
           )

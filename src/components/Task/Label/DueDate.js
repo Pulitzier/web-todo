@@ -28,9 +28,9 @@ export default class DueDate extends Template {
     this.setText(getStringDate(this.dueDate));
   }
 
-  render() {
+  render(index) {
     return (
-      <p className="label-for-task">
+      <p className="label-for-task" key={index}>
         { this._iconSrc && <i className={this._iconSrc}/> }
         <span>{this._text}</span>
         <i className={this._repeatIcon} />

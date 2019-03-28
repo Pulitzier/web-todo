@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import SettingsModalView from './SettingsModalView';
+import SettingsModal from './SettingsModal';
 import { activateUserSettings, openSearchPanel, openUserSettings } from '../../../store/actions';
 
 const mapStateToProps = ({ userSettings }) => ({
@@ -34,4 +34,4 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(SettingsModalView);
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(SettingsModal);

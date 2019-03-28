@@ -6,7 +6,6 @@ import BasicPanel from '../BaseComponents/BasicPanel';
 const GreetingPopUp = (props) => {
   const {
     activeTask,
-    bgColor,
     activateGreetingPanel,
     deactivateGreetingSuggestions,
     latestTasks = [],
@@ -65,7 +64,6 @@ const GreetingPopUp = (props) => {
 
 GreetingPopUp.propTypes = {
   activeTask: PropTypes.shape({}),
-  bgColor: PropTypes.string,
   activateGreetingPanel: PropTypes.func,
   deactivateGreetingSuggestions: PropTypes.func,
   latestTasks: PropTypes.arrayOf(PropTypes.shape({})),
@@ -73,7 +71,6 @@ GreetingPopUp.propTypes = {
 
 GreetingPopUp.defaultProps = {
   activeTask: {},
-  bgColor: '',
   activateGreetingPanel: () => {},
   deactivateGreetingSuggestions: () => {},
   latestTasks: [],

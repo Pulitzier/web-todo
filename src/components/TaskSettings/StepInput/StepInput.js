@@ -31,13 +31,14 @@ export default class StepInput extends Component {
   handleStepClick(event) {
     event.preventDefault();
     event.stopPropagation();
-    const { activateStep } = this.props;
+    const { stepText } = this.state;
+    const { handleAddNewStep } = this.props;
     const { target } = event;
-    if (
-      this.bannerModal
-      && this.bannerModal.contains(target)
-    ) return undefined;
-    return activateStep();
+    if ( !(this.newStepInput && this.newStepInput.contains(target) )) {
+      stepText && handleAddNewStep(stepText);
+      this.setState({ stepText: ''});
+      this.newStepInput.value = '';
+    }
   }
 
   addNewStepToTask(event) {
@@ -46,6 +47,7 @@ export default class StepInput extends Component {
     const { key } = event;
     if (key === 'Enter' && stepText) {
       handleAddNewStep(stepText);
+      this.setState({ stepText: ''});
       this.newStepInput.value = '';
     }
   }

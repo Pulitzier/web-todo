@@ -90,8 +90,9 @@
     .important-icon { font-size: 18px; }
   }
   .task-middle-settings-wrapper {
-    flex-flow: column;
-    max-height: 520px;
+    ::-webkit-scrollbar { width: 0; }
+      flex-flow: column;
+    height: 85vh;
     overflow-y: auto;
   }
   .DayPicker.pick-date-calendar .DayPicker-wrapper,
