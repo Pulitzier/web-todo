@@ -10,7 +10,7 @@ const genOptions = (arr) => {
 const selectOptions = genOptions(ICONSMENU);
 
 function IconsMenu(props) {
-  const { showMenu, setIcon, iconsMenuRef } = props;
+  const { showMenu, setIcon } = props;
 
   const handleChooseIcon = ({ value }) => {
     setIcon(value);
@@ -21,7 +21,7 @@ function IconsMenu(props) {
   };
 
   return (
-    <div className="icons-menu-wrapper" ref={node => iconsMenuRef(node)}>
+    <div className="icons-menu-wrapper">
       <Select
         className="icons-menu"
         options={selectOptions}

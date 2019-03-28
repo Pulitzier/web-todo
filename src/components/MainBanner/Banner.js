@@ -71,10 +71,7 @@ export default class Banner extends Component {
     const { app: { categories }, handleChangeTitle } = this.props;
     const { title, id: todoListId } = getActiveTodoList(categories);
     const { newListTitle } = this.state;
-    if (
-      !(this.iconsMenu && this.iconsMenu.contains(target)) ||
-      !(this.renameList && this.renameList.contains(target))
-    ) {
+    if(this.panelBanner && !this.panelBanner.contains(target)) {
       handleChangeTitle(todoListId, newListTitle || title);
       this.activateRename(false);
       this.activateIconsMenu(false);
@@ -86,7 +83,6 @@ export default class Banner extends Component {
     if (shouldRenameList && checkActiveTodoTitle(title)) {
       return (
         <RenameList
-          renameRef={(node) => { this.renameList = node; }}
           todoTitle={title}
           shouldRenameList={shouldRenameList}
           activateIconsMenu={this.activateIconsMenu}
@@ -136,7 +132,10 @@ export default class Banner extends Component {
         style={{ backgroundImage: `${bgColorForBanner}, url(${bgImage})` }}
       >
         <BasicPanel className="banner-main-section">
-          <BasicPanel className={`panelBanner-text ${shouldRenameList ? 'renamed' : ''}`}>
+          <div
+            className={`panelBanner-text ${shouldRenameList ? 'renamed' : ''}`}
+            ref={node => {this.panelBanner = node}}
+          >
             {
               this.renderBannerText(activeTodo)
             }
@@ -144,7 +143,6 @@ export default class Banner extends Component {
               showIconMenu
               && (
               <IconsMenuWrapper
-                iconsMenuRef={node => this.iconsMenu = node}
                 showMenu={showIconMenu}
                 activateRename={this.activateRename}
                 activateIconsMenu={this.activateIconsMenu}
@@ -156,7 +154,7 @@ export default class Banner extends Component {
               (todoId === 0)
               && <p className="date-time">{setMyDayTime()}</p>
             }
-          </BasicPanel>
+          </div>
           <BasicPanel className="banner-button-group">
             {
               (todoId === 0)
