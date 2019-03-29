@@ -33,10 +33,10 @@ export default class ModalSettings extends Component {
   }
 
   handleClick({ target }) {
-    const { showModal } = this.props;
+    const { activateModal } = this.props;
     const bannerModal = document.getElementById("bannerSettings");
     if (!bannerModal.contains(target)) {
-      return showModal();
+      return activateModal(false);
     }
     return undefined;
   }
@@ -48,9 +48,9 @@ export default class ModalSettings extends Component {
   }
 
   handleSortTasks(sortCriteria, todoListId) {
-    const { showModal, handleSortTask } = this.props;
+    const { activateModal, handleSortTask } = this.props;
     handleSortTask(sortCriteria, todoListId);
-    showModal();
+    activateModal(false);
   }
 
   changeBannerColor(color, todoListId) {
@@ -93,12 +93,12 @@ export default class ModalSettings extends Component {
       activeTodo,
       deleteList,
       activateRename,
-      showModal,
       modalStyle,
+      activateModal,
       taskSettings: { showCompleted },
     } = this.props;
     const {
-      activeTodoId, bgColor, bgImage, activeTodoTitle
+      activeTodoId, bgColor, bgImage
     } = activeTodo;
     const { hoverSortLink, hoverSortMenu } = this.state;
 
@@ -118,7 +118,7 @@ export default class ModalSettings extends Component {
               role="presentation"
               className="renameList"
               onClick={() => {
-                showModal();
+                activateModal(false);
                 activateRename(true);
               }}
             >
@@ -245,7 +245,7 @@ export default class ModalSettings extends Component {
                 } else {
                   this.showCompletedTasks(true);
                 }
-                showModal();
+                activateModal(false);
               }}
             >
               <i className={showCompleted ? 'far fa-check-circle' : 'fas fa-check-circle'} />
@@ -263,7 +263,7 @@ export default class ModalSettings extends Component {
             role="presentation"
             className="deleteList"
             onClick={() => {
-              showModal();
+              activateModal(false);
               deleteList(activeTodo);
             }}
           >
@@ -281,7 +281,7 @@ ModalSettings.propTypes = {
   activeTodo: PropTypes.shape({}),
   deleteList: PropTypes.func,
   activateRename: PropTypes.func,
-  showModal: PropTypes.func,
+  activateModal: PropTypes.func,
   taskSettings: PropTypes.shape({}),
   handleActivateTask: PropTypes.func,
   handleTypeNewTask: PropTypes.func,
@@ -295,7 +295,7 @@ ModalSettings.defaultProps = {
   activeTodo: {},
   deleteList: () => {},
   activateRename: () => {},
-  showModal: () => {},
+  activateModal: () => {},
   taskSettings: {},
   handleActivateTask: () => {},
   handleTypeNewTask: () => {},
