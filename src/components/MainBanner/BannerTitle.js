@@ -1,31 +1,29 @@
 import React from 'react';
 import PropTypes from 'react-proptypes';
 import {
-  checkActiveTodoTitle,
+  checkActiveTodo,
   setInitialIconWhenRename,
 } from '../../helpers';
 import BasicButton from '../BaseComponents/BasicButton';
 import BasicPanel from '../BaseComponents/BasicPanel';
 
-const BannerTitle = ({
-  todoTitle, todoIconSrc, activateIconsMenu, activateRename,
-}) => (
+const BannerTitle = ({ activeTodoId, todoTitle, todoIconSrc, activateIconsMenu, activateRename, }) => (
   <BasicPanel>
     {
-        todoIconSrc !== 'fa-list'
-        && checkActiveTodoTitle(todoTitle)
-        && (
+      todoIconSrc !== 'fa-list'
+      && checkActiveTodo(activeTodoId)
+      && (
         <BasicButton
           buttonClassName="banner-change-todo-icon"
           buttonOnClickAction={() => activateIconsMenu(true)}
           iconClassName={(`fa ${setInitialIconWhenRename(todoIconSrc)}`)}
         />
-        )
-      }
+      )
+    }
     <h3
       role="presentation"
-      className={checkActiveTodoTitle(todoTitle) ? 'non-default-todo' : ''}
-      onClick={() => activateRename(true)}
+      className={checkActiveTodo(activeTodoId) ? 'non-default-todo' : ''}
+      onClick={() => activateRename(checkActiveTodo(activeTodoId))}
     >
       {todoTitle}
     </h3>

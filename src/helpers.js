@@ -37,12 +37,8 @@ export function getStringDate(date, options = { weekday: 'short', hour: 'numeric
   return (new Date(date)).toLocaleString('en-us', options);
 }
 
-export function checkActiveTodoTitle(title) {
-  return (
-    title !== 'My Day'
-    && title !== 'Important'
-    && title !== 'Tasks'
-  );
+export function checkActiveTodo(id) {
+  return id > 2;
 }
 
 export function getActiveTask(tasks) {
