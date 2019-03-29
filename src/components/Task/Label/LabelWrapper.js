@@ -45,7 +45,7 @@ export default class LabelWrapper extends Component {
     return (
     <div className="label-wrapper-for-task">
       <div className="list-of-labels">
-        { this.getAllSubLabels().map( (label, index) => [ LabelWrapper.showDelimiter(index), label.render(index)] )}
+        { this.getAllSubLabels().map( (label, index) => [ LabelWrapper.showDelimiter(index), label.render(index+1)] )}
       </div>
     </div>
     )

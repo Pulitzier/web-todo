@@ -4,7 +4,7 @@ import {
   COLOR_SCHEME,
   IMAGE_SCHEME,
 } from '../../../store/constants/index';
-import { checkActiveTodoTitle } from '../../../helpers';
+import { checkActiveTodo } from '../../../helpers';
 
 export default class ModalSettings extends Component {
   constructor(props) {
@@ -112,7 +112,7 @@ export default class ModalSettings extends Component {
     return (
       <section id="bannerSettings" style={modalStyle}>
         {
-          checkActiveTodoTitle(activeTodoTitle)
+          checkActiveTodo(activeTodoId)
           && (
             <div
               role="presentation"
@@ -257,7 +257,7 @@ export default class ModalSettings extends Component {
             </div>
           )
         }
-        { checkActiveTodoTitle(activeTodoTitle)
+        { checkActiveTodo(activeTodoId)
         && (
           <div
             role="presentation"

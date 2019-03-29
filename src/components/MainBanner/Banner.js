@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'react-proptypes';
-import { checkActiveTodoTitle } from '../../helpers';
+import { checkActiveTodo } from '../../helpers';
 import RenameList from './RenameList/index';
 import IconsMenuWrapper from './IconsMenu/index';
 import SortPopUp from './SortPopUp/index';
@@ -25,6 +25,7 @@ export default class Banner extends Component {
     this.activateRename = this.activateRename.bind(this);
     this.renderBannerText = this.renderBannerText.bind(this);
     this.activateIconsMenu = this.activateIconsMenu.bind(this);
+    this.handleOpenGreetings = this.handleOpenGreetings.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.state = {
       shouldRenameList: false,
@@ -47,9 +48,8 @@ export default class Banner extends Component {
     document.removeEventListener('mousedown', this.handleClick, false);
   }
 
-  activateModalSettings() {
-    const { showModal: oldShowModal } = this.state;
-    this.setState({ showModal: !oldShowModal });
+  activateModalSettings(bool) {
+    this.setState({ showModal: bool });
   }
 
   activateRename(bool) {
@@ -58,6 +58,12 @@ export default class Banner extends Component {
 
   activateIconsMenu(bool) {
     this.setState({ showIconMenu: bool });
+  }
+
+  handleOpenGreetings() {
+    const { activateGreetings } = this.props;
+    this.activateModalSettings(false);
+    activateGreetings();
   }
 
   handleClick({ target }) {
@@ -71,9 +77,9 @@ export default class Banner extends Component {
   }
 
   renderBannerText() {
-    const { activeTodoTitle, iconSource } = this.props;
+    const { activeTodoId, activeTodoTitle, iconSource } = this.props;
     const { shouldRenameList } = this.state;
-    if (shouldRenameList && checkActiveTodoTitle(activeTodoTitle)) {
+    if (shouldRenameList && checkActiveTodo(activeTodoId)) {
       return (
         <RenameList
           todoTitle={activeTodoTitle}
@@ -85,6 +91,7 @@ export default class Banner extends Component {
     }
     return (
       <BannerTitle
+        activeTodoId={activeTodoId}
         todoTitle={activeTodoTitle}
         todoIconSrc={iconSource}
         activateIconsMenu={this.activateIconsMenu}
@@ -151,7 +158,7 @@ export default class Banner extends Component {
               && (
               <BasicButton
                 buttonClassName="open-greeting"
-                buttonOnClickAction={() => activateGreetings()}
+                buttonOnClickAction={() => this.handleOpenGreetings()}
                 buttonStyle={{ backgroundColor: bgColor }}
                 iconClassName="far fa-lightbulb"
               />
@@ -159,7 +166,7 @@ export default class Banner extends Component {
             }
             <BasicButton
               buttonClassName="dots-menu"
-              buttonOnClickAction={() => this.activateModalSettings()}
+              buttonOnClickAction={() => this.activateModalSettings(true)}
               buttonStyle={{ backgroundColor: bgColor }}
               iconClassName="fas fa-ellipsis-h"
             />
