@@ -179,6 +179,7 @@ export default class Banner extends Component {
               {(transitionState) => (
                 <ModalSettings
                   animationStart={showModal}
+                  activateModal={this.activateModalSettings}
                   activeTodo={{ activeTodoId, bgColor, bgImage, activeTodoTitle }}
                   deleteList={deleteList}
                   activateRename={bool => this.activateRename(bool)}
